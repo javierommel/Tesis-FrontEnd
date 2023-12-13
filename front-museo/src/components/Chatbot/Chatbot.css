@@ -1,0 +1,30 @@
+/* Chatbot.css */
+
+.chatbot-container {
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 40px;
+  bottom: 55px;
+  z-index: 10000;
+  box-shadow: 5px 5px 13px rgba(91, 81, 81, 0.4);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+
+/* Estilo de los mensajes del chatbot */
+.chatbot-bubble {
+  background-color: #F0F0F0; /* Cambia el color de fondo de los mensajes del chatbot */
+  /* Agrega otros estilos según tus preferencias */
+}
+
+/* Estilo de los mensajes del usuario */
+.user-bubble {
+  background-color: #007BFF; /* Cambia el color de fondo de los mensajes del usuario */
+  color: #FFFFFF; /* Cambia el color del texto de los mensajes del usuario */
+  /* Agrega otros estilos según tus preferencias */
+}
