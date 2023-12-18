@@ -18,6 +18,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
 import "assets/css/nucleo-icons.css";
 import "assets/scss/blk-design-system-react.scss";
@@ -33,6 +35,7 @@ import LoginPage from "views/examples/LoginPage.js";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
+  
   <BrowserRouter>
     <Routes>
       <Route path="/components" element={<Index />} />
@@ -44,4 +47,5 @@ root.render(
       <Route path="*" element={<Navigate to="/components" replace />} />
     </Routes>
   </BrowserRouter>
+  
 );

@@ -1,4 +1,4 @@
-mport {
+import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
     LOGIN_SUCCESS,
