@@ -1,22 +1,9 @@
-/*!
 
-=========================================================
-* BLK Design System React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/blk-design-system-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React, {useCallback} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "actions/auth";
+import { clearMessage } from "actions/message";
 // reactstrap components
 import {
   Button,
@@ -65,6 +52,10 @@ export default function ExamplesNavbar() {
   const onCollapseExited = () => {
     setCollapseOut("");
   };
+  const dispatch = useDispatch();
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
   return (
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
@@ -159,8 +150,8 @@ export default function ExamplesNavbar() {
               </Button>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} to="/">
-                Back to Kit
+              <NavLink tag={Link} to="/" onClick={logOut}>
+                Cerrar Sesión
               </NavLink>
             </NavItem>
             <NavItem>

@@ -1,23 +1,10 @@
-/*!
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import classnames from 'classnames';
+import { useForm, Controller } from 'react-hook-form';
+import { login } from 'actions/auth';
 
-=========================================================
-* BLK Design System React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/blk-design-system-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
-import classnames from "classnames";
-import { Link } from 'react-router-dom';
 // reactstrap components
 import {
   Button,
@@ -27,11 +14,9 @@ import {
   CardFooter,
   CardImg,
   CardTitle,
-  Label,
-  FormGroup,
   Form,
   Input,
-  InputGroupAddon,
+  InputGroupAddon,                                    
   InputGroupText,
   InputGroup,
   Container,
@@ -46,7 +31,6 @@ import Footer from "components/Footer/Footer.js";
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
-  const [fullNameFocus, setFullNameFocus] = React.useState(false);
   const [emailFocus, setEmailFocus] = React.useState(false);
   const [passwordFocus, setPasswordFocus] = React.useState(false);
   React.useEffect(() => {
@@ -63,19 +47,45 @@ export default function RegisterPage() {
     let posY = event.clientY - window.innerWidth / 6;
     setSquares1to6(
       "perspective(500px) rotateY(" +
-        posX * 0.05 +
-        "deg) rotateX(" +
-        posY * -0.05 +
-        "deg)"
+      posX * 0.05 +
+      "deg) rotateX(" +
+      posY * -0.05 +
+      "deg)"
     );
     setSquares7and8(
       "perspective(500px) rotateY(" +
-        posX * 0.02 +
-        "deg) rotateX(" +
-        posY * -0.02 +
-        "deg)"
+      posX * 0.02 +
+      "deg) rotateX(" +
+      posY * -0.02 +
+      "deg)"
     );
   };
+  let navigate = useNavigate();
+  const { handleSubmit, control, formState: { errors } } = useForm();
+  //const form = useRef();
+
+  const [loading, setLoading] = useState(false);
+
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const { message } = useSelector(state => state.message);
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    setLoading(true);
+    dispatch(login(data.username, data.password))
+      .then(() => {
+        navigate("/home");
+        window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  if (isLoggedIn) {
+    return <Navigate to="/home" />;
+  }
   return (
     <>
       <IndexNavbar />
@@ -85,71 +95,107 @@ export default function RegisterPage() {
           <div className="content">
             <Container>
               <Row>
-                <Col/>
+                <Col />
                 <Col className="offset-lg-0 offset-md-3" lg="5" md="6">
-                 
+
                   <Card className="card-register">
                     <CardHeader>
                       <CardImg
-                        alt="..."
+                        alt="..." home
                         src={require("assets/img/square2.png")}
                       />
                       <CardTitle tag="h2">Ingresar</CardTitle>
                     </CardHeader>
-                    <CardBody>
-                      <Form className="form">
-                      <Button className="btn btn-lg w-100" color="info" size="lg">
-                      Continuar con Google
-                      </Button>
-                      <h4>O, ingresar con su email</h4>
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": emailFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-email-85" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Email"
-                            type="text"
-                            onFocus={(e) => setEmailFocus(true)}
-                            onBlur={(e) => setEmailFocus(false)}
-                          />
-                        </InputGroup>
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": passwordFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-lock-circle" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Password"
-                            type="text"
-                            onFocus={(e) => setPasswordFocus(true)}
-                            onBlur={(e) => setPasswordFocus(false)}
-                          />
-                        </InputGroup>
-                      </Form>
-                    </CardBody>
-                    <CardFooter>
-                      <Button className="btn btn-lg w-100" color="info" size="lg">
-                        Ingresar
-                      </Button>
-                      <h5>¿No tiene cuenta? <Link to="/register-page"><a>Regístrese</a></Link></h5>
-                    </CardFooter>
+                    <Form className="form" onSubmit={handleSubmit(onSubmit)} >
+                      <CardBody>
+                        <Button className="btn btn-lg w-100" color="info" size="lg">
+                          Continuar con Google
+                        </Button>
+                        <div class="sso-divider">
+                          <span>O</span>
+                          </div>
+                        <Controller
+                          name="username"
+                          control={control}
+                          defaultValue=""
+                          rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                          render={({ field }) => (
+                            <>
+                              <InputGroup
+                                className={classnames({
+                                  "input-group-focus": emailFocus,
+                                })}
+                              >
+                                <InputGroupAddon addonType="prepend">
+                                  <InputGroupText>
+                                    <i className="tim-icons icon-email-85" />
+                                  </InputGroupText>
+                                </InputGroupAddon>
+                                <Input
+                                  {...field}
+                                  placeholder="Usuario"
+                                  type="text"
+                                  onFocus={(e) => setEmailFocus(true)}
+                                  onBlur={(e) => setEmailFocus(false)}
+                                />
+                              </InputGroup>
+                              {errors.username && <p className="alert alert-danger" role="alert">{errors.username.message}</p>}
+                            </>
+                          )}
+                        />
+                        <Controller
+                          name="password"
+                          control={control}
+                          defaultValue=""
+                          rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                          render={({ field }) => (
+                            <>
+                              <InputGroup
+                                className={classnames({
+                                  "input-group-focus": passwordFocus,
+                                })}
+                              >
+                                <InputGroupAddon addonType="prepend">
+                                  <InputGroupText>
+                                    <i className="tim-icons icon-lock-circle" />
+                                  </InputGroupText>
+                                </InputGroupAddon>
+                                <Input
+                                  {...field}
+                                  placeholder="Password"
+                                  type="password"
+                                  onFocus={(e) => setPasswordFocus(true)}
+                                  onBlur={(e) => setPasswordFocus(false)}
+                                />
+                              </InputGroup>
+                              {errors.password && <p className="alert alert-danger" role="alert">{errors.password.message}</p>}
+                            </>
+                          )}
+                        />
+                      </CardBody>
+                      <CardFooter>
+                        <Button className="btn btn-lg w-100" color="info" size="lg" disabled={loading} type="submit">
+                          {loading && (
+                            <span className="spinner-border spinner-border-sm"></span>
+                          )}
+                          Ingresar
+                        </Button>
+                        <h5>¿No tiene cuenta? <Link to="/register-page">Regístrese</Link></h5>
+                        {message && (
+                          <div className="form-group">
+                            <div className="alert alert-danger" role="alert">
+                              {message}
+                            </div>
+                          </div>
+                        )}
+                      </CardFooter>
+                    </Form>
                   </Card>
                 </Col>
-                <Col/>
+                <Col />
               </Row>
               <div className="register-bg" />
-              
+
             </Container>
           </div>
         </div>

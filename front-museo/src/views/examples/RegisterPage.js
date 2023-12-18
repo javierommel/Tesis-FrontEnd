@@ -1,22 +1,11 @@
-/*!
-
-=========================================================
-* BLK Design System React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/blk-design-system-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
+import { useForm, Controller } from 'react-hook-form';
+
+//import { isEmail } from "validator";
+
+import { register } from "actions/auth";
 // reactstrap components
 import {
   Button,
@@ -27,9 +16,9 @@ import {
   CardImg,
   CardTitle,
   Label,
-  FormGroup,
-  Form,
   Input,
+  Form,
+  FormGroup,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
@@ -62,18 +51,43 @@ export default function RegisterPage() {
     let posY = event.clientY - window.innerWidth / 6;
     setSquares1to6(
       "perspective(500px) rotateY(" +
-        posX * 0.05 +
-        "deg) rotateX(" +
-        posY * -0.05 +
-        "deg)"
+      posX * 0.05 +
+      "deg) rotateX(" +
+      posY * -0.05 +
+      "deg)"
     );
     setSquares7and8(
       "perspective(500px) rotateY(" +
-        posX * 0.02 +
-        "deg) rotateX(" +
-        posY * -0.02 +
-        "deg)"
+      posX * 0.02 +
+      "deg) rotateX(" +
+      posY * -0.02 +
+      "deg)"
     );
+  };
+  const { handleSubmit, control, formState: { errors } } = useForm();
+  const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
+
+  const { message } = useSelector(state => state.message);
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    setLoading(true);
+    //e.preventDefault();
+
+    setSuccessful(false);
+
+    //form.current.validateAll();
+
+    //if (checkBtn.current.context._errors.length === 0) {
+      dispatch(register(data.username, data.email, data.password))
+        .then(() => {
+          setSuccessful(true);
+        })
+        .catch(() => {
+          setSuccessful(false);
+        });
+    //}
   };
   return (
     <>
@@ -84,7 +98,7 @@ export default function RegisterPage() {
           <div className="content">
             <Container>
               <Row>
-              <Col/>
+                <Col />
                 <Col className="offset-lg-0 offset-md-3" lg="5" md="6">
                   <div
                     className="square square-7"
@@ -104,82 +118,132 @@ export default function RegisterPage() {
                       />
                       <CardTitle tag="h4">Registro</CardTitle>
                     </CardHeader>
-                    <CardBody>
-                      <Form className="form">
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": fullNameFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-single-02" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Nombre Completo"
-                            type="text"
-                            onFocus={(e) => setFullNameFocus(true)}
-                            onBlur={(e) => setFullNameFocus(false)}
+                    <Form className="form" onSubmit={handleSubmit(onSubmit)}>
+                      {!successful && (<>
+                        <CardBody>
+                          <Controller
+                            name="username"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                            render={({ field }) => (
+                              <>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": fullNameFocus,
+                                  })}
+                                >
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="tim-icons icon-single-02" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    {...field}
+                                    placeholder="Usuario"
+                                    type="text"
+                                    onFocus={(e) => setFullNameFocus(true)}
+                                    onBlur={(e) => setFullNameFocus(false)}
+                                  />
+                                </InputGroup>
+                                {errors.username && <p className="alert alert-danger" role="alert">{errors.username.message}</p>}
+                              </>
+                            )}
                           />
-                        </InputGroup>
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": emailFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-email-85" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Email"
-                            type="text"
-                            onFocus={(e) => setEmailFocus(true)}
-                            onBlur={(e) => setEmailFocus(false)}
+                          <Controller
+                            name="email"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                            render={({ field }) => (
+                              <>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": fullNameFocus,
+                                  })}
+                                ></InputGroup>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": emailFocus,
+                                  })}
+                                >
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="tim-icons icon-email-85" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    {...field}
+                                    placeholder="Email"
+                                    type="text"
+                                    onFocus={(e) => setEmailFocus(true)}
+                                    onBlur={(e) => setEmailFocus(false)}
+                                  />
+                                </InputGroup>
+                                {errors.email && <p className="alert alert-danger" role="alert">{errors.email.message}</p>}
+                              </>
+                            )}
                           />
-                        </InputGroup>
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": passwordFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-lock-circle" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Password"
-                            type="text"
-                            onFocus={(e) => setPasswordFocus(true)}
-                            onBlur={(e) => setPasswordFocus(false)}
+                          <Controller
+                            name="password"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                            render={({ field }) => (
+                              <>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": passwordFocus,
+                                  })}
+                                >
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="tim-icons icon-lock-circle" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    {...field}
+                                    placeholder="Password"
+                                    type="password"
+                                    onFocus={(e) => setPasswordFocus(true)}
+                                    onBlur={(e) => setPasswordFocus(false)}
+                                  />
+                                </InputGroup>
+                                {errors.password && <p className="alert alert-danger" role="alert">{errors.password.message}</p>}
+                              </>
+                            )}
                           />
-                        </InputGroup>
-                        <FormGroup check className="text-left">
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />Acepto los{" "}
-                            <a
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              términos y condiciones
-                            </a>
-                            .
-                          </Label>
-                        </FormGroup>
-                      </Form>
-                    </CardBody>
-                    <CardFooter>
-                      <Button className="btn btn-lg w-100" color="primary" size="lg">
-                        Registrar
-                      </Button>
-                    </CardFooter>
+                          <FormGroup check className="text-left">
+                            <Label check>
+                              <Input type="checkbox" />
+                              <span className="form-check-sign" />Acepto los{" "}
+                              <a
+                                href="#pablo"
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                términos y condiciones
+                              </a>
+                              .
+                            </Label>
+                          </FormGroup>
+                        </CardBody>
+                        <CardFooter>
+                          <Button className="btn btn-lg w-100" color="primary" size="lg" disabled={loading} type="submit">
+                            Registrar
+                          </Button>
+                        </CardFooter>
+                      </>)}
+                      {message && (
+                        <div className="form-group">
+                          <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
+                            {message}
+                          </div>
+                        </div>
+                      )}
+                    </Form>
                   </Card>
                 </Col>
-                <Col/>
+                <Col />
               </Row>
               <div className="register-bg" />
               <div
