@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 import { useForm, Controller } from 'react-hook-form';
 import { login } from 'actions/auth';
+import GoogleLogin from "react-google-login";
 
 // reactstrap components
 import {
@@ -16,7 +17,7 @@ import {
   CardTitle,
   Form,
   Input,
-  InputGroupAddon,                                    
+  InputGroupAddon,
   InputGroupText,
   InputGroup,
   Container,
@@ -86,6 +87,9 @@ export default function RegisterPage() {
   if (isLoggedIn) {
     return <Navigate to="/home" />;
   }
+  const responseGoogle = response => {
+    console.log(response);
+  };
   return (
     <>
       <IndexNavbar />
@@ -101,19 +105,24 @@ export default function RegisterPage() {
                   <Card className="card-register">
                     <CardHeader>
                       <CardImg
-                        alt="..." home
+                        alt="..."
                         src={require("assets/img/square2.png")}
                       />
                       <CardTitle tag="h2">Ingresar</CardTitle>
                     </CardHeader>
                     <Form className="form" onSubmit={handleSubmit(onSubmit)} >
                       <CardBody>
-                        <Button className="btn btn-lg w-100" color="info" size="lg">
-                          Continuar con Google
-                        </Button>
+                        <GoogleLogin
+                          clientId="984900675153-dq66acaafnia92pbsu3l89vp7h0hlk0p.apps.googleusercontent.com"
+                          onSuccess={responseGoogle}
+                          onFailure={responseGoogle}
+                          signInFlow="redirect"
+                          cookiePolicy={"single_host_origin"}
+                          render={(renderProps) => (<button className="btn btn-lg w-100" onClick={renderProps.onClick}>Continuar con Google</button>)}
+                        />
                         <div class="sso-divider">
                           <span>O</span>
-                          </div>
+                        </div>
                         <Controller
                           name="username"
                           control={control}
@@ -180,7 +189,9 @@ export default function RegisterPage() {
                           )}
                           Ingresar
                         </Button>
-                        <h5>¿No tiene cuenta? <Link to="/register-page">Regístrese</Link></h5>
+                        <div style={{textAlign:'center'}}>
+                          <h5>¿No tiene cuenta? <Link to="/register-page">Regístrese</Link></h5>
+                        </div>
                         {message && (
                           <div className="form-group">
                             <div className="alert alert-danger" role="alert">

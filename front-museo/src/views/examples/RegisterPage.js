@@ -80,13 +80,13 @@ export default function RegisterPage() {
     //form.current.validateAll();
 
     //if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(data.username, data.email, data.password))
-        .then(() => {
-          setSuccessful(true);
-        })
-        .catch(() => {
-          setSuccessful(false);
-        });
+    dispatch(register(data.username, data.email, data.password))
+      .then(() => {
+        setSuccessful(true);
+      })
+      .catch(() => {
+        setSuccessful(false);
+      });
     //}
   };
   return (
@@ -154,14 +154,9 @@ export default function RegisterPage() {
                             name="email"
                             control={control}
                             defaultValue=""
-                            rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                            rules={{ required: 'El email es obligatorio.' }}
                             render={({ field }) => (
                               <>
-                                <InputGroup
-                                  className={classnames({
-                                    "input-group-focus": fullNameFocus,
-                                  })}
-                                ></InputGroup>
                                 <InputGroup
                                   className={classnames({
                                     "input-group-focus": emailFocus,
@@ -188,7 +183,7 @@ export default function RegisterPage() {
                             name="password"
                             control={control}
                             defaultValue=""
-                            rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                            rules={{ required: 'El password es obligatorio.' }}
                             render={({ field }) => (
                               <>
                                 <InputGroup
@@ -213,7 +208,7 @@ export default function RegisterPage() {
                               </>
                             )}
                           />
-                          <FormGroup check className="text-left">
+                          <FormGroup check className="text-left" >
                             <Label check>
                               <Input type="checkbox" />
                               <span className="form-check-sign" />Acepto los{" "}
