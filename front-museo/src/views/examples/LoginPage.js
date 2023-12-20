@@ -4,7 +4,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 import { useForm, Controller } from 'react-hook-form';
 import { login } from 'actions/auth';
-import GoogleLogin from "react-google-login";
+import {auth, provider} from "/home/ubuntu/Tesis/Museo_final/Tesis-FrontEnd/front-museo/src/variables/firebase";
+import {signInWithPopup, GoogleAuthProvider} from "firebase/auth"
 
 // reactstrap components
 import {
@@ -83,6 +84,12 @@ export default function RegisterPage() {
         setLoading(false);
       });
   };
+  const signGoogle=() =>{
+    signInWithPopup(auth, provider).then((data)=>{
+      const credential = GoogleAuthProvider.credentialFromResult(data);
+      console.log(data.user.email);
+    });
+  }
 
   if (isLoggedIn) {
     return <Navigate to="/home" />;
@@ -112,14 +119,9 @@ export default function RegisterPage() {
                     </CardHeader>
                     <Form className="form" onSubmit={handleSubmit(onSubmit)} >
                       <CardBody>
-                        <GoogleLogin
-                          clientId="984900675153-dq66acaafnia92pbsu3l89vp7h0hlk0p.apps.googleusercontent.com"
-                          onSuccess={responseGoogle}
-                          onFailure={responseGoogle}
-                          signInFlow="redirect"
-                          cookiePolicy={"single_host_origin"}
-                          render={(renderProps) => (<button className="btn btn-lg w-100" onClick={renderProps.onClick}>Continuar con Google</button>)}
-                        />
+                      <Button className="btn btn-lg w-100" color="primary" size="lg" onClick={signGoogle}>
+                          Ingresar con Google
+                        </Button>
                         <div class="sso-divider">
                           <span>O</span>
                         </div>

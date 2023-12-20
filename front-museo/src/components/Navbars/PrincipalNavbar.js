@@ -1,9 +1,10 @@
 
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "actions/auth";
 import { clearMessage } from "actions/message";
+import classnames from "classnames";
 // reactstrap components
 import {
   Button,
@@ -20,6 +21,7 @@ import {
 } from "reactstrap";
 
 export default function ExamplesNavbar() {
+  const [pills, setPills] = React.useState(1);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
@@ -62,10 +64,10 @@ export default function ExamplesNavbar() {
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
             <span>BLK• </span>
-            Design System React
+            Museo de las Conceptas
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Designed and Coded by Creative Tim
+            Universidad de Cuenca
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -102,61 +104,60 @@ export default function ExamplesNavbar() {
               </Col>
             </Row>
           </div>
-          <Nav navbar>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://twitter.com/CreativeTim"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Twitter"
-              >
-                <i className="fab fa-twitter" />
-                <p className="d-lg-none d-xl-none">Twitter</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.facebook.com/CreativeTim"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Like us on Facebook"
-              >
-                <i className="fab fa-facebook-square" />
-                <p className="d-lg-none d-xl-none">Facebook</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.instagram.com/CreativeTimOfficial"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Instagram"
-              >
-                <i className="fab fa-instagram" />
-                <p className="d-lg-none d-xl-none">Instagram</p>
-              </NavLink>
-            </NavItem>
+          <Nav className="nav-pills-info nav-pills-icons" pills>
             <NavItem>
-              <Button
-                className="nav-link d-none d-lg-block"
-                color="primary"
-                target="_blank"
-                href="https://www.creative-tim.com/product/blk-design-system-pro-react?ref=bdsr-examples-navbar-upgrade-pro"
+              <NavLink
+                className={classnames({
+                  "active show": pills === 1,
+                })}
+                onClick={(e) => setPills(1)}
+                href="#pablo"
               >
-                <i className="tim-icons icon-spaceship" /> Upgrade to PRO
-              </Button>
+                <i className="tim-icons icon-bank" />
+                Home
+              </NavLink>
             </NavItem>
+            
             <NavItem>
+                <NavLink
+                  className={classnames({
+                    "active show": pills === 2,
+                  })}
+                  onClick={(e) => setPills(2)}
+                  href="#pablo"
+                >
+                  <i className="tim-icons icon-atom" />
+                  Visita 360
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    "active show": pills === 3,
+                  })}
+                  onClick={(e) => setPills(3)}
+                  href="#pablo"
+                >
+                  <i className="tim-icons icon-single-02" />
+                  Perfil
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    "active show": pills === 4,
+                  })}
+                  onClick={(e) => setPills(4)}
+                  href="/profile-page"
+                >
+                  <i className="tim-icons icon-chart-bar-32" />
+                  Estadísticas
+                </NavLink>
+              </NavItem>
+              <NavItem>
               <NavLink tag={Link} to="/" onClick={logOut}>
-                Cerrar Sesión
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://github.com/creativetimofficial/blk-design-system-react/issues">
-                Have an issue?
+              <i className="tim-icons icon-button-power" />
+                Salir
               </NavLink>
             </NavItem>
           </Nav>

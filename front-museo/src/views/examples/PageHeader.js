@@ -38,6 +38,7 @@ export default function PageHeader() {
       <div className="squares square5" />
       <div className="squares square6" />
       <div className="squares square7" />
+      
       <Container>
         <div className="content-center brand">
           <h1 className="h1-seo">Museo Las conceptas</h1>

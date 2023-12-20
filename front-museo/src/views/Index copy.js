@@ -69,8 +69,20 @@ export default function Index() {
           </button>
         </Flip>
         
-        <PageHeader />
-        
+        {<PageHeader />}
+        {<div className="main">
+          <Basics />
+          <Navbars />
+          <Tabs />
+          <Pagination />
+          <Notifications />
+          <Typography />
+          <JavaScript />
+          <NucleoIcons />
+          <Signup />
+          <Examples />
+          <Download />
+        </div>}
         <Footer />
       </div>
     </>

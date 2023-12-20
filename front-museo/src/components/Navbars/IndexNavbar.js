@@ -17,6 +17,7 @@
 */
 import React from "react";
 import { Link } from "react-router-dom";
+import classnames from "classnames";
 // reactstrap components
 import {
   Button,
@@ -37,6 +38,7 @@ import {
 } from "reactstrap";
 
 export default function IndexNavbar() {
+  const [pills, setPills] = React.useState(1);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
@@ -80,10 +82,10 @@ export default function IndexNavbar() {
         <div className="navbar-translate">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
             <span>BLK• </span>
-            Universidad de Cuenca
+            Museo de las Conceptas
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Diseñado by Rommel Chocho
+            Universidad de Cuenca
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -120,58 +122,36 @@ export default function IndexNavbar() {
               </Col>
             </Row>
           </div>
-          <Nav navbar>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://twitter.com/CreativeTim"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Síguenos en Twitter"
-              >
-                <i className="fab fa-twitter" />
-                <p className="d-lg-none d-xl-none">Twitter</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.facebook.com/CreativeTim"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Me gusta en Facebook"
-              >
-                <i className="fab fa-facebook-square" />
-                <p className="d-lg-none d-xl-none">Facebook</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.instagram.com/CreativeTimOfficial"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Síguenos en Instagram"
-              >
-                <i className="fab fa-instagram" />
-                <p className="d-lg-none d-xl-none">Instagram</p>
-              </NavLink>
-            </NavItem>
-            
+          <Nav className="nav-pills-info nav-pills-icons" pills>
+
+
             <NavItem>
-            <Link to="/login-page">
-              <Button
-                className="nav-link d-none d-lg-block"
-                color="primary"
-                target="_blank"
+              <NavLink
+                className={classnames({
+                  "active show": pills === 1,
+                })}
+                onClick={(e) => setPills(1)}
+                href="/"
               >
-                <i className="tim-icons icon-single-02" /> Iniciar sesión
-              </Button>
-              </Link>
+                <i className="tim-icons icon-istanbul" />
+                Principal
+              </NavLink>
             </NavItem>
-        </Nav>
-      </Collapse>
-    </Container>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  "active show": pills === 2,
+                })}
+                onClick={(e) => setPills(2)}
+                href="/login-page"
+              >
+                <i className="tim-icons icon-single-02" />
+                Ingresar
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Container>
     </Navbar >
   );
 }
