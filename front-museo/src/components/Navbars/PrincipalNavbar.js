@@ -1,13 +1,11 @@
 
 import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "actions/auth";
-import { clearMessage } from "actions/message";
 import classnames from "classnames";
 // reactstrap components
 import {
-  Button,
   Collapse,
   NavbarBrand,
   Navbar,
@@ -20,8 +18,9 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 
-export default function ExamplesNavbar() {
-  const [pills, setPills] = React.useState(1);
+export default function ExamplesNavbar({activado}) {
+  console.log("activado: "+activado);
+  const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
@@ -90,7 +89,7 @@ export default function ExamplesNavbar() {
             <Row>
               <Col className="collapse-brand" xs="6">
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  BLK•React
+                  Opciones
                 </a>
               </Col>
               <Col className="collapse-close text-right" xs="6">

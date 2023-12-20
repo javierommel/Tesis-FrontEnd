@@ -1,44 +1,15 @@
-/*!
-
-=========================================================
-* BLK Design System React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/blk-design-system-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { useState } from "react";
 
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import PageHeader from "components/PageHeader/PageHeader.js";
+import PageHeader from "components/Pages/PageHeader.js";
 import Footer from "components/Footer/Footer.js";
 
 // sections for this page/view
-import Basics from "views/IndexSections/Basics.js";
-import Navbars from "views/IndexSections/Navbars.js";
-import Tabs from "views/IndexSections/Tabs.js";
-import Pagination from "views/IndexSections/Pagination.js";
-import Notifications from "views/IndexSections/Notifications.js";
-import Typography from "views/IndexSections/Typography.js";
-import JavaScript from "views/IndexSections/JavaScript.js";
-import NucleoIcons from "views/IndexSections/NucleoIcons.js";
-import Signup from "views/IndexSections/Signup.js";
-import Examples from "views/IndexSections/Examples.js";
-import Download from "views/IndexSections/Download.js";
 import Chatbot from "components/Chatbot/Chatbot"
 import Chat from "assets/img/chat.png";
 import Flip from "react-reveal/Flip";
-import Fade from "react-reveal/Fade";
 import './Button.css'; // Archivo de estilos personalizados
 
 
@@ -54,7 +25,7 @@ export default function Index() {
   }, []);
   return (
     <>
-      <IndexNavbar />
+      <IndexNavbar activado={1} />
       <div className="wrapper">
         {showBot && (
 
@@ -68,9 +39,9 @@ export default function Index() {
             <img src={Chat} alt="Chat" />
           </button>
         </Flip>
-        
+
         <PageHeader />
-        
+
         <Footer />
       </div>
     </>

@@ -4,7 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 import { useForm, Controller } from 'react-hook-form';
 import { login } from 'actions/auth';
-import {auth, provider} from "/home/ubuntu/Tesis/Museo_final/Tesis-FrontEnd/front-museo/src/variables/firebase";
+import {auth, provider} from "../../variables/firebase";
 import {signInWithPopup, GoogleAuthProvider} from "firebase/auth"
 
 // reactstrap components
@@ -99,7 +99,7 @@ export default function RegisterPage() {
   };
   return (
     <>
-      <IndexNavbar />
+      <IndexNavbar activado={2}/>
       <div className="wrapper">
         <div className="page-header">
           <div className="page-header-image" />

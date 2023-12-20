@@ -1,31 +1,9 @@
-/*!
-
-=========================================================
-* BLK Design System React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/blk-design-system-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 // reactstrap components
 import {
-  Button,
   Collapse,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
   NavbarBrand,
   Navbar,
   NavItem,
@@ -37,8 +15,9 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 
-export default function IndexNavbar() {
-  const [pills, setPills] = React.useState(1);
+export default function IndexNavbar({activado}) {
+  console.log("activado: "+activado);
+  const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
@@ -71,17 +50,12 @@ export default function IndexNavbar() {
   const onCollapseExited = () => {
     setCollapseOut("");
   };
-  const scrollToDownload = () => {
-    document
-      .getElementById("download-section")
-      .scrollIntoView({ behavior: "smooth" });
-  };
   return (
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
         <div className="navbar-translate">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
-            <span>BLK• </span>
+            <span>UCuenca• </span>
             Museo de las Conceptas
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
@@ -108,7 +82,7 @@ export default function IndexNavbar() {
             <Row>
               <Col className="collapse-brand" xs="6">
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  BLK•React
+                  Opciones
                 </a>
               </Col>
               <Col className="collapse-close text-right" xs="6">
@@ -123,15 +97,13 @@ export default function IndexNavbar() {
             </Row>
           </div>
           <Nav className="nav-pills-info nav-pills-icons" pills>
-
-
             <NavItem>
               <NavLink
                 className={classnames({
                   "active show": pills === 1,
                 })}
                 onClick={(e) => setPills(1)}
-                href="/"
+                href="/inicio"
               >
                 <i className="tim-icons icon-istanbul" />
                 Principal
@@ -149,6 +121,19 @@ export default function IndexNavbar() {
                 Ingresar
               </NavLink>
             </NavItem>
+            {activado===3 &&
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  "active show": pills === 3,
+                })}
+                onClick={(e) => setPills(3)}
+                href="/register-page"
+              >
+                <i className="tim-icons icon-badge" />
+                Registrar
+              </NavLink>
+            </NavItem>}
           </Nav>
         </Collapse>
       </Container>

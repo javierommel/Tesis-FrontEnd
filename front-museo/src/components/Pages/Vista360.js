@@ -6,11 +6,13 @@ import myImage from "assets/img/PanoramaInterior2.png";
 import Chatbot from "components/Chatbot/Chatbot"
 import Flip from "react-reveal/Flip";
 import Chat from "assets/img/chat.png";
+import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 
 export default function Vista360() {
     const [showBot, toggleBot] = useState(false);
     return (
       <div>
+        <ExamplesNavbar activado={2}/>
         {/* Otro contenido de tu componente */}
         {showBot && (
 

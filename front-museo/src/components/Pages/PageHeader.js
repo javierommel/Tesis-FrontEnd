@@ -1,56 +1,25 @@
-/*!
-
-=========================================================
-* BLK Design System React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/blk-design-system-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import './PageHeader.css';
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+
 // reactstrap components
 import {
-  Button,
-  FormGroup,
   Container,
   Row,
   Col,
-  UncontrolledTooltip,
-  UncontrolledPopover,
-  PopoverBody,
-  PopoverHeader,
-  Modal,
-  Form,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Label,
   UncontrolledCarousel,
 } from "reactstrap";
 const carouselItems = [
   {
-    src: require("assets/img/denys.jpg"),
+    src: require("assets/img/museo1.jpeg"),
     altText: "Slide 1",
     caption: "",
   },
   {
-    src: require("assets/img/fabien-bazanegue.jpg"),
+    src: require("assets/img/museo2.jpeg"),
     altText: "Slide 2",
     caption: "",
   },
   {
-    src: require("assets/img/mark-finn.jpg"),
+    src: require("assets/img/museo3.jpeg"),
     altText: "Slide 3",
     caption: "",
   },
@@ -59,11 +28,7 @@ const carouselItems = [
 
 
 
-export default function PageHeader() {
-  const navigate = useNavigate();
-  const handleButtonClick = () => {
-    navigate('/vista360');
-  };
+export default function PageHeader() { 
   return (
     <div className="page-header header-filter">
       <div className="squares square1" />
@@ -102,13 +67,6 @@ export default function PageHeader() {
                 culturales como seminarios, talleres, exposiciones y
                 otros eventos artísticos.
               </p>
-              <Button
-                className="mt-4"
-                color="warning"
-                href="https://demos.creative-tim.com/blk-design-system-react/#/documentation/alert"
-              >
-                See all components
-              </Button>
             </Col>
             <Col lg="6">
               <UncontrolledCarousel

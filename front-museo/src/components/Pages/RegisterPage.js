@@ -91,7 +91,7 @@ export default function RegisterPage() {
   };
   return (
     <>
-      <IndexNavbar />
+      <IndexNavbar activado={3}/>
       <div className="wrapper">
         <div className="page-header">
           <div className="page-header-image" />
