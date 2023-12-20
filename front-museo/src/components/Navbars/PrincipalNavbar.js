@@ -1,6 +1,6 @@
 
 import React, { useCallback } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "actions/auth";
 import classnames from "classnames";
@@ -18,8 +18,8 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 
-export default function ExamplesNavbar({activado}) {
-  console.log("activado: "+activado);
+export default function ExamplesNavbar({ activado }) {
+  console.log("activado: " + activado);
   const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
@@ -110,52 +110,64 @@ export default function ExamplesNavbar({activado}) {
                   "active show": pills === 1,
                 })}
                 onClick={(e) => setPills(1)}
-                href="#pablo"
+                tag={Link} to="/home"
               >
                 <i className="tim-icons icon-bank" />
                 Home
               </NavLink>
             </NavItem>
-            
+
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  "active show": pills === 2,
+                })}
+                onClick={(e) => setPills(2)}
+                tag={Link} to="/vista360"
+              >
+                <i className="tim-icons icon-atom" />
+                Visita 360
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  "active show": pills === 3,
+                })}
+                onClick={(e) => setPills(3)}
+                tag={Link} to="/profile-page"
+              >
+                <i className="tim-icons icon-single-02" />
+                Perfil
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  "active show": pills === 4,
+                })}
+                onClick={(e) => setPills(4)}
+                tag={Link} to="/report-page"
+              >
+                <i className="tim-icons icon-chart-bar-32" />
+                Estadísticas
+              </NavLink>
+            </NavItem>
             <NavItem>
                 <NavLink
                   className={classnames({
-                    "active show": pills === 2,
+                    "active show": pills === 5,
                   })}
-                  onClick={(e) => setPills(2)}
-                  href="#pablo"
+                  onClick={(e) => setPills(5)}
+                  tag={Link} to="/report-page"
                 >
-                  <i className="tim-icons icon-atom" />
-                  Visita 360
+                  <i className="tim-icons icon-settings-gear-63" />
+                  Administración
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({
-                    "active show": pills === 3,
-                  })}
-                  onClick={(e) => setPills(3)}
-                  href="#pablo"
-                >
-                  <i className="tim-icons icon-single-02" />
-                  Perfil
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({
-                    "active show": pills === 4,
-                  })}
-                  onClick={(e) => setPills(4)}
-                  href="/profile-page"
-                >
-                  <i className="tim-icons icon-chart-bar-32" />
-                  Estadísticas
-                </NavLink>
-              </NavItem>
-              <NavItem>
+            <NavItem>
               <NavLink tag={Link} to="/" onClick={logOut}>
-              <i className="tim-icons icon-button-power" />
+                <i className="tim-icons icon-button-power" />
                 Salir
               </NavLink>
             </NavItem>

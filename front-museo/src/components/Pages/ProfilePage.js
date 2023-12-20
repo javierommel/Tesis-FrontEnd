@@ -1,5 +1,7 @@
 import React from "react";
 import classnames from "classnames";
+import { Navigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 // reactstrap components
@@ -72,9 +74,13 @@ export default function ProfilePage() {
       document.body.classList.toggle("profile-page");
     };
   }, []);
+  const { user: currentUser } = useSelector((state) => state.auth);
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
   return (
     <>
-      <ExamplesNavbar activado={3}/>
+      <ExamplesNavbar activado={3} />
       <div className="wrapper">
         <div className="page-header">
           <img

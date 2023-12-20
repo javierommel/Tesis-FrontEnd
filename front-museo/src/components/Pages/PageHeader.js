@@ -1,5 +1,5 @@
 import React from "react";
-
+import '../PageHeader/PageHeader.css'; 
 // reactstrap components
 import {
   Container,
@@ -38,7 +38,7 @@ export default function PageHeader() {
       <div className="squares square5" />
       <div className="squares square6" />
       <div className="squares square7" />
-      <div className="section">
+      <div className="content-center">
         <Container>
           <div className="title">
             <h3></h3>

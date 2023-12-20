@@ -11,11 +11,12 @@ import "assets/demo/demo.css";
 import "assets/css/museo.css";
 
 import Index from "views/Index.js";
-import RegisterPage from "components/Pages/RegisterPage.js";
-import ProfilePage from "components/Pages/ProfilePage.js";
+import RegisterPage from "components/Pages/RegisterPage";
+import ProfilePage from "components/Pages/ProfilePage";
 import Vista360 from "components/Pages/Vista360";
-import LoginPage from "components/Pages/LoginPage.js";
-import Principal from "components/Pages/Principal.js";
+import LoginPage from "components/Pages/LoginPage";
+import Principal from "components/Pages/Principal";
+import Reportes from "components/Pages/ReportPage";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -29,6 +30,7 @@ root.render(
         <Route path="/login-page" element={<LoginPage />} />
         <Route path="/profile-page" element={<ProfilePage />} />
         <Route path="/vista360" element={<Vista360 />} />
+        <Route path="/report-page" element={<Reportes />} />
         <Route path="/home" element={<Principal />} />
         <Route path="*" element={<Navigate to="/inicio" replace />} />
       </Routes>

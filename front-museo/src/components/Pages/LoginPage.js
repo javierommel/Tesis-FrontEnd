@@ -119,7 +119,8 @@ export default function RegisterPage() {
                     </CardHeader>
                     <Form className="form" onSubmit={handleSubmit(onSubmit)} >
                       <CardBody>
-                      <Button className="btn btn-lg w-100" color="primary" size="lg" onClick={signGoogle}>
+                      <Button className="btn btn-lg w-100" color="success" size="lg" onClick={signGoogle}>
+                      <i className="fab fa-google" />&nbsp;&nbsp;&nbsp;
                           Ingresar con Google
                         </Button>
                         <div class="sso-divider">

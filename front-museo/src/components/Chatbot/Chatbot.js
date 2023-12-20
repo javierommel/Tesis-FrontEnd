@@ -5,12 +5,13 @@ import { ThemeProvider } from 'styled-components';
 const theme =  {
   background: '#F9F9F9',
   fontFamily: 'Roboto, Arial, sans-serif',
+  fontSize: '10px',
   headerBgColor: '#333333',
   headerFontColor: '#FFFFFF',
-  headerFontSize: '18px',
-  botBubbleColor: '#007BFF',
+  headerFontSize: '12px',
+  botBubbleColor: '#6B9FCF',
   botFontColor: '#FFFFFF',
-  userBubbleColor: '#EFEFEF',
+  userBubbleColor: '#D9DEE3',
   userFontColor: '#333333',
 }
 

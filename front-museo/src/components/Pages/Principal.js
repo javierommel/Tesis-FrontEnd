@@ -1,5 +1,6 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { Navigate,useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 // reactstrap components
 import {
@@ -27,9 +28,13 @@ export default function LandingPage() {
   const handleButtonClick = () => {
     navigate('/vista360');
   };
+  const { user: currentUser } = useSelector((state) => state.auth);
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
   return (
     <>
-      <ExamplesNavbar activado={1}/>
+      <ExamplesNavbar activado={1} />
       <div className="wrapper">
         <div className="page-header">
           <img

@@ -7,9 +7,15 @@ import Chatbot from "components/Chatbot/Chatbot"
 import Flip from "react-reveal/Flip";
 import Chat from "assets/img/chat.png";
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
+import { Navigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 export default function Vista360() {
     const [showBot, toggleBot] = useState(false);
+    const { user: currentUser } = useSelector((state) => state.auth);
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
     return (
       <div>
         <ExamplesNavbar activado={2}/>

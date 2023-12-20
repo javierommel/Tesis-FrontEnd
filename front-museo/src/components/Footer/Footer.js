@@ -35,7 +35,7 @@ export default function Footer() {
       <Container>
         <Row>
           <Col md="4">
-            <h1 className="title">BLK•</h1>
+            <h1 className="title">Ucuenca</h1>
           </Col>
           <Col md="4">
           <h5 className="title">Copyright 2023 <br/>Todos los derechos Reservados - Museo Las Conceptas</h5>

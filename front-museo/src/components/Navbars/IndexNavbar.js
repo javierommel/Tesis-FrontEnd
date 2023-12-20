@@ -103,7 +103,7 @@ export default function IndexNavbar({activado}) {
                   "active show": pills === 1,
                 })}
                 onClick={(e) => setPills(1)}
-                href="/inicio"
+                tag={Link} to="/inicio"
               >
                 <i className="tim-icons icon-istanbul" />
                 Principal
@@ -115,7 +115,7 @@ export default function IndexNavbar({activado}) {
                   "active show": pills === 2,
                 })}
                 onClick={(e) => setPills(2)}
-                href="/login-page"
+                tag={Link} to="/login-page"
               >
                 <i className="tim-icons icon-single-02" />
                 Ingresar
@@ -128,7 +128,7 @@ export default function IndexNavbar({activado}) {
                   "active show": pills === 3,
                 })}
                 onClick={(e) => setPills(3)}
-                href="/register-page"
+                tag={Link} to="/register-page"
               >
                 <i className="tim-icons icon-badge" />
                 Registrar
