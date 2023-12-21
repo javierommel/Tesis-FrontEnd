@@ -94,9 +94,6 @@ export default function RegisterPage() {
   if (isLoggedIn) {
     return <Navigate to="/home" />;
   }
-  const responseGoogle = response => {
-    console.log(response);
-  };
   return (
     <>
       <IndexNavbar activado={2}/>
@@ -145,13 +142,14 @@ export default function RegisterPage() {
                                 </InputGroupAddon>
                                 <Input
                                   {...field}
-                                  placeholder="Usuario"
+                                  placeholder="Email"
                                   type="text"
                                   onFocus={(e) => setEmailFocus(true)}
                                   onBlur={(e) => setEmailFocus(false)}
                                 />
                               </InputGroup>
-                              {errors.username && <p className="alert alert-danger" role="alert">{errors.username.message}</p>}
+                              {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
+                              
                             </>
                           )}
                         />
@@ -159,7 +157,7 @@ export default function RegisterPage() {
                           name="password"
                           control={control}
                           defaultValue=""
-                          rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                          rules={{ required: 'El password es obligatorio.' }}
                           render={({ field }) => (
                             <>
                               <InputGroup
@@ -180,7 +178,7 @@ export default function RegisterPage() {
                                   onBlur={(e) => setPasswordFocus(false)}
                                 />
                               </InputGroup>
-                              {errors.password && <p className="alert alert-danger" role="alert">{errors.password.message}</p>}
+                              {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
                             </>
                           )}
                         />

@@ -37,6 +37,7 @@ export default function RegisterPage() {
   const [fullNameFocus, setFullNameFocus] = React.useState(false);
   const [emailFocus, setEmailFocus] = React.useState(false);
   const [passwordFocus, setPasswordFocus] = React.useState(false);
+  const [password2Focus, setPassword2Focus] = React.useState(false);
   React.useEffect(() => {
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
@@ -140,13 +141,13 @@ export default function RegisterPage() {
                                   </InputGroupAddon>
                                   <Input
                                     {...field}
-                                    placeholder="Usuario"
+                                    placeholder="Nombre Completo"
                                     type="text"
                                     onFocus={(e) => setFullNameFocus(true)}
                                     onBlur={(e) => setFullNameFocus(false)}
                                   />
                                 </InputGroup>
-                                {errors.username && <p className="alert alert-danger" role="alert">{errors.username.message}</p>}
+                                {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
                               </>
                             )}
                           />
@@ -175,7 +176,7 @@ export default function RegisterPage() {
                                     onBlur={(e) => setEmailFocus(false)}
                                   />
                                 </InputGroup>
-                                {errors.email && <p className="alert alert-danger" role="alert">{errors.email.message}</p>}
+                                {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
                               </>
                             )}
                           />
@@ -204,7 +205,36 @@ export default function RegisterPage() {
                                     onBlur={(e) => setPasswordFocus(false)}
                                   />
                                 </InputGroup>
-                                {errors.password && <p className="alert alert-danger" role="alert">{errors.password.message}</p>}
+                                {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
+                              </>
+                            )}
+                          />
+                          <Controller
+                            name="password2"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: 'El password es obligatorio.' }}
+                            render={({ field }) => (
+                              <>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": password2Focus,
+                                  })}
+                                >
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="tim-icons icon-lock-circle" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    {...field}
+                                    placeholder="Repetir Password"
+                                    type="password"
+                                    onFocus={(e) => setPassword2Focus(true)}
+                                    onBlur={(e) => setPassword2Focus(false)}
+                                  />
+                                </InputGroup>
+                                {errors.password2 && <div className="typography-line"><p className="text-danger">{errors.password2.message}</p></div>}
                               </>
                             )}
                           />

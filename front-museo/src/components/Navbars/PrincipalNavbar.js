@@ -1,8 +1,9 @@
 
-import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import { logout } from "actions/auth";
+import { clearMessage } from "actions/message";
 import classnames from "classnames";
 // reactstrap components
 import {
@@ -19,7 +20,7 @@ import {
 } from "reactstrap";
 
 export default function ExamplesNavbar({ activado }) {
-  console.log("activado: " + activado);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
@@ -53,13 +54,32 @@ export default function ExamplesNavbar({ activado }) {
   const onCollapseExited = () => {
     setCollapseOut("");
   };
+  const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  let location = useLocation();
+
+  useEffect(() => {
+    if (["/login", "/register"].includes(location.pathname)) {
+      dispatch(clearMessage()); // clear message when changing location
+    }
+  }, [dispatch, location]);
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
+  useEffect(() => {
+    if (currentUser) {
+      setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+    } else {
+      setShowAdminBoard(false);
+    }
+  }, [currentUser]);
   return (
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
+        <div style={{ position: 'absolute', top: '10px', left: '20px', color: 'white' }}>
+          <span><b>Bienvenido: </b></span>
+          {currentUser.username}
+        </div>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
             <span>BLK• </span>
@@ -141,30 +161,32 @@ export default function ExamplesNavbar({ activado }) {
                 Perfil
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  "active show": pills === 4,
-                })}
-                onClick={(e) => setPills(4)}
-                tag={Link} to="/report-page"
-              >
-                <i className="tim-icons icon-chart-bar-32" />
-                Estadísticas
-              </NavLink>
-            </NavItem>
-            <NavItem>
+            {showAdminBoard && (
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    "active show": pills === 4,
+                  })}
+                  onClick={(e) => setPills(4)}
+                  tag={Link} to="/report-page"
+                >
+                  <i className="tim-icons icon-chart-bar-32" />
+                  Estadísticas
+                </NavLink>
+              </NavItem>)}
+            {showAdminBoard && (
+              <NavItem>
                 <NavLink
                   className={classnames({
                     "active show": pills === 5,
                   })}
                   onClick={(e) => setPills(5)}
-                  tag={Link} to="/report-page"
+                  tag={Link} to="/admin-page"
                 >
                   <i className="tim-icons icon-settings-gear-63" />
                   Administración
                 </NavLink>
-              </NavItem>
+              </NavItem>)}
             <NavItem>
               <NavLink tag={Link} to="/" onClick={logOut}>
                 <i className="tim-icons icon-button-power" />

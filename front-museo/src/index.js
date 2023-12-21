@@ -17,6 +17,7 @@ import Vista360 from "components/Pages/Vista360";
 import LoginPage from "components/Pages/LoginPage";
 import Principal from "components/Pages/Principal";
 import Reportes from "components/Pages/ReportPage";
+import Administracion from "components/Pages/AdminPage";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -31,6 +32,7 @@ root.render(
         <Route path="/profile-page" element={<ProfilePage />} />
         <Route path="/vista360" element={<Vista360 />} />
         <Route path="/report-page" element={<Reportes />} />
+        <Route path="/admin-page" element={<Administracion />} />
         <Route path="/home" element={<Principal />} />
         <Route path="*" element={<Navigate to="/inicio" replace />} />
       </Routes>

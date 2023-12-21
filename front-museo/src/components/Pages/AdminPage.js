@@ -21,7 +21,7 @@ import Footer from "components/Footer/Footer.js";
 
 import bigChartData from "variables/charts.js";
 
-export default function ReportPage() {
+export default function AdminPage() {
   React.useEffect(() => {
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
