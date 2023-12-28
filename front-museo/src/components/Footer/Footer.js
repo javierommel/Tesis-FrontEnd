@@ -38,7 +38,7 @@ export default function Footer() {
             <h1 className="title">Ucuenca</h1>
           </Col>
           <Col md="4">
-          <h5 className="title">Copyright 2023 <br/>Todos los derechos Reservados - Museo Las Conceptas</h5>
+          <h5 className="title">Copyright 2023 <br/>Todos los derechos Reservados - Museo Las Conceptas. <br/>Powered by Rommel Chocho</h5>
           </Col>
           <Col md="4">
             <h3 className="title">Síguenos:</h3>
