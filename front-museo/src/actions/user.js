@@ -1,14 +1,11 @@
 import AuthService from "../services/user.service";
 
-export const getUser = () => {
+export const getUser = async () => {
     return AuthService.getUser().then(
-        (data) => {
-            dispatch({
-                type: LOGIN_SUCCESS,
-                payload: { user: data },
-            });
-
-            return Promise.resolve();
+        (response) => {
+            console.log("datos "+JSON.stringify(response.data.data))
+            return response.data.data
+            //return Promise.resolve();
         },
         (error) => {
             const message =
@@ -18,16 +15,8 @@ export const getUser = () => {
                 error.message ||
                 error.toString();
 
-            dispatch({
-                type: LOGIN_FAIL,
-            });
-
-            dispatch({
-                type: SET_MESSAGE,
-                payload: message,
-            });
-
-            return Promise.reject();
+                return message;
+            //return Promise.reject();
         }
     );
 };

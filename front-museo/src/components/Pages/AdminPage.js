@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { clearMessage } from "actions/message";
 import UserForm from "../Settings/UserForm"
 import ViewListUser from "../Settings/ViewListUser"
-import {getUser, addUser, updateUser} from "../../services/user.service"
+import {getUser, addUser, updateUser} from "../../actions/user"
 // react plugin used to create charts
 import classnames from "classnames";
 // reactstrap components
@@ -29,15 +29,32 @@ import Footer from "components/Footer/Footer.js";
 
 export default function AdminPage() {
 
-  const [datos,setDatos]=React.useState({
+  const [datos,setDatos]=useState({
     data: [],
     ruta: 'lista',
+    usuarioSeleccionado:null,
   })
-  const {ruta, data, usuarioSeleccionado} = datos
-  const valoresIniciales = usuarioSeleccionado && data.find(x => x.id === usuarioSeleccionado)
+  
+  //const {ruta, data, usuarioSeleccionado} = datos
+  const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.id === datos.usuarioSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [textTabs, setTextTabs] = React.useState(4);
   React.useEffect(() => {
+    getUser().then((dat) => {
+      setDatos((prevDatos) => ({
+        ...prevDatos,         // Manteniendo las propiedades existentes
+        data: dat,    // Actualizando solo la propiedad 'data'
+      }));
+      
+      console.log("dat "+dat)
+      
+    })
+    .catch((error) => {
+      console.log("error"+error.message)
+      //setLoading(false);
+    });
+    
+    //setDatos({data:getUser().data.data});
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -132,13 +149,13 @@ export default function AdminPage() {
                 <CardBody>
                   <TabContent className="tab-space" activeTab={"link" + iconTabs}>
                     <TabPane tabId="link1">
-                      {ruta === 'lista' && <ViewListUser
+                      {datos.ruta === 'lista' && <ViewListUser
                         nuevoUsuario={nuevoUsuario}
                         handleClick={seleccionUsuario}
-                        data={data}
+                        data={datos.data}
                       />}
 
-                      {ruta === 'formulario' && <UserForm
+                      {datos.ruta === 'formulario' && <UserForm
                         valoresIniciales={valoresIniciales || {}}
                         handleSubmit={agregarNuevoUsuario}
                         handleUpdate={actualizarNuevoUsuario}
