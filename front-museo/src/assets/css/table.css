@@ -13,3 +13,20 @@ th {
     text-align: left;
     padding: 8px;
 }
+
+.pagination {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .page-controller {
+    width: 20px;
+    height: 17px;
+    display: flex;
+  }
+  
+  select {
+    border: 1px solid #d1cccc;
+    border-radius: 0.2rem;
+  }

@@ -91,16 +91,30 @@ export default function AdminPage() {
     })
   }
 
-  const agregarNuevoUsuario = usuario => {
-    
+  const agregarNuevoUsuario = (usuario,cancel) => {
+    console.log("were "+cancel)
+    if(cancel) cancelarUsuario();
   }
 
-  const actualizarNuevoUsuario = (id, values) => {
+  const actualizarNuevoUsuario = (id, values, cancel) => {
+    if(cancel) cancelarUsuario();
     
   }
 
   const nuevoUsuario = () => {
-    
+    setDatos((prevDatos) => ({
+      ...prevDatos,         // Manteniendo las propiedades existentes
+      ruta: 'formulario',
+      usuarioSeleccionado: undefined
+    }));
+  }
+
+  const cancelarUsuario = () => {
+    setDatos((prevDatos) => ({
+      ...prevDatos,         // Manteniendo las propiedades existentes
+      ruta: 'lista',
+      usuarioSeleccionado: undefined
+    }));
   }
   return (
     <>

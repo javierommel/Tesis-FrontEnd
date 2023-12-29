@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react'
-import { useTable } from "react-table";
+import { useTable, usePagination } from "react-table";
 import { UserData } from "./Data/UserData"
 import '../../assets/css/table.css';
 import { Button } from "reactstrap";
+import { BiFirstPage, BiLastPage } from "react-icons/bi";
+import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
 export default function ListUser(props) {
     const handleClick = id => e => {
@@ -29,16 +31,33 @@ export default function ListUser(props) {
     const columns = useMemo(() => UserData, []);
     const datosConNuevaColumnaMemo = useMemo(() => datosConNuevaColumna(data), [data]);
 
-    //const columns = UserData();
-    //const data = useRows();
-    const table = useTable({ columns, data: datosConNuevaColumnaMemo });
+    const table = useTable({
+        columns,
+        data: datosConNuevaColumnaMemo,
+        initialState: {
+            pageSize: 5,
+            pageIndex: 0
+        },
+    },
+        usePagination
+    );
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
-        prepareRow
+        prepareRow,
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+        state: { pageIndex, pageSize }
     } = table;
     return (
         <>
@@ -96,6 +115,35 @@ export default function ListUser(props) {
                     }
                 </tbody>
             </table >
+            <div className="pagination">
+                <span>
+                    Página
+                    <strong>
+                        {pageIndex + 1} de {pageOptions.length}
+                    </strong>
+                </span>
+                <div className="controls">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        <BiFirstPage className="page-controller" />
+                    </button>
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        <MdKeyboardArrowLeft className="page-controller" />
+                    </button>
+                    <button onClick={() => nextPage()} disabled={!canNextPage}>
+                        <MdKeyboardArrowRight className="page-controller" />
+                    </button>
+                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        <BiLastPage className="page-controller" />
+                    </button>
+                </div>
+                <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>
+                    {[5, 10, 15].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Mostrar {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </>
     )
 

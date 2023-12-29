@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
 import { useForm, Controller } from 'react-hook-form';
-
 //import { isEmail } from "validator";
 
 import { register } from "actions/auth";
