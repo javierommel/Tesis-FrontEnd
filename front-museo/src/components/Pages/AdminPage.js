@@ -4,7 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearMessage } from "actions/message";
 import UserForm from "../Settings/UserForm"
 import ViewListUser from "../Settings/ViewListUser"
+import PieceForm from "../Settings/PieceForm"
+import ViewListPiece from "../Settings/ViewListPiece"
 import {getUser, addUser, updateUser} from "../../actions/user"
+import {getPiece} from "../../actions/piece"
 // react plugin used to create charts
 import classnames from "classnames";
 // reactstrap components
@@ -33,14 +36,26 @@ export default function AdminPage() {
     data: [],
     ruta: 'lista',
     usuarioSeleccionado:null,
+    page: 1,
+    pageSize: 10,
+  })
+
+  const [datosp,setDatosp]=useState({
+    data: [],
+    ruta: 'lista',
+    piezaSeleccionada:null,
+    page: 1,
+    pageSize: 10,
+    tipo:[],
   })
   
   //const {ruta, data, usuarioSeleccionado} = datos
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.id === datos.usuarioSeleccionado)
+  const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [textTabs, setTextTabs] = React.useState(4);
   React.useEffect(() => {
-    getUser().then((dat) => {
+    getUser({page:datos.page, pageSize:datos.pageSize}).then((dat) => {
       setDatos((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat,    // Actualizando solo la propiedad 'data'
@@ -53,7 +68,19 @@ export default function AdminPage() {
       console.log("error"+error.message)
       //setLoading(false);
     });
-    
+    getPiece({page:datosp.page, pageSize:datosp.pageSize}).then((dat) => {
+      console.log("tipo:"+JSON.stringify(dat.data))
+      setDatosp((prevDatos) => ({
+        ...prevDatos,         // Manteniendo las propiedades existentes
+        data: dat.data,    // Actualizando solo la propiedad 'data'
+        tipo: dat.tipo,
+      }));
+            
+    })
+    .catch((error) => {
+      console.log("error"+error.message)
+      //setLoading(false);
+    });
     //setDatos({data:getUser().data.data});
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
@@ -90,14 +117,29 @@ export default function AdminPage() {
       usuarioSeleccionado: id
     })
   }
+  const seleccionObjeto = id => {
+    this.setState({
+      ruta: 'formulario',
+      objetoSeleccionado: id
+    })
+  }
 
   const agregarNuevoUsuario = (usuario,cancel) => {
     console.log("were "+cancel)
     if(cancel) cancelarUsuario();
   }
 
+  const agregarNuevoObjeto = (piece,cancel) => {
+    console.log("were "+cancel)
+    if(cancel) cancelarObjeto();
+  }
+
   const actualizarNuevoUsuario = (id, values, cancel) => {
     if(cancel) cancelarUsuario();
+    
+  }
+  const actualizarNuevoObjeto = (id, values, cancel) => {
+    if(cancel) cancelarObjeto();
     
   }
 
@@ -108,12 +150,26 @@ export default function AdminPage() {
       usuarioSeleccionado: undefined
     }));
   }
+  const nuevoObjeto = () => {
+    setDatosp((prevDatos) => ({
+      ...prevDatos,         // Manteniendo las propiedades existentes
+      ruta: 'formulario',
+      objetoSeleccionado: undefined
+    }));
+  }
 
   const cancelarUsuario = () => {
     setDatos((prevDatos) => ({
       ...prevDatos,         // Manteniendo las propiedades existentes
       ruta: 'lista',
       usuarioSeleccionado: undefined
+    }));
+  }
+  const cancelarObjeto = () => {
+    setDatosp((prevDatos) => ({
+      ...prevDatos,         // Manteniendo las propiedades existentes
+      ruta: 'lista',
+      objetoSeleccionado: undefined
     }));
   }
   return (
@@ -176,14 +232,17 @@ export default function AdminPage() {
                       />}
                     </TabPane>
                     <TabPane tabId="link2">
-                      <p>
-                        Completely synergize resource taxing relationships via
-                        premier niche markets. Professionally cultivate one-to-one
-                        customer service with robust ideas. <br />
-                        <br />
-                        Dynamically innovate resource-leveling customer service
-                        for state of the art customer service.
-                      </p>
+                    {datosp.ruta === 'lista' && <ViewListPiece
+                        nuevoObjeto={nuevoObjeto}
+                        handleClick={seleccionObjeto}
+                        data={datosp.data}
+                      />}
+
+                      {datosp.ruta === 'formulario' && <PieceForm
+                        valoresInicialesp={valoresInicialesp || {}}
+                        handleSubmit={agregarNuevoObjeto}
+                        handleUpdate={actualizarNuevoObjeto}
+                      />}
                     </TabPane>
                   </TabContent>
                 </CardBody>

@@ -1,10 +1,10 @@
-import AuthService from "../services/user.service";
+import AuthService from "../services/piece.service";
 
-export const getUser = async ({page, pageSize}) => {
-    return AuthService.getUser(page, pageSize).then(
+export const getPiece = async ({page, pageSize}) => {
+    return AuthService.getPiece(page, pageSize).then(
         (response) => {
-            console.log("datos "+JSON.stringify(response.data.data))
-            return response.data.data
+            console.log("datosp "+JSON.stringify(response.data.data))
+            return response.data
             //return Promise.resolve();
         },
         (error) => {

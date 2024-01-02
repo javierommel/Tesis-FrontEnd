@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button } from "reactstrap";
 
 
-class HeaderUser extends Component {
+class HeaderPiece extends Component {
   render() {
     const { nuevoObjeto } = this.props
     return (
@@ -17,4 +17,4 @@ class HeaderUser extends Component {
   }
 }
 
-export default HeaderUser
+export default HeaderPiece

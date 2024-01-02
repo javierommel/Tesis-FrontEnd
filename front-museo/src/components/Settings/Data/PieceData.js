@@ -1,11 +1,11 @@
-export const UserData = [
+export const PieceData = [
     {
         Header: 'ID',
-        accessor: 'id',
+        accessor: 'numero_ordinal',
     },
     {
         Header: 'Código',
-        accessor: 'codigo',
+        accessor: 'codigo_inpc',
     },
     {
         Header: 'Nombre',

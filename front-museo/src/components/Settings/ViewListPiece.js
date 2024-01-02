@@ -1,25 +1,15 @@
-import React, {Component} from 'react'
-import Cabecera from './Cabecera'
-import Lista from './Lista'
+import React from 'react'
+import HeaderPiece from './HeaderPiece'
+import ListPiece from './ListPiece'
 
+export default function ViewListPiece(props)  {
 
-class ViewListPiece extends Component {
-
-
-  render(){
-    const {nuevoUsuario, handleClick, data} = this.props
-
-    return(
-      <div>
-
-        <Cabecera nuevoUsuario={nuevoUsuario}/>
-        <Lista data={data} handleClick={handleClick}/>
-      </div>
-
-    )
-  }
-
-
+    const { nuevoObjeto, handleClick, data } = props;
+    console.log("view "+ JSON.stringify(props))
+    return (
+        <div>
+            <HeaderPiece nuevoObjeto={nuevoObjeto} />
+            <ListPiece data={data} handleClick={handleClick} />
+        </div>
+    );
 }
-
-export default ViewListPiece

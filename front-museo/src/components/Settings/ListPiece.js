@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
 import { useTable, usePagination } from "react-table";
-import { UserData } from "./Data/UserData"
+import { PieceData } from "./Data/PieceData"
 import '../../assets/css/table.css';
 import { Button } from "reactstrap";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
-export default function ListUser(props) {
+export default function ListPiece(props) {
     const handleClick = id => e => {
         const { handleClick } = props
         handleClick(id)
@@ -21,6 +21,7 @@ export default function ListUser(props) {
             Eliminar
         </Button></>
     const { data } = props
+    console.log("list: "+JSON.stringify(data))
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
@@ -28,7 +29,8 @@ export default function ListUser(props) {
         }));
     };
 
-    const columns = useMemo(() => UserData, []);
+    const columns = useMemo(() => PieceData, []);
+    console.log("dt: "+data)
     const datosConNuevaColumnaMemo = useMemo(() => datosConNuevaColumna(data), [data]);
 
     const table = useTable({
