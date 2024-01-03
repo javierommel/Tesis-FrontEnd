@@ -8,15 +8,16 @@ import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
 export default function ListUser(props) {
     const handleClick = id => e => {
-        const { handleClick } = props
-        handleClick(id)
+        
+        props.handleClick(id)
     }
-    const NuevaColumna = () => <>
-        <Button color="info" size="sm">
+    const NuevaColumna = ({id:id}) => <>
+    {console.log("prop:"+id)}
+        <Button color="info" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
             Actualizar
         </Button>
-        <Button color="success" size="sm">
+        <Button color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-trash-simple" />
             Eliminar
         </Button></>
@@ -24,7 +25,7 @@ export default function ListUser(props) {
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
-            botones: <NuevaColumna key={objeto.id} />,
+            botones: <NuevaColumna key={objeto.id} id={objeto.id}/>,
         }));
     };
 

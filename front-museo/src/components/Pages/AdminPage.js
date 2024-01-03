@@ -112,16 +112,19 @@ export default function AdminPage() {
     return <Navigate to="/login" />;
   }*/
   const seleccionUsuario = id => {
-    this.setState({
+    console.log("seleccion: "+id)
+    setDatos((prevDatos) => ({
+      ...prevDatos,
       ruta: 'formulario',
       usuarioSeleccionado: id
-    })
+    }));
   }
   const seleccionObjeto = id => {
-    this.setState({
+    setDatosp((prevDatos) => ({
+      ...prevDatos,
       ruta: 'formulario',
       objetoSeleccionado: id
-    })
+    }));
   }
 
   const agregarNuevoUsuario = (usuario,cancel) => {
@@ -239,6 +242,7 @@ export default function AdminPage() {
                       />}
 
                       {datosp.ruta === 'formulario' && <PieceForm
+                        datos={datosp}
                         valoresInicialesp={valoresInicialesp || {}}
                         handleSubmit={agregarNuevoObjeto}
                         handleUpdate={actualizarNuevoObjeto}

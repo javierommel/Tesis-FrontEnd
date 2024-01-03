@@ -4,11 +4,11 @@ import { Button } from "reactstrap";
 
 class HeaderUser extends Component {
   render() {
-    const { nuevoObjeto } = this.props
+    const { nuevoUsuario } = this.props
     return (
       <header>
 
-        <Button color="info" size="sm" onClick={nuevoObjeto}>
+        <Button color="info" size="sm" onClick={nuevoUsuario}>
         <i className="tim-icons icon-simple-add" />
           Agregar
         </Button>

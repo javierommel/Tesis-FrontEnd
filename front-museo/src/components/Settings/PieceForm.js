@@ -32,6 +32,7 @@ export default function PieceForm(props) {
   const [tipoOpen, setTipoOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const toggle = () => setTipoOpen((prevState) => !prevState);
+  console.log("props: "+JSON.stringify(props))
   /*const { message } = useSelector(state => state.message);
   state = {
     errors: {}
@@ -218,39 +219,16 @@ export default function PieceForm(props) {
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
-                      <Dropdown isOpen={selectedOption !== null} toggle={() => {}} direction="down">
+                      <Dropdown isOpen={selectedOption !== null} toggle={() => {setSelectedOption(null)}} direction="down">
                         <DropdownToggle caret>{selectedOption ? selectedOption.name : 'Seleccione una opción'}</DropdownToggle>
                         <DropdownMenu >
-                        {valoresInicialesp.tipo.map((step) => (
+                        {props.datos.tipo.map((step) => (
                           <DropdownItem key={step.id} onClick={() => handleSelectChange(step)}>{step.name}</DropdownItem>
                           ))}
                         </DropdownMenu>
                       </Dropdown>
-                      {/*<ListGroup>
-                        {valoresInicialesp.tipo.map((step) => (
-                          <ListGroupItem onClick={() => onChange(step)} key={step} active={step === interval}>
-                            {step} minutes
-                          </ListGroupItem>
-                        ))}
-                        <ListGroup />*/}
-                      <InputGroup
-                        className={classnames({
-                          "input-group-focus": emailFocus,
-                        })}
-                      >
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="tim-icons icon-email-85" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          {...field}
-                          placeholder="Tipo de Bien"
-                          type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
-                        />
-                      </InputGroup>
+                      
+                      
 
                       {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
                     </>
