@@ -267,10 +267,10 @@ export default function UserForm(props) {
               </Row>
             </CardBody>
             <CardFooter>
-              <Button  color="primary" size="sm" disabled={loading} type="submit">
+              <Button  color="info" size="sm" disabled={loading} type="submit">
                 Guardar
               </Button>
-              <Button  color="primary" size="sm" disabled={loading} onClick={onCancelar}>
+              <Button  color="success" size="sm" disabled={loading} onClick={onCancelar}>
                 Cancelar
               </Button>
             </CardFooter>

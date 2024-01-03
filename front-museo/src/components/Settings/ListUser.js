@@ -13,11 +13,11 @@ export default function ListUser(props) {
     }
     const NuevaColumna = ({id:id}) => <>
     {console.log("prop:"+id)}
-        <Button color="info" size="sm" onClick={handleClick(id)}>
+        <Button color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
             Actualizar
         </Button>
-        <Button color="success" size="sm" onClick={handleClick(id)}>
+        <Button color="warning" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-trash-simple" />
             Eliminar
         </Button></>

@@ -177,7 +177,7 @@ export default function AdminPage() {
   }
   return (
     <>
-      <ExamplesNavbar activado={4} />
+      <ExamplesNavbar activado={5} />
       <div className="section section-tabs">
         <Container>
           <div className="title">

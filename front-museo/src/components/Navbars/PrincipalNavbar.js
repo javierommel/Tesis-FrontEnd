@@ -17,6 +17,7 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
+  Modal, ModalHeader, ModalBody, ModalFooter,Button,
 } from "reactstrap";
 
 export default function ExamplesNavbar({ activado }) {
@@ -25,6 +26,8 @@ export default function ExamplesNavbar({ activado }) {
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
   React.useEffect(() => {
     window.addEventListener("scroll", changeColor);
     return function cleanup() {
@@ -76,13 +79,27 @@ export default function ExamplesNavbar({ activado }) {
   return (
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
+        <Modal isOpen={modal} toggle={toggle} >
+          <ModalHeader toggle={toggle}>Mensaje</ModalHeader>
+          <ModalBody>
+            ¿Desea abandonar la sesión?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="info" onClick={logOut}>
+              Aceptar
+            </Button>{' '}
+            <Button color="secondary" onClick={toggle}>
+              Cancelar
+            </Button>
+          </ModalFooter>
+        </Modal>
         <div style={{ position: 'absolute', top: '10px', left: '20px', color: 'white' }}>
           <span><b>Bienvenido: </b></span>
           {/*currentUser.username*/}
         </div>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-            <span>BLK• </span>
+            <span>UCuenca• </span>
             Museo de las Conceptas
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
@@ -188,7 +205,7 @@ export default function ExamplesNavbar({ activado }) {
                 </NavLink>
               </NavItem>)}
             <NavItem>
-              <NavLink tag={Link} to="/" onClick={logOut}>
+              <NavLink onClick={toggle}>
                 <i className="tim-icons icon-button-power" />
                 Salir
               </NavLink>
