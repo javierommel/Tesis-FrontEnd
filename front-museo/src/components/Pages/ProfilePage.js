@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import classnames from "classnames";
+
 import { Navigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 // javascript plugin used to create scrollbars on windows
@@ -95,13 +95,21 @@ export default function ProfilePage() {
                         <Col md="6">
                           <FormGroup>
                             <label>Nombre Completo</label>
-                            <Input defaultValue="Mike" type="text" />
+                            <Input defaultValue={currentUser.name} type="text" />
                           </FormGroup>
                         </Col>
                         <Col md="6">
                           <FormGroup>
                             <label>Email</label>
-                            <Input placeholder="mike@email.com" type="email" />
+                            <Input placeholder={currentUser.email} type="email" disabled/>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md="6">
+                          <FormGroup>
+                            <label>Fecha Nacimiento</label>
+                            <Input defaultValue={currentUser.fnacimiento} type="text" />
                           </FormGroup>
                         </Col>
                       </Row>

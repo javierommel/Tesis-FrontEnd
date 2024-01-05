@@ -6,8 +6,8 @@ import UserForm from "../Settings/UserForm"
 import ViewListUser from "../Settings/ViewListUser"
 import PieceForm from "../Settings/PieceForm"
 import ViewListPiece from "../Settings/ViewListPiece"
-import {getUser, addUser, updateUser} from "../../actions/user"
-import {getPiece} from "../../actions/piece"
+import { getUser, addUser, updateUser } from "../../actions/user"
+import { getPiece } from "../../actions/piece"
 // react plugin used to create charts
 import classnames from "classnames";
 // reactstrap components
@@ -32,55 +32,57 @@ import Footer from "components/Footer/Footer.js";
 
 export default function AdminPage() {
 
-  const [datos,setDatos]=useState({
+  const [datos, setDatos] = useState({
     data: [],
     ruta: 'lista',
-    usuarioSeleccionado:null,
+    usuarioSeleccionado: null,
     page: 1,
     pageSize: 10,
+    roles: [],
   })
 
-  const [datosp,setDatosp]=useState({
+  const [datosp, setDatosp] = useState({
     data: [],
     ruta: 'lista',
-    piezaSeleccionada:null,
+    piezaSeleccionada: null,
     page: 1,
     pageSize: 10,
-    tipo:[],
+    tipo: [],
   })
-  
+
   //const {ruta, data, usuarioSeleccionado} = datos
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.id === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [textTabs, setTextTabs] = React.useState(4);
   React.useEffect(() => {
-    getUser({page:datos.page, pageSize:datos.pageSize}).then((dat) => {
+    getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
       setDatos((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
-        data: dat,    // Actualizando solo la propiedad 'data'
+        data: dat.data,    // Actualizando solo la propiedad 'data'
+        roles: dat.roles,
       }));
-      
-      console.log("dat "+dat)
-      
+
+      console.log("dat " + dat)
+
     })
-    .catch((error) => {
-      console.log("error"+error.message)
-      //setLoading(false);
-    });
-    getPiece({page:datosp.page, pageSize:datosp.pageSize}).then((dat) => {
-      console.log("tipo:"+JSON.stringify(dat.data))
+      .catch((error) => {
+        console.log("error" + error.message)
+        //setLoading(false);
+      });
+    getPiece({ page: datosp.page, pageSize: datosp.pageSize }).then((dat) => {
+      //console.log("tipo:"+JSON.stringify(dat.data))
       setDatosp((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
         tipo: dat.tipo,
       }));
-            
+
     })
-    .catch((error) => {
-      console.log("error"+error.message)
-      //setLoading(false);
-    });
+      .catch((error) => {
+        console.log("error" + error.message)
+        //setLoading(false);
+      });
     //setDatos({data:getUser().data.data});
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
@@ -112,7 +114,7 @@ export default function AdminPage() {
     return <Navigate to="/login" />;
   }*/
   const seleccionUsuario = id => {
-    console.log("seleccion: "+id)
+    console.log("seleccion: " + id)
     setDatos((prevDatos) => ({
       ...prevDatos,
       ruta: 'formulario',
@@ -127,23 +129,23 @@ export default function AdminPage() {
     }));
   }
 
-  const agregarNuevoUsuario = (usuario,cancel) => {
-    console.log("were "+cancel)
-    if(cancel) cancelarUsuario();
+  const agregarNuevoUsuario = (usuario, cancel) => {
+    console.log("were " + cancel)
+    if (cancel) cancelarUsuario();
   }
 
-  const agregarNuevoObjeto = (piece,cancel) => {
-    console.log("were "+cancel)
-    if(cancel) cancelarObjeto();
+  const agregarNuevoObjeto = (piece, cancel) => {
+    console.log("were " + cancel)
+    if (cancel) cancelarObjeto();
   }
 
   const actualizarNuevoUsuario = (id, values, cancel) => {
-    if(cancel) cancelarUsuario();
-    
+    if (cancel) cancelarUsuario();
+
   }
   const actualizarNuevoObjeto = (id, values, cancel) => {
-    if(cancel) cancelarObjeto();
-    
+    if (cancel) cancelarObjeto();
+
   }
 
   const nuevoUsuario = () => {
@@ -229,13 +231,14 @@ export default function AdminPage() {
                       />}
 
                       {datos.ruta === 'formulario' && <UserForm
+                        datos={datos}
                         valoresIniciales={valoresIniciales || {}}
                         handleSubmit={agregarNuevoUsuario}
                         handleUpdate={actualizarNuevoUsuario}
                       />}
                     </TabPane>
                     <TabPane tabId="link2">
-                    {datosp.ruta === 'lista' && <ViewListPiece
+                      {datosp.ruta === 'lista' && <ViewListPiece
                         nuevoObjeto={nuevoObjeto}
                         handleClick={seleccionObjeto}
                         data={datosp.data}

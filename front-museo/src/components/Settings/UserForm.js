@@ -23,6 +23,7 @@ import {
 export default function UserForm(props) {
   const [fullNameFocus, setFullNameFocus] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
+  const [fnacFocus, setFnacFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [password2Focus, setPassword2Focus] = useState(false);
   const { handleSubmit, control, formState: { errors } } = useForm();
@@ -41,6 +42,7 @@ export default function UserForm(props) {
       ...props.valoresIniciales
     }
   }*/
+  console.log("roles: " +JSON.stringify(props.datos.roles))
   const validate = values => {
     const errors = {}
     if (!values.name) {
@@ -111,28 +113,30 @@ export default function UserForm(props) {
         {!successful && (<>
           <CardBody>
             <Row>
-              <Col  lg="4" md="6">
+              <Col lg="4" md="6">
                 <Card className="card-coin card-plain">
                   <CardBody>
                     <p className="category">Roles</p>
-                    <FormGroup check>
-                      <Label check>
-                        <Input defaultChecked type="checkbox" />
-                        <span className="form-check-sign" />
-                        Usuario
-                      </Label>
-                    </FormGroup>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" />
-                        <span className="form-check-sign" />
-                        Administrador
-                      </Label>
-                    </FormGroup>
+
+                    {props.datos.roles.map((option) =>
+                    (
+                        <Controller
+                          name={`checkboxGroup.${option.id}`}
+                          control={control}
+                          defaultValue={false}
+                          render={({ field }) => <FormGroup check>
+                          <Label check>
+                            <Input defaultChecked type="checkbox" {...field}/>
+                            <span className="form-check-sign" />
+                            {option.name}
+                          </Label>
+                        </FormGroup>}
+                        />
+                    ))}
                   </CardBody>
                 </Card>
               </Col>
-              <Col  lg="4" md="6"></Col>
+              <Col lg="4" md="6"></Col>
               <Col lg="8" sm="6">
                 <Controller
                   name="username"
@@ -191,6 +195,37 @@ export default function UserForm(props) {
                         />
                       </InputGroup>
                       {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="8" sm="6">
+                <Controller
+                  name="fnacimiento"
+                  control={control}
+                  defaultValue={valoresIniciales.fnacimiento}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": fnacFocus,
+                        })}
+                      >
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="tim-icons icon-calendar-60" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          {...field}
+                          placeholder="Fecha Nacimiento"
+                          type="text"
+                          onFocus={(e) => setFnacFocus(true)}
+                          onBlur={(e) => setFnacFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.fnacimiento && <div className="typography-line"><p className="text-danger">{errors.fnacimiento.message}</p></div>}
                     </>
                   )}
                 />

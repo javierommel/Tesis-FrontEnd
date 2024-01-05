@@ -95,7 +95,7 @@ export default function ExamplesNavbar({ activado }) {
         </Modal>
         <div style={{ position: 'absolute', top: '10px', left: '20px', color: 'white' }}>
           <span><b>Bienvenido: </b></span>
-          {/*currentUser.username*/}
+          {/*currentUser.name*/}
         </div>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
