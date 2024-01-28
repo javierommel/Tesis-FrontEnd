@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
 import { useForm, Controller } from 'react-hook-form';
+import { getCountry } from "../../actions/general"
 //import { isEmail } from "validator";
 
 import { register } from "actions/auth";
@@ -24,6 +25,10 @@ import {
   Container,
   Row,
   Col,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from "reactstrap";
 
 // core components
@@ -33,11 +38,29 @@ import Footer from "components/Footer/Footer.js";
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
+  const [userFocus, setUserFocus] = React.useState(false);
+  const [countryFocus, setCountryFocus] = React.useState(false);
+  const [yearFocus, setYearFocus] = React.useState(false);
   const [fullNameFocus, setFullNameFocus] = React.useState(false);
   const [emailFocus, setEmailFocus] = React.useState(false);
   const [passwordFocus, setPasswordFocus] = React.useState(false);
   const [password2Focus, setPassword2Focus] = React.useState(false);
+  const [country, setCountry] = useState([]);
+  const anioActual = new Date().getFullYear();
+  // Crear un array con los últimos 80 años
+  const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
+  
   React.useEffect(() => {
+    getCountry().then((dat) => {
+      setCountry(dat.data);
+
+      console.log("dat " + dat)
+
+    })
+      .catch((error) => {
+        console.log("error" + error.message)
+        //setLoading(false);
+      });
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
     // Specify how to clean up after this effect:
@@ -80,7 +103,7 @@ export default function RegisterPage() {
     //form.current.validateAll();
 
     //if (checkBtn.current.context._errors.length === 0) {
-    dispatch(register(data.username, data.email, data.password))
+    dispatch(register(data.name, data.username, data.email, data.password, data.country, data.year))
       .then(() => {
         setSuccessful(true);
       })
@@ -91,7 +114,7 @@ export default function RegisterPage() {
   };
   return (
     <>
-      <IndexNavbar activado={3}/>
+      <IndexNavbar activado={3} />
       <div className="wrapper">
         <div className="page-header">
           <div className="page-header-image" />
@@ -140,13 +163,42 @@ export default function RegisterPage() {
                                   </InputGroupAddon>
                                   <Input
                                     {...field}
-                                    placeholder="Nombre Completo"
+                                    placeholder="Usuario"
                                     type="text"
                                     onFocus={(e) => setFullNameFocus(true)}
                                     onBlur={(e) => setFullNameFocus(false)}
                                   />
                                 </InputGroup>
                                 {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
+                              </>
+                            )}
+                          />
+                          <Controller
+                            name="name"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: 'El nombre completo es obligatorio.' }}
+                            render={({ field }) => (
+                              <>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": fullNameFocus,
+                                  })}
+                                >
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="tim-icons icon-badge" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    {...field}
+                                    placeholder="Nombre Completo"
+                                    type="text"
+                                    onFocus={(e) => setFullNameFocus(true)}
+                                    onBlur={(e) => setFullNameFocus(false)}
+                                  />
+                                </InputGroup>
+                                {errors.name && <div className="typography-line"><p className="text-danger">{errors.name.message}</p></div>}
                               </>
                             )}
                           />
@@ -237,22 +289,83 @@ export default function RegisterPage() {
                               </>
                             )}
                           />
-                          <FormGroup check className="text-left" >
-                            <Label check>
-                              <Input type="checkbox" />
-                              <span className="form-check-sign" />Acepto los{" "}
-                              <a
-                                href="#pablo"
-                                onClick={(e) => e.preventDefault()}
-                              >
-                                términos y condiciones
-                              </a>
-                              .
-                            </Label>
-                          </FormGroup>
+                          <Controller
+                            name="country"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: 'El pais es obligatorio.' }}
+                            render={({ field }) => (
+                              <>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": countryFocus,
+                                  })}
+                                >
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="tim-icons icon-planet" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    {...field}
+                                    placeholder="Nacionalidad"
+                                    type="select"
+                                    onFocus={(e) => setCountryFocus(true)}
+                                    onBlur={(e) => setCountryFocus(false)}
+                                  >
+                                    <option disabled value="">
+                                      Nacionalidad
+                                    </option>
+                                    {country.map((step) => (
+                                      <option key={step.id} value={step.id}>{step.nombre}</option>
+                                    ))}
+                                  </Input>
+                                </InputGroup>
+                                {errors.country && <div className="typography-line"><p className="text-danger">{errors.country.message}</p></div>}
+                              </>
+                            )}
+                          />
+                          <Controller
+                            name="year"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: 'El año de nacimiento es obligatorio.' }}
+                            render={({ field }) => (
+                              <>
+                                <InputGroup
+                                  className={classnames({
+                                    "input-group-focus": yearFocus,
+                                  })}
+                                >
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="tim-icons icon-calendar-60" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    {...field}
+                                    color="primary"
+                                    placeholder="Año de Nacimiento"
+                                    type="select"
+                                    onFocus={(e) => setYearFocus(true)}
+                                    onBlur={(e) => setYearFocus(false)}
+                                  >
+                                    <option disabled selected value="">
+                                      Año Nacimiento
+                                    </option>
+                                    {anios.map((step) => (
+                                      <option key={step.id} >{step}</option>
+                                    ))}
+                                  </Input>
+                                </InputGroup>
+                                {errors.year && <div className="typography-line"><p className="text-danger">{errors.year.message}</p></div>}
+                              </>
+                            )}
+                          />
+
                         </CardBody>
                         <CardFooter>
-                          <Button className="btn btn-lg w-100" color="primary" size="lg" disabled={loading} type="submit">
+                          <Button className="btn btn-lg w-100" size="lg" disabled={loading} type="submit">
                             Registrar
                           </Button>
                         </CardFooter>

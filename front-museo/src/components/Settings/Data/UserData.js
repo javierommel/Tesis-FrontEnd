@@ -1,11 +1,11 @@
 export const UserData = [
     {
-        Header: 'ID',
-        accessor: 'id',
+        Header: 'Usuario',
+        accessor: 'usuario',
     },
     {
         Header: 'Nombres',
-        accessor: 'name',
+        accessor: 'nombre',
     },
     {
         Header: 'Email',
