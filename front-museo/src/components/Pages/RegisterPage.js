@@ -15,20 +15,14 @@ import {
   CardFooter,
   CardImg,
   CardTitle,
-  Label,
   Input,
   Form,
-  FormGroup,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
   Container,
   Row,
   Col,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
 } from "reactstrap";
 
 // core components
@@ -49,13 +43,11 @@ export default function RegisterPage() {
   const anioActual = new Date().getFullYear();
   // Crear un array con los últimos 80 años
   const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
-  
+
   React.useEffect(() => {
     getCountry().then((dat) => {
       setCountry(dat.data);
-
-      console.log("dat " + dat)
-
+      //console.log("dat " + dat)
     })
       .catch((error) => {
         console.log("error" + error.message)
@@ -153,7 +145,7 @@ export default function RegisterPage() {
                               <>
                                 <InputGroup
                                   className={classnames({
-                                    "input-group-focus": fullNameFocus,
+                                    "input-group-focus": userFocus,
                                   })}
                                 >
                                   <InputGroupAddon addonType="prepend">
@@ -165,8 +157,8 @@ export default function RegisterPage() {
                                     {...field}
                                     placeholder="Usuario"
                                     type="text"
-                                    onFocus={(e) => setFullNameFocus(true)}
-                                    onBlur={(e) => setFullNameFocus(false)}
+                                    onFocus={(e) => setUserFocus(true)}
+                                    onBlur={(e) => setUserFocus(false)}
                                   />
                                 </InputGroup>
                                 {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
@@ -292,7 +284,7 @@ export default function RegisterPage() {
                           <Controller
                             name="country"
                             control={control}
-                            defaultValue=""
+                            defaultValue="0"
                             rules={{ required: 'El pais es obligatorio.' }}
                             render={({ field }) => (
                               <>
@@ -312,12 +304,13 @@ export default function RegisterPage() {
                                     type="select"
                                     onFocus={(e) => setCountryFocus(true)}
                                     onBlur={(e) => setCountryFocus(false)}
+                                    style={{ color: '#6c757d' }}
                                   >
-                                    <option disabled value="">
+                                    <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                                       Nacionalidad
                                     </option>
                                     {country.map((step) => (
-                                      <option key={step.id} value={step.id}>{step.nombre}</option>
+                                      <option style={{ color: '#2b3553' }} key={step.id} value={step.id}>{step.nombre}</option>
                                     ))}
                                   </Input>
                                 </InputGroup>
@@ -328,7 +321,7 @@ export default function RegisterPage() {
                           <Controller
                             name="year"
                             control={control}
-                            defaultValue=""
+                            defaultValue="0"
                             rules={{ required: 'El año de nacimiento es obligatorio.' }}
                             render={({ field }) => (
                               <>
@@ -349,12 +342,13 @@ export default function RegisterPage() {
                                     type="select"
                                     onFocus={(e) => setYearFocus(true)}
                                     onBlur={(e) => setYearFocus(false)}
+                                    style={{ color: '#6c757d' }}
                                   >
-                                    <option disabled selected value="">
+                                    <option style={{ color: '#434444' }} key={0} disabled value="0">
                                       Año Nacimiento
                                     </option>
                                     {anios.map((step) => (
-                                      <option key={step.id} >{step}</option>
+                                      <option style={{ color: '#2b3553' }} key={step} value={step}>{step}</option>
                                     ))}
                                   </Input>
                                 </InputGroup>

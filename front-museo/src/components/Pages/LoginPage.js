@@ -4,8 +4,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 import { useForm, Controller } from 'react-hook-form';
 import { login } from 'actions/auth';
-import {auth, provider} from "../../variables/firebase";
-import {signInWithPopup, GoogleAuthProvider} from "firebase/auth"
+import { auth, provider } from "../../variables/firebase";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 
 // reactstrap components
 import {
@@ -67,6 +67,7 @@ export default function RegisterPage() {
   //const form = useRef();
 
   const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
 
   const { isLoggedIn } = useSelector(state => state.auth);
   const { message } = useSelector(state => state.message);
@@ -77,15 +78,17 @@ export default function RegisterPage() {
     setLoading(true);
     dispatch(login(data.username, data.password))
       .then(() => {
+        setSuccessful(true);
         navigate("/home");
         window.location.reload();
       })
       .catch(() => {
+        setSuccessful(false);
         setLoading(false);
       });
   };
-  const signGoogle=() =>{
-    signInWithPopup(auth, provider).then((data)=>{
+  const signGoogle = () => {
+    signInWithPopup(auth, provider).then((data) => {
       const credential = GoogleAuthProvider.credentialFromResult(data);
       console.log(data.user.email);
     });
@@ -96,7 +99,7 @@ export default function RegisterPage() {
   }
   return (
     <>
-      <IndexNavbar activado={2}/>
+      <IndexNavbar activado={2} />
       <div className="wrapper">
         <div className="page-header">
           <div className="page-header-image" />
@@ -116,8 +119,8 @@ export default function RegisterPage() {
                     </CardHeader>
                     <Form className="form" onSubmit={handleSubmit(onSubmit)} >
                       <CardBody>
-                      <Button className="btn btn-lg w-100" color="success" size="lg" onClick={signGoogle}>
-                      <i className="fab fa-google" />&nbsp;&nbsp;&nbsp;
+                        <Button className="btn btn-lg w-100" color="success" size="lg" onClick={signGoogle}>
+                          <i className="fab fa-google" />&nbsp;&nbsp;&nbsp;
                           Ingresar con Google
                         </Button>
                         <div class="sso-divider">
@@ -144,12 +147,15 @@ export default function RegisterPage() {
                                   {...field}
                                   placeholder="Email"
                                   type="text"
-                                  onFocus={(e) => setEmailFocus(true)}
+                                  onFocus={(e) => {
+                                    setEmailFocus(true)
+                                    setSuccessful(true)
+                                  }}
                                   onBlur={(e) => setEmailFocus(false)}
                                 />
                               </InputGroup>
                               {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
-                              
+
                             </>
                           )}
                         />
@@ -174,7 +180,10 @@ export default function RegisterPage() {
                                   {...field}
                                   placeholder="Password"
                                   type="password"
-                                  onFocus={(e) => setPasswordFocus(true)}
+                                  onFocus={(e) => {
+                                    setPasswordFocus(true)
+                                    setSuccessful(true)
+                                  }}
                                   onBlur={(e) => setPasswordFocus(false)}
                                 />
                               </InputGroup>
@@ -190,16 +199,17 @@ export default function RegisterPage() {
                           )}
                           Ingresar
                         </Button>
-                        <div style={{textAlign:'center'}}>
+                        <div style={{ textAlign: 'center' }}>
                           <h5>¿No tiene cuenta? <Link to="/register-page">Regístrese</Link></h5>
                         </div>
-                        {message && (
-                          <div className="form-group">
-                            <div className="alert alert-danger" role="alert">
-                              {message}
+                        {!successful && (
+                          message && (
+                            <div className="form-group">
+                              <div className="alert alert-danger" role="alert">
+                                {message}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          ))}
                       </CardFooter>
                     </Form>
                   </Card>

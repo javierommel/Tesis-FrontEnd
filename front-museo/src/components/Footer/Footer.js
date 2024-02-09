@@ -14,7 +14,7 @@ export default function Footer() {
       <Container>
         <Row>
           <Col md="4">
-            <h1 className="title">Ucuenca</h1>
+            <h1 className="title">UCuenca</h1>
           </Col>
           <Col md="4">
           <h5 className="title">Copyright 2023 <br/>Todos los derechos Reservados - Museo Las Conceptas. <br/>Powered by Rommel Chocho</h5>
@@ -32,7 +32,7 @@ export default function Footer() {
                 <i className="fab fa-twitter" />
               </Button>
               <UncontrolledTooltip delay={0} target="tooltip622135962">
-                Follow us
+                Síguenos
               </UncontrolledTooltip>
               <Button
                 className="btn-icon btn-neutral btn-round btn-simple"
@@ -44,7 +44,7 @@ export default function Footer() {
                 <i className="fab fa-facebook-square" />
               </Button>
               <UncontrolledTooltip delay={0} target="tooltip230450801">
-                Like us
+                Dale me gusta
               </UncontrolledTooltip>
               <Button
                 className="btn-icon btn-neutral btn-round btn-simple"
@@ -56,7 +56,7 @@ export default function Footer() {
                 <i className="fab fa-dribbble" />
               </Button>
               <UncontrolledTooltip delay={0} target="tooltip318450378">
-                Follow us
+                Síguenos
               </UncontrolledTooltip>
             </div>
           </Col>

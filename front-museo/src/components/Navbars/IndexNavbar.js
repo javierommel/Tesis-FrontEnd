@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 
 export default function IndexNavbar({activado}) {
-  console.log("activado: "+activado);
+  //console.log("activado: "+activado);
   const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");

@@ -3,7 +3,7 @@ import AuthService from "../services/general.service";
 export const getCountry = async () => {
     return AuthService.getCountry().then(
         (response) => {
-            console.log("datosp "+JSON.stringify(response.data.data))
+            //console.log("datosp "+JSON.stringify(response.data.data))
             return response.data
             //return Promise.resolve();
         },
