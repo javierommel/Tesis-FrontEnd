@@ -20,25 +20,29 @@ const getAdminBoard = () => {
 };
 
 const addUser = (user) => {
-  return axios.
-      post(API_URL + "adduser", {
-          user
-      });
+  return axios.post(API_URL1 + "adduser", {
+    user
+  });
 }
 const updateUser = (id, data) => {
-  return axios.
-      post(API_URL + "updateuser", {
-          id,
-          data
-      });
+  return axios.post(API_URL1 + "updateuser", {
+      id,
+      data
+    });
 }
-const getUser=(page, pageSize)=>{
-  return axios.
-      post(API_URL1 + "getuser", {
-        page, 
-        pageSize, 
-      });
+const getUser = (page, pageSize) => {
+  return axios.post(API_URL1 + "getuser", {
+      page,
+      pageSize,
+    });
 }
+const deleteUser = (id, user) => {
+  return axios.post(API_URL1 + "deleteuser", {
+      id,
+      user
+    });
+}
+
 
 export default {
   getPublicContent,
@@ -47,5 +51,6 @@ export default {
   getAdminBoard,
   addUser,
   updateUser,
-  getUser
+  getUser,
+  deleteUser
 };

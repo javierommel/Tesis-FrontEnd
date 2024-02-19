@@ -11,13 +11,17 @@ export default function ListUser(props) {
         
         props.handleClick(id)
     }
+    const handleDelete = id => e => {
+        
+        props.handleDelete(id)
+    }
     const NuevaColumna = ({id:id}) => <>
     {console.log("prop:"+id)}
         <Button color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
             Actualizar
         </Button>
-        <Button color="warning" size="sm" onClick={handleClick(id)}>
+        <Button color="warning" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
             Eliminar
         </Button></>
@@ -25,7 +29,7 @@ export default function ListUser(props) {
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
-            botones: <NuevaColumna key={objeto.id} id={objeto.id}/>,
+            botones: <NuevaColumna key={objeto.usuario} id={objeto.usuario}/>,
         }));
     };
 

@@ -79,7 +79,7 @@ export default function RegisterPage() {
       "deg)"
     );
   };
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const { handleSubmit, control, watch, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
 
@@ -104,6 +104,20 @@ export default function RegisterPage() {
       });
     //}
   };
+  const password = watch('password', '');
+  const validatePassword = (value) => {
+    console.log("value: " + value)
+    console.log("password: " + password)
+    return value === password || 'El password ingresado no coincide';
+  };
+  const validateNacionalidad = (value) => {
+    return value !== "0" || 'El pais es obligatorio.';
+  };
+
+  const validateEdad = (value) => {
+    return value !== "0" || 'El año de nacimiento es obligatorio.';
+  };
+
   return (
     <>
       <IndexNavbar activado={3} />
@@ -227,7 +241,9 @@ export default function RegisterPage() {
                             name="password"
                             control={control}
                             defaultValue=""
-                            rules={{ required: 'El password es obligatorio.' }}
+                            rules={{
+                              required: 'El password es obligatorio.',
+                            }}
                             render={({ field }) => (
                               <>
                                 <InputGroup
@@ -256,7 +272,10 @@ export default function RegisterPage() {
                             name="password2"
                             control={control}
                             defaultValue=""
-                            rules={{ required: 'El password es obligatorio.' }}
+                            rules={{
+                              validate: validatePassword,
+                              required: 'El password es obligatorio.'
+                            }}
                             render={({ field }) => (
                               <>
                                 <InputGroup
@@ -285,7 +304,7 @@ export default function RegisterPage() {
                             name="country"
                             control={control}
                             defaultValue="0"
-                            rules={{ required: 'El pais es obligatorio.' }}
+                            rules={{ validate: validateNacionalidad }}
                             render={({ field }) => (
                               <>
                                 <InputGroup
@@ -322,7 +341,10 @@ export default function RegisterPage() {
                             name="year"
                             control={control}
                             defaultValue="0"
-                            rules={{ required: 'El año de nacimiento es obligatorio.' }}
+                            rules={{
+                              required: 'El año de nacimiento es obligatorio.',
+                              validate: validateEdad
+                            }}
                             render={({ field }) => (
                               <>
                                 <InputGroup

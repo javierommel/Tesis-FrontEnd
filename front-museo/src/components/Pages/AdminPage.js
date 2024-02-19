@@ -6,7 +6,7 @@ import UserForm from "../Settings/UserForm"
 import ViewListUser from "../Settings/ViewListUser"
 import PieceForm from "../Settings/PieceForm"
 import ViewListPiece from "../Settings/ViewListPiece"
-import { getUser, addUser, updateUser } from "../../actions/user"
+import { getUser, deleteUser, addUser, updateUser } from "../../actions/user"
 import { getPiece } from "../../actions/piece"
 // react plugin used to create charts
 import classnames from "classnames";
@@ -23,6 +23,11 @@ import {
   Container,
   Row,
   Col,
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Button
 } from "reactstrap";
 
 // core components
@@ -55,6 +60,10 @@ export default function AdminPage() {
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [textTabs, setTextTabs] = React.useState(4);
+  const [iduser, setIduser] = useState("");
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
+
   React.useEffect(() => {
     getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
       setDatos((prevDatos) => ({
@@ -134,12 +143,23 @@ export default function AdminPage() {
     if (cancel) cancelarUsuario();
   }
 
+  const eliminarUsuario = (usuario) => {
+    console.log("user:"+usuario)
+    setIduser(usuario)
+    toggle()
+  }
+  const eliminarUser = () => {
+    console.log("iduser: "+iduser+"cur: "+currentUser.id)
+    deleteUser({id:iduser, usuario_modificacion:currentUser.id}).then(() => {
+      //window.location.reload();
+    })
+  }
   const agregarNuevoObjeto = (piece, cancel) => {
     console.log("were " + cancel)
     if (cancel) cancelarObjeto();
   }
 
-  const actualizarNuevoUsuario = (id, values, cancel) => {
+  const actualizarUsuario = (id, values, cancel) => {
     if (cancel) cancelarUsuario();
 
   }
@@ -182,6 +202,20 @@ export default function AdminPage() {
       <ExamplesNavbar activado={5} />
       <div className="section section-tabs">
         <Container>
+          <Modal isOpen={modal} toggle={toggle} >
+            <ModalHeader toggle={toggle}>Mensaje</ModalHeader>
+            <ModalBody>
+              ¿Desea eliminar el registro?
+            </ModalBody>
+            <ModalFooter>
+              <Button color="info" onClick={eliminarUser}>
+                Aceptar
+              </Button>{' '}
+              <Button color="secondary" onClick={toggle}>
+                Cancelar
+              </Button>
+            </ModalFooter>
+          </Modal>
           <div className="title">
             <h3 className="mb-3">Administrador</h3>
           </div>
@@ -227,6 +261,7 @@ export default function AdminPage() {
                       {datos.ruta === 'lista' && <ViewListUser
                         nuevoUsuario={nuevoUsuario}
                         handleClick={seleccionUsuario}
+                        handleDelete={eliminarUsuario}
                         data={datos.data}
                       />}
 
@@ -234,7 +269,7 @@ export default function AdminPage() {
                         datos={datos}
                         valoresIniciales={valoresIniciales || {}}
                         handleSubmit={agregarNuevoUsuario}
-                        handleUpdate={actualizarNuevoUsuario}
+                        handleUpdate={actualizarUsuario}
                       />}
                     </TabPane>
                     <TabPane tabId="link2">
