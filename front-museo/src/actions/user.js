@@ -3,7 +3,7 @@ import AuthService from "../services/user.service";
 export const getUser = async ({page, pageSize}) => {
     return AuthService.getUser(page, pageSize).then(
         (response) => {
-            console.log("datos "+JSON.stringify(response.data))
+            //console.log("datos "+JSON.stringify(response.data))
             return response.data
             //return Promise.resolve();
         },
@@ -40,10 +40,10 @@ export const deleteUser = async ({id, usuario_modificacion}) => {
     );
 };
 
-export const updateUser = async ({page, pageSize}) => {
-    return AuthService.getUser(page, pageSize).then(
+export const updateUser = async (id, values, usuario_modificacion, roles) => {
+    return AuthService.updateUser(id, values, usuario_modificacion, roles).then(
         (response) => {
-            console.log("datos "+JSON.stringify(response.data))
+            //console.log("datos "+JSON.stringify(response.data))
             return response.data
         },
         (error) => {
@@ -56,6 +56,24 @@ export const updateUser = async ({page, pageSize}) => {
 
                 return message;
             //return Promise.reject();
+        }
+    );
+};
+
+export const addUser = async (name, username, email, password, country, year, usuario_modificacion, roles) => {
+    return AuthService.addUser(name, username, email, password, country, year, usuario_modificacion, roles).then(
+        (response) => {
+            console.log(response.message)
+            return response.message
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+                return message;
         }
     );
 };

@@ -59,7 +59,7 @@ export default function UserForm(props) {
         //setLoading(false);
       });
   }, []);
-  console.log("roles: " + JSON.stringify(props.datos.roles))
+  //console.log("roles: " + JSON.stringify(props.datos.roles))
   
   const handleChange = ({ target }) => {
     this.setState({
@@ -68,7 +68,7 @@ export default function UserForm(props) {
 
   }
   const onSubmit = (data) => {
-    setLoading(true);
+    //setLoading(true);
     if (valoresIniciales.id) {
       props.handleUpdate(valoresIniciales.id, data, false)
     } else {
@@ -85,6 +85,7 @@ export default function UserForm(props) {
     }
   }
 
+  
   /*const handleSubmit = e => {
     e.preventDefault()
     const { errors, ...sinErrors } = this.state
@@ -110,8 +111,8 @@ export default function UserForm(props) {
   //const { errors } = this.state
   const password = watch('password', '');
   const validatePassword = (value) => {
-    console.log("value: " + value)
-    console.log("password: " + password)
+    //console.log("value: " + value)
+    //console.log("password: " + password)
     return value === password || 'El password ingresado no coincide';
   };
   const validateNacionalidad = (value) => {
@@ -122,7 +123,7 @@ export default function UserForm(props) {
     return value !== "0" || 'El año de nacimiento es obligatorio.';
   };
   const { valoresIniciales } = props
-
+  const rolesSeleccionados = valoresIniciales.roles&&valoresIniciales.roles.split(',').map(role => parseInt(role.trim()));
 
 
   return (
@@ -132,16 +133,17 @@ export default function UserForm(props) {
           <CardBody>
             <Row>
               <Col lg="4" md="6">
-                <Card className="card-coin card-plain">
+                <Card className="card-coin card-plain" >
                   <CardBody>
                     <p className="category">Roles</p>
 
                     {props.datos.roles.map((option) =>
                     (
                       <Controller
-                        name={`checkboxGroup.${option.id}`}
+                        key={option.id}
+                        name="roles"
                         control={control}
-                        defaultValue={false}
+                        defaultValue={rolesSeleccionados && rolesSeleccionados.includes(option.id)}
                         render={({ field }) => <FormGroup check>
                           <Label check>
                             <Input id={option.id} type="checkbox" {...field} />
@@ -159,7 +161,7 @@ export default function UserForm(props) {
                 <Controller
                   name="username"
                   control={control}
-                  defaultValue=""
+                  defaultValue={valoresIniciales?valoresIniciales.usuario:""}
                   rules={{ required: 'El nombre de usuario es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -188,10 +190,10 @@ export default function UserForm(props) {
               </Col>
               <Col lg="8" sm="6">
                 <Controller
-                  name="username"
+                  name="name"
                   control={control}
-                  defaultValue={valoresIniciales.name}
-                  rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                  defaultValue={valoresIniciales.nombre}
+                  rules={{ required: 'El nombre es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -317,7 +319,7 @@ export default function UserForm(props) {
                 <Controller
                   name="country"
                   control={control}
-                  defaultValue="0"
+                  defaultValue={valoresIniciales.pais}
                   rules={{ validate: validateNacionalidad }}
                   render={({ field }) => (
                     <>
@@ -356,7 +358,7 @@ export default function UserForm(props) {
                 <Controller
                   name="year"
                   control={control}
-                  defaultValue="0"
+                  defaultValue={valoresIniciales.fnacimiento}
                   rules={{
                     required: 'El año de nacimiento es obligatorio.',
                     validate: validateEdad

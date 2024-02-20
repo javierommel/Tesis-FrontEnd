@@ -5,7 +5,7 @@ import ListUser from './ListUser'
 export default function ViewListUser(props)  {
 
     const { nuevoUsuario, handleClick, handleDelete, data } = props;
-    console.log("view "+ data)
+    //console.log("view "+ data)
     return (
         <div>
             <HeaderUser nuevoUsuario={nuevoUsuario} />

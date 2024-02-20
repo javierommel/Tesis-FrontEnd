@@ -56,15 +56,18 @@ export default function AdminPage() {
   })
 
   //const {ruta, data, usuarioSeleccionado} = datos
-  const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.id === datos.usuarioSeleccionado)
+  //const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.id === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [textTabs, setTextTabs] = React.useState(4);
+  const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
   const [iduser, setIduser] = useState("");
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  const [valoresIniciales, setValoresIniciales] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
       setDatos((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
@@ -72,15 +75,12 @@ export default function AdminPage() {
         roles: dat.roles,
       }));
 
-      console.log("dat " + dat)
-
     })
       .catch((error) => {
         console.log("error" + error.message)
-        //setLoading(false);
+        setLoading(false);
       });
     getPiece({ page: datosp.page, pageSize: datosp.pageSize }).then((dat) => {
-      //console.log("tipo:"+JSON.stringify(dat.data))
       setDatosp((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
@@ -90,9 +90,8 @@ export default function AdminPage() {
     })
       .catch((error) => {
         console.log("error" + error.message)
-        //setLoading(false);
+        setLoading(false);
       });
-    //setDatos({data:getUser().data.data});
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -108,7 +107,7 @@ export default function AdminPage() {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
-  /*useEffect(() => {
+  useEffect(() => {
     if (currentUser) {
       console.log("current: " + currentUser.roles)
       if (!currentUser.roles.includes("ROLE_ADMIN")) {
@@ -119,9 +118,18 @@ export default function AdminPage() {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    console.log("Valores actuales:", datos.usuarioSeleccionado);
+    if (datos.usuarioSeleccionado !== null) {
+      const nuevoValorInicial = datos.data.find(x => x.id === datos.usuarioSeleccionado);
+      setValoresIniciales(nuevoValorInicial);
+      console.log("valores_ini: " + JSON.stringify(valoresIniciales))
+    }
+  }, [datos.usuarioSeleccionado]);
+
   if (!currentUser) {
     return <Navigate to="/login" />;
-  }*/
+  }
   const seleccionUsuario = id => {
     console.log("seleccion: " + id)
     setDatos((prevDatos) => ({
@@ -139,28 +147,59 @@ export default function AdminPage() {
   }
 
   const agregarNuevoUsuario = (usuario, cancel) => {
-    console.log("were " + cancel)
-    if (cancel) cancelarUsuario();
+    if (cancel) {  cancelarUsuario(); }
+    else {
+      const rol_array = [];
+      setLoading(true);
+      setSuccessful(false);
+      usuario.checkboxGroup.map((check, index) => {
+        if (index !== 0) {
+          if (check) rol_array.push(datos.roles[index - 1].nombre)
+        }
+      })
+      addUser(usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(() => {
+        setValoresIniciales(null);
+        setSuccessful(true);
+      }).catch(() => {
+        setSuccessful(false);
+      });
+    }
   }
 
   const eliminarUsuario = (usuario) => {
-    console.log("user:"+usuario)
+    //console.log("user:" + usuario)
     setIduser(usuario)
     toggle()
   }
   const eliminarUser = () => {
-    console.log("iduser: "+iduser+"cur: "+currentUser.id)
-    deleteUser({id:iduser, usuario_modificacion:currentUser.id}).then(() => {
+    //console.log("iduser: " + iduser + "cur: " + currentUser.id)
+    deleteUser({ id: iduser, usuario_modificacion: currentUser.id }).then(() => {
       //window.location.reload();
     })
   }
   const agregarNuevoObjeto = (piece, cancel) => {
-    console.log("were " + cancel)
-    if (cancel) cancelarObjeto();
+
+    if (cancel) { setValoresIniciales(null); cancelarObjeto(); }
   }
 
   const actualizarUsuario = (id, values, cancel) => {
-    if (cancel) cancelarUsuario();
+    if (cancel) { cancelarUsuario(); }
+    else {
+      const rol_array = [];
+      setLoading(true);
+      setSuccessful(false);
+      values.checkboxGroup.map((check, index) => {
+        if (index !== 0) {
+          if (check) rol_array.push(datos.roles[index - 1].nombre)
+        }
+      })
+      updateUser(id, values, currentUser.id, rol_array).then(() => {
+        setValoresIniciales(null);
+        setSuccessful(true);
+      }).catch(() => {
+        setSuccessful(false);
+      });
+    }
 
   }
   const actualizarNuevoObjeto = (id, values, cancel) => {
@@ -189,6 +228,7 @@ export default function AdminPage() {
       ruta: 'lista',
       usuarioSeleccionado: undefined
     }));
+    setValoresIniciales(undefined);
   }
   const cancelarObjeto = () => {
     setDatosp((prevDatos) => ({

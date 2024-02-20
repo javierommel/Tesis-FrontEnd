@@ -19,28 +19,39 @@ const getAdminBoard = () => {
   return axios.get(API_URL + "admin", { headers: authHeader() });
 };
 
-const addUser = (user) => {
-  return axios.post(API_URL1 + "adduser", {
-    user
+const addUser = (name, username, email, password, country, year, usuario_modificacion, roles) => {
+  if (!roles.length === 0) roles = "user"
+  if (!usuario_modificacion) usuario_modificacion = "admin"
+  return axios.post(API_URL1 + "signup", {
+    name: name,
+    user: username,
+    email,
+    password,
+    pais: country,
+    nacimiento: year,
+    usuario_modificacion,
+    roles
   });
 }
-const updateUser = (id, data) => {
+const updateUser = (id, data, usuario_modificacion, roles) => {
   return axios.post(API_URL1 + "updateuser", {
-      id,
-      data
-    });
+    id,
+    data,
+    usuario_modificacion,
+    roles
+  });
 }
 const getUser = (page, pageSize) => {
   return axios.post(API_URL1 + "getuser", {
-      page,
-      pageSize,
-    });
+    page,
+    pageSize,
+  });
 }
 const deleteUser = (id, user) => {
   return axios.post(API_URL1 + "deleteuser", {
-      id,
-      user
-    });
+    id,
+    user
+  });
 }
 
 
