@@ -56,7 +56,7 @@ export default function AdminPage() {
   })
 
   //const {ruta, data, usuarioSeleccionado} = datos
-  //const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.id === datos.usuarioSeleccionado)
+  const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [textTabs, setTextTabs] = React.useState(4);
@@ -65,7 +65,7 @@ export default function AdminPage() {
   const [iduser, setIduser] = useState("");
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-  const [valoresIniciales, setValoresIniciales] = useState(null);
+  //const [valoresIniciales, setValoresIniciales] = useState(null);
 
   useEffect(() => {
     getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
@@ -107,6 +107,22 @@ export default function AdminPage() {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
+
+  /*useEffect(() => {
+    console.log("Valores actuales:", datos.usuarioSeleccionado);
+    console.log("Valores data:", datos.data);
+    if (datos.usuarioSeleccionado ) {
+      const nuevoValorInicial = datos.data.find(x => x.usuario === datos.usuarioSeleccionado);
+      console.log("valores_ini1: " + JSON.stringify(datos.usuarioSeleccionado+" "+JSON.stringify(nuevoValorInicial)))
+      setValoresIniciales(nuevoValorInicial);
+      console.log("valores_ini: " + JSON.stringify(valoresIniciales))
+    }
+    else
+    {
+      setValoresIniciales(null);
+    }
+  }, [datos.usuarioSeleccionado]);*/
+
   useEffect(() => {
     if (currentUser) {
       console.log("current: " + currentUser.roles)
@@ -118,15 +134,7 @@ export default function AdminPage() {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    console.log("Valores actuales:", datos.usuarioSeleccionado);
-    if (datos.usuarioSeleccionado !== null) {
-      const nuevoValorInicial = datos.data.find(x => x.id === datos.usuarioSeleccionado);
-      setValoresIniciales(nuevoValorInicial);
-      console.log("valores_ini: " + JSON.stringify(valoresIniciales))
-    }
-  }, [datos.usuarioSeleccionado]);
-
+  
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -158,7 +166,6 @@ export default function AdminPage() {
         }
       })
       addUser(usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(() => {
-        setValoresIniciales(null);
         setSuccessful(true);
       }).catch(() => {
         setSuccessful(false);
@@ -179,7 +186,7 @@ export default function AdminPage() {
   }
   const agregarNuevoObjeto = (piece, cancel) => {
 
-    if (cancel) { setValoresIniciales(null); cancelarObjeto(); }
+    if (cancel) { cancelarObjeto(); }
   }
 
   const actualizarUsuario = (id, values, cancel) => {
@@ -194,7 +201,6 @@ export default function AdminPage() {
         }
       })
       updateUser(id, values, currentUser.id, rol_array).then(() => {
-        setValoresIniciales(null);
         setSuccessful(true);
       }).catch(() => {
         setSuccessful(false);
@@ -208,6 +214,7 @@ export default function AdminPage() {
   }
 
   const nuevoUsuario = () => {
+    console.log("asdf");
     setDatos((prevDatos) => ({
       ...prevDatos,         // Manteniendo las propiedades existentes
       ruta: 'formulario',
@@ -228,7 +235,6 @@ export default function AdminPage() {
       ruta: 'lista',
       usuarioSeleccionado: undefined
     }));
-    setValoresIniciales(undefined);
   }
   const cancelarObjeto = () => {
     setDatosp((prevDatos) => ({
