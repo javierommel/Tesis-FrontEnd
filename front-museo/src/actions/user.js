@@ -1,6 +1,6 @@
 import AuthService from "../services/user.service";
 
-export const getUser = async ({page, pageSize}) => {
+export const getUser = async ({ page, pageSize }) => {
     return AuthService.getUser(page, pageSize).then(
         (response) => {
             //console.log("datos "+JSON.stringify(response.data))
@@ -15,18 +15,16 @@ export const getUser = async ({page, pageSize}) => {
                 error.message ||
                 error.toString();
 
-                return message;
+            return message;
             //return Promise.reject();
         }
     );
 };
 
-export const deleteUser = async ({id, usuario_modificacion}) => {
-    console.log("id: "+id+" user: "+usuario_modificacion)
+export const deleteUser = async ({ id, usuario_modificacion }) => {
     return AuthService.deleteUser(id, usuario_modificacion).then(
         (response) => {
-            console.log(response.message)
-            return response.message
+            return { message: response.data.message, retcode: 0 }
         },
         (error) => {
             const message =
@@ -35,7 +33,7 @@ export const deleteUser = async ({id, usuario_modificacion}) => {
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-                return message;
+            return { message, retcode: 1 };
         }
     );
 };
@@ -43,8 +41,7 @@ export const deleteUser = async ({id, usuario_modificacion}) => {
 export const updateUser = async (id, values, usuario_modificacion, roles) => {
     return AuthService.updateUser(id, values, usuario_modificacion, roles).then(
         (response) => {
-            //console.log("datos "+JSON.stringify(response.data))
-            return response.data
+            return { message: response.data.message, retcode: 0 };
         },
         (error) => {
             const message =
@@ -53,9 +50,7 @@ export const updateUser = async (id, values, usuario_modificacion, roles) => {
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-
-                return message;
-            //return Promise.reject();
+            return { message, retcode: 1 };
         }
     );
 };
@@ -63,8 +58,7 @@ export const updateUser = async (id, values, usuario_modificacion, roles) => {
 export const addUser = async (name, username, email, password, country, year, usuario_modificacion, roles) => {
     return AuthService.addUser(name, username, email, password, country, year, usuario_modificacion, roles).then(
         (response) => {
-            console.log(response.message)
-            return response.message
+            return { message: response.data.message, retcode: 0 };
         },
         (error) => {
             const message =
@@ -73,7 +67,7 @@ export const addUser = async (name, username, email, password, country, year, us
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-                return message;
+            return { message, retcode: 1 };
         }
     );
 };

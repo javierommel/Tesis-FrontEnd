@@ -145,7 +145,7 @@ export default function RegisterPage() {
                                 </InputGroupAddon>
                                 <Input
                                   {...field}
-                                  placeholder="Email"
+                                  placeholder="Usuario o Email"
                                   type="text"
                                   onFocus={(e) => {
                                     setEmailFocus(true)

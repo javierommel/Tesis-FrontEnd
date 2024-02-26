@@ -27,13 +27,14 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  Button
+  Button,
+  Alert
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
-
+import Loader from "components/PageHeader/Loader.js"
 
 export default function AdminPage() {
 
@@ -55,17 +56,16 @@ export default function AdminPage() {
     tipo: [],
   })
 
-  //const {ruta, data, usuarioSeleccionado} = datos
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
-  const [textTabs, setTextTabs] = React.useState(4);
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
   const [iduser, setIduser] = useState("");
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-  //const [valoresIniciales, setValoresIniciales] = useState(null);
+  const onDismiss = () => setResponse(null);
 
   useEffect(() => {
     getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
@@ -92,6 +92,14 @@ export default function AdminPage() {
         console.log("error" + error.message)
         setLoading(false);
       });
+    // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
+    const storedResponse = localStorage.getItem('storedResponse');
+    if (storedResponse) {
+      setResponse(JSON.parse(storedResponse));
+      setSuccessful(true);
+      // Limpia el estado almacenado después de cargarlo
+      localStorage.removeItem('storedResponse');
+    }
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -108,21 +116,6 @@ export default function AdminPage() {
     }
   }, [dispatch, location]);
 
-  /*useEffect(() => {
-    console.log("Valores actuales:", datos.usuarioSeleccionado);
-    console.log("Valores data:", datos.data);
-    if (datos.usuarioSeleccionado ) {
-      const nuevoValorInicial = datos.data.find(x => x.usuario === datos.usuarioSeleccionado);
-      console.log("valores_ini1: " + JSON.stringify(datos.usuarioSeleccionado+" "+JSON.stringify(nuevoValorInicial)))
-      setValoresIniciales(nuevoValorInicial);
-      console.log("valores_ini: " + JSON.stringify(valoresIniciales))
-    }
-    else
-    {
-      setValoresIniciales(null);
-    }
-  }, [datos.usuarioSeleccionado]);*/
-
   useEffect(() => {
     if (currentUser) {
       console.log("current: " + currentUser.roles)
@@ -134,7 +127,7 @@ export default function AdminPage() {
     }
   }, [currentUser]);
 
-  
+
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -155,34 +148,74 @@ export default function AdminPage() {
   }
 
   const agregarNuevoUsuario = (usuario, cancel) => {
-    if (cancel) {  cancelarUsuario(); }
+    if (cancel) { cancelarUsuario(); }
     else {
-      const rol_array = [];
-      setLoading(true);
-      setSuccessful(false);
-      usuario.checkboxGroup.map((check, index) => {
-        if (index !== 0) {
-          if (check) rol_array.push(datos.roles[index - 1].nombre)
-        }
-      })
-      addUser(usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(() => {
-        setSuccessful(true);
-      }).catch(() => {
+      try {
+        const rol_array = [];
+        setLoading(true);
         setSuccessful(false);
-      });
+        console.log(JSON.stringify(usuario))
+        usuario.roles.map((check, index) => {
+          if (index !== 0) {
+            if (check) rol_array.push(datos.roles[index - 1].nombre)
+          }
+          return null;
+        })
+        addUser(usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(({ message, retcode }) => {
+          console.log("asdf: " + message + " " + retcode)
+          if (retcode === 0) {
+            setResponse(message);
+            localStorage.setItem('storedResponse', JSON.stringify(message));
+            setSuccessful(true);
+            setLoading(false);
+            window.location.reload();
+          }
+          else {
+            console.log(message)
+            setResponse("Error al intentar guardar la información en el servidor")
+            setSuccessful(false);
+            setLoading(false);
+          }
+        }).catch((e) => {
+          console.log(e.message)
+          setResponse("Error al intentar guardar la información en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        });
+      }
+      catch (e) {
+        console.log(e.message)
+        setResponse("Error al intentar guardar la información")
+        setSuccessful(false);
+        setLoading(false);
+      }
     }
   }
 
   const eliminarUsuario = (usuario) => {
-    //console.log("user:" + usuario)
     setIduser(usuario)
     toggle()
   }
   const eliminarUser = () => {
-    //console.log("iduser: " + iduser + "cur: " + currentUser.id)
-    deleteUser({ id: iduser, usuario_modificacion: currentUser.id }).then(() => {
-      //window.location.reload();
+    toggle()
+    setLoading(true);
+    setTimeout(() => {
+    deleteUser({ id: iduser, usuario_modificacion: currentUser.id }).then(({message, retcode}) => {
+      if (retcode === 0) {
+        setResponse(message);
+        localStorage.setItem('storedResponse', JSON.stringify(message));
+        setSuccessful(true);
+        setLoading(false);
+        window.location.reload();
+      }
+      else {
+        console.log(message)
+        setResponse("Error al intentar borrar el registro en el servidor")
+        setSuccessful(false);
+        setLoading(false);
+      }
     })
+  }, 3000);
   }
   const agregarNuevoObjeto = (piece, cancel) => {
 
@@ -199,6 +232,7 @@ export default function AdminPage() {
         if (index !== 0) {
           if (check) rol_array.push(datos.roles[index - 1].nombre)
         }
+        return null;
       })
       updateUser(id, values, currentUser.id, rol_array).then(() => {
         setSuccessful(true);
@@ -245,6 +279,7 @@ export default function AdminPage() {
   }
   return (
     <>
+      <Loader loading={loading} />
       <ExamplesNavbar activado={5} />
       <div className="section section-tabs">
         <Container>
@@ -338,6 +373,17 @@ export default function AdminPage() {
             </Col>
 
           </Row>
+          {response !== null && (
+            <Alert isOpen color={successful ? 'success' : 'danger'} toggle={onDismiss} style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 9999,
+            }}>
+              {response}
+            </Alert>
+          )}
         </Container>
         <Footer />
       </div>

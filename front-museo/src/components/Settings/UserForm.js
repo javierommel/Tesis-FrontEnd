@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import { useDispatch, useSelector } from "react-redux";
 import { getCountry } from "../../actions/general"
 import classnames from "classnames";
 import {
@@ -17,8 +16,9 @@ import {
   FormGroup,
   Label,
   Card,
-  CardHeader,
 } from "reactstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function UserForm(props) {
@@ -30,45 +30,22 @@ export default function UserForm(props) {
   const [countryFocus, setCountryFocus] = React.useState(false);
   const [yearFocus, setYearFocus] = React.useState(false);
   const { handleSubmit, control, watch, formState: { errors } } = useForm();
-  const [loading, setLoading] = useState(false);
-  const [successful, setSuccessful] = useState(false);
-  const { message } = useSelector(state => state.message);
   const [country, setCountry] = useState([]);
   const anioActual = new Date().getFullYear();
   // Crear un array con los últimos 80 años
   const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
-  /*const { message } = useSelector(state => state.message);
-  state = {
-    errors: {}
-  }*/
+  const [showPassword, setShowPassword] = useState(false);
 
-  /*constructor(props) {
-    super(props)
-    this.state = {
-      ...this.state,
-      ...props.valoresIniciales
-    }
-  }*/
   React.useEffect(() => {
     getCountry().then((dat) => {
       setCountry(dat.data);
-      //console.log("dat " + dat)
     })
       .catch((error) => {
         console.log("error" + error.message)
-        //setLoading(false);
       });
   }, []);
-  //console.log("roles: " + JSON.stringify(props.datos.roles))
-  
-  const handleChange = ({ target }) => {
-    this.setState({
-      [target.name]: target.value
-    })
 
-  }
   const onSubmit = (data) => {
-    //setLoading(true);
     if (valoresIniciales.id) {
       props.handleUpdate(valoresIniciales.id, data, false)
     } else {
@@ -76,43 +53,23 @@ export default function UserForm(props) {
     }
   }
   const onCancelar = () => {
-    setLoading(false);
-    console.log("as " + props.valoresIniciales.id)
     if (valoresIniciales.id) {
       props.handleUpdate(valoresIniciales.id, null, true)
     } else {
       props.handleSubmit(null, true)
     }
   }
+  const handleMouseDown = () => {
+    // Muestra la contraseña cuando se mantiene presionado el ojo
+    setShowPassword(true);
+  };
 
-  
-  /*const handleSubmit = e => {
-    e.preventDefault()
-    const { errors, ...sinErrors } = this.state
-    const result = validate(sinErrors)
-
-
-    if (!Object.keys(result).length) {
-      const { handleSubmit, handleUpdate, valoresIniciales } = this.props
-
-      if (valoresIniciales.id) {
-        handleUpdate(valoresIniciales.id, sinErrors)
-      } else {
-        handleSubmit(sinErrors)
-      }
-
-    } else {
-      this.setState({ errors: result })
-    }
-
-  }*/
-
-
-  //const { errors } = this.state
+  const handleMouseUp = () => {
+    // Oculta la contraseña cuando se suelta el ojo
+    setShowPassword(false);
+  };
   const password = watch('password', '');
   const validatePassword = (value) => {
-    //console.log("value: " + value)
-    //console.log("password: " + password)
     return value === password || 'El password ingresado no coincide';
   };
   const validateNacionalidad = (value) => {
@@ -123,13 +80,12 @@ export default function UserForm(props) {
     return value !== "0" || 'El año de nacimiento es obligatorio.';
   };
   const { valoresIniciales } = props
-  const rolesSeleccionados = valoresIniciales.roles&&valoresIniciales.roles.split(',').map(role => parseInt(role.trim()));
-
+  const rolesSeleccionados = valoresIniciales.roles && valoresIniciales.roles.split(',').map(role => parseInt(role.trim()));
 
   return (
     <div>
       <Form className="form" onSubmit={handleSubmit(onSubmit)}>
-        {!successful && (<>
+        {<>
           <CardBody>
             <Row>
               <Col lg="4" md="6">
@@ -141,12 +97,12 @@ export default function UserForm(props) {
                     (
                       <Controller
                         key={option.id}
-                        name="roles"
+                        name={`roles[${option.id}]`}
                         control={control}
                         defaultValue={rolesSeleccionados && rolesSeleccionados.includes(option.id)}
                         render={({ field }) => <FormGroup check>
                           <Label check>
-                            <Input id={option.id} type="checkbox" {...field} />
+                            <Input id={option.id} type="checkbox" {...field} defaultChecked={rolesSeleccionados && rolesSeleccionados.includes(option.id)} />
                             <span className="form-check-sign" />
                             {option.nombre}
                           </Label>
@@ -161,7 +117,7 @@ export default function UserForm(props) {
                 <Controller
                   name="username"
                   control={control}
-                  defaultValue={valoresIniciales?valoresIniciales.usuario:""}
+                  defaultValue={valoresIniciales.usuario}
                   rules={{ required: 'El nombre de usuario es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -181,6 +137,7 @@ export default function UserForm(props) {
                           type="text"
                           onFocus={(e) => setUserFocus(true)}
                           onBlur={(e) => setUserFocus(false)}
+                          disabled={valoresIniciales.usuario ? true : false}
                         />
                       </InputGroup>
                       {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
@@ -214,7 +171,7 @@ export default function UserForm(props) {
                           onBlur={(e) => setFullNameFocus(false)}
                         />
                       </InputGroup>
-                      {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
+                      {errors.name && <div className="typography-line"><p className="text-danger">{errors.name.message}</p></div>}
                     </>
                   )}
                 />
@@ -243,6 +200,7 @@ export default function UserForm(props) {
                           type="text"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
+                          disabled={valoresIniciales.email ? true : false}
                         />
                       </InputGroup>
                       {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
@@ -250,9 +208,41 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
+              {valoresIniciales.id && (
+                <Col lg="8" sm="6" >
+                  <Controller
+                    name="password"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: 'El password es obligatorio.' }}
+                    render={({ field }) => (
+                      <>
+                        <InputGroup
+                          className={classnames({
+                            "input-group-focus": passwordFocus,
+                          })}
+                        >
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              <i className="tim-icons icon-lock-circle" />
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            {...field}
+                            placeholder="Ingrese Password Actual"
+                            type="password"
+                            onFocus={(e) => setPasswordFocus(true)}
+                            onBlur={(e) => setPasswordFocus(false)}
+                          />
+                        </InputGroup>
+                        {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
+                      </>
+                    )}
+                  />
+                </Col>)}
               <Col lg="8" sm="6">
                 <Controller
-                  name="password"
+                  name="newpassword"
                   control={control}
                   defaultValue=""
                   rules={{ required: 'El password es obligatorio.' }}
@@ -271,10 +261,23 @@ export default function UserForm(props) {
                         <Input
                           {...field}
                           placeholder="Password"
-                          type="password"
+                          type={showPassword ? 'text' : 'password'}
                           onFocus={(e) => setPasswordFocus(true)}
                           onBlur={(e) => setPasswordFocus(false)}
                         />
+                        <InputGroupText
+                          className={classnames({
+                            "input-group-focus": passwordFocus,
+                          })}
+                          onMouseDown={handleMouseDown}
+                          onMouseUp={handleMouseUp}
+                          onMouseLeave={handleMouseUp}
+                          style={{
+                            cursor: 'pointer',
+                          }}
+                        >
+                          
+                        </InputGroupText>
                       </InputGroup>
                       {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
                     </>
@@ -320,7 +323,10 @@ export default function UserForm(props) {
                   name="country"
                   control={control}
                   defaultValue={valoresIniciales.pais}
-                  rules={{ validate: validateNacionalidad }}
+                  rules={{
+                    required: 'El año de nacimiento es obligatorio.',
+                    validate: validateNacionalidad
+                  }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -400,21 +406,14 @@ export default function UserForm(props) {
             </Row>
           </CardBody>
           <CardFooter>
-            <Button color="info" size="sm" disabled={loading} type="submit">
+            <Button color="info" size="sm" type="submit">
               Guardar
             </Button>
-            <Button color="success" size="sm" disabled={loading} onClick={onCancelar}>
+            <Button color="success" size="sm" onClick={onCancelar}>
               Cancelar
             </Button>
           </CardFooter>
-        </>)}
-        {message && (
-          <div className="form-group">
-            <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
-              {message}
-            </div>
-          </div>
-        )}
+        </>}
       </Form>
     </div>
 

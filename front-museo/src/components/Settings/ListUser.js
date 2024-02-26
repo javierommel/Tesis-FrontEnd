@@ -16,7 +16,6 @@ export default function ListUser(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({id:id}) => <>
-    {console.log("prop:"+id)}
         <Button color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
             Actualizar

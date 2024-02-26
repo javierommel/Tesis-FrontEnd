@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState } from "react";
 import { Pannellum } from 'pannellum-react';
-import myImage from "assets/img/PanoramaInterior2.png";
+import myImage from "assets/img/museo360.JPG";
 import Chatbot from "components/Chatbot/Chatbot"
 import Flip from "react-reveal/Flip";
 import Chat from "assets/img/chat.png";

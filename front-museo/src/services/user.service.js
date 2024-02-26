@@ -50,7 +50,7 @@ const getUser = (page, pageSize) => {
 const deleteUser = (id, user) => {
   return axios.post(API_URL1 + "deleteuser", {
     id,
-    user
+    usuario_modificacion:user
   });
 }
 
