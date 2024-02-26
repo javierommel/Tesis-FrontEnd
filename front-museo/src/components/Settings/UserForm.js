@@ -17,9 +17,6 @@ import {
   Label,
   Card,
 } from "reactstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
 
 export default function UserForm(props) {
   const [userFocus, setUserFocus] = useState(false);
@@ -35,6 +32,8 @@ export default function UserForm(props) {
   // Crear un array con los últimos 80 años
   const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [passwordUpdate, setPasswordUpdate] = useState(true);
 
   React.useEffect(() => {
     getCountry().then((dat) => {
@@ -68,6 +67,18 @@ export default function UserForm(props) {
     // Oculta la contraseña cuando se suelta el ojo
     setShowPassword(false);
   };
+  const handleMouseDown2 = () => {
+    // Muestra la contraseña cuando se mantiene presionado el ojo
+    setShowPassword2(true);
+  };
+
+  const handleMouseUp2 = () => {
+    // Oculta la contraseña cuando se suelta el ojo
+    setShowPassword2(false);
+  };
+  const TogglePassword = () => {
+    setPasswordUpdate(!passwordUpdate);
+  };
   const password = watch('password', '');
   const validatePassword = (value) => {
     return value === password || 'El password ingresado no coincide';
@@ -81,7 +92,7 @@ export default function UserForm(props) {
   };
   const { valoresIniciales } = props
   const rolesSeleccionados = valoresIniciales.roles && valoresIniciales.roles.split(',').map(role => parseInt(role.trim()));
-
+  const nuevoregistro = valoresIniciales.usuario ? false : true;
   return (
     <div>
       <Form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -125,6 +136,7 @@ export default function UserForm(props) {
                         className={classnames({
                           "input-group-focus": userFocus,
                         })}
+                        disabled={valoresIniciales.usuario ? true : false}
                       >
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -188,6 +200,7 @@ export default function UserForm(props) {
                         className={classnames({
                           "input-group-focus": emailFocus,
                         })}
+                        disabled={valoresIniciales.email ? true : false}
                       >
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -208,38 +221,13 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
-              {valoresIniciales.id && (
-                <Col lg="8" sm="6" >
-                  <Controller
-                    name="password"
-                    control={control}
-                    defaultValue=""
-                    rules={{ required: 'El password es obligatorio.' }}
-                    render={({ field }) => (
-                      <>
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": passwordFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-lock-circle" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            {...field}
-                            placeholder="Ingrese Password Actual"
-                            type="password"
-                            onFocus={(e) => setPasswordFocus(true)}
-                            onBlur={(e) => setPasswordFocus(false)}
-                          />
-                        </InputGroup>
-                        {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
-                      </>
-                    )}
-                  />
-                </Col>)}
+              {!nuevoregistro && (
+                <Col lg="8" sm="6">
+                  <Button className="btn btn-lg w-100" color="info" size="sm" onClick={TogglePassword}>
+                    {passwordUpdate ? "Cambiar Password" : "No Cambiar Password"}
+                  </Button>
+                </Col>
+              )}
               <Col lg="8" sm="6">
                 <Controller
                   name="newpassword"
@@ -252,6 +240,7 @@ export default function UserForm(props) {
                         className={classnames({
                           "input-group-focus": passwordFocus,
                         })}
+                        disabled={nuevoregistro ? false : passwordUpdate}
                       >
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -264,20 +253,27 @@ export default function UserForm(props) {
                           type={showPassword ? 'text' : 'password'}
                           onFocus={(e) => setPasswordFocus(true)}
                           onBlur={(e) => setPasswordFocus(false)}
-                        />
-                        <InputGroupText
-                          className={classnames({
-                            "input-group-focus": passwordFocus,
-                          })}
-                          onMouseDown={handleMouseDown}
-                          onMouseUp={handleMouseUp}
-                          onMouseLeave={handleMouseUp}
                           style={{
-                            cursor: 'pointer',
+                            borderRight: 'none',
+                            borderTopRightRadius: 0, // Sin border radius en la esquina derecha
+                            borderBottomRightRadius: 0, // Sin border radius en la esquina derecha
                           }}
+                          disabled={nuevoregistro ? false : passwordUpdate}
+                        />
+                        <InputGroupAddon addonType="append" style={{ borderLeft: 'none', }}
+                          disabled={nuevoregistro ? false : passwordUpdate}
                         >
-                          
-                        </InputGroupText>
+                          <InputGroupText
+                            onMouseDown={handleMouseDown}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseUp}
+                            style={{
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <i className="tim-icons icon-zoom-split" />
+                          </InputGroupText>
+                        </InputGroupAddon>
                       </InputGroup>
                       {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
                     </>
@@ -299,6 +295,7 @@ export default function UserForm(props) {
                         className={classnames({
                           "input-group-focus": password2Focus,
                         })}
+                        disabled={nuevoregistro ? false : passwordUpdate}
                       >
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -308,10 +305,30 @@ export default function UserForm(props) {
                         <Input
                           {...field}
                           placeholder="Repetir Password"
-                          type="password"
+                          type={showPassword2 ? 'text' : 'password'}
                           onFocus={(e) => setPassword2Focus(true)}
                           onBlur={(e) => setPassword2Focus(false)}
+                          style={{
+                            borderRight: 'none',
+                            borderTopRightRadius: 0, // Sin border radius en la esquina derecha
+                            borderBottomRightRadius: 0, // Sin border radius en la esquina derecha
+                          }}
+                          disabled={nuevoregistro ? false : passwordUpdate}
                         />
+                        <InputGroupAddon addonType="append" style={{ borderLeft: 'none', }}
+                          disabled={nuevoregistro ? false : passwordUpdate}
+                        >
+                          <InputGroupText
+                            onMouseDown={handleMouseDown2}
+                            onMouseUp={handleMouseUp2}
+                            onMouseLeave={handleMouseUp2}
+                            style={{
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <i className="tim-icons icon-zoom-split" />
+                          </InputGroupText>
+                        </InputGroupAddon>
                       </InputGroup>
                       {errors.password2 && <div className="typography-line"><p className="text-danger">{errors.password2.message}</p></div>}
                     </>

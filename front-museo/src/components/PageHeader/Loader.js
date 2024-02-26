@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
-import { RingLoader } from 'react-spinners';
+//import { RingLoader } from 'react-spinners';
 import { DNA } from 'react-loader-spinner';
 import './PageHeader.css';
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
 
 export default function Loader({ loading }) {
     return (
