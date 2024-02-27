@@ -200,22 +200,22 @@ export default function AdminPage() {
     toggle()
     setLoading(true);
     setTimeout(() => {
-    deleteUser({ id: iduser, usuario_modificacion: currentUser.id }).then(({message, retcode}) => {
-      if (retcode === 0) {
-        setResponse(message);
-        localStorage.setItem('storedResponse', JSON.stringify(message));
-        setSuccessful(true);
-        setLoading(false);
-        window.location.reload();
-      }
-      else {
-        console.log(message)
-        setResponse("Error al intentar borrar el registro en el servidor")
-        setSuccessful(false);
-        setLoading(false);
-      }
-    })
-  }, 3000);
+      deleteUser({ id: iduser, usuario_modificacion: currentUser.id }).then(({ message, retcode }) => {
+        if (retcode === 0) {
+          setResponse(message);
+          localStorage.setItem('storedResponse', JSON.stringify(message));
+          setSuccessful(true);
+          setLoading(false);
+          window.location.reload();
+        }
+        else {
+          console.log(message)
+          setResponse("Error al intentar borrar el registro en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        }
+      })
+    }, 2000);
   }
   const agregarNuevoObjeto = (piece, cancel) => {
 
@@ -228,17 +228,33 @@ export default function AdminPage() {
       const rol_array = [];
       setLoading(true);
       setSuccessful(false);
-      values.checkboxGroup.map((check, index) => {
-        if (index !== 0) {
-          if (check) rol_array.push(datos.roles[index - 1].nombre)
+      values.roles.forEach((check, index) => {
+        if (index !== 0 && check) {
+          rol_array.push(datos.roles[index - 1].nombre);
         }
-        return null;
-      })
-      updateUser(id, values, currentUser.id, rol_array).then(() => {
-        setSuccessful(true);
-      }).catch(() => {
-        setSuccessful(false);
       });
+      setTimeout(() => {
+        updateUser(id, values, currentUser.id, rol_array).then(({ message, retcode }) => {
+          if (retcode === 0) {
+            setResponse(message);
+            localStorage.setItem('storedResponse', JSON.stringify(message));
+            setSuccessful(true);
+            setLoading(false);
+            window.location.reload();
+          }
+          else {
+            console.log(message)
+            setResponse("Error al intentar borrar el registro en el servidor")
+            setSuccessful(false);
+            setLoading(false);
+          }
+        }).catch((e) => {
+          console.log(e.message)
+          setResponse("Error al intentar actualizar la información en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        });
+      }, 2000);
     }
 
   }

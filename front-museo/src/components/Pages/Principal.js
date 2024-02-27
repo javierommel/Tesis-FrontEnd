@@ -1,5 +1,5 @@
-import React from "react";
-import { Navigate,useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from "react";
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 // reactstrap components
@@ -10,6 +10,11 @@ import {
   Container,
   Row,
   Col,
+  CardHeader,
+  Button,
+  Input,
+  FormGroup,
+  Label,
 } from "reactstrap";
 
 // core components
@@ -25,6 +30,8 @@ export default function LandingPage() {
     };
   }, []);
   const navigate = useNavigate();
+  const inputRef = useRef();
+  const [image, setImage] = useState(require("assets/img/mike.jpg"));
   const handleButtonClick = () => {
     navigate('/vista360');
   };
@@ -32,6 +39,16 @@ export default function LandingPage() {
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <>
       <ExamplesNavbar activado={1} />
@@ -129,48 +146,86 @@ export default function LandingPage() {
                   </CardBody>
                 </Card>
               </Col>
+              <Col className="ml-auto mr-auto" lg="6" md="6">
+                <Card className="card-coin card-plain">
+                  <CardBody>
+                    <Row>
+                      <Col lg="3"><img
+                        alt="..."
+                        className="img-center img-fluid rounded-circle"
+                        src={image}
+                        //src={require("assets/img/mike.jpg")}
+                        style={{ width: '60px', height: '60px', borderRadius: '50%' }}
+                      /></Col>
+                      <Col><h5>Nombre de persona</h5>
+                        <p>
+                          The design system comes with three pre-built pages to help
+                          you get started faster. You can change the text and images
+                          and you're good to go.
+                        </p></Col>
+                    </Row>
+                    <Row>
+                      <Col lg="3"><img
+                        alt="..."
+                        className="img-center img-fluid rounded-circle"
+                        src={image}
+                        //src={require("assets/img/mike.jpg")}
+                        style={{ width: '60px', height: '60px', borderRadius: '50%' }}
+                      /></Col>
+                      <Col><FormGroup>
+                        <Label for="exampleText">
+                          Ingrese su comentario
+                        </Label>
+                        <Input
+                          id="exampleText"
+                          name="text"
+                          type="textarea"
+                        />
+                        <Button>Comentar</Button>
+                      </FormGroup></Col>
+                    </Row>
+
+                    <div className="px-md-5">
+
+
+                      {/*<ul className="list-unstyled mt-5">
+                        <li className="py-2">
+                          <div className="d-flex align-items-center">
+                            <div className="icon icon-success mb-2">
+                              <i className="tim-icons icon-vector" />
+                            </div>
+                            <div className="ml-3">
+                              <h6>Carefully crafted components</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="py-2">
+                          <div className="d-flex align-items-center">
+                            <div className="icon icon-success mb-2">
+                              <i className="tim-icons icon-tap-02" />
+                            </div>
+                            <div className="ml-3">
+                              <h6>Amazing page examples</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="py-2">
+                          <div className="d-flex align-items-center">
+                            <div className="icon icon-success mb-2">
+                              <i className="tim-icons icon-single-02" />
+                            </div>
+                            <div className="ml-3">
+                              <h6>Super friendly support team</h6>
+                            </div>
+                          </div>
+                        </li>
+  </ul>*/}
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
               <Col md="6">
-                <div className="px-md-5">
-                  <hr className="line-success" />
-                  <h3>Awesome features</h3>
-                  <p>
-                    The design system comes with three pre-built pages to help
-                    you get started faster. You can change the text and images
-                    and you're good to go.
-                  </p>
-                  <ul className="list-unstyled mt-5">
-                    <li className="py-2">
-                      <div className="d-flex align-items-center">
-                        <div className="icon icon-success mb-2">
-                          <i className="tim-icons icon-vector" />
-                        </div>
-                        <div className="ml-3">
-                          <h6>Carefully crafted components</h6>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="py-2">
-                      <div className="d-flex align-items-center">
-                        <div className="icon icon-success mb-2">
-                          <i className="tim-icons icon-tap-02" />
-                        </div>
-                        <div className="ml-3">
-                          <h6>Amazing page examples</h6>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="py-2">
-                      <div className="d-flex align-items-center">
-                        <div className="icon icon-success mb-2">
-                          <i className="tim-icons icon-single-02" />
-                        </div>
-                        <div className="ml-3">
-                          <h6>Super friendly support team</h6>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+
               </Col>
             </Row>
           </Container>

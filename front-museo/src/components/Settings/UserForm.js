@@ -45,15 +45,15 @@ export default function UserForm(props) {
   }, []);
 
   const onSubmit = (data) => {
-    if (valoresIniciales.id) {
-      props.handleUpdate(valoresIniciales.id, data, false)
+    if (valoresIniciales.usuario) {
+      props.handleUpdate(valoresIniciales.usuario, data, false)
     } else {
       props.handleSubmit(data, false)
     }
   }
   const onCancelar = () => {
-    if (valoresIniciales.id) {
-      props.handleUpdate(valoresIniciales.id, null, true)
+    if (valoresIniciales.usuario) {
+      props.handleUpdate(valoresIniciales.usuario, null, true)
     } else {
       props.handleSubmit(null, true)
     }
@@ -230,10 +230,10 @@ export default function UserForm(props) {
               )}
               <Col lg="8" sm="6">
                 <Controller
-                  name="newpassword"
+                  name="password"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'El password es obligatorio.' }}
+                  rules={{ required: nuevoregistro?'El password es obligatorio.':(passwordUpdate?false:'El password es obligatorio.') }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -286,8 +286,8 @@ export default function UserForm(props) {
                   control={control}
                   defaultValue=""
                   rules={{
-                    validate: validatePassword,
-                    required: 'El password es obligatorio.'
+                    validate: nuevoregistro?validatePassword:(passwordUpdate?false:validatePassword),
+                    required: nuevoregistro?'El password es obligatorio.':(passwordUpdate?false:'El password es obligatorio.')
                   }}
                   render={({ field }) => (
                     <>

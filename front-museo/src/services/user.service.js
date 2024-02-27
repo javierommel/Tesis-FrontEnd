@@ -34,6 +34,7 @@ const addUser = (name, username, email, password, country, year, usuario_modific
   });
 }
 const updateUser = (id, data, usuario_modificacion, roles) => {
+  console.log("id: "+id+" data: "+JSON.stringify(data) +"us: "+usuario_modificacion+"roles: "+roles)
   return axios.post(API_URL1 + "updateuser", {
     id,
     data,
