@@ -54,7 +54,11 @@ const deleteUser = (id, user) => {
     usuario_modificacion:user
   });
 }
-
+const getUserId = (usuario) => {
+  return axios.post(API_URL1 + "getuserid", {
+    usuario
+  });
+}
 
 export default {
   getPublicContent,
@@ -64,5 +68,6 @@ export default {
   addUser,
   updateUser,
   getUser,
-  deleteUser
+  deleteUser,
+  getUserId
 };

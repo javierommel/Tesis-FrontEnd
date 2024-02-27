@@ -71,3 +71,21 @@ export const addUser = async (name, username, email, password, country, year, us
         }
     );
 };
+
+export const getUserId = async ( usuario ) => {
+    return AuthService.getUserId(usuario).then(
+        (response) => {
+            return response.data
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+
+            return message;
+        }
+    );
+};
