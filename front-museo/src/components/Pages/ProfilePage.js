@@ -19,6 +19,7 @@ import {
   Container,
   Row,
   Col,
+  Alert,
 } from "reactstrap";
 
 // core components
@@ -29,9 +30,9 @@ import Loader from "components/PageHeader/Loader.js"
 let ps = null;
 
 export default function ProfilePage() {
-  
+
   const [country, setCountry] = useState([]);
-  const { handleSubmit, control, setValue, formState: { errors } } = useForm();
+  const { handleSubmit, control, watch, setValue, formState: { errors } } = useForm();
   const anioActual = new Date().getFullYear();
   const [passwordUpdate, setPasswordUpdate] = useState(true);
   const [image, setImage] = useState(require("assets/img/avatar2.png"));
@@ -42,15 +43,25 @@ export default function ProfilePage() {
   const inputRef = useRef();
   // Crear un array con los últimos 80 años
   const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
-
+  const onDismiss = () => setResponse(null);
+  const password = watch('password', '');
   useEffect(() => {
+
+     // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
+     const storedResponse = localStorage.getItem('storedResponse');
+     if (storedResponse) {
+       setResponse(JSON.parse(storedResponse));
+       setSuccessful(true);
+       // Limpia el estado almacenado después de cargarlo
+       localStorage.removeItem('storedResponse');
+     }
 
     getUserId(currentUser.id).then((dat) => {
       setValue('name', dat.data.nombre);
       setValue('email', dat.data.email);
       setValue('year', dat.data.fnacimiento);
       setValue('country', dat.data.pais);
-      
+
 
     }).catch((error) => {
       console.log("error" + error.message)
@@ -82,7 +93,6 @@ export default function ProfilePage() {
     };
   }, []);
 
-  console.log("user: " + JSON.stringify(currentUser))
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -97,14 +107,23 @@ export default function ProfilePage() {
       reader.readAsDataURL(file);
     }
   };
+  const validatePassword = (value) => {
+    return value === password || 'El password ingresado no coincide';
+  };
   const validateNacionalidad = (value) => {
     return value !== "0" || 'El pais es obligatorio.';
   };
+
+  const validateEdad = (value) => {
+    return value !== "0" || 'El año de nacimiento es obligatorio.';
+  };
+
   const TogglePassword = () => {
     setPasswordUpdate(!passwordUpdate);
   };
   const onSubmit = (data) => {
-    updateUser(currentUser.id, data, currentUser.id).then(({ message, retcode }) => {
+    //console.log("datasdf: " + JSON.stringify(data))
+    updateUser(currentUser.id, data, currentUser.id, null, image).then(({ message, retcode }) => {
       if (retcode === 0) {
         setResponse(message);
         localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -114,7 +133,7 @@ export default function ProfilePage() {
       }
       else {
         console.log(message)
-        setResponse("Error al intentar borrar el registro en el servidor")
+        setResponse("Error al intentar actualizar el registro en el servidor")
         setSuccessful(false);
         setLoading(false);
       }
@@ -127,7 +146,7 @@ export default function ProfilePage() {
   }
   return (
     <>
-    <Loader loading={loading} />
+      <Loader loading={loading} />
       <ExamplesNavbar activado={3} />
       <div className="wrapper">
         <div className="page-header">
@@ -145,10 +164,6 @@ export default function ProfilePage() {
             <Row>
               <Col md="6">
                 <Card className="card-plain">
-                  {/*<CardHeader>
-                    <h1 className="profile-title text-left">Perfil</h1>
-                    <h5 className="text-on-back">01</h5>
-  </CardHeader>*/}
                   <CardBody>
                     <Form className="form" onSubmit={handleSubmit(onSubmit)}>
                       <Row>
@@ -208,7 +223,7 @@ export default function ProfilePage() {
                             defaultValue={""}
                             rules={{
                               required: 'El año de nacimiento es obligatorio.',
-                              validate: validateNacionalidad
+                              validate: validateEdad
                             }}
                             render={({ field }) => (
                               <FormGroup>
@@ -221,6 +236,7 @@ export default function ProfilePage() {
                                     <option style={{ color: '#2b3553' }} key={step} value={step}>{step}</option>
                                   ))}
                                 </Input>
+                                {errors.year && <div className="typography-line"><p className="text-danger">{errors.year.message}</p></div>}
                               </FormGroup>
                             )}
                           />
@@ -231,7 +247,7 @@ export default function ProfilePage() {
                             control={control}
                             defaultValue={""}
                             rules={{
-                              required: 'La nacionalidad es obligatorio.',
+                              required: 'El pais de nacimiento es obligatorio.',
                               validate: validateNacionalidad
                             }}
                             render={({ field }) => (
@@ -254,7 +270,6 @@ export default function ProfilePage() {
                         className="btn btn-lg w-100 float-right"
                         color="info"
                         data-placement="right"
-                        type="button"
                         onClick={TogglePassword}
                       >
                         {passwordUpdate ? "Cambiar Password" : "No Cambiar Password"}
@@ -265,11 +280,12 @@ export default function ProfilePage() {
                             name="password"
                             control={control}
                             defaultValue={""}
-                            rules={{ required: 'El email es obligatorio.' }}
+                            rules={{ required: passwordUpdate?false:'El password es obligatorio.' }}
                             render={({ field }) => (
                               <FormGroup>
                                 <label>Password</label>
                                 <Input {...field} disabled={passwordUpdate} type="password" />
+                                {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
                               </FormGroup>
                             )}
                           />
@@ -279,11 +295,15 @@ export default function ProfilePage() {
                             name="password2"
                             control={control}
                             defaultValue={""}
-                            rules={{ required: 'El email es obligatorio.' }}
+                            rules={{
+                              validate: passwordUpdate?false:validatePassword,
+                              required: passwordUpdate?false:'El password es obligatorio.'
+                            }}
                             render={({ field }) => (
                               <FormGroup>
                                 <label>Repetir-Password</label>
                                 <Input {...field} disabled={passwordUpdate} type="password" />
+                                {errors.password2 && <div className="typography-line"><p className="text-danger">{errors.password2.message}</p></div>}
                               </FormGroup>
                             )}
                           />
@@ -324,8 +344,19 @@ export default function ProfilePage() {
                     <input ref={inputRef} type="file" onChange={handleImageChange} hidden />
                   </CardBody>
                 </Card>
-                    </Col>
+              </Col>
             </Row>
+            {response !== null && (
+              <Alert isOpen color={successful ? 'success' : 'danger'} toggle={onDismiss} style={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 9999,
+              }}>
+                {response}
+              </Alert>
+            )}
           </Container>
         </div>
         <Footer />

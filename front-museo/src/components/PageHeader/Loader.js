@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { css } from '@emotion/react';
-//import { RingLoader } from 'react-spinners';
+import React  from 'react';
 import { DNA } from 'react-loader-spinner';
 import './PageHeader.css';
 
@@ -17,7 +15,6 @@ export default function Loader({ loading }) {
                         wrapperStyle={{}}
                         wrapperClass="dna-wrapper"
                     />
-                    {/*<RingLoader css={override} size={150} color={'#123abc'} loading={loading} />*/}
                 </div>
             </div>
         )

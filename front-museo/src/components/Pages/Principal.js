@@ -2,7 +2,8 @@ import React, { useRef, useState } from "react";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import Rating from 'react-rating';
-import { formatDistanceToNow } from 'date-fns';
+import { getComment } from "../../actions/comment"
+import Comment from "components/PageHeader/Comment.js"
 
 // reactstrap components
 import {
@@ -25,6 +26,13 @@ import Footer from "components/Footer/Footer.js";
 
 export default function LandingPage() {
   React.useEffect(() => {
+
+    getComment({ page: 1, pageSize: 10 }).then((dat) => {
+      setComment(dat.data);
+      console.log("omment: "+JSON.stringify(dat.data))
+    }).catch((error) => {
+      console.log("error" + error.message)
+    });
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -34,7 +42,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const inputRef = useRef();
   const [image, setImage] = useState(require("assets/img/mike.jpg"));
-
+  const [comment, setComment] = useState([]);
   const handleButtonClick = () => {
     navigate('/vista360');
   };
@@ -52,7 +60,7 @@ export default function LandingPage() {
       reader.readAsDataURL(file);
     }
   };
-  //const timeAgo = formatDistanceToNow(new Date(timestamp), { addSuffix: true });
+
   return (
     <>
       <ExamplesNavbar activado={1} />
@@ -90,7 +98,7 @@ export default function LandingPage() {
           />
           <Container>
             <div className="content-center brand">
-              <h1 className="h1-seo">Museo Las conceptas</h1>
+              <h1 className="h2-seo">Museo Las conceptas</h1>
               <h3 className="d-none d-sm-block">
                 Prueba el asistente virtual que te ayudará con tus dudas.
                 Una forma entretenida de visitar un museo.
@@ -152,11 +160,16 @@ export default function LandingPage() {
               </Col>
               <Col className="ml-auto mr-auto" lg="7" md="6">
                 <Card className="card-coin card-plain">
-                <CardHeader>
+                  <CardHeader>
                     <h3>Comentarios</h3>
                   </CardHeader>
-                  <CardBody >
-                    <Row>
+                  <CardBody>
+                    {comment.map((step) => (
+                      <Comment data={step} />
+
+                    ))}
+
+                    {/*<Row>
                       <Col lg="3"><img
                         alt="..."
                         className="img-center img-fluid rounded-circle"
@@ -180,11 +193,8 @@ export default function LandingPage() {
                             style={{ float: 'right' }}
                           /></Col>
                         </Row>
-
-
                       </Col>
-
-                    </Row>
+  </Row>*/}
                     <Row style={{ paddingTop: '20px' }}>
                       <Col lg="3"><img
                         alt="..."

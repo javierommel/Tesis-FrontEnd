@@ -341,7 +341,7 @@ export default function UserForm(props) {
                   control={control}
                   defaultValue={valoresIniciales.pais}
                   rules={{
-                    required: 'El año de nacimiento es obligatorio.',
+                    required: 'El pais de nacimiento es obligatorio.',
                     validate: validateNacionalidad
                   }}
                   render={({ field }) => (

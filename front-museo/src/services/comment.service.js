@@ -19,45 +19,35 @@ const getAdminBoard = () => {
   return axios.get(API_URL + "admin", { headers: authHeader() });
 };
 
-const addUser = (name, username, email, password, country, year, usuario_modificacion, roles) => {
-  if (!roles.length === 0) roles = "user"
+const addComment = (data, usuario_modificacion) => {
   if (!usuario_modificacion) usuario_modificacion = "admin"
   return axios.post(API_URL1 + "signup", {
-    name: name,
-    user: username,
-    email,
-    password,
-    pais: country,
-    nacimiento: year,
-    usuario_modificacion,
-    roles
-  });
-}
-const updateUser = (id, data, usuario_modificacion, roles, image) => {
-  console.log("id: "+id+" data: "+JSON.stringify(data) +"us: "+usuario_modificacion+"roles: "+roles+" image: "+image)
-  return axios.post(API_URL1 + "updateuser", {
-    id,
     data,
     usuario_modificacion,
-    roles,
-    image
   });
 }
-const getUser = (page, pageSize) => {
-  return axios.post(API_URL1 + "getuser", {
+const updateComment = (id, usuario_modificacion) => {
+  return axios.post(API_URL1 + "updatecomment", {
+    id,
+    usuario_modificacion,
+  });
+}
+const getCommentList = (page, pageSize) => {
+  return axios.post(API_URL1 + "getcomment", {
     page,
     pageSize,
   });
 }
-const deleteUser = (id, user) => {
-  return axios.post(API_URL1 + "deleteuser", {
+const deleteComment = (id, usuario_modificacion) => {
+  return axios.post(API_URL1 + "deletecomment", {
     id,
-    usuario_modificacion:user
+    usuario_modificacion
   });
 }
-const getUserId = (usuario) => {
-  return axios.post(API_URL1 + "getuserid", {
-    usuario
+const getComment = (page, pageSize) => {
+  return axios.post(API_URL1 + "getcommentprincipal", {
+    page,
+    pageSize,
   });
 }
 
@@ -66,9 +56,9 @@ export default {
   getUserBoard,
   getModeratorBoard,
   getAdminBoard,
-  addUser,
-  updateUser,
-  getUser,
-  deleteUser,
-  getUserId
+  addComment,
+  updateComment,
+  getComment,
+  deleteComment,
+  getCommentList
 };

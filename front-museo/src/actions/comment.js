@@ -1,7 +1,7 @@
-import AuthService from "../services/user.service";
+import AuthService from "../services/comment.service";
 
-export const getUser = async ({ page, pageSize }) => {
-    return AuthService.getUser(page, pageSize).then(
+export const getCommentList = async ({ page, pageSize }) => {
+    return AuthService.getCommentList(page, pageSize).then(
         (response) => {
             //console.log("datos "+JSON.stringify(response.data))
             return response.data
@@ -21,8 +21,8 @@ export const getUser = async ({ page, pageSize }) => {
     );
 };
 
-export const deleteUser = async ({ id, usuario_modificacion }) => {
-    return AuthService.deleteUser(id, usuario_modificacion).then(
+export const deleteComment = async ({ id, usuario_modificacion }) => {
+    return AuthService.deleteComment(id, usuario_modificacion).then(
         (response) => {
             return { message: response.data.message, retcode: 0 }
         },
@@ -38,8 +38,8 @@ export const deleteUser = async ({ id, usuario_modificacion }) => {
     );
 };
 
-export const updateUser = async (id, values, usuario_modificacion, roles, image) => {
-    return AuthService.updateUser(id, values, usuario_modificacion, roles, image).then(
+export const updateComment = async (id, values, usuario_modificacion, roles, image) => {
+    return AuthService.updateComment(id, values, usuario_modificacion, roles, image).then(
         (response) => {
             return { message: response.data.message, retcode: 0 };
         },
@@ -55,8 +55,8 @@ export const updateUser = async (id, values, usuario_modificacion, roles, image)
     );
 };
 
-export const addUser = async (name, username, email, password, country, year, usuario_modificacion, roles) => {
-    return AuthService.addUser(name, username, email, password, country, year, usuario_modificacion, roles).then(
+export const addComment = async (name, username, email, password, country, year, usuario_modificacion, roles) => {
+    return AuthService.addComment(name, username, email, password, country, year, usuario_modificacion, roles).then(
         (response) => {
             return { message: response.data.message, retcode: 0 };
         },
@@ -72,8 +72,8 @@ export const addUser = async (name, username, email, password, country, year, us
     );
 };
 
-export const getUserId = async ( usuario ) => {
-    return AuthService.getUserId(usuario).then(
+export const getComment = async ( { page, pageSize } ) => {
+    return AuthService.getComment(page, pageSize).then(
         (response) => {
             return response.data
         },
