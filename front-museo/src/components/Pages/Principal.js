@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import Rating from 'react-rating';
+import { formatDistanceToNow } from 'date-fns';
 
 // reactstrap components
 import {
@@ -32,6 +34,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const inputRef = useRef();
   const [image, setImage] = useState(require("assets/img/mike.jpg"));
+
   const handleButtonClick = () => {
     navigate('/vista360');
   };
@@ -49,6 +52,7 @@ export default function LandingPage() {
       reader.readAsDataURL(file);
     }
   };
+  //const timeAgo = formatDistanceToNow(new Date(timestamp), { addSuffix: true });
   return (
     <>
       <ExamplesNavbar activado={1} />
@@ -146,25 +150,42 @@ export default function LandingPage() {
                   </CardBody>
                 </Card>
               </Col>
-              <Col className="ml-auto mr-auto" lg="6" md="6">
+              <Col className="ml-auto mr-auto" lg="7" md="6">
                 <Card className="card-coin card-plain">
-                  <CardBody>
+                <CardHeader>
+                    <h3>Comentarios</h3>
+                  </CardHeader>
+                  <CardBody >
                     <Row>
                       <Col lg="3"><img
                         alt="..."
                         className="img-center img-fluid rounded-circle"
-                        src={image}
-                        //src={require("assets/img/mike.jpg")}
+                        //src={image}
+                        src={require("assets/img/avatar1.png")}
                         style={{ width: '60px', height: '60px', borderRadius: '50%' }}
                       /></Col>
-                      <Col><h5>Nombre de persona</h5>
-                        <p>
+                      <Col>
+                        <h5>Rommel Chocho <span style={{ color: "gray", fontSize: '80%', whiteSpace: 'nowrap' }}> - Hace 2 días</span></h5>
+                        <p style={{ color: "gray" }}>
                           The design system comes with three pre-built pages to help
                           you get started faster. You can change the text and images
                           and you're good to go.
-                        </p></Col>
+                        </p>
+                        <Row>
+                          <Col ></Col>
+                          <Col ><h5>5.0 pts </h5></Col>
+                          <Col ><Rating
+                            emptySymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
+                            fullSymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
+                            style={{ float: 'right' }}
+                          /></Col>
+                        </Row>
+
+
+                      </Col>
+
                     </Row>
-                    <Row>
+                    <Row style={{ paddingTop: '20px' }}>
                       <Col lg="3"><img
                         alt="..."
                         className="img-center img-fluid rounded-circle"
@@ -173,16 +194,31 @@ export default function LandingPage() {
                         style={{ width: '60px', height: '60px', borderRadius: '50%' }}
                       /></Col>
                       <Col><FormGroup>
-                        <Label for="exampleText">
-                          Ingrese su comentario
-                        </Label>
+                        <h4>Publica tu comentario</h4>
                         <Input
                           id="exampleText"
                           name="text"
                           type="textarea"
+                          placeholder="Ingrese aquí su comentario..."
                         />
-                        <Button>Comentar</Button>
-                      </FormGroup></Col>
+                      </FormGroup>
+                        <Row>
+                          <Col></Col>
+                          <Col ><h5>Puntuación </h5></Col>
+                          <Col>
+                            <Rating
+                              emptySymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
+                              fullSymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
+                              style={{ float: 'right' }}
+                            />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <Button style={{ float: 'right' }} >Comentar</Button>
+                          </Col>
+                        </Row>
+                      </Col>
                     </Row>
 
                     <div className="px-md-5">

@@ -29,12 +29,12 @@ import Loader from "components/PageHeader/Loader.js"
 let ps = null;
 
 export default function ProfilePage() {
-  const [datos, setDatos] = useState({})
+  
   const [country, setCountry] = useState([]);
-  const { handleSubmit, control, watch, formState: { errors } } = useForm();
+  const { handleSubmit, control, setValue, formState: { errors } } = useForm();
   const anioActual = new Date().getFullYear();
   const [passwordUpdate, setPasswordUpdate] = useState(true);
-  const [image, setImage] = useState(require("assets/img/mike.jpg"));
+  const [image, setImage] = useState(require("assets/img/avatar2.png"));
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
@@ -46,8 +46,11 @@ export default function ProfilePage() {
   useEffect(() => {
 
     getUserId(currentUser.id).then((dat) => {
-      setDatos(dat.data);
-      console.log("asdf1: " + JSON.stringify(datos.nombre))
+      setValue('name', dat.data.nombre);
+      setValue('email', dat.data.email);
+      setValue('year', dat.data.fnacimiento);
+      setValue('country', dat.data.pais);
+      
 
     }).catch((error) => {
       console.log("error" + error.message)
@@ -168,7 +171,7 @@ export default function ProfilePage() {
                           <Controller
                             name="email"
                             control={control}
-                            defaultValue={datos.email}
+                            defaultValue={""}
                             rules={{ required: 'El email es obligatorio.' }}
                             render={({ field }) => (
                               <FormGroup>
@@ -185,7 +188,7 @@ export default function ProfilePage() {
                           <Controller
                             name="name"
                             control={control}
-                            defaultValue={datos.nombre}
+                            defaultValue={""}
                             rules={{ required: 'El email es obligatorio.' }}
                             render={({ field }) => (
                               <FormGroup>
@@ -202,7 +205,7 @@ export default function ProfilePage() {
                           <Controller
                             name="year"
                             control={control}
-                            defaultValue={datos.fnacimiento}
+                            defaultValue={""}
                             rules={{
                               required: 'El año de nacimiento es obligatorio.',
                               validate: validateNacionalidad
@@ -226,7 +229,7 @@ export default function ProfilePage() {
                           <Controller
                             name="country"
                             control={control}
-                            defaultValue={datos.pais}
+                            defaultValue={""}
                             rules={{
                               required: 'La nacionalidad es obligatorio.',
                               validate: validateNacionalidad
