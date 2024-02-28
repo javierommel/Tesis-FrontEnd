@@ -350,6 +350,18 @@ export default function AdminPage() {
                         Piezas
                       </NavLink>
                     </NavItem>
+                    <NavItem>
+                      <NavLink
+                        className={classnames({
+                          active: iconTabs === 3,
+                        })}
+                        onClick={(e) => setIconsTabs(1)}
+                        href="#pablo"
+                      >
+                        <i className="tim-icons icon-spaceship" />
+                        Comentarios
+                      </NavLink>
+                    </NavItem>
                   </Nav>
                 </CardHeader>
                 <CardBody>
