@@ -1,19 +1,20 @@
-import React  from 'react';
+import React, {useState, useEffect}  from 'react';
 import Rating from 'react-rating';
 import { formatDistanceToNow } from 'date-fns';
 import {
     Row,
     Col,
   } from "reactstrap";
+
 export default function Comment({data}) {
     const timeAgo = formatDistanceToNow(new Date(data.fecha_registro), { addSuffix: true });
+
     return (
         <Row>
         <Col lg="3"><img
           alt="..."
           className="img-center img-fluid rounded-circle"
-          //src={image}
-          src={require("assets/img/avatar1.png")}
+          src={data.usuario_id.avatar?data.usuario_id.avatar:require("assets/img/avatar2.png")}
           style={{ width: '60px', height: '60px', borderRadius: '50%' }}
         /></Col>
         <Col>

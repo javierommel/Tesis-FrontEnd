@@ -26,10 +26,9 @@ import Footer from "components/Footer/Footer.js";
 
 export default function LandingPage() {
   React.useEffect(() => {
-
     getComment({ page: 1, pageSize: 10 }).then((dat) => {
-      setComment(dat.data);
-      console.log("omment: "+JSON.stringify(dat.data))
+      setComment(cambiarImagen(dat.data));
+      console.log("comment: "+JSON.stringify(dat.data))
     }).catch((error) => {
       console.log("error" + error.message)
     });
@@ -39,6 +38,17 @@ export default function LandingPage() {
       document.body.classList.toggle("landing-page");
     };
   }, []);
+
+  const cambiarImagen = (value) => {
+    return value.map((data)=>{
+        const uint8Array = data.usuario_id.avatar ? new Uint8Array(data.usuario_id.avatar.data) : null;
+        const blob = uint8Array ? new Blob([uint8Array]) : null;
+        //setImage(blob ? URL.createObjectURL(blob) : null);
+        data.usuario_id.avatar=blob ? URL.createObjectURL(blob) : null;
+        return data;
+      });
+  };
+
   const navigate = useNavigate();
   const inputRef = useRef();
   const [image, setImage] = useState(require("assets/img/mike.jpg"));

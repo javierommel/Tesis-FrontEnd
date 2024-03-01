@@ -45,23 +45,26 @@ export default function ProfilePage() {
   const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
   const onDismiss = () => setResponse(null);
   const password = watch('password', '');
+
   useEffect(() => {
 
-     // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
-     const storedResponse = localStorage.getItem('storedResponse');
-     if (storedResponse) {
-       setResponse(JSON.parse(storedResponse));
-       setSuccessful(true);
-       // Limpia el estado almacenado después de cargarlo
-       localStorage.removeItem('storedResponse');
-     }
+    // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
+    const storedResponse = localStorage.getItem('storedResponse');
+    if (storedResponse) {
+      setResponse(JSON.parse(storedResponse));
+      setSuccessful(true);
+      // Limpia el estado almacenado después de cargarlo
+      localStorage.removeItem('storedResponse');
+    }
 
     getUserId(currentUser.id).then((dat) => {
       setValue('name', dat.data.nombre);
       setValue('email', dat.data.email);
       setValue('year', dat.data.fnacimiento);
       setValue('country', dat.data.pais);
-
+      const uint8Array = dat.data.avatar ? new Uint8Array(dat.data.avatar.data) : null;
+      const blob = uint8Array ? new Blob([uint8Array]) : null;
+      setImage(blob ? URL.createObjectURL(blob) : null);
 
     }).catch((error) => {
       console.log("error" + error.message)
@@ -106,6 +109,11 @@ export default function ProfilePage() {
       };
       reader.readAsDataURL(file);
     }
+    /*const file = e.target.files[0];
+    if (file) {
+      //setPreviewImage(null);
+      setImage(URL.createObjectURL(file));
+    }*/
   };
   const validatePassword = (value) => {
     return value === password || 'El password ingresado no coincide';
@@ -280,7 +288,7 @@ export default function ProfilePage() {
                             name="password"
                             control={control}
                             defaultValue={""}
-                            rules={{ required: passwordUpdate?false:'El password es obligatorio.' }}
+                            rules={{ required: passwordUpdate ? false : 'El password es obligatorio.' }}
                             render={({ field }) => (
                               <FormGroup>
                                 <label>Password</label>
@@ -296,8 +304,8 @@ export default function ProfilePage() {
                             control={control}
                             defaultValue={""}
                             rules={{
-                              validate: passwordUpdate?false:validatePassword,
-                              required: passwordUpdate?false:'El password es obligatorio.'
+                              validate: passwordUpdate ? false : validatePassword,
+                              required: passwordUpdate ? false : 'El password es obligatorio.'
                             }}
                             render={({ field }) => (
                               <FormGroup>
@@ -334,7 +342,7 @@ export default function ProfilePage() {
                   <CardBody>
                     <Button
                       onClick={() => {
-                        console.log(inputRef);
+                        //console.log(inputRef);
                         inputRef.current.click();
                       }}
                       className="btn btn-lg w-100"

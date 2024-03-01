@@ -3,6 +3,20 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/api/test/";
 const API_URL1 = "http://localhost:8080/api/auth/";
 
+function base64toBlob(base64) {
+  const parts = base64.split(';base64,');
+  const contentType = parts[0].split(':')[1];
+  const raw = window.atob(parts[1]);
+  const rawLength = raw.length;
+  const uInt8Array = new Uint8Array(rawLength);
+
+  for (let i = 0; i < rawLength; ++i) {
+    uInt8Array[i] = raw.charCodeAt(i);
+  }
+
+  return new Blob([uInt8Array], { type: contentType });
+}
+
 const getPublicContent = () => {
   return axios.get(API_URL + "all");
 };
@@ -34,14 +48,30 @@ const addUser = (name, username, email, password, country, year, usuario_modific
   });
 }
 const updateUser = (id, data, usuario_modificacion, roles, image) => {
-  console.log("id: "+id+" data: "+JSON.stringify(data) +"us: "+usuario_modificacion+"roles: "+roles+" image: "+image)
-  return axios.post(API_URL1 + "updateuser", {
-    id,
-    data,
-    usuario_modificacion,
-    roles,
-    image
-  });
+  if (image) {
+    console.log("iamge: "+JSON.stringify(data))
+    const formData = new FormData();
+    formData.append('avatar', base64toBlob(image));
+    formData.append('id', id);
+    formData.append('data', JSON.stringify(data));
+    formData.append('usuario_modificacion', usuario_modificacion);
+    return axios.post(API_URL1 + "updateuserprofile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+    );
+  }
+  else {
+    return axios.post(API_URL1 + "updateuser", {
+      id,
+      data,
+      usuario_modificacion,
+      roles,
+      image:null
+    });
+  }
+
 }
 const getUser = (page, pageSize) => {
   return axios.post(API_URL1 + "getuser", {
@@ -52,7 +82,7 @@ const getUser = (page, pageSize) => {
 const deleteUser = (id, user) => {
   return axios.post(API_URL1 + "deleteuser", {
     id,
-    usuario_modificacion:user
+    usuario_modificacion: user
   });
 }
 const getUserId = (usuario) => {
