@@ -6,8 +6,10 @@ import UserForm from "../Settings/UserForm"
 import ViewListUser from "../Settings/ViewListUser"
 import PieceForm from "../Settings/PieceForm"
 import ViewListPiece from "../Settings/ViewListPiece"
+import ViewListComment from "../Settings/ViewListComment"
 import { getUser, deleteUser, addUser, updateUser } from "../../actions/user"
 import { getPiece } from "../../actions/piece"
+import { getCommentList, deleteComment, updateComment } from "../../actions/comment"
 // react plugin used to create charts
 import classnames from "classnames";
 // reactstrap components
@@ -56,6 +58,14 @@ export default function AdminPage() {
     tipo: [],
   })
 
+  const [datosc, setDatosc] = useState({
+    data: [],
+    ruta: 'lista',
+    comentarioSeleccionado: null,
+    page: 1,
+    pageSize: 10,
+    tipo: [],
+  })
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
@@ -63,6 +73,10 @@ export default function AdminPage() {
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
   const [iduser, setIduser] = useState("");
+  const [idcomment, setIdcomment] = useState("");
+  const [activarcomment, setActivarComment] = useState(0);
+  const [tipoupdate, setTipoupdate] = useState(0);
+  const [mensajealert, setMensajealert] = useState("");
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
   const onDismiss = () => setResponse(null);
@@ -82,6 +96,19 @@ export default function AdminPage() {
       });
     getPiece({ page: datosp.page, pageSize: datosp.pageSize }).then((dat) => {
       setDatosp((prevDatos) => ({
+        ...prevDatos,         // Manteniendo las propiedades existentes
+        data: dat.data,    // Actualizando solo la propiedad 'data'
+        tipo: dat.tipo,
+      }));
+
+    })
+      .catch((error) => {
+        console.log("error" + error.message)
+        setLoading(false);
+      });
+    getCommentList({ page: datosc.page, pageSize: datosc.pageSize }).then((dat) => {
+      console.log("data: " + JSON.stringify(dat))
+      setDatosc((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
         tipo: dat.tipo,
@@ -194,13 +221,77 @@ export default function AdminPage() {
 
   const eliminarUsuario = (usuario) => {
     setIduser(usuario)
+    setMensajealert("¿Desea eliminar el registro?")
+    setTipoupdate(0)
     toggle()
+  }
+  const eliminarComentario = (comentario) => {
+    setTipoupdate(2)
+    setIdcomment(comentario)
+    setMensajealert("¿Desea eliminar el registro?")
+    toggle()
+  }
+  const modificarComentario = (comentario, estado) => {
+    setTipoupdate(3)
+    setIdcomment(comentario)
+    if (estado===1) {
+      setMensajealert("¿Desea desactivar el comentario?"); 
+      setActivarComment(0);
+    }
+    else {
+      setMensajealert("¿Desea activar el comentario?")
+      setActivarComment(1);
+    }
+    toggle()
+  }
+
+  const modificarComment= () => {
+    toggle()
+    setLoading(true);
+    setTimeout(() => {
+      updateComment({ id: idcomment, estado:activarcomment, usuario_modificacion: currentUser.id,  }).then(({ message, retcode }) => {
+        if (retcode === 0) {
+          setResponse(message);
+          localStorage.setItem('storedResponse', JSON.stringify(message));
+          setSuccessful(true);
+          setLoading(false);
+          window.location.reload();
+        }
+        else {
+          console.log(message)
+          setResponse("Error al intentar actualizar el registro en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        }
+      })
+    }, 2000);
   }
   const eliminarUser = () => {
     toggle()
     setLoading(true);
     setTimeout(() => {
-      deleteUser({ id: iduser, usuario_modificacion: currentUser.id }).then(({ message, retcode }) => {
+      deleteUser({ id: idcomment, usuario_modificacion: currentUser.id }).then(({ message, retcode }) => {
+        if (retcode === 0) {
+          setResponse(message);
+          localStorage.setItem('storedResponse', JSON.stringify(message));
+          setSuccessful(true);
+          setLoading(false);
+          window.location.reload();
+        }
+        else {
+          console.log(message)
+          setResponse("Error al intentar borrar el registro en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        }
+      })
+    }, 2000);
+  }
+  const eliminarComment = () => {
+    toggle()
+    setLoading(true);
+    setTimeout(() => {
+      deleteComment({ id: iduser, usuario_modificacion: currentUser.id }).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
           localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -302,10 +393,10 @@ export default function AdminPage() {
           <Modal isOpen={modal} toggle={toggle} >
             <ModalHeader toggle={toggle}>Mensaje</ModalHeader>
             <ModalBody>
-              ¿Desea eliminar el registro?
+              {mensajealert}
             </ModalBody>
             <ModalFooter>
-              <Button color="info" onClick={eliminarUser}>
+              <Button color="info" onClick={tipoupdate===0?eliminarUser:(tipoupdate===2?eliminarComment:modificarComment)}>
                 Aceptar
               </Button>{' '}
               <Button color="secondary" onClick={toggle}>
@@ -355,7 +446,7 @@ export default function AdminPage() {
                         className={classnames({
                           active: iconTabs === 3,
                         })}
-                        onClick={(e) => setIconsTabs(1)}
+                        onClick={(e) => setIconsTabs(3)}
                         href="#pablo"
                       >
                         <i className="tim-icons icon-spaceship" />
@@ -393,6 +484,13 @@ export default function AdminPage() {
                         valoresInicialesp={valoresInicialesp || {}}
                         handleSubmit={agregarNuevoObjeto}
                         handleUpdate={actualizarNuevoObjeto}
+                      />}
+                    </TabPane>
+                    <TabPane tabId="link3">
+                      {datosc.ruta === 'lista' && <ViewListComment
+                        handleClick={modificarComentario}
+                        handleDelete={eliminarComentario}
+                        data={datosc.data}
                       />}
                     </TabPane>
                   </TabContent>

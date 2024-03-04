@@ -1,11 +1,16 @@
-import React from "react";
-import '../PageHeader/PageHeader.css'; 
+import React, { useState } from "react";
+import '../PageHeader/PageHeader.css';
+import Comment from "components/PageHeader/Comment.js"
+import { getComment } from "../../actions/comment"
 // reactstrap components
 import {
   Container,
   Row,
   Col,
   UncontrolledCarousel,
+  Card,
+  CardHeader,
+  CardBody
 } from "reactstrap";
 const carouselItems = [
   {
@@ -28,7 +33,27 @@ const carouselItems = [
 
 
 
-export default function PageHeader() { 
+export default function PageHeader() {
+  const [commentl, setCommentl] = useState([]);
+  React.useEffect(() => {
+    getComment({ page: 1, pageSize: 10, usuario: null }).then((dat) => {
+      setCommentl(cambiarImagenes(dat.data));
+      console.log("commentList: " + JSON.stringify(dat.data))
+    }).catch((error) => {
+      console.log("error" + error.message)
+    });
+  }, []);
+
+  const cambiarImagenes = (value) => {
+    return value.map((data) => {
+      const uint8Array = data.usuario_id.avatar ? new Uint8Array(data.usuario_id.avatar.data) : null;
+      const blob = uint8Array ? new Blob([uint8Array]) : null;
+      //setImage(blob ? URL.createObjectURL(blob) : null);
+      data.usuario_id.avatar = blob ? URL.createObjectURL(blob) : null;
+      return data;
+    });
+  };
+
   return (
     <div className="page-header header-filter">
       <div className="squares square1" />
@@ -76,6 +101,21 @@ export default function PageHeader() {
               />
             </Col>
           </Row>
+          <Row>
+            <Col lg="10" md="6">
+              <Card className="card-plain">
+                <CardHeader>
+                  <h3>Comentarios</h3>
+                </CardHeader>
+                <CardBody>
+                  {commentl.map((step) => (
+                    <Comment data={step} />
+
+                  ))}
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
         </Container>
       </div>
       <section className="section section-lg section-safe">
@@ -84,7 +124,7 @@ export default function PageHeader() {
           className="path"
           src={require("assets/img/path5.png")}
         />
-        
+
       </section>
     </div>
   );

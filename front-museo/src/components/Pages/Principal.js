@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import Rating from 'react-rating';
-import { getComment } from "../../actions/comment"
+import { getComment, addComment } from "../../actions/comment"
 import Comment from "components/PageHeader/Comment.js"
 
 // reactstrap components
@@ -17,21 +17,42 @@ import {
   Button,
   Input,
   FormGroup,
-  Label,
+  Alert,
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
+import Loader from "components/PageHeader/Loader.js"
 
-export default function LandingPage() {
+export default function PrincipalPage() {
+  const navigate = useNavigate();
+  const [commentl, setCommentl] = useState([]);
+  const [rate, setRate] = useState(0);
+  const [image, setImage] = useState(require("assets/img/mike.jpg"));
+  const [comment, setComment] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState(null);
+  const [successful, setSuccessful] = useState(false);
+  const onDismiss = () => setResponse(null);
+  const { user: currentUser } = useSelector((state) => state.auth);
+
   React.useEffect(() => {
-    getComment({ page: 1, pageSize: 10 }).then((dat) => {
-      setComment(cambiarImagen(dat.data));
-      console.log("comment: "+JSON.stringify(dat.data))
+    getComment({ page: 1, pageSize: 10, usuario:currentUser.id }).then((dat) => {
+      setCommentl(cambiarImagenes(dat.data));
+      setImage(cambiarImagen(dat.avatar))
+      console.log("commentList: " + JSON.stringify(dat.data))
     }).catch((error) => {
       console.log("error" + error.message)
     });
+    // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
+    const storedResponse = localStorage.getItem('storedResponse');
+    if (storedResponse) {
+      setResponse(JSON.parse(storedResponse));
+      setSuccessful(true);
+      // Limpia el estado almacenado después de cargarlo
+      localStorage.removeItem('storedResponse');
+    }
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -39,40 +60,61 @@ export default function LandingPage() {
     };
   }, []);
 
-  const cambiarImagen = (value) => {
-    return value.map((data)=>{
-        const uint8Array = data.usuario_id.avatar ? new Uint8Array(data.usuario_id.avatar.data) : null;
-        const blob = uint8Array ? new Blob([uint8Array]) : null;
-        //setImage(blob ? URL.createObjectURL(blob) : null);
-        data.usuario_id.avatar=blob ? URL.createObjectURL(blob) : null;
-        return data;
-      });
+  const cambiarImagenes = (value) => {
+    return value.map((data) => {
+      const uint8Array = data.usuario_id.avatar ? new Uint8Array(data.usuario_id.avatar.data) : null;
+      const blob = uint8Array ? new Blob([uint8Array]) : null;
+      //setImage(blob ? URL.createObjectURL(blob) : null);
+      data.usuario_id.avatar = blob ? URL.createObjectURL(blob) : null;
+      return data;
+    });
   };
 
-  const navigate = useNavigate();
-  const inputRef = useRef();
-  const [image, setImage] = useState(require("assets/img/mike.jpg"));
-  const [comment, setComment] = useState([]);
+  const cambiarImagen = (value) => {
+    const uint8Array = value ? new Uint8Array(value.data) : null;
+    const blob = uint8Array ? new Blob([uint8Array]) : null;
+    const res = blob ? URL.createObjectURL(blob) : null;
+    return res;
+  };
+  const handleChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const saveComment = () => {
+    console.log("rate: " + rate + " comment: " + comment)
+    addComment(comment, rate, currentUser.id).then(({ message, retcode }) => {
+      console.log("asdf: " + message + " " + retcode)
+      if (retcode === 0) {
+        setResponse(message);
+        localStorage.setItem('storedResponse', JSON.stringify(message));
+        setSuccessful(true);
+        setLoading(false);
+        window.location.reload();
+      }
+      else {
+        console.log(message)
+        setResponse("Error al intentar guardar el comentario en el servidor")
+        setSuccessful(false);
+        setLoading(false);
+      }
+    }).catch((e) => {
+      console.log(e.message)
+      setResponse("Error al intentar guardar el comentario en el servidor")
+      setSuccessful(false);
+      setLoading(false);
+    });
+  };
+
   const handleButtonClick = () => {
     navigate('/vista360');
   };
-  const { user: currentUser } = useSelector((state) => state.auth);
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <>
+      <Loader loading={loading} />
       <ExamplesNavbar activado={1} />
       <div className="wrapper">
         <div className="page-header">
@@ -174,37 +216,10 @@ export default function LandingPage() {
                     <h3>Comentarios</h3>
                   </CardHeader>
                   <CardBody>
-                    {comment.map((step) => (
+                    {commentl.map((step) => (
                       <Comment data={step} />
 
                     ))}
-
-                    {/*<Row>
-                      <Col lg="3"><img
-                        alt="..."
-                        className="img-center img-fluid rounded-circle"
-                        //src={image}
-                        src={require("assets/img/avatar1.png")}
-                        style={{ width: '60px', height: '60px', borderRadius: '50%' }}
-                      /></Col>
-                      <Col>
-                        <h5>Rommel Chocho <span style={{ color: "gray", fontSize: '80%', whiteSpace: 'nowrap' }}> - Hace 2 días</span></h5>
-                        <p style={{ color: "gray" }}>
-                          The design system comes with three pre-built pages to help
-                          you get started faster. You can change the text and images
-                          and you're good to go.
-                        </p>
-                        <Row>
-                          <Col ></Col>
-                          <Col ><h5>5.0 pts </h5></Col>
-                          <Col ><Rating
-                            emptySymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
-                            fullSymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
-                            style={{ float: 'right' }}
-                          /></Col>
-                        </Row>
-                      </Col>
-  </Row>*/}
                     <Row style={{ paddingTop: '20px' }}>
                       <Col lg="3"><img
                         alt="..."
@@ -220,6 +235,7 @@ export default function LandingPage() {
                           name="text"
                           type="textarea"
                           placeholder="Ingrese aquí su comentario..."
+                          onChange={handleChange}
                         />
                       </FormGroup>
                         <Row>
@@ -230,63 +246,39 @@ export default function LandingPage() {
                               emptySymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
                               fullSymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
                               style={{ float: 'right' }}
+                              onChange={(rate) => setRate(rate)}
                             />
                           </Col>
                         </Row>
                         <Row>
                           <Col>
-                            <Button style={{ float: 'right' }} >Comentar</Button>
+                            <Button style={{ float: 'right' }} onClick={saveComment}>Comentar</Button>
                           </Col>
                         </Row>
                       </Col>
                     </Row>
-
                     <div className="px-md-5">
-
-
-                      {/*<ul className="list-unstyled mt-5">
-                        <li className="py-2">
-                          <div className="d-flex align-items-center">
-                            <div className="icon icon-success mb-2">
-                              <i className="tim-icons icon-vector" />
-                            </div>
-                            <div className="ml-3">
-                              <h6>Carefully crafted components</h6>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="py-2">
-                          <div className="d-flex align-items-center">
-                            <div className="icon icon-success mb-2">
-                              <i className="tim-icons icon-tap-02" />
-                            </div>
-                            <div className="ml-3">
-                              <h6>Amazing page examples</h6>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="py-2">
-                          <div className="d-flex align-items-center">
-                            <div className="icon icon-success mb-2">
-                              <i className="tim-icons icon-single-02" />
-                            </div>
-                            <div className="ml-3">
-                              <h6>Super friendly support team</h6>
-                            </div>
-                          </div>
-                        </li>
-  </ul>*/}
                     </div>
                   </CardBody>
                 </Card>
               </Col>
               <Col md="6">
-
               </Col>
             </Row>
           </Container>
         </section>
         <Footer />
+        {response !== null && (
+          <Alert isOpen color={successful ? 'success' : 'danger'} toggle={onDismiss} style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 9999,
+          }}>
+            {response}
+          </Alert>
+        )}
       </div>
     </>
   );

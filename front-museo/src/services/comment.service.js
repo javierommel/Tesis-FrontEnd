@@ -19,16 +19,17 @@ const getAdminBoard = () => {
   return axios.get(API_URL + "admin", { headers: authHeader() });
 };
 
-const addComment = (data, usuario_modificacion) => {
-  if (!usuario_modificacion) usuario_modificacion = "admin"
-  return axios.post(API_URL1 + "signup", {
-    data,
-    usuario_modificacion,
+const addComment = (comentario, puntuacion, usuario) => {
+  return axios.post(API_URL1 + "addcomment", {
+    comentario,
+    puntuacion,
+    usuario,
   });
 }
-const updateComment = (id, usuario_modificacion) => {
+const updateComment = (id, estado, usuario_modificacion) => {
   return axios.post(API_URL1 + "updatecomment", {
     id,
+    estado,
     usuario_modificacion,
   });
 }
@@ -44,10 +45,11 @@ const deleteComment = (id, usuario_modificacion) => {
     usuario_modificacion
   });
 }
-const getComment = (page, pageSize) => {
+const getComment = (page, pageSize, usuario) => {
   return axios.post(API_URL1 + "getcommentprincipal", {
     page,
     pageSize,
+    usuario,
   });
 }
 

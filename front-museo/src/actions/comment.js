@@ -38,8 +38,8 @@ export const deleteComment = async ({ id, usuario_modificacion }) => {
     );
 };
 
-export const updateComment = async (id, values, usuario_modificacion, roles, image) => {
-    return AuthService.updateComment(id, values, usuario_modificacion, roles, image).then(
+export const updateComment = async (id, estado, usuario_modificacion) => {
+    return AuthService.updateComment(id, estado, usuario_modificacion).then(
         (response) => {
             return { message: response.data.message, retcode: 0 };
         },
@@ -55,8 +55,8 @@ export const updateComment = async (id, values, usuario_modificacion, roles, ima
     );
 };
 
-export const addComment = async (name, username, email, password, country, year, usuario_modificacion, roles) => {
-    return AuthService.addComment(name, username, email, password, country, year, usuario_modificacion, roles).then(
+export const addComment = async (comentario, puntuacion, usuario) => {
+    return AuthService.addComment(comentario, puntuacion, usuario).then(
         (response) => {
             return { message: response.data.message, retcode: 0 };
         },
@@ -72,8 +72,8 @@ export const addComment = async (name, username, email, password, country, year,
     );
 };
 
-export const getComment = async ( { page, pageSize } ) => {
-    return AuthService.getComment(page, pageSize).then(
+export const getComment = async ( { page, pageSize, usuario } ) => {
+    return AuthService.getComment(page, pageSize, usuario).then(
         (response) => {
             return response.data
         },
