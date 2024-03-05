@@ -7,30 +7,35 @@ import { BiFirstPage, BiLastPage } from "react-icons/bi";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
 export default function ListPiece(props) {
+    
     const handleClick = id => e => {
-        const { handleClick } = props
-        handleClick(id)
+        props.handleClick(id)
     }
-    const NuevaColumna = () => <>
-        <Button color="info" size="sm">
+
+    const handleDelete = id => e => {
+        props.handleDelete(id)
+    }
+
+    const NuevaColumna = ({ id: id }) => <>
+        <Button color="info" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
             Actualizar
         </Button>
-        <Button color="success" size="sm">
+        <Button color="success" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
             Eliminar
         </Button></>
     const { data } = props
-    console.log("list: "+JSON.stringify(data))
+    console.log("list: " + JSON.stringify(data))
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
-            botones: <NuevaColumna key={objeto.id} />,
+            botones: <NuevaColumna key={objeto.id} id={objeto.id}/>,
         }));
     };
 
     const columns = useMemo(() => PieceData, []);
-    console.log("dt: "+data)
+    console.log("dt: " + data)
     const datosConNuevaColumnaMemo = useMemo(() => datosConNuevaColumna(data), [data]);
 
     const table = useTable({

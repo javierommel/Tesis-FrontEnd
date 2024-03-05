@@ -20,3 +20,20 @@ export const getPiece = async ({page, pageSize}) => {
         }
     );
 };
+
+export const addPiece = async (file) => {
+    return AuthService.addPiece(file).then(
+        (response) => {
+            return { message: response.data.message, retcode: 0 };
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return { message, retcode: 1 };
+        }
+    );
+};

@@ -1,3 +1,5 @@
+import { Badge } from 'reactstrap'
+
 export const PieceData = [
     {
         Header: 'ID',
@@ -22,6 +24,9 @@ export const PieceData = [
     {
         Header: 'Estado',
         accessor: 'estado',
+        Cell: ({ value }) => (
+            value===1?<Badge color="success">Activo</Badge>:<Badge className="badge-default">Inactivo</Badge>
+          ),
     },
     {
         Header: '',

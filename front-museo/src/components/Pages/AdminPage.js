@@ -5,10 +5,11 @@ import { clearMessage } from "actions/message";
 import UserForm from "../Settings/UserForm"
 import ViewListUser from "../Settings/ViewListUser"
 import PieceForm from "../Settings/PieceForm"
+import PieceAddForm from "../Settings/PieceAddForm"
 import ViewListPiece from "../Settings/ViewListPiece"
 import ViewListComment from "../Settings/ViewListComment"
 import { getUser, deleteUser, addUser, updateUser } from "../../actions/user"
-import { getPiece } from "../../actions/piece"
+import { getPiece, addPiece } from "../../actions/piece"
 import { getCommentList, deleteComment, updateComment } from "../../actions/comment"
 // react plugin used to create charts
 import classnames from "classnames";
@@ -234,8 +235,8 @@ export default function AdminPage() {
   const modificarComentario = (comentario, estado) => {
     setTipoupdate(3)
     setIdcomment(comentario)
-    if (estado===1) {
-      setMensajealert("¿Desea desactivar el comentario?"); 
+    if (estado === 1) {
+      setMensajealert("¿Desea desactivar el comentario?");
       setActivarComment(0);
     }
     else {
@@ -245,11 +246,11 @@ export default function AdminPage() {
     toggle()
   }
 
-  const modificarComment= () => {
+  const modificarComment = () => {
     toggle()
     setLoading(true);
     setTimeout(() => {
-      updateComment({ id: idcomment, estado:activarcomment, usuario_modificacion: currentUser.id,  }).then(({ message, retcode }) => {
+      updateComment(idcomment, activarcomment, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
           localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -291,7 +292,7 @@ export default function AdminPage() {
     toggle()
     setLoading(true);
     setTimeout(() => {
-      deleteComment({ id: iduser, usuario_modificacion: currentUser.id }).then(({ message, retcode }) => {
+      deleteComment(iduser, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
           localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -308,9 +309,37 @@ export default function AdminPage() {
       })
     }, 2000);
   }
-  const agregarNuevoObjeto = (piece, cancel) => {
+  const eliminarObjeto = (objeto) => {
+    setIduser(objeto)
+    setMensajealert("¿Desea eliminar el registro?")
+    setTipoupdate(0)
+    toggle()
+  }
+  const agregarNuevoObjeto = (file, cancel) => {
 
-    if (cancel) { cancelarObjeto(); }
+    if (cancel) {
+      cancelarObjeto();
+    }
+    else {
+      setLoading(true);
+      setTimeout(() => {
+        addPiece(file).then(({ message, retcode }) => {
+          if (retcode === 0) {
+            setResponse(message);
+            localStorage.setItem('storedResponse', JSON.stringify(message));
+            setSuccessful(true);
+            setLoading(false);
+            window.location.reload();
+          }
+          else {
+            console.log(message)
+            setResponse("Error al intentar guardar los registros en el servidor")
+            setSuccessful(false);
+            setLoading(false);
+          }
+        })
+      }, 2000);
+    }
   }
 
   const actualizarUsuario = (id, values, cancel) => {
@@ -365,7 +394,7 @@ export default function AdminPage() {
   const nuevoObjeto = () => {
     setDatosp((prevDatos) => ({
       ...prevDatos,         // Manteniendo las propiedades existentes
-      ruta: 'formulario',
+      ruta: 'formularion',
       objetoSeleccionado: undefined
     }));
   }
@@ -396,7 +425,7 @@ export default function AdminPage() {
               {mensajealert}
             </ModalBody>
             <ModalFooter>
-              <Button color="info" onClick={tipoupdate===0?eliminarUser:(tipoupdate===2?eliminarComment:modificarComment)}>
+              <Button color="info" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate === 2 ? eliminarComment : modificarComment)}>
                 Aceptar
               </Button>{' '}
               <Button color="secondary" onClick={toggle}>
@@ -408,10 +437,11 @@ export default function AdminPage() {
             <h3 className="mb-3">Administrador</h3>
           </div>
           <Row>
-            <Col className="ml-auto mr-auto" md="10" xl="20">
+            <Col className="ml-auto mr-auto" md="12" xl="20">
               <div className="mb-3">
                 <small className="text-uppercase font-weight-bold">
-                  With icons
+                  Mantenimiento'0
+                  
                 </small>
               </div>
               <Card>
@@ -425,7 +455,7 @@ export default function AdminPage() {
                         onClick={(e) => setIconsTabs(1)}
                         href="#pablo"
                       >
-                        <i className="tim-icons icon-spaceship" />
+                        <i className="tim-icons icon-single-02" />
                         Usuarios
                       </NavLink>
                     </NavItem>
@@ -449,7 +479,7 @@ export default function AdminPage() {
                         onClick={(e) => setIconsTabs(3)}
                         href="#pablo"
                       >
-                        <i className="tim-icons icon-spaceship" />
+                        <i className="tim-icons icon-paper" />
                         Comentarios
                       </NavLink>
                     </NavItem>
@@ -476,6 +506,7 @@ export default function AdminPage() {
                       {datosp.ruta === 'lista' && <ViewListPiece
                         nuevoObjeto={nuevoObjeto}
                         handleClick={seleccionObjeto}
+                        handleDelete={eliminarObjeto}
                         data={datosp.data}
                       />}
 
@@ -484,6 +515,9 @@ export default function AdminPage() {
                         valoresInicialesp={valoresInicialesp || {}}
                         handleSubmit={agregarNuevoObjeto}
                         handleUpdate={actualizarNuevoObjeto}
+                      />}
+                      {datosp.ruta === 'formularion' && <PieceAddForm
+                        handleSubmit={agregarNuevoObjeto}
                       />}
                     </TabPane>
                     <TabPane tabId="link3">

@@ -27,8 +27,10 @@ export default function Comment({data}) {
             <Col ><h5>{data.puntuacion} pts </h5></Col>
             <Col ><Rating
               emptySymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
-              fullSymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
+              fullSymbol={<img style={{ width: '20px', height: '20px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
               style={{ float: 'right' }}
+              readonly
+              initialRating={data.puntuacion}
             /></Col>
           </Row>
         </Col>
