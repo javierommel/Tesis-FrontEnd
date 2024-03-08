@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 
 //import { useTable, usePagination } from "react-table";
 import {
@@ -11,13 +11,16 @@ import {
     flexRender,
     getSortedRowModel,
 } from '@tanstack/react-table'
-import { CommentData as columnDefinitions} from "./Data/CommentData"
+import { CommentData as columnDefinitions } from "./Data/CommentData"
 import '../../assets/css/table.css';
-import { Button } from "reactstrap";
-//import { BiFirstPage, BiLastPage } from "react-icons/bi";
-//import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
+import { Button, Tooltip } from "reactstrap";
 
 export default function ListComment(props) {
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+
+    const toggle = () => {
+        setTooltipOpen(!tooltipOpen);
+    };
     const handleClick = (id, estado) => e => {
 
         props.handleClick(id, estado)
@@ -27,13 +30,22 @@ export default function ListComment(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id, estado: estado }) => <>
-        <Button color="default" size="sm" onClick={handleClick(id, estado)}>
-            <i className="tim-icons icon-button-power" />
-            {/*estado === 0 ? "Activar" : "Desactivar"*/}
-        </Button>
+        <span>
+            <Button id={'b-' + id} color="default" size="sm" onClick={() => handleClick(id, estado)}>
+                <i className="tim-icons icon-button-power" />
+            </Button>
+            <Tooltip
+                placement="left"
+                isOpen={tooltipOpen}
+                target={'b-' + id}
+                toggle={toggle}
+            >
+                {estado === 0 ? "Activar" : "Desactivar"}
+            </Tooltip>
+        </span>
         <Button color="default" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
-            
+
         </Button></>
     const { data } = props
     const datosConNuevaColumna = dat => {
@@ -59,18 +71,18 @@ export default function ListComment(props) {
     const columns = [
         ...columnDefinitions,
         {
-          header: 'Acciones',
-          accessorKey: 'botones',
-          cell: ({ row }) => (
-            <NuevaColumna
-              id={row.original.id}
-              estado={row.original.estado}
-              handleClick={handleClick}
-              handleDelete={handleDelete}
-            />
-          ),
+            header: 'Acciones',
+            accessorKey: 'botones',
+            cell: ({ row }) => (
+                <NuevaColumna
+                    id={row.original.id}
+                    estado={row.original.estado}
+                    handleClick={handleClick}
+                    handleDelete={handleDelete}
+                />
+            ),
         },
-      ];
+    ];
     const [pagination, setPagination] = React.useState({
         pageIndex: 0,
         pageSize: 10,

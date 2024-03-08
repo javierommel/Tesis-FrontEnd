@@ -3,33 +3,27 @@ import { Badge } from 'reactstrap'
 
 export const UserData = [
     {
-        Header: 'Usuario',
-        accessor: 'usuario',
+        header: 'Usuario',
+        accessorKey: 'usuario',
     },
     {
-        Header: 'Nombres',
-        accessor: 'nombre',
+        header: 'Nombres',
+        accessorKey: 'nombre',
     },
     {
-        Header: 'Email',
-        accessor: 'email',
+        header: 'Email',
+        accessorKey: 'email',
     },
     {
-        Header: 'Roles',
-        accessor: '',
+        header: 'Roles',
+        accessorKey: '',
     },
     {
-        Header: 'Estado',
-        accessor: 'estado',
-        style: {
-            textAlign: "center",
-          },
-        Cell: ({ value }) => (
-            value===1?<Badge color="success">Activo</Badge>:<Badge className="badge-default">Inactivo</Badge>
+        header: 'Estado',
+        accessorKey: 'estado',
+        cell: value => (
+            value.getValue()===1?<Badge color="success">Activo</Badge>:<Badge className="badge-default">Inactivo</Badge>
           ),
     },
-    {
-        Header: '',
-        accessor: 'botones',
-    },
+    
 ];

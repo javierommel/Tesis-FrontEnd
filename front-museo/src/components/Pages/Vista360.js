@@ -9,29 +9,33 @@ import Chat from "assets/img/chat.png";
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import { Navigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { Container } from "reactstrap";
+import Footer from "components/Footer/Footer.js";
 
 export default function Vista360() {
-    const [showBot, toggleBot] = useState(false);
-    const { user: currentUser } = useSelector((state) => state.auth);
+  const [showBot, toggleBot] = useState(false);
+  const { user: currentUser } = useSelector((state) => state.auth);
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
-    return (
-      <div>
-        <ExamplesNavbar activado={2}/>
-        {/* Otro contenido de tu componente */}
-        {showBot && (
+  return (<>
+    <ExamplesNavbar activado={2} />
 
-          <Chatbot />
-        )}
-        <Flip left cascade>
-          <button
-            className="app-chatbot-button"
-            onClick={() => toggleBot((prev) => !prev)}
-          >
-            <img src={Chat} alt="Chat" />
-          </button>
-        </Flip>
+    {/* Otro contenido de tu componente */}
+    {showBot && (
+
+      <Chatbot />
+    )}
+    <Flip left cascade>
+      <button
+        className="app-chatbot-button"
+        onClick={() => toggleBot((prev) => !prev)}
+      >
+        <img src={Chat} alt="Chat" />
+      </button>
+    </Flip>
+    <div className="wrapper">
+      <section className="section section-lg section-safe">
         <Pannellum
           width="100%"
           height="800px"
@@ -61,6 +65,10 @@ export default function Vista360() {
             URL="https://github.com/farminf/pannellum-react"
           />
         </Pannellum>
-      </div>
-    );
+      </section>
+    </div>
+    <Footer />
+
+  </>
+  );
 }

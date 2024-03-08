@@ -63,7 +63,7 @@ export default function PageHeader() {
       <div className="squares square5" />
       <div className="squares square6" />
       <div className="squares square7" />
-      <div className="content-center">
+      <div className="wrapper">
         <Container>
           <div className="title">
             <h3></h3>
