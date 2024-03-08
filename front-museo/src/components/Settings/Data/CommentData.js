@@ -1,6 +1,6 @@
 import { Badge } from 'reactstrap'
 export const CommentData = [
-    {
+    /*{
         Header: 'Usuario',
         accessor: 'usuario',
         headerStyle: {
@@ -24,5 +24,23 @@ export const CommentData = [
     {
         Header: '',
         accessor: 'botones'
+    },*/
+    {
+        header: 'Usuario',
+        accessorKey: 'usuario',
     },
+    {
+        header: 'Commentario',
+        accessorKey: 'comentario',
+    },
+    {
+        header: 'Estado',
+        accessorKey: 'estado',
+        cell: value => (
+            <div style={{ textAlign: 'center', width: '10%' }}>
+                {value.getValue() === 1 ? <Badge color="success">Activo</Badge> : <Badge className="badge-default">Inactivo</Badge>}
+            </div>
+        ),
+    },
+    
 ];

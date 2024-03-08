@@ -1,10 +1,21 @@
 import React, { useMemo } from 'react'
-import { useTable, usePagination } from "react-table";
-import { CommentData } from "./Data/CommentData"
+
+//import { useTable, usePagination } from "react-table";
+import {
+    Table as ReactTable,
+    PaginationState,
+    useReactTable,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    flexRender,
+    getSortedRowModel,
+} from '@tanstack/react-table'
+import { CommentData as columnDefinitions} from "./Data/CommentData"
 import '../../assets/css/table.css';
 import { Button } from "reactstrap";
-import { BiFirstPage, BiLastPage } from "react-icons/bi";
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
+//import { BiFirstPage, BiLastPage } from "react-icons/bi";
+//import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
 export default function ListComment(props) {
     const handleClick = (id, estado) => e => {
@@ -16,26 +27,26 @@ export default function ListComment(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id, estado: estado }) => <>
-        <Button color="success" size="sm" onClick={handleClick(id, estado)}>
-            <i className="tim-icons icon-refresh-02" />
-            {estado === 0 ? "Activar" : "Desactivar"}
+        <Button color="default" size="sm" onClick={handleClick(id, estado)}>
+            <i className="tim-icons icon-button-power" />
+            {/*estado === 0 ? "Activar" : "Desactivar"*/}
         </Button>
-        <Button color="warning" size="sm" onClick={handleDelete(id)}>
+        <Button color="default" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
-            Eliminar
+            
         </Button></>
     const { data } = props
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
-            botones: <NuevaColumna key={objeto.id} id={objeto.id} estado={objeto.estado}/>,
+            botones: <NuevaColumna key={objeto.id} id={objeto.id} estado={objeto.estado} />,
         }));
     };
 
-    const columns = useMemo(() => CommentData, []);
+    //const columns = useMemo(() => CommentData, []);
     const datosConNuevaColumnaMemo = useMemo(() => datosConNuevaColumna(data), [data]);
 
-    const table = useTable({
+    /*const table = useTable({
         columns,
         data: datosConNuevaColumnaMemo,
         initialState: {
@@ -44,111 +55,221 @@ export default function ListComment(props) {
         },
     },
         usePagination
-    );
+    );*/
+    const columns = [
+        ...columnDefinitions,
+        {
+          header: 'Acciones',
+          accessorKey: 'botones',
+          cell: ({ row }) => (
+            <NuevaColumna
+              id={row.original.id}
+              estado={row.original.estado}
+              handleClick={handleClick}
+              handleDelete={handleDelete}
+            />
+          ),
+        },
+      ];
+    const [pagination, setPagination] = React.useState({
+        pageIndex: 0,
+        pageSize: 10,
+    })
+    const table = useReactTable({
+        columns,
+        data: datosConNuevaColumnaMemo,
+        debugTable: true,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        onPaginationChange: setPagination,
+        //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
+        state: {
+            pagination,
+        },
+        // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
+    })
 
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-        page,
-        canPreviousPage,
-        canNextPage,
-        pageOptions,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        setPageSize,
-        state: { pageIndex, pageSize }
-    } = table;
     return (
-        <>
-            {/* Añadimos las propiedades a nuestra tabla nativa */}
-            <table {...getTableProps()}>
+        <div className="p-2">
+            <div className="h-2" />
+            <table>
                 <thead>
-                    {
-                        // Recorremos las columnas que previamente definimos
-                        headerGroups.map(headerGroup => (
-                            // Añadimos las propiedades al conjunto de columnas
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {
-                                    // Recorremos cada columna del conjunto para acceder a su información
-                                    headerGroup.headers.map((column) => (
-                                        // Añadimos las propiedades a cada celda de la cabecera
-                                        <th {...column.getHeaderProps()}>
-                                            {
-                                                // Pintamos el título de nuestra columna (propiedad "Header")
-                                                column.render("Header")
-                                            }
-                                        </th>
-                                    ))
-                                }
-                            </tr>
-                        ))
-                    }
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map(header => {
+                                return (
+                                    <th key={header.id} colSpan={header.colSpan}>
+                                        <div
+                                            {...{
+                                                className: header.column.getCanSort()
+                                                    ? 'cursor-pointer select-none'
+                                                    : '',
+                                                onClick: header.column.getToggleSortingHandler(),
+                                            }}
+                                        >
+                                            {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
+                                            {{
+                                                asc: ' 🔼',
+                                                desc: ' 🔽',
+                                            }[header.column.getIsSorted()] ?? null}
+                                            {/*header.column.getCanFilter() ? (
+                                                <div>
+                                                    <Filter column={header.column} table={table} />
+                                                </div>
+                                            ) : null*/}
+                                        </div>
+                                    </th>
+                                )
+                            })}
+                        </tr>
+                    ))}
                 </thead>
-                {/* Añadimos las propiedades al cuerpo de la tabla */}
-                <tbody {...getTableBodyProps()}>
-                    {
-                        // Recorremos las filas
-                        rows.map(row => {
-                            // Llamamos a la función que prepara la fila previo renderizado
-                            prepareRow(row);
-                            return (
-                                // Añadimos las propiedades a la fila
-                                <tr {...row.getRowProps()}>
-                                    {
-                                        // Recorremos cada celda de la fila
-                                        row.cells.map((cell) => {
-                                            // Añadimos las propiedades a cada celda de la fila
-                                            return (
-                                                <td {...cell.getCellProps()}>
-                                                    {
-                                                        // Pintamos el contenido de la celda
-                                                        cell.render("Cell")
-                                                    }
-                                                </td>
-                                            );
-                                        })
-                                    }
-                                </tr>
-                            );
-                        })
-                    }
+                <tbody>
+                    {table.getRowModel().rows.map(row => {
+                        return (
+                            <tr key={row.id}>
+                                {row.getVisibleCells().map(cell => {
+                                    return (
+                                        <td key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </td>
+                                    )
+                                })}
+                            </tr>
+                        )
+                    })}
                 </tbody>
-            </table >
+            </table>
+            <div className="h-2" />
             <div className="pagination">
-                <span>
-                    Página
+                <span className="flex items-center gap-1">
+                    <div>Página</div>
                     <strong>
-                        {pageIndex + 1} de {pageOptions.length}
+                        {table.getState().pagination.pageIndex + 1} of{' '}
+                        {table.getPageCount().toLocaleString()}
                     </strong>
                 </span>
                 <div className="controls">
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                        <BiFirstPage className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.firstPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-double-left"
+                        />
+
                     </button>
-                    <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                        <MdKeyboardArrowLeft className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-minimal-left"
+                        />
                     </button>
-                    <button onClick={() => nextPage()} disabled={!canNextPage}>
-                        <MdKeyboardArrowRight className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-minimal-right"
+                        />
                     </button>
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                        <BiLastPage className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.lastPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-double-right"
+                        />
                     </button>
                 </div>
-                <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>
-                    {[5, 10, 15].map(pageSize => (
+                <select
+                    value={table.getState().pagination.pageSize}
+                    onChange={e => {
+                        table.setPageSize(Number(e.target.value))
+                    }}
+                >
+                    {[10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Mostrar {pageSize}
                         </option>
                     ))}
                 </select>
             </div>
-        </>
+            <div>
+                Mostrar {table.getRowModel().rows.length.toLocaleString()} de {' '}
+                {table.getRowCount().toLocaleString()} Resultados
+            </div>
+        </div>
     )
 
+}
+
+function Filter({
+    column,
+    table,
+}) {
+    const firstValue = table
+        .getPreFilteredRowModel()
+        .flatRows[0]?.getValue(column.id)
+
+    const columnFilterValue = column.getFilterValue()
+
+    return typeof firstValue === 'number' ? (
+        <div className="flex space-x-2">
+            <input
+                type="number"
+                value={(columnFilterValue)?.[0] ?? ''}
+                onChange={e =>
+                    column.setFilterValue((old) => [
+                        e.target.value,
+                        old?.[1],
+                    ])
+                }
+                placeholder={`Min`}
+                className="w-24 border shadow rounded"
+            />
+            <input
+                type="number"
+                value={(columnFilterValue)?.[1] ?? ''}
+                onChange={e =>
+                    column.setFilterValue((old) => [
+                        old?.[0],
+                        e.target.value,
+                    ])
+                }
+                placeholder={`Max`}
+                className="w-24 border shadow rounded"
+            />
+        </div>
+    ) : (
+        <input
+            type="text"
+            value={(columnFilterValue ?? '')}
+            onChange={e => column.setFilterValue(e.target.value)}
+            placeholder={`Search...`}
+            className="w-36 border shadow rounded"
+        />
+    )
 }

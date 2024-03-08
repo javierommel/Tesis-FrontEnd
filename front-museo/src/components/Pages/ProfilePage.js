@@ -170,6 +170,30 @@ export default function ProfilePage() {
           />
           <Container className="align-items-center">
             <Row>
+            <Col className="ml-auto mr-auto" lg="4" md="6">
+                <Card className="card-plain">
+                  <CardHeader>
+                    <img
+                      alt="..."
+                      className="img-center img-fluid rounded-circle"
+                      src={image}
+                      style={{ width: '100px', height: '100px', borderRadius: '50%' }}
+                    />
+                  </CardHeader>
+                  <CardBody>
+                    <Button
+                      onClick={() => {
+                        //console.log(inputRef);
+                        inputRef.current.click();
+                      }}
+                      className="btn btn-lg w-100"
+                    >
+                      Subir foto
+                    </Button>
+                    <input ref={inputRef} type="file" onChange={handleImageChange} hidden />
+                  </CardBody>
+                </Card>
+              </Col>
               <Col md="6">
                 <Card className="card-plain">
                   <CardBody>
@@ -326,30 +350,6 @@ export default function ProfilePage() {
                         Guardar
                       </Button>
                     </Form>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col className="ml-auto mr-auto" lg="4" md="6">
-                <Card className="card-coin card-plain">
-                  <CardHeader>
-                    <img
-                      alt="..."
-                      className="img-center img-fluid rounded-circle"
-                      src={image}
-                      style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-                    />
-                  </CardHeader>
-                  <CardBody>
-                    <Button
-                      onClick={() => {
-                        //console.log(inputRef);
-                        inputRef.current.click();
-                      }}
-                      className="btn btn-lg w-100"
-                    >
-                      Subir foto
-                    </Button>
-                    <input ref={inputRef} type="file" onChange={handleImageChange} hidden />
                   </CardBody>
                 </Card>
               </Col>

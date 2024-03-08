@@ -1,4 +1,6 @@
 import { Badge } from 'reactstrap'
+
+
 export const UserData = [
     {
         Header: 'Usuario',

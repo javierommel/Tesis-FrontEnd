@@ -440,7 +440,7 @@ export default function AdminPage() {
             <Col className="ml-auto mr-auto" md="12" xl="20">
               <div className="mb-3">
                 <small className="text-uppercase font-weight-bold">
-                  Mantenimiento'0
+                  Mantenimiento
                   
                 </small>
               </div>

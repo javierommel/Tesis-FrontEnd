@@ -16,13 +16,13 @@ export default function ListUser(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({id:id}) => <>
-        <Button color="success" size="sm" onClick={handleClick(id)}>
+        <Button color="default" outline onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
-            Actualizar
+            
         </Button>
-        <Button color="warning" size="sm" onClick={handleDelete(id)}>
+        <Button color="default" outline onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
-            Eliminar
+            
         </Button></>
     const { data } = props
     const datosConNuevaColumna = dat => {
