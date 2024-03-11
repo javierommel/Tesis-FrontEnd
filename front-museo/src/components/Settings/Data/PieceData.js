@@ -2,34 +2,32 @@ import { Badge } from 'reactstrap'
 
 export const PieceData = [
     {
-        Header: 'ID',
-        accessor: 'numero_ordinal',
+        header: 'ID',
+        accessorKey: 'numero_ordinal',
     },
     {
-        Header: 'Código',
-        accessor: 'codigo_inpc',
+        header: 'Código',
+        accessorKey: 'codigo_inpc',
     },
     {
-        Header: 'Nombre',
-        accessor: 'nombre',
+        header: 'Nombre',
+        accessorKey: 'nombre',
     },
     {
-        Header: 'Tipo',
-        accessor: 'tipo',
+        header: 'Tipo',
+        accessorKey: 'tipo',
     },
     {
-        Header: 'Autor',
-        accessor: 'autor',
+        header: 'Autor',
+        accessorKey: 'autor',
     },
     {
-        Header: 'Estado',
-        accessor: 'estado',
-        Cell: ({ value }) => (
-            value===1?<Badge color="success">Activo</Badge>:<Badge className="badge-default">Inactivo</Badge>
-          ),
-    },
-    {
-        Header: '',
-        accessor: 'botones',
+        header: 'Estado',
+        accessorKey: 'estado',
+        cell: value => (
+            <div style={{ textAlign: 'center', width: '10%' }}>
+                {value.getValue() === 1 ? <Badge color="success">Activo</Badge> : <Badge className="badge-default">Inactivo</Badge>}
+            </div>
+        ),
     },
 ];

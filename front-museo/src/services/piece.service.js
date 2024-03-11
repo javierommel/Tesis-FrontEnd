@@ -44,6 +44,11 @@ const getPiece=(page, pageSize)=>{
         pageSize, 
       });
 }
+const getInformationPiece=()=>{
+  return axios.
+      post(API_URL1 + "getinformationpiece", {
+      });
+}
 
 export default {
   getPublicContent,
@@ -52,5 +57,6 @@ export default {
   getAdminBoard,
   addPiece,
   updatePiece,
-  getPiece
+  getPiece,
+  getInformationPiece
 };

@@ -172,43 +172,6 @@ export default function PrincipalPage() {
           <Container>
             <Row className="row-grid justify-content-between">
               <Col md="5">
-                <img
-                  alt="..."
-                  className="img-fluid floating"
-                  src={require("assets/img/chester-wade.jpg")}
-                />
-                <Card className="card-stats bg-danger">
-                  <CardBody>
-                    <div className="justify-content-center">
-                      <div className="numbers">
-                        <CardTitle tag="p">100%</CardTitle>
-                        <p className="card-category text-white">Safe</p>
-                      </div>
-                    </div>
-                  </CardBody>
-                </Card>
-                <Card className="card-stats bg-info">
-                  <CardBody>
-                    <div className="justify-content-center">
-                      <div className="numbers">
-                        <CardTitle tag="p">573 K</CardTitle>
-                        <p className="card-category text-white">
-                          Satisfied customers
-                        </p>
-                      </div>
-                    </div>
-                  </CardBody>
-                </Card>
-                <Card className="card-stats bg-default">
-                  <CardBody>
-                    <div className="justify-content-center">
-                      <div className="numbers">
-                        <CardTitle tag="p">10 425</CardTitle>
-                        <p className="card-category text-white">Business</p>
-                      </div>
-                    </div>
-                  </CardBody>
-                </Card>
               </Col>
               <Col className="ml-auto mr-auto" lg="7" md="6">
                 <Card className="card-coin card-plain">
@@ -252,7 +215,7 @@ export default function PrincipalPage() {
                         </Row>
                         <Row>
                           <Col>
-                            <Button style={{ float: 'right' }} onClick={saveComment}>Comentar</Button>
+                            <Button style={{ float: 'right' }} color="info" onClick={saveComment}>Comentar</Button>
                           </Col>
                         </Row>
                       </Col>

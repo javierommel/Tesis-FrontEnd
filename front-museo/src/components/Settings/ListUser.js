@@ -27,11 +27,11 @@ export default function ListUser(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id }) => <>
-        <Button color="default" size="sm" onClick={handleClick(id)}>
+        <Button color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
 
         </Button>
-        <Button color="default" size="sm" onClick={handleDelete(id)}>
+        <Button color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
 
         </Button></>
@@ -52,7 +52,7 @@ export default function ListUser(props) {
             accessorKey: 'botones',
             cell: ({ row }) => (
                 <NuevaColumna
-                    id={row.original.id}
+                    id={row.original.usuario}
                     estado={row.original.estado}
                     handleClick={handleClick}
                     handleDelete={handleDelete}

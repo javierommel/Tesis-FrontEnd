@@ -16,14 +16,16 @@ export const UserData = [
     },
     {
         header: 'Roles',
-        accessorKey: '',
+        accessorKey: 'rolesname',
     },
     {
         header: 'Estado',
         accessorKey: 'estado',
         cell: value => (
-            value.getValue()===1?<Badge color="success">Activo</Badge>:<Badge className="badge-default">Inactivo</Badge>
-          ),
+            <div style={{ textAlign: 'center', width: '10%' }}>
+                {value.getValue() === 1 ? <Badge color="success">Activo</Badge> : <Badge className="badge-default">Inactivo</Badge>}
+            </div>
+        ),
     },
     
 ];

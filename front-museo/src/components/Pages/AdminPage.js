@@ -68,7 +68,7 @@ export default function AdminPage() {
     tipo: [],
   })
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
-  const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.id === datosp.objetoSeleccionado)
+  const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.numero_ordinal === datosp.objetoSeleccionado)
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
@@ -84,6 +84,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
+      //console.log("rolesss: "+JSON.stringify(dat.data))
       setDatos((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
@@ -108,7 +109,7 @@ export default function AdminPage() {
         setLoading(false);
       });
     getCommentList({ page: datosc.page, pageSize: datosc.pageSize }).then((dat) => {
-      console.log("data: " + JSON.stringify(dat))
+      //console.log("data: " + JSON.stringify(dat))
       setDatosc((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
@@ -160,7 +161,7 @@ export default function AdminPage() {
     return <Navigate to="/login" />;
   }
   const seleccionUsuario = id => {
-    console.log("seleccion: " + id)
+    //console.log("seleccion: " + id)
     setDatos((prevDatos) => ({
       ...prevDatos,
       ruta: 'formulario',
@@ -182,7 +183,7 @@ export default function AdminPage() {
         const rol_array = [];
         setLoading(true);
         setSuccessful(false);
-        console.log(JSON.stringify(usuario))
+        //console.log(JSON.stringify(usuario))
         usuario.roles.map((check, index) => {
           if (index !== 0) {
             if (check) rol_array.push(datos.roles[index - 1].nombre)
@@ -190,7 +191,7 @@ export default function AdminPage() {
           return null;
         })
         addUser(usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(({ message, retcode }) => {
-          console.log("asdf: " + message + " " + retcode)
+          //console.log("asdf: " + message + " " + retcode)
           if (retcode === 0) {
             setResponse(message);
             localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -384,7 +385,7 @@ export default function AdminPage() {
   }
 
   const nuevoUsuario = () => {
-    console.log("asdf");
+    //console.log("asdf");
     setDatos((prevDatos) => ({
       ...prevDatos,         // Manteniendo las propiedades existentes
       ruta: 'formulario',

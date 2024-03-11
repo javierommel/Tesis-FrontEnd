@@ -1,14 +1,23 @@
 import React, { useMemo } from 'react'
-import { useTable, usePagination } from "react-table";
-import { PieceData } from "./Data/PieceData"
+//import { useTable, usePagination } from "react-table";
+import {
+    Table as ReactTable,
+    PaginationState,
+    useReactTable,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    flexRender,
+    getSortedRowModel,
+} from '@tanstack/react-table'
+import { PieceData as columnDefinitions } from "./Data/PieceData"
 import '../../assets/css/table.css';
 import { Button } from "reactstrap";
-import { BiFirstPage, BiLastPage } from "react-icons/bi";
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
 export default function ListPiece(props) {
-    
+
     const handleClick = id => e => {
+        //console.log("id: " + id)
         props.handleClick(id)
     }
 
@@ -17,141 +26,192 @@ export default function ListPiece(props) {
     }
 
     const NuevaColumna = ({ id: id }) => <>
-        <Button color="info" size="sm" onClick={handleClick(id)}>
+        <Button color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
-            Actualizar
+            
         </Button>
-        <Button color="success" size="sm" onClick={handleDelete(id)}>
+        <Button color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
-            Eliminar
+            
         </Button></>
     const { data } = props
-    console.log("list: " + JSON.stringify(data))
+    //console.log("list: " + JSON.stringify(data))
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
-            botones: <NuevaColumna key={objeto.id} id={objeto.id}/>,
+            botones: <NuevaColumna key={objeto.id} id={objeto.numero_ordinal} />,
         }));
     };
 
-    const columns = useMemo(() => PieceData, []);
-    console.log("dt: " + data)
+    //const columns = useMemo(() => PieceData, []);
+    //console.log("dt: " + data)
     const datosConNuevaColumnaMemo = useMemo(() => datosConNuevaColumna(data), [data]);
 
-    const table = useTable({
+    const columns = [
+        ...columnDefinitions,
+        {
+            header: '',
+            accessorKey: 'botones',
+            cell: ({ row }) => (
+                <NuevaColumna
+                    id={row.original.numero_ordinal}
+                    estado={row.original.estado}
+                    handleClick={handleClick}
+                    handleDelete={handleDelete}
+                />
+            ),
+        },
+    ];
+    const [pagination, setPagination] = React.useState({
+        pageIndex: 0,
+        pageSize: 10,
+    })
+    const table = useReactTable({
         columns,
         data: datosConNuevaColumnaMemo,
-        initialState: {
-            pageSize: 10,
-            pageIndex: 0
+        debugTable: true,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        onPaginationChange: setPagination,
+        //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
+        state: {
+            pagination,
         },
-    },
-        usePagination
-    );
-
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-        page,
-        canPreviousPage,
-        canNextPage,
-        pageOptions,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        setPageSize,
-        state: { pageIndex, pageSize }
-    } = table;
+        // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
+    })
     return (
-        <>
-            {/* Añadimos las propiedades a nuestra tabla nativa */}
-            <table {...getTableProps()}>
+        <div className="p-2">
+            <div className="h-2" />
+            <table>
                 <thead>
-                    {
-                        // Recorremos las columnas que previamente definimos
-                        headerGroups.map(headerGroup => (
-                            // Añadimos las propiedades al conjunto de columnas
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {
-                                    // Recorremos cada columna del conjunto para acceder a su información
-                                    headerGroup.headers.map((column) => (
-                                        // Añadimos las propiedades a cada celda de la cabecera
-                                        <th {...column.getHeaderProps()}>
-                                            {
-                                                // Pintamos el título de nuestra columna (propiedad "Header")
-                                                column.render("Header")
-                                            }
-                                        </th>
-                                    ))
-                                }
-                            </tr>
-                        ))
-                    }
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map(header => {
+                                return (
+                                    <th key={header.id} colSpan={header.colSpan}>
+                                        <div
+                                            {...{
+                                                className: header.column.getCanSort()
+                                                    ? 'cursor-pointer select-none'
+                                                    : '',
+                                                onClick: header.column.getToggleSortingHandler(),
+                                            }}
+                                        >
+                                            {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
+                                            {{
+                                                asc: ' 🔼',
+                                                desc: ' 🔽',
+                                            }[header.column.getIsSorted()] ?? null}
+                                            {/*header.column.getCanFilter() ? (
+                                                <div>
+                                                    <Filter column={header.column} table={table} />
+                                                </div>
+                                            ) : null*/}
+                                        </div>
+                                    </th>
+                                )
+                            })}
+                        </tr>
+                    ))}
                 </thead>
-                {/* Añadimos las propiedades al cuerpo de la tabla */}
-                <tbody {...getTableBodyProps()}>
-                    {
-                        // Recorremos las filas
-                        rows.map(row => {
-                            // Llamamos a la función que prepara la fila previo renderizado
-                            prepareRow(row);
-                            return (
-                                // Añadimos las propiedades a la fila
-                                <tr {...row.getRowProps()}>
-                                    {
-                                        // Recorremos cada celda de la fila
-                                        row.cells.map((cell) => {
-                                            // Añadimos las propiedades a cada celda de la fila
-                                            return (
-                                                <td {...cell.getCellProps()}>
-                                                    {
-                                                        // Pintamos el contenido de la celda
-                                                        cell.render("Cell")
-                                                    }
-                                                </td>
-                                            );
-                                        })
-                                    }
-                                </tr>
-                            );
-                        })
-                    }
+                <tbody>
+                    {table.getRowModel().rows.map(row => {
+                        return (
+                            <tr key={row.id}>
+                                {row.getVisibleCells().map(cell => {
+                                    return (
+                                        <td key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </td>
+                                    )
+                                })}
+                            </tr>
+                        )
+                    })}
                 </tbody>
-            </table >
+            </table>
+            <div className="h-2" />
             <div className="pagination">
-                <span>
-                    Página
+                <span className="flex items-center gap-1">
+                    <div>Página</div>
                     <strong>
-                        {pageIndex + 1} de {pageOptions.length}
+                        {table.getState().pagination.pageIndex + 1} of{' '}
+                        {table.getPageCount().toLocaleString()}
                     </strong>
                 </span>
                 <div className="controls">
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                        <BiFirstPage className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.firstPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-double-left"
+                        />
+
                     </button>
-                    <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                        <MdKeyboardArrowLeft className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-minimal-left"
+                        />
                     </button>
-                    <button onClick={() => nextPage()} disabled={!canNextPage}>
-                        <MdKeyboardArrowRight className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-minimal-right"
+                        />
                     </button>
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                        <BiLastPage className="page-controller" />
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.lastPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        <span aria-hidden={true}></span>
+                        <i
+                            aria-hidden={true}
+                            className="tim-icons icon-double-right"
+                        />
                     </button>
                 </div>
-                <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>
-                    {[5, 10, 15].map(pageSize => (
+                <select
+                    value={table.getState().pagination.pageSize}
+                    onChange={e => {
+                        table.setPageSize(Number(e.target.value))
+                    }}
+                >
+                    {[10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Mostrar {pageSize}
                         </option>
                     ))}
                 </select>
             </div>
-        </>
+            <div>
+                Mostrar {table.getRowModel().rows.length.toLocaleString()} de {' '}
+                {table.getRowCount().toLocaleString()} Resultados
+            </div>
+        </div>
     )
 
 }

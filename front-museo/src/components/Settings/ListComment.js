@@ -30,22 +30,11 @@ export default function ListComment(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id, estado: estado }) => <>
-        <span>
-            <Button id={'b-' + id} color="default" size="sm" onClick={() => handleClick(id, estado)}>
-                <i className="tim-icons icon-button-power" />
-            </Button>
-            <Tooltip
-                placement="left"
-                isOpen={tooltipOpen}
-                target={'b-' + id}
-                toggle={toggle}
-            >
-                {estado === 0 ? "Activar" : "Desactivar"}
-            </Tooltip>
-        </span>
-        <Button color="default" size="sm" onClick={handleDelete(id)}>
+        <Button id={'b-' + id} color="success" size="sm" onClick={() => handleClick(id, estado)}>
+            <i className="tim-icons icon-button-power" />
+        </Button>
+        <Button color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
-
         </Button></>
     const { data } = props
     const datosConNuevaColumna = dat => {
@@ -71,7 +60,7 @@ export default function ListComment(props) {
     const columns = [
         ...columnDefinitions,
         {
-            header: 'Acciones',
+            header: '',
             accessorKey: 'botones',
             cell: ({ row }) => (
                 <NuevaColumna
