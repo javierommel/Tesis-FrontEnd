@@ -283,7 +283,7 @@ export default function PieceForm(props) {
                           type="select"
                           onFocus={(e) => setTypeFocus(true)}
                           onBlur={(e) => setTypeFocus(false)}
-                          style={{ color: '#ffffff' }}
+                          style={{ color: '#FFFFFFCC' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                             Tipo Material
@@ -348,7 +348,7 @@ export default function PieceForm(props) {
                           type="select"
                           onFocus={(e) => setTypeFocus(true)}
                           onBlur={(e) => setTypeFocus(false)}
-                          style={{ color: '#6c757d' }}
+                          style={{ color: '#FFFFFFCC' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                             Tipo Técnica
@@ -367,7 +367,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.autor}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -394,9 +394,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="6" sm="6">
                 <Controller
-                  name="email"
+                  name="siglo"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.siglo}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -423,9 +423,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="6" sm="6">
                 <Controller
-                  name="email"
+                  name="anio"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.anio}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -457,9 +457,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="2" sm="6">
                 <Controller
-                  name="email"
+                  name="alto"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.alto}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -486,9 +486,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="2" sm="6">
                 <Controller
-                  name="email"
+                  name="ancho"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.ancho}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -515,9 +515,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="2" sm="6">
                 <Controller
-                  name="email"
+                  name="diametro"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.diametro}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -544,9 +544,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="2" sm="6">
                 <Controller
-                  name="email"
+                  name="espesor"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.espesor}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -573,9 +573,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="2" sm="6">
                 <Controller
-                  name="email"
+                  name="peso"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.peso}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -604,7 +604,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.inscripcion}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -619,7 +619,7 @@ export default function PieceForm(props) {
                         <Input
                           {...field}
                           placeholder="Inscripciones..."
-                          type="text"
+                          type="textarea"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
                         />
@@ -633,7 +633,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.descripcion}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -648,7 +648,7 @@ export default function PieceForm(props) {
                         <Input
                           {...field}
                           placeholder="Descripción"
-                          type="text"
+                          type="textarea"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
                         />
@@ -662,7 +662,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.ubicacion}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -691,7 +691,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.regimen}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -720,7 +720,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="state"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.estado_piezas}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -738,7 +738,7 @@ export default function PieceForm(props) {
                           type="select"
                           onFocus={(e) => setTypeFocus(true)}
                           onBlur={(e) => setTypeFocus(false)}
-                          style={{ color: '#6c757d' }}
+                          style={{ color: '#FFFFFFCC' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                             Estado General...
@@ -786,7 +786,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="integrity"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.estado_integridad}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -804,7 +804,7 @@ export default function PieceForm(props) {
                           type="select"
                           onFocus={(e) => setTypeFocus(true)}
                           onBlur={(e) => setTypeFocus(false)}
-                          style={{ color: '#6c757d' }}
+                          style={{ color: '#FFFFFFCC' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                             Estado Integridad
@@ -823,7 +823,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.conservacion}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -850,9 +850,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="6" sm="6">
                 <Controller
-                  name="email"
+                  name="observacion"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.observacion}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -867,12 +867,12 @@ export default function PieceForm(props) {
                         <Input
                           {...field}
                           placeholder="Observaciones"
-                          type="text"
+                          type="textarea"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.observacion && <div className="typography-line"><p className="text-danger">{errors.observacion.message}</p></div>}
                     </>
                   )}
                 />
@@ -881,7 +881,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.publicidad}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -891,7 +891,7 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Inf. Imagen
+                          Publicidad
                         </InputGroupText>
                         <Input
                           {...field}
@@ -910,7 +910,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.imagen1}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -920,7 +920,7 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Foto1
+                          Imagen1
                         </InputGroupText>
                         <Input
                           {...field}
@@ -939,7 +939,7 @@ export default function PieceForm(props) {
                 <Controller
                   name="email"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.imagen2}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -949,7 +949,36 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Cod. Foto
+                          Imagen2
+                        </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Fotos"
+                          type="text"
+                          onFocus={(e) => setEmailFocus(true)}
+                          onBlur={(e) => setEmailFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" sm="6">
+                <Controller
+                  name="email"
+                  control={control}
+                  defaultValue={valoresInicialesp.registro_fotográfico}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": emailFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                          Reg. Foto.
                         </InputGroupText>
                         <Input
                           {...field}
@@ -960,6 +989,180 @@ export default function PieceForm(props) {
                         />
                       </InputGroup>
                       {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" sm="6">
+                <Controller
+                  name="entidad_investigadora"
+                  control={control}
+                  defaultValue={valoresInicialesp.entidad_investigadora}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": emailFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                          Ent. Inv.
+                        </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Entidad Investigadora"
+                          type="text"
+                          onFocus={(e) => setEmailFocus(true)}
+                          onBlur={(e) => setEmailFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" sm="6">
+                <Controller
+                  name="registrado"
+                  control={control}
+                  defaultValue={valoresInicialesp.registrado}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": emailFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                          Registro
+                        </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Registrado por..."
+                          type="text"
+                          onFocus={(e) => setEmailFocus(true)}
+                          onBlur={(e) => setEmailFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" sm="6">
+                <Controller
+                  name="fecha_registro"
+                  control={control}
+                  defaultValue={valoresInicialesp.fecha_registro}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": emailFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                          F. Reg.
+                        </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Fecha Registro..."
+                          type="text"
+                          onFocus={(e) => setEmailFocus(true)}
+                          onBlur={(e) => setEmailFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" sm="6">
+                <Controller
+                  name="revisado"
+                  control={control}
+                  defaultValue={valoresInicialesp.revisado}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": emailFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                          Revisado
+                        </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Revisado por..."
+                          type="text"
+                          onFocus={(e) => setEmailFocus(true)}
+                          onBlur={(e) => setEmailFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.revisado && <div className="typography-line"><p className="text-danger">{errors.revisado.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" sm="6">
+                <Controller
+                  name="fecha_revision"
+                  control={control}
+                  defaultValue={valoresInicialesp.fecha_revision}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": emailFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                          F. Rev.
+                        </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Fecha Revisión..."
+                          type="text"
+                          onFocus={(e) => setEmailFocus(true)}
+                          onBlur={(e) => setEmailFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.fecha_revision && <div className="typography-line"><p className="text-danger">{errors.fecha_revision.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" sm="6">
+                <Controller
+                  name="realiza_foto"
+                  control={control}
+                  defaultValue={valoresInicialesp.realiza_foto}
+                  rules={{ required: 'El email es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": emailFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                          Realiza Foto.
+                        </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Realiza Foto..."
+                          type="text"
+                          onFocus={(e) => setEmailFocus(true)}
+                          onBlur={(e) => setEmailFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.realiza_foto && <div className="typography-line"><p className="text-danger">{errors.realiza_foto.message}</p></div>}
                     </>
                   )}
                 />
