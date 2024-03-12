@@ -12,7 +12,7 @@ import {
 } from '@tanstack/react-table'
 import { PieceData as columnDefinitions } from "./Data/PieceData"
 import '../../assets/css/table.css';
-import { Button } from "reactstrap";
+import { Button, UncontrolledTooltip } from "reactstrap";
 
 export default function ListPiece(props) {
 
@@ -26,14 +26,29 @@ export default function ListPiece(props) {
     }
 
     const NuevaColumna = ({ id: id }) => <>
-        <Button color="success" size="sm" onClick={handleClick(id)}>
+        <Button id={'c-' + id} color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
             
         </Button>
-        <Button color="primary" size="sm" onClick={handleDelete(id)}>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'c-' + id}
+        >
+            Modificar
+        </UncontrolledTooltip>
+        <Button id={'a-' + id} color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
             
-        </Button></>
+        </Button>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'a-' + id}
+        >
+            Eliminar
+        </UncontrolledTooltip>
+        </>
     const { data } = props
     //console.log("list: " + JSON.stringify(data))
     const datosConNuevaColumna = dat => {

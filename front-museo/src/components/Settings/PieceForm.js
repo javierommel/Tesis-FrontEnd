@@ -3,19 +3,21 @@ import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from "react-redux";
 import { getInformationPiece } from "../../actions/piece"
 import classnames from "classnames";
-import {labelStyle, titleStyle} from '../../assets/styles/style'
+import { labelStyle, titleStyle } from '../../assets/styles/style'
 import {
   Button,
+  Card,
   CardBody,
   CardFooter,
   Input,
   Form,
-  InputGroupAddon,
+  FormGroup,
   InputGroupText,
   InputGroup,
   Row,
   Col,
   Label,
+  CustomInput
 } from "reactstrap";
 
 
@@ -61,7 +63,7 @@ export default function PieceForm(props) {
   useEffect(() => {
 
     getInformationPiece().then((dat) => {
-      //console.log("inf; "+JSON.stringify(dat.data))
+      console.log("inf; " + JSON.stringify(dat.data))
       setInformation(dat.data);
     })
       .catch((error) => {
@@ -70,8 +72,8 @@ export default function PieceForm(props) {
   }, []);
 
   const { valoresInicialesp } = props
-
-
+  const materialesSeleccionados = valoresInicialesp.materiales && valoresInicialesp.materiales.split(',').map(material => parseInt(material.trim()));
+  const deteriorosSeleccionados = valoresInicialesp.deterioros && valoresInicialesp.deterioros.split(',').map(deterioro => parseInt(deterioro.trim()));
 
   return (
     <div>
@@ -79,7 +81,14 @@ export default function PieceForm(props) {
         {!successful && (<>
           <CardBody>
             <Row>
-              <Col lg="6" sm="6">
+            <Col lg="6" md="6">
+              <br />
+                <CustomInput type="switch" id="switch-2" label="Activo" />
+                <br />
+              </Col>
+              <Col lg="6" md="6">
+              </Col>
+              <Col lg="6" >
                 <Controller
                   name="numero_ordinal"
                   control={control}
@@ -87,7 +96,7 @@ export default function PieceForm(props) {
                   rules={{ required: 'El nombre de usuario es obligatorio.' }}
                   render={({ field }) => (
                     <>
-                      <InputGroup disabled 
+                      <InputGroup disabled
                         className={classnames({
                           "input-group-focus": numeroordinalFocus,
                         })}
@@ -108,7 +117,7 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6">
                 <Controller
                   name="codigo_inpc"
                   control={control}
@@ -137,7 +146,7 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="numero_historico"
                   control={control}
@@ -166,9 +175,9 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="type"
+                  name="tipo_bien"
                   control={control}
                   defaultValue=""
                   rules={{ required: 'El tipo de bien es obligatorio.' }}
@@ -203,7 +212,7 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="nombre"
                   control={control}
@@ -232,25 +241,25 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="otro_nombre"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.otro_nombre}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
-                      <InputGroup disabled 
+                      <InputGroup disabled
                         className={classnames({
                           "input-group-focus": emailFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Otro Nombre
+                          Otro Nom.
                         </InputGroupText>
-                        <Input disabled
+                        <Input 
                           {...field}
-                          placeholder="Otra denominación"
+                          placeholder="Otro nombre..."
                           type="text"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
@@ -261,51 +270,54 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
-                <Controller
-                  name="material"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: 'El material es obligatorio.' }}
-                  render={({ field }) => (
-                    <>
-                      <InputGroup
-                        className={classnames({
-                          "input-group-focus": typeFocus,
-                        })}
-                      >
-                        <InputGroupText style={labelStyle} >
-                          Material
-                        </InputGroupText>
-                        <Input
-                          {...field}
-                          placeholder="Tipo Pieza"
-                          type="select"
-                          onFocus={(e) => setTypeFocus(true)}
-                          onBlur={(e) => setTypeFocus(false)}
-                          style={{ color: '#FFFFFFCC' }}
-                        >
-                          <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
-                            Tipo Material
-                          </option>
-                          {information?.material?.map((step) => (
-                            <option style={{ color: '#2b3553' }} key={step.id} value={step.id}>{step.nombre}</option>
-                          ))}
-                        </Input>
-                      </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
-                    </>
-                  )}
-                />
-              </Col>
-              <Col lg="6" sm="6">
+              <Row style={{ padding: '20px' }}>
+                <Col lg="2">
+                  <InputGroupText style={titleStyle} >
+                    Materiales
+                  </InputGroupText>
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                {information && information.material.map((option, index) =>
+                (
+                  <Col lg="2" sm="3">
+                    <Controller
+                      key={option.id}
+                      name={`materiales[${option.id}]`}
+                      control={control}
+                      defaultValue={""}
+                      render={({ field }) => <FormGroup check>
+                        <Label check>
+                          <Input id={option.id}
+                            type="checkbox"
+                            {...field}
+                            defaultChecked={materialesSeleccionados && materialesSeleccionados.includes(option.id)}
+                          />
+                          <span className="form-check-sign" />
+                          {option.nombre}
+                        </Label>
+                      </FormGroup>}
+                    />
+                  </Col>
+                ))
+                }
+              </Row>
+              <Col lg="6" >
                 <Controller
                   name="otro_material"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.otro_material}
                   render={({ field }) => (
                     <>
-                      <InputGroup disabled 
+                      <InputGroup disabled
                         className={classnames({
                           "input-group-focus": emailFocus,
                         })}
@@ -313,7 +325,7 @@ export default function PieceForm(props) {
                         <InputGroupText style={labelStyle} >
                           Otro
                         </InputGroupText>
-                        <Input disabled 
+                        <Input 
                           {...field}
                           placeholder="Otro material..."
                           type="text"
@@ -326,12 +338,12 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="technique"
                   control={control}
                   defaultValue={valoresInicialesp.email}
-                  rules={{ required: 'El email es obligatorio.' }}
+                  rules={{ required: 'La técnica es obligatoria.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -363,12 +375,12 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="autor"
                   control={control}
                   defaultValue={valoresInicialesp.autor}
-                  rules={{ required: 'El email es obligatorio.' }}
+                  rules={{ required: 'El autor es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -392,12 +404,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="siglo"
                   control={control}
                   defaultValue={valoresInicialesp.siglo}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -421,7 +432,7 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="anio"
                   control={control}
@@ -450,17 +461,17 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="2" sm="6" style={{alignContent:'center', alignItems:'center', textAlign:'center'}}>
-                <Label color="info" style={titleStyle}>
-                  Dimensiones
-                </Label>
+              <Col lg="6"></Col>
+              <Col lg="2">
+              <InputGroupText style={titleStyle} >
+                    Dimensiones
+                  </InputGroupText>
               </Col>
-              <Col lg="2" sm="6">
+              <Col lg="2" >
                 <Controller
                   name="alto"
                   control={control}
                   defaultValue={valoresInicialesp.alto}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -484,12 +495,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="2" sm="6">
+              <Col lg="2" >
                 <Controller
                   name="ancho"
                   control={control}
                   defaultValue={valoresInicialesp.ancho}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -513,12 +523,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="2" sm="6">
+              <Col lg="2" >
                 <Controller
                   name="diametro"
                   control={control}
                   defaultValue={valoresInicialesp.diametro}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -542,12 +551,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="2" sm="6">
+              <Col lg="2" >
                 <Controller
                   name="espesor"
                   control={control}
                   defaultValue={valoresInicialesp.espesor}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -571,12 +579,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="2" sm="6">
+              <Col lg="2" >
                 <Controller
                   name="peso"
                   control={control}
                   defaultValue={valoresInicialesp.peso}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -600,11 +607,10 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="inscripcion"
                   control={control}
-                  defaultValue={valoresInicialesp.inscripcion}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -614,7 +620,7 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Inscripción
+                          Inscripc.
                         </InputGroupText>
                         <Input
                           {...field}
@@ -629,12 +635,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="descripcion"
                   control={control}
                   defaultValue={valoresInicialesp.descripcion}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -643,7 +648,7 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Descripción
+                          Descripc.
                         </InputGroupText>
                         <Input
                           {...field}
@@ -658,11 +663,10 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="ubicacion"
                   control={control}
-                  defaultValue={valoresInicialesp.ubicacion}
                   rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -687,12 +691,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="regimen"
                   control={control}
                   defaultValue={valoresInicialesp.regimen}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -716,12 +719,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="state"
                   control={control}
                   defaultValue={valoresInicialesp.estado_piezas}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -753,25 +755,24 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="otro_deterioro"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
-                  rules={{ required: 'El email es obligatorio.' }}
+                  defaultValue={valoresInicialesp.otro_deterioro}
                   render={({ field }) => (
                     <>
-                      <InputGroup
+                      <InputGroup disabled
                         className={classnames({
                           "input-group-focus": emailFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Elementos
+                          Otro Det.
                         </InputGroupText>
-                        <Input
+                        <Input 
                           {...field}
-                          placeholder="Elementos"
+                          placeholder="Otro deterioro..."
                           type="text"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
@@ -782,9 +783,49 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Row style={{ padding: '20px' }}>
+              <Col lg="2">
+                  <InputGroupText style={titleStyle} >
+                    Deterioros
+                  </InputGroupText>
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                <Col lg="2">
+                </Col>
+                {information && information.deterioration.map((option, index) =>
+                (
+                  <Col lg="2" sm="3">
+                    <Controller
+                      key={option.id}
+                      name={`deterioro[${option.id}]`}
+                      control={control}
+                      defaultValue={""}
+                      render={({ field }) => <FormGroup check>
+                        <Label check>
+                          <Input id={option.id}
+                            type="checkbox"
+                            {...field}
+                            defaultChecked={deteriorosSeleccionados && deteriorosSeleccionados.includes(option.id)}
+                          />
+                          <span className="form-check-sign" />
+                          {option.nombre}
+                        </Label>
+                      </FormGroup>}
+                    />
+                  </Col>
+                ))
+                }
+              </Row>
+              <Col lg="6" >
                 <Controller
-                  name="integrity"
+                  name="estado_integridad"
                   control={control}
                   defaultValue={valoresInicialesp.estado_integridad}
                   rules={{ required: 'El email es obligatorio.' }}
@@ -819,12 +860,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="conservacion"
                   control={control}
                   defaultValue={valoresInicialesp.conservacion}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -833,7 +873,7 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Conservación
+                          Conserv.
                         </InputGroupText>
                         <Input
                           {...field}
@@ -848,12 +888,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="observacion"
                   control={control}
                   defaultValue={valoresInicialesp.observacion}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -862,7 +901,7 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Observaciones
+                          Observ.
                         </InputGroupText>
                         <Input
                           {...field}
@@ -877,12 +916,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="publicidad"
                   control={control}
                   defaultValue={valoresInicialesp.publicidad}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -906,12 +944,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="imagen1"
                   control={control}
                   defaultValue={valoresInicialesp.imagen1}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -924,7 +961,7 @@ export default function PieceForm(props) {
                         </InputGroupText>
                         <Input
                           {...field}
-                          placeholder="Fotos"
+                          placeholder="Imagenes 1..."
                           type="text"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
@@ -935,12 +972,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="imagen2"
                   control={control}
                   defaultValue={valoresInicialesp.imagen2}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -953,7 +989,7 @@ export default function PieceForm(props) {
                         </InputGroupText>
                         <Input
                           {...field}
-                          placeholder="Fotos"
+                          placeholder="Imagenes 2..."
                           type="text"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
@@ -964,12 +1000,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
-                  name="email"
+                  name="registro_fotográfico"
                   control={control}
                   defaultValue={valoresInicialesp.registro_fotográfico}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -993,12 +1028,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="entidad_investigadora"
                   control={control}
                   defaultValue={valoresInicialesp.entidad_investigadora}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -1022,12 +1056,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="registrado"
                   control={control}
                   defaultValue={valoresInicialesp.registrado}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -1051,12 +1084,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="fecha_registro"
                   control={control}
                   defaultValue={valoresInicialesp.fecha_registro}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -1080,12 +1112,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="revisado"
                   control={control}
                   defaultValue={valoresInicialesp.revisado}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -1109,12 +1140,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="fecha_revision"
                   control={control}
                   defaultValue={valoresInicialesp.fecha_revision}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -1138,12 +1168,11 @@ export default function PieceForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="6" sm="6">
+              <Col lg="6" >
                 <Controller
                   name="realiza_foto"
                   control={control}
                   defaultValue={valoresInicialesp.realiza_foto}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -1152,7 +1181,7 @@ export default function PieceForm(props) {
                         })}
                       >
                         <InputGroupText style={labelStyle} >
-                          Realiza Foto.
+                          Real. Foto.
                         </InputGroupText>
                         <Input
                           {...field}
@@ -1170,10 +1199,10 @@ export default function PieceForm(props) {
             </Row>
           </CardBody>
           <CardFooter>
-            <Button color="primary" size="sm" disabled={loading} type="submit">
+            <Button color="info" size="sm" sm="6" disabled={loading} type="submit">
               Guardar
             </Button>
-            <Button color="primary" size="sm" disabled={loading} onClick={onCancelar}>
+            <Button color="warning" size="sm" sm="6" disabled={loading} onClick={onCancelar}>
               Cancelar
             </Button>
           </CardFooter>
@@ -1186,7 +1215,7 @@ export default function PieceForm(props) {
           </div>
         )}
       </Form>
-    </div>
+    </div >
 
   )
 }

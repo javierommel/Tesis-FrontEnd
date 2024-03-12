@@ -13,7 +13,7 @@ import {
 } from '@tanstack/react-table'
 import { CommentData as columnDefinitions } from "./Data/CommentData"
 import '../../assets/css/table.css';
-import { Button, Tooltip } from "reactstrap";
+import { Button, UncontrolledTooltip } from "reactstrap";
 
 export default function ListComment(props) {
     const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -30,12 +30,27 @@ export default function ListComment(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id, estado: estado }) => <>
-        <Button id={'b-' + id} color="success" size="sm" onClick={() => handleClick(id, estado)}>
+        <Button id={'d-' + id} color="success" size="sm" onClick={handleClick(id,estado)}>
             <i className="tim-icons icon-button-power" />
         </Button>
-        <Button color="primary" size="sm" onClick={handleDelete(id)}>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'d-' + id}
+        >
+            {estado === 0 ? 'Activar' : 'Desactivar'}
+        </UncontrolledTooltip>
+        <Button id={'b-' + id} color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
-        </Button></>
+        </Button>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'b-' + id}
+        >
+            Eliminar
+        </UncontrolledTooltip>
+    </>
     const { data } = props
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({

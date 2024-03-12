@@ -13,7 +13,7 @@ import {
 
 import { UserData as columnDefinitions } from "./Data/UserData"
 import '../../assets/css/table.css';
-import { Button } from "reactstrap";
+import { Button, UncontrolledTooltip } from "reactstrap";
 
 
 
@@ -27,14 +27,29 @@ export default function ListUser(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id }) => <>
-        <Button color="success" size="sm" onClick={handleClick(id)}>
+        <Button id={'f-' + id} color="success" size="sm" onClick={handleClick(id)}>
             <i className="tim-icons icon-refresh-02" />
 
         </Button>
-        <Button color="primary" size="sm" onClick={handleDelete(id)}>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'f-' + id}
+        >
+            Modificar
+        </UncontrolledTooltip>
+        <Button id={'e-' + id} color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
 
-        </Button></>
+        </Button>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'e-' + id}
+        >
+            Eliminar
+        </UncontrolledTooltip>
+    </>
     const { data } = props
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({

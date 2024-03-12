@@ -31,7 +31,7 @@ import {
   ModalFooter,
   ModalBody,
   Button,
-  Alert
+  UncontrolledAlert
 } from "reactstrap";
 
 // core components
@@ -147,7 +147,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (currentUser) {
-      console.log("current: " + currentUser.roles)
+      //console.log("current: " + currentUser.roles)
       if (!currentUser.roles.includes("ROLE_ADMIN")) {
         return <Navigate to="/home" />;
       }
@@ -420,16 +420,24 @@ export default function AdminPage() {
       <ExamplesNavbar activado={5} />
       <div className="section section-tabs">
         <Container>
-          <Modal isOpen={modal} toggle={toggle} >
-            <ModalHeader toggle={toggle}>Mensaje</ModalHeader>
+          <Modal isOpen={modal} toggle={toggle} modalClassName="modal-mini modal-info modal-mini" >
+            <ModalHeader toggle={toggle} className="modal-header justify-content-center">
+              <button className="close" onClick={toggle}>
+                <i className="tim-icons icon-simple-remove text-white" />
+              </button>
+              <div className="modal-profile">
+                <i className="tim-icons icon-alert-circle-exc" />
+              </div></ModalHeader>
             <ModalBody>
               {mensajealert}
             </ModalBody>
             <ModalFooter>
-              <Button color="info" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate === 2 ? eliminarComment : modificarComment)}>
+              <Button className="btn-neutral"
+                color="link" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate === 2 ? eliminarComment : modificarComment)}>
                 Aceptar
               </Button>{' '}
-              <Button color="secondary" onClick={toggle}>
+              <Button className="btn-neutral"
+                color="link" onClick={toggle}>
                 Cancelar
               </Button>
             </ModalFooter>
@@ -442,19 +450,19 @@ export default function AdminPage() {
               <div className="mb-3">
                 <small className="text-uppercase font-weight-bold">
                   Mantenimiento
-                  
+
                 </small>
               </div>
               <Card>
                 <CardHeader>
-                  <Nav className="nav-tabs-info" role="tablist" tabs>
+                <Nav className="nav-tabs-info" role="tablist" tabs>
                     <NavItem>
                       <NavLink
                         className={classnames({
                           active: iconTabs === 1,
                         })}
-                        onClick={(e) => setIconsTabs(1)}
-                        href="#pablo"
+                        onClick={(e) => {setIconsTabs(1); cancelarObjeto()}}
+                        href="#usuarios"
                       >
                         <i className="tim-icons icon-single-02" />
                         Usuarios
@@ -465,8 +473,8 @@ export default function AdminPage() {
                         className={classnames({
                           active: iconTabs === 2,
                         })}
-                        onClick={(e) => setIconsTabs(2)}
-                        href="#pablo"
+                        onClick={(e) => {setIconsTabs(2); cancelarUsuario()}}
+                        href="#piezas"
                       >
                         <i className="tim-icons icon-settings-gear-63" />
                         Piezas
@@ -477,8 +485,8 @@ export default function AdminPage() {
                         className={classnames({
                           active: iconTabs === 3,
                         })}
-                        onClick={(e) => setIconsTabs(3)}
-                        href="#pablo"
+                        onClick={(e) => {setIconsTabs(3); cancelarObjeto(); cancelarUsuario()}}
+                        href="#comentarios"
                       >
                         <i className="tim-icons icon-paper" />
                         Comentarios
@@ -535,15 +543,24 @@ export default function AdminPage() {
 
           </Row>
           {response !== null && (
-            <Alert isOpen color={successful ? 'success' : 'danger'} toggle={onDismiss} style={{
-              position: 'fixed',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              zIndex: 9999,
-            }}>
-              {response}
-            </Alert>
+            <UncontrolledAlert
+              isOpen
+              toggle={onDismiss}
+              className="alert-with-icon"
+              color={successful ? 'success' : 'danger'}
+              style={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 9999,
+              }}
+            >
+              <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
+              <span>
+                {response}
+              </span>
+            </UncontrolledAlert>
           )}
         </Container>
         <Footer />

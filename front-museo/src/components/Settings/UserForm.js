@@ -16,6 +16,7 @@ import {
   FormGroup,
   Label,
   Card,
+  CustomInput
 } from "reactstrap";
 
 export default function UserForm(props) {
@@ -99,7 +100,7 @@ export default function UserForm(props) {
         {<>
           <CardBody>
             <Row>
-              <Col lg="4" md="6">
+              <Col lg="6" md="6">
                 <Card className="card-coin card-plain" >
                   <CardBody>
                     <p className="category">Roles</p>
@@ -113,7 +114,10 @@ export default function UserForm(props) {
                         defaultValue={rolesSeleccionados && rolesSeleccionados.includes(option.id)}
                         render={({ field }) => <FormGroup check>
                           <Label check>
-                            <Input id={option.id} type="checkbox" {...field} defaultChecked={rolesSeleccionados && rolesSeleccionados.includes(option.id)} />
+                            <Input id={option.id}
+                              type="checkbox"
+                              {...field}
+                              defaultChecked={rolesSeleccionados && rolesSeleccionados.includes(option.id)} />
                             <span className="form-check-sign" />
                             {option.nombre}
                           </Label>
@@ -123,8 +127,14 @@ export default function UserForm(props) {
                   </CardBody>
                 </Card>
               </Col>
-              <Col lg="4" md="6"></Col>
-              <Col lg="8" md="6">
+              <Col lg="6" md="6"></Col>
+              <Col lg="6" md="6">
+              <br />
+                <CustomInput type="switch" id="switch-2" label="Activo" />
+                <br />
+              </Col>
+              <Col lg="6" md="6"></Col>
+              <Col lg="6" md="6">
                 <Controller
                   name="username"
                   control={control}
@@ -157,7 +167,7 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="8" sm="6">
+              <Col lg="6" md="6">
                 <Controller
                   name="name"
                   control={control}
@@ -188,7 +198,7 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="8" sm="6">
+              <Col lg="6" md="6">
                 <Controller
                   name="email"
                   control={control}
@@ -222,18 +232,29 @@ export default function UserForm(props) {
                 />
               </Col>
               {!nuevoregistro && (
-                <Col lg="8" sm="6">
-                  <Button className="btn btn-lg w-100" color="info" size="sm" onClick={TogglePassword}>
-                    {passwordUpdate ? "Cambiar Password" : "No Cambiar Password"}
-                  </Button>
-                </Col>
+                <>
+                  <Col lg="6"></Col>
+                  <Col lg="6" md="6">
+                    <FormGroup check>
+                      <Label check>
+                        <Input
+                          type="checkbox"
+                          onChange={(e) => TogglePassword()}
+                        />
+                        <span className="form-check-sign" />
+                        Cambiar Password
+                      </Label>
+                    </FormGroup>
+                    <br />
+                  </Col>
+                  <Col lg="6"></Col></>
               )}
-              <Col lg="8" sm="6">
+              <Col lg="6" md="6">
                 <Controller
                   name="password"
                   control={control}
                   defaultValue=""
-                  rules={{ required: nuevoregistro?'El password es obligatorio.':(passwordUpdate?false:'El password es obligatorio.') }}
+                  rules={{ required: nuevoregistro ? 'El password es obligatorio.' : (passwordUpdate ? false : 'El password es obligatorio.') }}
                   render={({ field }) => (
                     <>
                       <InputGroup
@@ -280,14 +301,14 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="8" sm="6">
+              <Col lg="6" md="6">
                 <Controller
                   name="password2"
                   control={control}
                   defaultValue=""
                   rules={{
-                    validate: nuevoregistro?validatePassword:(passwordUpdate?false:validatePassword),
-                    required: nuevoregistro?'El password es obligatorio.':(passwordUpdate?false:'El password es obligatorio.')
+                    validate: nuevoregistro ? validatePassword : (passwordUpdate ? false : validatePassword),
+                    required: nuevoregistro ? 'El password es obligatorio.' : (passwordUpdate ? false : 'El password es obligatorio.')
                   }}
                   render={({ field }) => (
                     <>
@@ -335,7 +356,7 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="8" sm="6">
+              <Col lg="6" md="6">
                 <Controller
                   name="country"
                   control={control}
@@ -377,7 +398,7 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
-              <Col lg="8" sm="6">
+              <Col lg="6" md="6">
                 <Controller
                   name="year"
                   control={control}
@@ -426,7 +447,7 @@ export default function UserForm(props) {
             <Button color="info" size="sm" type="submit">
               Guardar
             </Button>
-            <Button color="success" size="sm" onClick={onCancelar}>
+            <Button color="warning" size="sm" onClick={onCancelar}>
               Cancelar
             </Button>
           </CardFooter>
