@@ -81,9 +81,24 @@ export default function PieceForm(props) {
         {!successful && (<>
           <CardBody>
             <Row>
-            <Col lg="6" md="6">
-              <br />
-                <CustomInput type="switch" id="switch-2" label="Activo" />
+              <Col lg="6" md="6">
+                <br />
+                <Controller
+                  name="estado"
+                  control={control}
+                  defaultValue={true}
+                  render={({ field }) => (
+                    <>
+                      <CustomInput
+                        {...field}
+                        type="switch"
+                        id="switch-2"
+                        label={field.value ? 'Activado' : 'Desactivado'}
+                        checked={field.value}
+                      />
+                    </>
+                  )}
+                />
                 <br />
               </Col>
               <Col lg="6" md="6">
@@ -257,7 +272,7 @@ export default function PieceForm(props) {
                         <InputGroupText style={labelStyle} >
                           Otro Nom.
                         </InputGroupText>
-                        <Input 
+                        <Input
                           {...field}
                           placeholder="Otro nombre..."
                           type="text"
@@ -286,7 +301,7 @@ export default function PieceForm(props) {
                 </Col>
                 <Col lg="2">
                 </Col>
-                {information && information.material.map((option, index) =>
+                {information && information.material.map((option) =>
                 (
                   <Col lg="2" sm="3">
                     <Controller
@@ -296,7 +311,7 @@ export default function PieceForm(props) {
                       defaultValue={""}
                       render={({ field }) => <FormGroup check>
                         <Label check>
-                          <Input id={option.id}
+                          <Input key={option.id} id={option.id}
                             type="checkbox"
                             {...field}
                             defaultChecked={materialesSeleccionados && materialesSeleccionados.includes(option.id)}
@@ -325,7 +340,7 @@ export default function PieceForm(props) {
                         <InputGroupText style={labelStyle} >
                           Otro
                         </InputGroupText>
-                        <Input 
+                        <Input
                           {...field}
                           placeholder="Otro material..."
                           type="text"
@@ -463,9 +478,9 @@ export default function PieceForm(props) {
               </Col>
               <Col lg="6"></Col>
               <Col lg="2">
-              <InputGroupText style={titleStyle} >
-                    Dimensiones
-                  </InputGroupText>
+                <InputGroupText style={titleStyle} >
+                  Dimensiones
+                </InputGroupText>
               </Col>
               <Col lg="2" >
                 <Controller
@@ -770,7 +785,7 @@ export default function PieceForm(props) {
                         <InputGroupText style={labelStyle} >
                           Otro Det.
                         </InputGroupText>
-                        <Input 
+                        <Input
                           {...field}
                           placeholder="Otro deterioro..."
                           type="text"
@@ -784,7 +799,7 @@ export default function PieceForm(props) {
                 />
               </Col>
               <Row style={{ padding: '20px' }}>
-              <Col lg="2">
+                <Col lg="2">
                   <InputGroupText style={titleStyle} >
                     Deterioros
                   </InputGroupText>
@@ -799,7 +814,7 @@ export default function PieceForm(props) {
                 </Col>
                 <Col lg="2">
                 </Col>
-                {information && information.deterioration.map((option, index) =>
+                {information && information.deterioration.map((option) =>
                 (
                   <Col lg="2" sm="3">
                     <Controller
@@ -809,7 +824,7 @@ export default function PieceForm(props) {
                       defaultValue={""}
                       render={({ field }) => <FormGroup check>
                         <Label check>
-                          <Input id={option.id}
+                          <Input key={option.id} id={option.id}
                             type="checkbox"
                             {...field}
                             defaultChecked={deteriorosSeleccionados && deteriorosSeleccionados.includes(option.id)}

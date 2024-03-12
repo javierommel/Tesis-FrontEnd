@@ -20,6 +20,20 @@ const getAdminBoard = () => {
   return axios.get(API_URL + "admin", { headers: authHeader() });
 };
 
+function base64toBlob(base64) {
+  const parts = base64.split(';base64,');
+  const contentType = parts[0].split(':')[1];
+  const raw = window.atob(parts[1]);
+  const rawLength = raw.length;
+  const uInt8Array = new Uint8Array(rawLength);
+
+  for (let i = 0; i < rawLength; ++i) {
+    uInt8Array[i] = raw.charCodeAt(i);
+  }
+
+  return new Blob([uInt8Array], { type: contentType });
+}
+
 const addPiece = (file) => {
   const formData = new FormData();
   formData.append('archivo', file);
@@ -30,13 +44,41 @@ const addPiece = (file) => {
   }
   );
 }
-const updatePiece = (id, data) => {
-  return axios.
-      post(API_URL + "updatepiece", {
-          id,
-          data
-      });
+const updatePiece = (id, data, usuario_modificacion, materiales, deterioros, imagen1, imagen2) => {
+  if (imagen1) {
+    console.log("iamge: "+JSON.stringify(data))
+    const formData = new FormData();
+    formData.append('avatar', base64toBlob(imagen1));
+    formData.append('id', id);
+    formData.append('data', JSON.stringify(data));
+    formData.append('usuario_modificacion', usuario_modificacion);
+    return axios.post(API_URL1 + "updatepiece", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+    );
+  }
+  else {
+    return axios.post(API_URL1 + "updateuser", {
+      id,
+      data,
+      usuario_modificacion,
+      materiales, 
+      deterioros,
+      imagen1:null,
+      imagen2:null
+    });
+  }
+
 }
+const deletePiece = (id, user) => {
+  return axios.post(API_URL1 + "deletepiece", {
+    id,
+    usuario_modificacion: user
+  });
+}
+
 const getPiece=(page, pageSize)=>{
   return axios.
       post(API_URL1 + "getpiece", {
@@ -58,5 +100,6 @@ export default {
   addPiece,
   updatePiece,
   getPiece,
-  getInformationPiece
+  getInformationPiece,
+  deletePiece
 };

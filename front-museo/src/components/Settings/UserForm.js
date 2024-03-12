@@ -27,7 +27,7 @@ export default function UserForm(props) {
   const [password2Focus, setPassword2Focus] = useState(false);
   const [countryFocus, setCountryFocus] = React.useState(false);
   const [yearFocus, setYearFocus] = React.useState(false);
-  const { handleSubmit, control, watch, formState: { errors } } = useForm();
+  const { handleSubmit, control, setValue, watch, formState: { errors } } = useForm();
   const [country, setCountry] = useState([]);
   const anioActual = new Date().getFullYear();
   // Crear un array con los últimos 80 años
@@ -35,6 +35,7 @@ export default function UserForm(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [passwordUpdate, setPasswordUpdate] = useState(true);
+  const activo = watch('estado') === 1;
 
   React.useEffect(() => {
     getCountry().then((dat) => {
@@ -129,8 +130,26 @@ export default function UserForm(props) {
               </Col>
               <Col lg="6" md="6"></Col>
               <Col lg="6" md="6">
-              <br />
-                <CustomInput type="switch" id="switch-2" label="Activo" />
+                <br />
+                <Controller
+                  name="estado"
+                  control={control}
+                  defaultValue={true}
+                  rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <CustomInput
+                        {...field}
+                        type="switch"
+                        id="switch-2"
+                        label={field.value ? 'Activado' : 'Desactivado'}
+                        checked={field.value}
+                      />
+                      {errors.estado && <div className="typography-line"><p className="text-danger">{errors.estado.message}</p></div>}
+                    </>
+                  )}
+                />
+
                 <br />
               </Col>
               <Col lg="6" md="6"></Col>

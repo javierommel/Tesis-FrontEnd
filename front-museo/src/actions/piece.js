@@ -56,3 +56,38 @@ export const addPiece = async (file) => {
         }
     );
 };
+
+export const updatePiece = async (id, values, usuario_modificacion, materiales, deterioros, imagen1, imagen2) => {
+    return AuthService.updatePiece(id, values, usuario_modificacion, materiales, deterioros, imagen1, imagen2).then(
+        (response) => {
+            return { message: response.data.message, retcode: 0 };
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return { message, retcode: 1 };
+        }
+    );
+};
+
+export const deletePiece = async ({ id, usuario_modificacion }) => {
+    return AuthService.deletePiece(id, usuario_modificacion).then(
+        (response) => {
+            return { message: response.data.message, retcode: 0 }
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return { message, retcode: 1 };
+        }
+    );
+};
+
