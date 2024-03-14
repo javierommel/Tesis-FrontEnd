@@ -49,12 +49,13 @@ const addUser = (name, username, email, password, country, year, usuario_modific
 }
 const updateUser = (id, data, usuario_modificacion, roles, image) => {
   if (image) {
-    console.log("iamge: "+JSON.stringify(data))
+    console.log("image: "+JSON.stringify(data))
     const formData = new FormData();
     formData.append('avatar', base64toBlob(image));
     formData.append('id', id);
     formData.append('data', JSON.stringify(data));
     formData.append('usuario_modificacion', usuario_modificacion);
+    formData.append('roles', JSON.stringify(roles));
     return axios.post(API_URL1 + "updateuserprofile", formData, {
       headers: {
         "Content-Type": "multipart/form-data",

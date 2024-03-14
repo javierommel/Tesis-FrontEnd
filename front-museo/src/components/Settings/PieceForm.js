@@ -27,9 +27,37 @@ export default function PieceForm(props) {
   const [numeroordinalFocus, setNumeroOrdinalFocus] = useState(false);
   const [numerohistoricoFocus, setNumeroHistoricoFocus] = useState(false);
   const [nombreFocus, setNombreFocus] = useState(false);
-  const [emailFocus, setEmailFocus] = useState(false);
+  const [autorFocus, setAutorFocus] = useState(false);
   const [typeFocus, setTypeFocus] = useState(false);
-  const [password2Focus, setPassword2Focus] = useState(false);
+  const [otronombreFocus, setOtronombreFocus] = useState(false);
+  const [tecnicaFocus, setTecnicaFocus] = useState(false);
+  const [otromaterialFocus, setOtromaterialFocus] = useState(false);
+  const [sigloFocus, setSigloFocus] = useState(false);
+  const [anioFocus, setAniolFocus] = useState(false);
+  const [altoFocus, setAltoFocus] = useState(false);
+  const [anchoFocus, setAnchoFocus] = useState(false);
+  const [diametroFocus, setDiametroFocus] = useState(false);
+  const [espesorFocus, setEspesorFocus] = useState(false);
+  const [pesoFocus, setPesoFocus] = useState(false);
+  const [inscripcionFocus, setInscripcionFocus] = useState(false);
+  const [descripcionFocus, setDescripcionFocus] = useState(false);
+  const [ubicacionFocus, setUbicacionFocus] = useState(false);
+  const [regimenFocus, setRegimenFocus] = useState(false);
+  const [estadopiezasFocus, setEstadopiezasFocus] = useState(false);
+  const [otrodeterioroFocus, setOtrodeterioroFocus] = useState(false);
+  const [estadointegridadFocus, setEstadointegridadFocus] = useState(false);
+  const [conservacionFocus, setConservacionFocus] = useState(false);
+  const [observacionFocus, setObservacionFocus] = useState(false);
+  const [publicidadFocus, setPublicidadFocus] = useState(false);
+  const [imagen1Focus, setImagen1Focus] = useState(false);
+  const [imagen2Focus, setImagen2Focus] = useState(false);
+  const [registrofotograficoFocus, setRegistrofotograficoFocus] = useState(false);
+  const [entidadinvestigadoraFocus, setEntidadinvestigadoraFocus] = useState(false);
+  const [registradoFocus, setRegistradoFocus] = useState(false);
+  const [fecharegistroFocus, setRecharegistroFocus] = useState(false);
+  const [revisadoFocus, setRevisadoFocus] = useState(false);
+  const [fecharevisionFocus, setFecharevisionFocus] = useState(false);
+  const [realizafotoFocus, setRealizafotoFocus] = useState(false);
   const { handleSubmit, control, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
@@ -108,7 +136,7 @@ export default function PieceForm(props) {
                   name="numero_ordinal"
                   control={control}
                   defaultValue={valoresInicialesp.numero_ordinal}
-                  rules={{ required: 'El nombre de usuario es obligatorio.' }}
+                  rules={{ required: 'El número ordinal es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup disabled
@@ -222,7 +250,7 @@ export default function PieceForm(props) {
                           ))}
                         </Input>
                       </InputGroup>
-                      {errors.type && <div className="typography-line"><p className="text-danger">{errors.type.message}</p></div>}
+                      {errors.tipo_bien && <div className="typography-line"><p className="text-danger">{errors.tipo_bien.message}</p></div>}
                     </>
                   )}
                 />
@@ -261,12 +289,11 @@ export default function PieceForm(props) {
                   name="otro_nombre"
                   control={control}
                   defaultValue={valoresInicialesp.otro_nombre}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup disabled
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": otronombreFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -276,11 +303,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Otro nombre..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setOtronombreFocus(true)}
+                          onBlur={(e) => setOtronombreFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.otro_nombre && <div className="typography-line"><p className="text-danger">{errors.otro_nombre.message}</p></div>}
                     </>
                   )}
                 />
@@ -334,7 +361,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup disabled
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": otromaterialFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -344,26 +371,26 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Otro material..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setOtromaterialFocus(true)}
+                          onBlur={(e) => setOtromaterialFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.otro_material && <div className="typography-line"><p className="text-danger">{errors.otro_material.message}</p></div>}
                     </>
                   )}
                 />
               </Col>
               <Col lg="6" >
                 <Controller
-                  name="technique"
+                  name="tecnica"
                   control={control}
-                  defaultValue={valoresInicialesp.email}
+                  defaultValue={valoresInicialesp.tecnica}
                   rules={{ required: 'La técnica es obligatoria.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": typeFocus,
+                          "input-group-focus": tecnicaFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -373,8 +400,8 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Tipo Técnica"
                           type="select"
-                          onFocus={(e) => setTypeFocus(true)}
-                          onBlur={(e) => setTypeFocus(false)}
+                          onFocus={(e) => setTecnicaFocus(true)}
+                          onBlur={(e) => setTecnicaFocus(false)}
                           style={{ color: '#FFFFFFCC' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
@@ -385,7 +412,7 @@ export default function PieceForm(props) {
                           ))}
                         </Input>
                       </InputGroup>
-                      {errors.technique && <div className="typography-line"><p className="text-danger">{errors.technique.message}</p></div>}
+                      {errors.tecnica && <div className="typography-line"><p className="text-danger">{errors.tecnica.message}</p></div>}
                     </>
                   )}
                 />
@@ -400,7 +427,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": autorFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -410,11 +437,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Autor"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setAutorFocus(true)}
+                          onBlur={(e) => setAutorFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.autor && <div className="typography-line"><p className="text-danger">{errors.autor.message}</p></div>}
                     </>
                   )}
                 />
@@ -428,7 +455,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": sigloFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -438,11 +465,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Siglo"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setSigloFocus(true)}
+                          onBlur={(e) => setSigloFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.siglo && <div className="typography-line"><p className="text-danger">{errors.siglo.message}</p></div>}
                     </>
                   )}
                 />
@@ -452,12 +479,11 @@ export default function PieceForm(props) {
                   name="anio"
                   control={control}
                   defaultValue={valoresInicialesp.anio}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": anioFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -467,11 +493,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Año"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setAniolFocus(true)}
+                          onBlur={(e) => setAniolFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.anio && <div className="typography-line"><p className="text-danger">{errors.anio.message}</p></div>}
                     </>
                   )}
                 />
@@ -491,7 +517,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": altoFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -501,11 +527,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Alto..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setAltoFocus(true)}
+                          onBlur={(e) => setAltoFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.alto && <div className="typography-line"><p className="text-danger">{errors.alto.message}</p></div>}
                     </>
                   )}
                 />
@@ -519,7 +545,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": anchoFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -529,11 +555,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Ancho..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setAnchoFocus(true)}
+                          onBlur={(e) => setAnchoFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.ancho && <div className="typography-line"><p className="text-danger">{errors.ancho.message}</p></div>}
                     </>
                   )}
                 />
@@ -547,7 +573,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": diametroFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -557,11 +583,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Diámetro..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setDiametroFocus(true)}
+                          onBlur={(e) => setDiametroFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.diametro && <div className="typography-line"><p className="text-danger">{errors.diametro.message}</p></div>}
                     </>
                   )}
                 />
@@ -575,7 +601,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": espesorFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -585,11 +611,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Espesor..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setEspesorFocus(true)}
+                          onBlur={(e) => setEspesorFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.espesor && <div className="typography-line"><p className="text-danger">{errors.espesor.message}</p></div>}
                     </>
                   )}
                 />
@@ -603,7 +629,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": pesoFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -613,11 +639,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Peso..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setPesoFocus(true)}
+                          onBlur={(e) => setPesoFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.peso && <div className="typography-line"><p className="text-danger">{errors.peso.message}</p></div>}
                     </>
                   )}
                 />
@@ -626,12 +652,11 @@ export default function PieceForm(props) {
                 <Controller
                   name="inscripcion"
                   control={control}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": inscripcionFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -641,11 +666,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Inscripciones..."
                           type="textarea"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setInscripcionFocus(true)}
+                          onBlur={(e) => setInscripcionFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.inscripcion && <div className="typography-line"><p className="text-danger">{errors.inscripcion.message}</p></div>}
                     </>
                   )}
                 />
@@ -659,7 +684,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": descripcionFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -669,11 +694,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Descripción"
                           type="textarea"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setDescripcionFocus(true)}
+                          onBlur={(e) => setDescripcionFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.descripcion && <div className="typography-line"><p className="text-danger">{errors.descripcion.message}</p></div>}
                     </>
                   )}
                 />
@@ -682,12 +707,11 @@ export default function PieceForm(props) {
                 <Controller
                   name="ubicacion"
                   control={control}
-                  rules={{ required: 'El email es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": ubicacionFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -697,11 +721,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Ubicación en el museo"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setUbicacionFocus(true)}
+                          onBlur={(e) => setUbicacionFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.ubicacion && <div className="typography-line"><p className="text-danger">{errors.ubicacion.message}</p></div>}
                     </>
                   )}
                 />
@@ -715,7 +739,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": regimenFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -725,25 +749,25 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Régimen de Propiedad..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setRegimenFocus(true)}
+                          onBlur={(e) => setRegimenFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.regimen && <div className="typography-line"><p className="text-danger">{errors.regimen.message}</p></div>}
                     </>
                   )}
                 />
               </Col>
               <Col lg="6" >
                 <Controller
-                  name="state"
+                  name="estado_piezas"
                   control={control}
                   defaultValue={valoresInicialesp.estado_piezas}
                   render={({ field }) => (
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": typeFocus,
+                          "input-group-focus": estadopiezasFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -753,8 +777,8 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Estado General"
                           type="select"
-                          onFocus={(e) => setTypeFocus(true)}
-                          onBlur={(e) => setTypeFocus(false)}
+                          onFocus={(e) => setEstadopiezasFocus(true)}
+                          onBlur={(e) => setEstadopiezasFocus(false)}
                           style={{ color: '#FFFFFFCC' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
@@ -765,7 +789,7 @@ export default function PieceForm(props) {
                           ))}
                         </Input>
                       </InputGroup>
-                      {errors.state && <div className="typography-line"><p className="text-danger">{errors.state.message}</p></div>}
+                      {errors.estado_piezas && <div className="typography-line"><p className="text-danger">{errors.estado_piezas.message}</p></div>}
                     </>
                   )}
                 />
@@ -779,7 +803,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup disabled
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": otrodeterioroFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -789,11 +813,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Otro deterioro..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setOtrodeterioroFocus(true)}
+                          onBlur={(e) => setOtrodeterioroFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.otro_deterioro && <div className="typography-line"><p className="text-danger">{errors.otro_deterioro.message}</p></div>}
                     </>
                   )}
                 />
@@ -843,12 +867,12 @@ export default function PieceForm(props) {
                   name="estado_integridad"
                   control={control}
                   defaultValue={valoresInicialesp.estado_integridad}
-                  rules={{ required: 'El email es obligatorio.' }}
+                  rules={{ required: 'El estado de integridad es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": typeFocus,
+                          "input-group-focus": estadointegridadFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -858,8 +882,8 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Estado de Integridad..."
                           type="select"
-                          onFocus={(e) => setTypeFocus(true)}
-                          onBlur={(e) => setTypeFocus(false)}
+                          onFocus={(e) => setEstadointegridadFocus(true)}
+                          onBlur={(e) => setEstadointegridadFocus(false)}
                           style={{ color: '#FFFFFFCC' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
@@ -870,7 +894,7 @@ export default function PieceForm(props) {
                           ))}
                         </Input>
                       </InputGroup>
-                      {errors.integrity && <div className="typography-line"><p className="text-danger">{errors.integrity.message}</p></div>}
+                      {errors.estado_integridad && <div className="typography-line"><p className="text-danger">{errors.estado_integridad.message}</p></div>}
                     </>
                   )}
                 />
@@ -884,7 +908,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": conservacionFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -894,11 +918,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Conservación Preventiva"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setConservacionFocus(true)}
+                          onBlur={(e) => setConservacionFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.conservacion && <div className="typography-line"><p className="text-danger">{errors.conservacion.message}</p></div>}
                     </>
                   )}
                 />
@@ -912,7 +936,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": observacionFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -922,8 +946,8 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Observaciones"
                           type="textarea"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setObservacionFocus(true)}
+                          onBlur={(e) => setObservacionFocus(false)}
                         />
                       </InputGroup>
                       {errors.observacion && <div className="typography-line"><p className="text-danger">{errors.observacion.message}</p></div>}
@@ -940,7 +964,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": publicidadFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -950,11 +974,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Información de imagen"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setPublicidadFocus(true)}
+                          onBlur={(e) => setPublicidadFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.publicidad && <div className="typography-line"><p className="text-danger">{errors.publicidad.message}</p></div>}
                     </>
                   )}
                 />
@@ -968,7 +992,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": imagen1Focus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -977,12 +1001,12 @@ export default function PieceForm(props) {
                         <Input
                           {...field}
                           placeholder="Imagenes 1..."
-                          type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          type="file"
+                          onFocus={(e) => setImagen1Focus(true)}
+                          onBlur={(e) => setImagen1Focus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.imagen1 && <div className="typography-line"><p className="text-danger">{errors.imagen1.message}</p></div>}
                     </>
                   )}
                 />
@@ -996,7 +1020,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": imagen2Focus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1005,12 +1029,12 @@ export default function PieceForm(props) {
                         <Input
                           {...field}
                           placeholder="Imagenes 2..."
-                          type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          type="file"
+                          onFocus={(e) => setImagen2Focus(true)}
+                          onBlur={(e) => setImagen2Focus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.imagen2 && <div className="typography-line"><p className="text-danger">{errors.imagen2.message}</p></div>}
                     </>
                   )}
                 />
@@ -1024,7 +1048,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": registrofotograficoFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1034,11 +1058,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Código Fotográfico"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setRegistrofotograficoFocus(true)}
+                          onBlur={(e) => setRegistrofotograficoFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.registro_fotografico && <div className="typography-line"><p className="text-danger">{errors.registro_fotografico.message}</p></div>}
                     </>
                   )}
                 />
@@ -1052,7 +1076,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": entidadinvestigadoraFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1062,11 +1086,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Entidad Investigadora"
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setEntidadinvestigadoraFocus(true)}
+                          onBlur={(e) => setEntidadinvestigadoraFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.entidadin_vestigadora && <div className="typography-line"><p className="text-danger">{errors.entidad_investigadora.message}</p></div>}
                     </>
                   )}
                 />
@@ -1080,7 +1104,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": registradoFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1090,11 +1114,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Registrado por..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setRegistradoFocus(true)}
+                          onBlur={(e) => setRegistradoFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.registrado && <div className="typography-line"><p className="text-danger">{errors.registrado.message}</p></div>}
                     </>
                   )}
                 />
@@ -1108,7 +1132,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": fecharegistroFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1118,11 +1142,11 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Fecha Registro..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setRecharegistroFocus(true)}
+                          onBlur={(e) => setRecharegistroFocus(false)}
                         />
                       </InputGroup>
-                      {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                      {errors.fecha_registro && <div className="typography-line"><p className="text-danger">{errors.fecha_registro.message}</p></div>}
                     </>
                   )}
                 />
@@ -1136,7 +1160,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": revisadoFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1146,8 +1170,8 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Revisado por..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setRevisadoFocus(true)}
+                          onBlur={(e) => setRevisadoFocus(false)}
                         />
                       </InputGroup>
                       {errors.revisado && <div className="typography-line"><p className="text-danger">{errors.revisado.message}</p></div>}
@@ -1164,7 +1188,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": fecharevisionFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1174,8 +1198,8 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Fecha Revisión..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setFecharevisionFocus(true)}
+                          onBlur={(e) => setFecharevisionFocus(false)}
                         />
                       </InputGroup>
                       {errors.fecha_revision && <div className="typography-line"><p className="text-danger">{errors.fecha_revision.message}</p></div>}
@@ -1192,7 +1216,7 @@ export default function PieceForm(props) {
                     <>
                       <InputGroup
                         className={classnames({
-                          "input-group-focus": emailFocus,
+                          "input-group-focus": realizafotoFocus,
                         })}
                       >
                         <InputGroupText style={labelStyle} >
@@ -1202,8 +1226,8 @@ export default function PieceForm(props) {
                           {...field}
                           placeholder="Realiza Foto..."
                           type="text"
-                          onFocus={(e) => setEmailFocus(true)}
-                          onBlur={(e) => setEmailFocus(false)}
+                          onFocus={(e) => setRealizafotoFocus(true)}
+                          onBlur={(e) => setRealizafotoFocus(false)}
                         />
                       </InputGroup>
                       {errors.realiza_foto && <div className="typography-line"><p className="text-danger">{errors.realiza_foto.message}</p></div>}

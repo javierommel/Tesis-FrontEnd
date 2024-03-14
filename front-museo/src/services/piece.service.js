@@ -46,11 +46,14 @@ const addPiece = (file) => {
 }
 const updatePiece = (id, data, usuario_modificacion, materiales, deterioros, imagen1, imagen2) => {
   if (imagen1) {
-    console.log("iamge: "+JSON.stringify(data))
+    console.log("image: "+JSON.stringify(data))
     const formData = new FormData();
-    formData.append('avatar', base64toBlob(imagen1));
+    formData.append('imagen1', base64toBlob(imagen1));
+    formData.append('imagen2', base64toBlob(imagen2));
     formData.append('id', id);
     formData.append('data', JSON.stringify(data));
+    formData.append('materiales', JSON.stringify(materiales));
+    formData.append('deterioros', JSON.stringify(deterioros));
     formData.append('usuario_modificacion', usuario_modificacion);
     return axios.post(API_URL1 + "updatepiece", formData, {
       headers: {
