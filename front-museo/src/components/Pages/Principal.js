@@ -180,7 +180,7 @@ export default function PrincipalPage() {
                   </CardHeader>
                   <CardBody>
                     {commentl.map((step) => (
-                      <Comment data={step} />
+                      <Comment data={step} key={step.id}/>
 
                     ))}
                     <Row style={{ paddingTop: '20px' }}>

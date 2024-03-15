@@ -90,9 +90,14 @@ export default function PieceForm(props) {
     }
   };
   useEffect(() => {
+    const uint8Array1 = valoresInicialesp.imagen1 ? new Uint8Array(valoresInicialesp.imagen1.data) : null;
+    const blob1 = uint8Array1 ? new Blob([uint8Array1]) : null;
+    setImagen1(blob1 ? URL.createObjectURL(blob1) : null);
 
+    const uint8Array2 = valoresInicialesp.imagen2 ? new Uint8Array(valoresInicialesp.imagen2.data) : null;
+    const blob2 = uint8Array2 ? new Blob([uint8Array2]) : null;
+    setImagen2(blob2 ? URL.createObjectURL(blob2) : null);
     getInformationPiece().then((dat) => {
-      console.log("inf; " + JSON.stringify(dat.data))
       setInformation(dat.data);
     })
       .catch((error) => {

@@ -37,7 +37,7 @@ export default function UserForm(props) {
   const [passwordUpdate, setPasswordUpdate] = useState(true);
   const activo = watch('estado') === 1;
 
-  React.useEffect(() => {
+  React.useEffect(() => {   
     getCountry().then((dat) => {
       setCountry(dat.data);
     })
