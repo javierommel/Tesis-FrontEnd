@@ -9,7 +9,7 @@ import PieceAddForm from "../Settings/PieceAddForm"
 import ViewListPiece from "../Settings/ViewListPiece"
 import ViewListComment from "../Settings/ViewListComment"
 import { getUser, deleteUser, addUser, updateUser } from "../../actions/user"
-import { getPiece, addPiece } from "../../actions/piece"
+import { getPiece, addPiece, updatePiece, deletePiece } from "../../actions/piece"
 import { getCommentList, deleteComment, updateComment } from "../../actions/comment"
 // react plugin used to create charts
 import classnames from "classnames";
@@ -74,6 +74,7 @@ export default function AdminPage() {
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
   const [iduser, setIduser] = useState("");
+  const [idpiece, setIdpiece] = useState("");
   const [idcomment, setIdcomment] = useState("");
   const [activarcomment, setActivarComment] = useState(0);
   const [tipoupdate, setTipoupdate] = useState(0);
@@ -311,10 +312,33 @@ export default function AdminPage() {
     }, 2000);
   }
   const eliminarObjeto = (objeto) => {
-    setIduser(objeto)
+    
+    setIdpiece(objeto)
     setMensajealert("¿Desea eliminar el registro?")
-    setTipoupdate(0)
+    setTipoupdate(1)
     toggle()
+  }
+
+  const eliminarObjet = () => {
+    toggle()
+    setLoading(true);
+    setTimeout(() => {
+      deletePiece(idpiece, currentUser.id).then(({ message, retcode }) => {
+        if (retcode === 0) {
+          setResponse(message);
+          localStorage.setItem('storedResponse', JSON.stringify(message));
+          setSuccessful(true);
+          setLoading(false);
+          window.location.reload();
+        }
+        else {
+          console.log(message)
+          setResponse("Error al intentar borrar el registro en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        }
+      })
+    }, 2000);
   }
   const agregarNuevoObjeto = (file, cancel) => {
 
@@ -365,7 +389,7 @@ export default function AdminPage() {
           }
           else {
             console.log(message)
-            setResponse("Error al intentar borrar el registro en el servidor")
+            setResponse("Error al intentar actualizar el registro en el servidor")
             setSuccessful(false);
             setLoading(false);
           }
@@ -379,8 +403,46 @@ export default function AdminPage() {
     }
 
   }
-  const actualizarNuevoObjeto = (id, values, cancel) => {
-    if (cancel) cancelarObjeto();
+  const actualizarObjeto = (id, values, imagen1, imagen2, information, cancel) => {
+    if (cancel) { cancelarObjeto(); }
+    else {
+      const materiales_array = [];
+      const deterioros_array = [];
+      setLoading(true);
+      setSuccessful(false);
+      values.materiales.forEach((check, index) => {
+        if (index !== 0 && check) {
+          materiales_array.push(information.material[index - 1].nombre);
+        }
+      });
+      values.deterioros.forEach((check, index) => {
+        if (index !== 0 && check) {
+          deterioros_array.push(information.deterioration[index - 1].nombre);
+        }
+      });
+      setTimeout(() => {
+        updatePiece(id, values, currentUser.id, materiales_array, deterioros_array, imagen1, imagen2).then(({ message, retcode }) => {
+          if (retcode === 0) {
+            setResponse(message);
+            localStorage.setItem('storedResponse', JSON.stringify(message));
+            setSuccessful(true);
+            setLoading(false);
+            window.location.reload();
+          }
+          else {
+            console.log(message)
+            setResponse("Error al intentar actualizar el registro en el servidor")
+            setSuccessful(false);
+            setLoading(false);
+          }
+        }).catch((e) => {
+          console.log(e.message)
+          setResponse("Error al intentar actualizar la información en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        });
+      }, 2000);
+    }
 
   }
 
@@ -433,7 +495,7 @@ export default function AdminPage() {
             </ModalBody>
             <ModalFooter>
               <Button className="btn-neutral"
-                color="link" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate === 2 ? eliminarComment : modificarComment)}>
+                color="link" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate===1? eliminarObjet:(tipoupdate === 2 ? eliminarComment : modificarComment))}>
                 Aceptar
               </Button>{' '}
               <Button className="btn-neutral"
@@ -522,8 +584,7 @@ export default function AdminPage() {
                       {datosp.ruta === 'formulario' && <PieceForm
                         datos={datosp}
                         valoresInicialesp={valoresInicialesp || {}}
-                        handleSubmit={agregarNuevoObjeto}
-                        handleUpdate={actualizarNuevoObjeto}
+                        handleUpdate={actualizarObjeto}
                       />}
                       {datosp.ruta === 'formularion' && <PieceAddForm
                         handleSubmit={agregarNuevoObjeto}

@@ -21,7 +21,7 @@ export const getUser = async ({ page, pageSize }) => {
     );
 };
 
-export const deleteUser = async ({ id, usuario_modificacion }) => {
+export const deleteUser = async ( id, usuario_modificacion ) => {
     return AuthService.deleteUser(id, usuario_modificacion).then(
         (response) => {
             return { message: response.data.message, retcode: 0 }

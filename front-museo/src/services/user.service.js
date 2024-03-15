@@ -69,7 +69,6 @@ const updateUser = (id, data, usuario_modificacion, roles, image) => {
       data,
       usuario_modificacion,
       roles,
-      image:null
     });
   }
 

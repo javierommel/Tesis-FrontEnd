@@ -173,7 +173,7 @@ export default function ProfilePage() {
             <Col className="ml-auto mr-auto" lg="4" md="6">
                 <Card className="card-plain">
                   <CardHeader>
-                    <img
+                  <img
                       alt="..."
                       className="img-center img-fluid rounded-circle"
                       src={image}

@@ -74,7 +74,7 @@ export const updatePiece = async (id, values, usuario_modificacion, materiales, 
     );
 };
 
-export const deletePiece = async ({ id, usuario_modificacion }) => {
+export const deletePiece = async ( id, usuario_modificacion ) => {
     return AuthService.deletePiece(id, usuario_modificacion).then(
         (response) => {
             return { message: response.data.message, retcode: 0 }

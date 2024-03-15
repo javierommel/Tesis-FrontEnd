@@ -21,7 +21,7 @@ export const getCommentList = async ({ page, pageSize }) => {
     );
 };
 
-export const deleteComment = async ({ id, usuario_modificacion }) => {
+export const deleteComment = async ( id, usuario_modificacion ) => {
     return AuthService.deleteComment(id, usuario_modificacion).then(
         (response) => {
             return { message: response.data.message, retcode: 0 }

@@ -21,6 +21,7 @@ const getAdminBoard = () => {
 };
 
 function base64toBlob(base64) {
+  if (!base64) return null;
   const parts = base64.split(';base64,');
   const contentType = parts[0].split(':')[1];
   const raw = window.atob(parts[1]);
@@ -45,35 +46,20 @@ const addPiece = (file) => {
   );
 }
 const updatePiece = (id, data, usuario_modificacion, materiales, deterioros, imagen1, imagen2) => {
-  if (imagen1) {
-    console.log("image: "+JSON.stringify(data))
-    const formData = new FormData();
-    formData.append('imagen1', base64toBlob(imagen1));
-    formData.append('imagen2', base64toBlob(imagen2));
-    formData.append('id', id);
-    formData.append('data', JSON.stringify(data));
-    formData.append('materiales', JSON.stringify(materiales));
-    formData.append('deterioros', JSON.stringify(deterioros));
-    formData.append('usuario_modificacion', usuario_modificacion);
-    return axios.post(API_URL1 + "updatepiece", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-    );
+  const formData = new FormData();
+  formData.append('imagen1', base64toBlob(imagen1));
+  formData.append('imagen2', base64toBlob(imagen2));
+  formData.append('id', id);
+  formData.append('data', JSON.stringify(data));
+  formData.append('materiales', JSON.stringify(materiales));
+  formData.append('deterioros', JSON.stringify(deterioros));
+  formData.append('usuario_modificacion', usuario_modificacion);
+  return axios.post(API_URL1 + "updatepiece", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   }
-  else {
-    return axios.post(API_URL1 + "updateuser", {
-      id,
-      data,
-      usuario_modificacion,
-      materiales, 
-      deterioros,
-      imagen1:null,
-      imagen2:null
-    });
-  }
-
+  )
 }
 const deletePiece = (id, user) => {
   return axios.post(API_URL1 + "deletepiece", {
@@ -82,17 +68,17 @@ const deletePiece = (id, user) => {
   });
 }
 
-const getPiece=(page, pageSize)=>{
+const getPiece = (page, pageSize) => {
   return axios.
-      post(API_URL1 + "getpiece", {
-        page, 
-        pageSize, 
-      });
+    post(API_URL1 + "getpiece", {
+      page,
+      pageSize,
+    });
 }
-const getInformationPiece=()=>{
+const getInformationPiece = () => {
   return axios.
-      post(API_URL1 + "getinformationpiece", {
-      });
+    post(API_URL1 + "getinformationpiece", {
+    });
 }
 
 export default {

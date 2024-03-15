@@ -115,7 +115,7 @@ export default function UserForm(props) {
                         defaultValue={rolesSeleccionados && rolesSeleccionados.includes(option.id)}
                         render={({ field }) => <FormGroup check>
                           <Label check>
-                            <Input id={option.id}
+                            <Input key={option.id} id={option.id}
                               type="checkbox"
                               {...field}
                               defaultChecked={rolesSeleccionados && rolesSeleccionados.includes(option.id)} />
