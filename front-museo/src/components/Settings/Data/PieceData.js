@@ -15,7 +15,7 @@ export const PieceData = [
     },
     {
         header: 'Tipo',
-        accessorKey: 'tipo_bien',
+        accessorKey: 'tipo_biens',
     },
     {
         header: 'Autor',

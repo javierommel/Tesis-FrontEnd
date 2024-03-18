@@ -185,7 +185,8 @@
                 color: $white;
 
                 &:first-child{
-                    opacity: .5;
+                    opacity: 1;
+                    color: $success
                 }
             }
         }

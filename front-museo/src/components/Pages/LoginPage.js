@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
@@ -37,7 +37,7 @@ export default function RegisterPage() {
   const [squares7and8, setSquares7and8] = React.useState("");
   const [emailFocus, setEmailFocus] = React.useState(false);
   const [passwordFocus, setPasswordFocus] = React.useState(false);
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
     // Specify how to clean up after this effect:
@@ -79,8 +79,10 @@ export default function RegisterPage() {
 
   const onSubmit = (data) => {
     setLoading(true);
+    setResponse("");
     dispatch(login(data.username, data.password))
       .then(() => {
+        console.log(message)
         setLoading(false);
         setSuccessful(true);
         navigate("/home");
@@ -91,11 +93,13 @@ export default function RegisterPage() {
         setResponse(message)
         setSuccessful(false);
         setLoading(false);
+
       });
   };
   const signGoogle = () => {
     signInWithPopup(auth, provider).then((data) => {
       const credential = GoogleAuthProvider.credentialFromResult(data);
+      console.log("asfasf: "+JSON.stringify(credential))
       console.log(data.user.email);
     });
   }
@@ -130,7 +134,7 @@ export default function RegisterPage() {
                           <i className="fab fa-google" />&nbsp;&nbsp;&nbsp;
                           Ingresar con Google
                         </Button>
-                        <div class="sso-divider">
+                        <div className="sso-divider">
                           <span>O</span>
                         </div>
                         <Controller

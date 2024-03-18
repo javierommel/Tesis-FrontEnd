@@ -33,7 +33,7 @@ export default function PrincipalPage() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
-  const [errorrate, setErrorrate] = useState(false);
+  const [errorrate, setErrorrate] = useState("");
   const onDismiss = () => setResponse(null);
   const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -76,13 +76,17 @@ export default function PrincipalPage() {
     return res;
   };
   const handleChange = (event) => {
-    setErrorrate(false)
+    setErrorrate("")
     setComment(event.target.value);
   };
 
   const saveComment = () => {
-    if (!rate || comment === "") {
-      setErrorrate(true)
+    if (comment === "") {
+      setErrorrate("Debe ingresar un comentario")
+      return
+    }
+    if (!rate ) {
+      setErrorrate("Debe escoger una puntuación")
       return
     }
     addComment(comment, rate, currentUser.id).then(({ message, retcode }) => {
@@ -159,7 +163,7 @@ export default function PrincipalPage() {
                         <Row>
                           <Col md="4" xs="5">
                             <div className="icon-big text-center icon-warning">
-                              <i className="tim-icons icon-trophy text-warning" />
+                              <i className="tim-icons icon-zoom-split text-warning" />
                             </div>
                           </Col>
                           <Col md="8" xs="7">
@@ -179,7 +183,7 @@ export default function PrincipalPage() {
                         <Row>
                           <Col md="4" xs="5">
                             <div className="icon-big text-center icon-warning">
-                              <i className="tim-icons icon-coins text-white" />
+                              <i className="tim-icons icon-notes text-white" />
                             </div>
                           </Col>
                           <Col md="8" xs="7">
@@ -201,7 +205,7 @@ export default function PrincipalPage() {
                         <Row>
                           <Col md="4" xs="5">
                             <div className="icon-big text-center icon-warning">
-                              <i className="tim-icons icon-gift-2 text-info" />
+                              <i className="tim-icons icon-email-85 text-info" />
                             </div>
                           </Col>
                           <Col md="8" xs="7">
@@ -221,7 +225,7 @@ export default function PrincipalPage() {
                         <Row>
                           <Col md="4" xs="5">
                             <div className="icon-big text-center icon-warning">
-                              <i className="tim-icons icon-credit-card text-success" />
+                              <i className="tim-icons icon-user-run text-success" />
                             </div>
                           </Col>
                           <Col md="8" xs="7">
@@ -243,7 +247,7 @@ export default function PrincipalPage() {
                   <br />
                   <hr className="line-success" />
                   <h1>
-                    Registros
+                    Museo Virtual
                   </h1>
                   <p>
                     Prueba el asistente virtual que te ayudará con tus dudas.
@@ -292,11 +296,11 @@ export default function PrincipalPage() {
                             emptySymbol={<img alt="..." style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
                             fullSymbol={<img alt="..." style={{ width: '20px', height: '20px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
                             style={{ float: 'right' }}
-                            onChange={(rate) => { setRate(rate); setErrorrate(false) }}
+                            onChange={(rate) => { setRate(rate); setErrorrate("") }}
                           />
                         </Col>
                       </Row>
-                      {errorrate && <div className="typography-line"><p className="text-danger">Debe escoger una puntuación</p></div>}
+                      {errorrate!=="" && <div className="typography-line"><p className="text-danger">{errorrate}</p></div>}
                       <Row>
                         <Col>
                           <Button style={{ float: 'right' }} color="info" onClick={saveComment}>Comentar</Button>

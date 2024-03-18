@@ -17,7 +17,7 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
-  Modal, ModalHeader, ModalBody, ModalFooter,Button,
+  Modal, ModalHeader, ModalBody, ModalFooter, Button,
 } from "reactstrap";
 import logoSVG from 'assets/img/Logo museo.svg';
 
@@ -80,27 +80,35 @@ export default function ExamplesNavbar({ activado }) {
   return (
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
-        <Modal isOpen={modal} toggle={toggle} >
-          <ModalHeader toggle={toggle}>Mensaje</ModalHeader>
+        <Modal isOpen={modal} toggle={toggle} modalClassName="modal-mini modal-info modal-mini" >
+          <ModalHeader toggle={toggle} className="modal-header justify-content-center">
+            <button className="close" onClick={toggle}>
+              <i className="tim-icons icon-simple-remove text-white" />
+            </button>
+            <div className="modal-profile">
+              <i className="tim-icons icon-alert-circle-exc" />
+            </div></ModalHeader>
           <ModalBody>
             ¿Desea abandonar la sesión?
           </ModalBody>
           <ModalFooter>
-            <Button color="info" onClick={logOut}>
+            <Button className="btn-neutral"
+              color="link" onClick={logOut}>
               Aceptar
             </Button>{' '}
-            <Button color="secondary" onClick={toggle}>
+            <Button className="btn-neutral"
+              color="link" onClick={toggle}>
               Cancelar
             </Button>
           </ModalFooter>
         </Modal>
-        <div style={{ position: 'absolute', top: '10px', left: '20px', color: 'white' }}>
-          <span><b>Bienvenido: </b></span>
-          {/*currentUser.name*/}
+        <div style={{ position: 'absolute', top: '30px', left: '30px', color: 'white' }}>
+          <p><b>Usuario: </b></p>
+          {currentUser.name}
         </div>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-          <img alt="..." src={logoSVG} style={{width:"80%", paddingLeft:"80px"}}/>
+            <img alt="..." src={logoSVG} style={{ width: "80%", paddingLeft: "80px" }} />
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
             Universidad de Cuenca

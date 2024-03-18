@@ -76,7 +76,7 @@ export default function GeneralForm(props) {
   }
   useEffect(() => {
     getContent().then((dat) => {
-      setDatos(dat.data);
+      setDatos(dat.data[0]);
       setImagen1(toBlob(dat.data.imagen1));
       setImagen2(toBlob(dat.data.imagen2));
       setImagen3(toBlob(dat.data.imagen3));

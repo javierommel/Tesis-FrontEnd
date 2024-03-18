@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import '../Utils/PageHeader.css';
 import Comment from "components/Utils/Comment.js"
 import { getComment } from "../../actions/comment"
+import { getContent } from "../../actions/general"
 // reactstrap components
 import {
   Container,
@@ -35,16 +36,26 @@ const carouselItems = [
 ];
 
 
-
-
 export default function Index() {
   const [commentl, setCommentl] = useState([]);
-  React.useEffect(() => {
+  const [contenido, setContenido] = useState(false);
+  useEffect(() => {
     getComment({ page: 1, pageSize: 10, usuario: null }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
     }).catch((error) => {
       console.error("error" + error.message)
     });
+    getContent().then((dat) => {
+      setContenido(dat.data[0]);
+      //console.log("datos: "+JSON.stringify(contenido.titulo))
+      /*setImagen1(toBlob(dat.data.imagen1));
+      setImagen2(toBlob(dat.data.imagen2));
+      setImagen3(toBlob(dat.data.imagen3));
+      setImagen4(toBlob(dat.data.imagen4));*/
+    })
+      .catch((error) => {
+        console.log("error" + error.message)
+      });
     document.body.classList.toggle("index-page");
     // Specify how to clean up after this effect:
     return function cleanup() {
@@ -122,7 +133,7 @@ export default function Index() {
                   <div className="px-md-5" >
                     <hr className="line-success" />
                     <h3 className="text-white font-weight-light">
-                      Museo Las Conceptas
+                      {contenido&&contenido.titulo}
                     </h3>
                     <p className="text-white mt-4" style={{ textAlign: "justify" }}>
                       En un edificio colonial, de los más antiguos
