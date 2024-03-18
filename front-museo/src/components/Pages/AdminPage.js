@@ -6,11 +6,13 @@ import UserForm from "../Settings/UserForm"
 import ViewListUser from "../Settings/ViewListUser"
 import PieceForm from "../Settings/PieceForm"
 import PieceAddForm from "../Settings/PieceAddForm"
+import GeneralForm from "../Settings/GeneralForm"
 import ViewListPiece from "../Settings/ViewListPiece"
 import ViewListComment from "../Settings/ViewListComment"
 import { getUser, deleteUser, addUser, updateUser } from "../../actions/user"
 import { getPiece, addPiece, updatePiece, deletePiece } from "../../actions/piece"
 import { getCommentList, deleteComment, updateComment } from "../../actions/comment"
+import { updateContent } from "../../actions/general"
 // react plugin used to create charts
 import classnames from "classnames";
 // reactstrap components
@@ -37,7 +39,7 @@ import {
 // core components
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
-import Loader from "components/PageHeader/Loader.js"
+import Loader from "components/Utils/Loader.js"
 
 export default function AdminPage() {
 
@@ -312,7 +314,7 @@ export default function AdminPage() {
     }, 2000);
   }
   const eliminarObjeto = (objeto) => {
-    
+
     setIdpiece(objeto)
     setMensajealert("¿Desea eliminar el registro?")
     setTipoupdate(1)
@@ -445,6 +447,36 @@ export default function AdminPage() {
     }
 
   }
+  const updateContenido = (values, imagen1, imagen2, imagen3, imagen4, cancel) => {
+    if (cancel) { cancelarObjeto(); }
+    else {
+      setLoading(true);
+      setSuccessful(false);
+      setTimeout(() => {
+        updateContent(values, currentUser.id, imagen1, imagen2, imagen3, imagen4).then(({ message, retcode }) => {
+          if (retcode === 0) {
+            setResponse(message);
+            localStorage.setItem('storedResponse', JSON.stringify(message));
+            setSuccessful(true);
+            setLoading(false);
+            window.location.reload();
+          }
+          else {
+            console.log(message)
+            setResponse("Error al intentar actualizar el registro en el servidor")
+            setSuccessful(false);
+            setLoading(false);
+          }
+        }).catch((e) => {
+          console.log(e.message)
+          setResponse("Error al intentar actualizar la información en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        });
+      }, 2000);
+    }
+
+  }
 
   const nuevoUsuario = () => {
     //console.log("asdf");
@@ -495,7 +527,7 @@ export default function AdminPage() {
             </ModalBody>
             <ModalFooter>
               <Button className="btn-neutral"
-                color="link" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate===1? eliminarObjet:(tipoupdate === 2 ? eliminarComment : modificarComment))}>
+                color="link" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate === 1 ? eliminarObjet : (tipoupdate === 2 ? eliminarComment : modificarComment))}>
                 Aceptar
               </Button>{' '}
               <Button className="btn-neutral"
@@ -505,7 +537,7 @@ export default function AdminPage() {
             </ModalFooter>
           </Modal>
           <div className="title">
-            <h3 className="mb-3">Administrador</h3>
+            <h3 className="mb-3"><br /></h3>
           </div>
           <Row>
             <Col className="ml-auto mr-auto" md="12" xl="20">
@@ -517,13 +549,13 @@ export default function AdminPage() {
               </div>
               <Card>
                 <CardHeader>
-                <Nav className="nav-tabs-info" role="tablist" tabs>
+                  <Nav className="nav-tabs-info" role="tablist" tabs>
                     <NavItem>
                       <NavLink
                         className={classnames({
                           active: iconTabs === 1,
                         })}
-                        onClick={(e) => {setIconsTabs(1); cancelarObjeto()}}
+                        onClick={(e) => { setIconsTabs(1); cancelarObjeto() }}
                         href="#usuarios"
                       >
                         <i className="tim-icons icon-single-02" />
@@ -535,7 +567,7 @@ export default function AdminPage() {
                         className={classnames({
                           active: iconTabs === 2,
                         })}
-                        onClick={(e) => {setIconsTabs(2); cancelarUsuario()}}
+                        onClick={(e) => { setIconsTabs(2); cancelarUsuario() }}
                         href="#piezas"
                       >
                         <i className="tim-icons icon-settings-gear-63" />
@@ -547,11 +579,23 @@ export default function AdminPage() {
                         className={classnames({
                           active: iconTabs === 3,
                         })}
-                        onClick={(e) => {setIconsTabs(3); cancelarObjeto(); cancelarUsuario()}}
+                        onClick={(e) => { setIconsTabs(3); cancelarObjeto(); cancelarUsuario() }}
                         href="#comentarios"
                       >
                         <i className="tim-icons icon-paper" />
                         Comentarios
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        className={classnames({
+                          active: iconTabs === 4,
+                        })}
+                        onClick={(e) => { setIconsTabs(4); cancelarObjeto(); cancelarUsuario() }}
+                        href="#general"
+                      >
+                        <i className="tim-icons icon-align-center" />
+                        General
                       </NavLink>
                     </NavItem>
                   </Nav>
@@ -596,6 +640,11 @@ export default function AdminPage() {
                         handleDelete={eliminarComentario}
                         data={datosc.data}
                       />}
+                    </TabPane>
+                    <TabPane tabId="link4">
+                      <GeneralForm
+                        handleSubmit={updateContenido}
+                      />
                     </TabPane>
                   </TabContent>
                 </CardBody>

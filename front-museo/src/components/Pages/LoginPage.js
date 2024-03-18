@@ -24,11 +24,13 @@ import {
   Container,
   Row,
   Col,
+  UncontrolledAlert,
 } from "reactstrap";
 
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
+import Loader from "components/Utils/Loader.js"
 
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
@@ -64,13 +66,14 @@ export default function RegisterPage() {
   };
   let navigate = useNavigate();
   const { handleSubmit, control, formState: { errors } } = useForm();
-  //const form = useRef();
 
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
 
   const { isLoggedIn } = useSelector(state => state.auth);
   const { message } = useSelector(state => state.message);
+  const onDismiss = () => setResponse(null);
 
   const dispatch = useDispatch();
 
@@ -78,11 +81,14 @@ export default function RegisterPage() {
     setLoading(true);
     dispatch(login(data.username, data.password))
       .then(() => {
+        setLoading(false);
         setSuccessful(true);
         navigate("/home");
         window.location.reload();
       })
       .catch(() => {
+        console.log(message)
+        setResponse(message)
         setSuccessful(false);
         setLoading(false);
       });
@@ -99,6 +105,7 @@ export default function RegisterPage() {
   }
   return (
     <>
+      <Loader loading={loading} />
       <IndexNavbar activado={2} />
       <div className="wrapper">
         <div className="page-header">
@@ -202,14 +209,6 @@ export default function RegisterPage() {
                         <div style={{ textAlign: 'center' }}>
                           <h5>¿No tiene cuenta? <Link to="/register-page">Regístrese</Link></h5>
                         </div>
-                        {!successful && (
-                          message && (
-                            <div className="form-group">
-                              <div className="alert alert-danger" role="alert">
-                                {message}
-                              </div>
-                            </div>
-                          ))}
                       </CardFooter>
                     </Form>
                   </Card>
@@ -217,10 +216,29 @@ export default function RegisterPage() {
                 <Col />
               </Row>
               <div className="register-bg" />
-
             </Container>
           </div>
         </div>
+        {response !== null && (
+          <UncontrolledAlert
+            isOpen
+            toggle={onDismiss}
+            className="alert-with-icon"
+            color={successful ? 'success' : 'danger'}
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 9999,
+            }}
+          >
+            <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
+            <span>
+              {response}
+            </span>
+          </UncontrolledAlert>
+        )}
         <Footer />
       </div>
     </>

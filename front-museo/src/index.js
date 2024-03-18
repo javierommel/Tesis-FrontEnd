@@ -10,7 +10,7 @@ import "assets/scss/blk-design-system-react.scss";
 import "assets/demo/demo.css";
 import "assets/css/museo.css";
 
-import Index from "views/Index.js";
+import Index from "components/Pages/Index";
 import RegisterPage from "components/Pages/RegisterPage";
 import ProfilePage from "components/Pages/ProfilePage";
 import Vista360 from "components/Pages/Vista360";

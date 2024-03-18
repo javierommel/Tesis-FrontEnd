@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Navigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import Rating from 'react-rating';
 import { getComment, addComment } from "../../actions/comment"
-import Comment from "components/PageHeader/Comment.js"
+import Comment from "components/Utils/Comment.js"
 
 // reactstrap components
 import {
@@ -23,10 +23,9 @@ import {
 // core components
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
-import Loader from "components/PageHeader/Loader.js"
+import Loader from "components/Utils/Loader.js"
 
 export default function PrincipalPage() {
-  const navigate = useNavigate();
   const [commentl, setCommentl] = useState([]);
   const [rate, setRate] = useState(0);
   const [image, setImage] = useState(require("assets/img/mike.jpg"));
@@ -34,14 +33,14 @@ export default function PrincipalPage() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
+  const [errorrate, setErrorrate] = useState(false);
   const onDismiss = () => setResponse(null);
   const { user: currentUser } = useSelector((state) => state.auth);
 
-  React.useEffect(() => {
-    getComment({ page: 1, pageSize: 10, usuario:currentUser.id }).then((dat) => {
+  useEffect(() => {
+    getComment({ page: 1, pageSize: 10, usuario: currentUser.id }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
       setImage(cambiarImagen(dat.avatar))
-      console.log("commentList: " + JSON.stringify(dat.data))
     }).catch((error) => {
       console.log("error" + error.message)
     });
@@ -77,11 +76,15 @@ export default function PrincipalPage() {
     return res;
   };
   const handleChange = (event) => {
+    setErrorrate(false)
     setComment(event.target.value);
   };
 
   const saveComment = () => {
-    console.log("rate: " + rate + " comment: " + comment)
+    if (!rate || comment === "") {
+      setErrorrate(true)
+      return
+    }
     addComment(comment, rate, currentUser.id).then(({ message, retcode }) => {
       console.log("asdf: " + message + " " + retcode)
       if (retcode === 0) {
@@ -105,9 +108,6 @@ export default function PrincipalPage() {
     });
   };
 
-  const handleButtonClick = () => {
-    navigate('/vista360');
-  };
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -148,88 +148,170 @@ export default function PrincipalPage() {
             className="shapes circle"
             src={require("assets/img/cercuri.png")}
           />
+          <div style={{ height: "200px" }}></div>
           <Container>
-            <div className="content-center brand">
-              <h1 className="h2-seo">Museo Las conceptas</h1>
-              <h3 className="d-none d-sm-block">
-                Prueba el asistente virtual que te ayudará con tus dudas.
-                Una forma entretenida de visitar un museo.
-              </h3>
-              <div>
-                <button className="noselect blue" onClick={handleButtonClick}>Ingrese aquí</button>
-              </div>
-            </div>
+            <Row className="row-grid justify-content-between">
+              <Col className="mt-lg-5" md="5">
+                <Row>
+                  <Col className="px-2 py-2" lg="6" sm="12">
+                    <Card className="card-stats">
+                      <CardBody>
+                        <Row>
+                          <Col md="4" xs="5">
+                            <div className="icon-big text-center icon-warning">
+                              <i className="tim-icons icon-trophy text-warning" />
+                            </div>
+                          </Col>
+                          <Col md="8" xs="7">
+                            <div className="numbers">
+                              <CardTitle tag="p">3,237</CardTitle>
+                              <p />
+                              <p className="card-category">Búsquedas</p>
+                            </div>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col className="px-2 py-2" lg="6" sm="12">
+                    <Card className="card-stats upper bg-default">
+                      <CardBody>
+                        <Row>
+                          <Col md="4" xs="5">
+                            <div className="icon-big text-center icon-warning">
+                              <i className="tim-icons icon-coins text-white" />
+                            </div>
+                          </Col>
+                          <Col md="8" xs="7">
+                            <div className="numbers">
+                              <CardTitle tag="p">3,653</CardTitle>
+                              <p />
+                              <p className="card-category">Comentarios</p>
+                            </div>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="px-2 py-2" lg="6" sm="12">
+                    <Card className="card-stats">
+                      <CardBody>
+                        <Row>
+                          <Col md="4" xs="5">
+                            <div className="icon-big text-center icon-warning">
+                              <i className="tim-icons icon-gift-2 text-info" />
+                            </div>
+                          </Col>
+                          <Col md="8" xs="7">
+                            <div className="numbers">
+                              <CardTitle tag="p">593</CardTitle>
+                              <p />
+                              <p className="card-category">Recomendaciones</p>
+                            </div>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col className="px-2 py-2" lg="6" sm="12">
+                    <Card className="card-stats">
+                      <CardBody>
+                        <Row>
+                          <Col md="4" xs="5">
+                            <div className="icon-big text-center icon-warning">
+                              <i className="tim-icons icon-credit-card text-success" />
+                            </div>
+                          </Col>
+                          <Col md="8" xs="7">
+                            <div className="numbers">
+                              <CardTitle tag="p">10,783</CardTitle>
+                              <p />
+                              <p className="card-category">Visitas</p>
+                            </div>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+              </Col>
+              <Col md="6">
+                <div className="pl-md-5">
+                  <br />
+                  <br />
+                  <hr className="line-success" />
+                  <h1>
+                    Registros
+                  </h1>
+                  <p>
+                    Prueba el asistente virtual que te ayudará con tus dudas.
+                    Una forma entretenida de visitar un museo.
+                  </p>
+                  <br />
+
+                </div>
+              </Col>
+            </Row>
+            <Col lg="10" md="6">
+              <Card className="card-plain">
+                <CardHeader>
+                  <hr className="line-success" />
+                  <h3 >Comentarios</h3>
+                </CardHeader>
+                <CardBody>
+                  {commentl.map((step) => (
+                    <Comment data={step} key={step.id} />
+
+                  ))}
+                  <Row style={{ paddingTop: '20px' }}>
+                    <Col lg="3"><img
+                      alt="..."
+                      className="img-center img-fluid rounded-circle"
+                      src={image}
+                      //src={require("assets/img/mike.jpg")}
+                      style={{ width: '60px', height: '60px', borderRadius: '50%' }}
+                    /></Col>
+                    <Col><FormGroup>
+                      <h4>Publica tu comentario</h4>
+                      <Input
+                        id="exampleText"
+                        name="text"
+                        type="textarea"
+                        placeholder="Ingrese aquí su comentario..."
+                        onChange={handleChange}
+                      />
+                    </FormGroup>
+                      <Row>
+                        <Col lg="7" md="6"></Col>
+                        <Col lg="2" md="6" style={{ textAlign: "end" }}>
+                          <h5>Puntuación </h5></Col>
+                        <Col>
+                          <Rating
+                            emptySymbol={<img alt="..." style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
+                            fullSymbol={<img alt="..." style={{ width: '20px', height: '20px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
+                            style={{ float: 'right' }}
+                            onChange={(rate) => { setRate(rate); setErrorrate(false) }}
+                          />
+                        </Col>
+                      </Row>
+                      {errorrate && <div className="typography-line"><p className="text-danger">Debe escoger una puntuación</p></div>}
+                      <Row>
+                        <Col>
+                          <Button style={{ float: 'right' }} color="info" onClick={saveComment}>Comentar</Button>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <div className="px-md-5">
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
           </Container>
         </div>
 
-
-        <section className="section section-lg section-safe">
-          <img
-            alt="..."
-            className="path"
-            src={require("assets/img/path5.png")}
-          />
-          <Container>
-            <Row className="row-grid justify-content-between">
-              <Col md="5">
-              </Col>
-              <Col className="ml-auto mr-auto" lg="7" md="6">
-                <Card className="card-coin card-plain">
-                  <CardHeader>
-                    <h3>Comentarios</h3>
-                  </CardHeader>
-                  <CardBody>
-                    {commentl.map((step) => (
-                      <Comment data={step} key={step.id}/>
-
-                    ))}
-                    <Row style={{ paddingTop: '20px' }}>
-                      <Col lg="3"><img
-                        alt="..."
-                        className="img-center img-fluid rounded-circle"
-                        src={image}
-                        //src={require("assets/img/mike.jpg")}
-                        style={{ width: '60px', height: '60px', borderRadius: '50%' }}
-                      /></Col>
-                      <Col><FormGroup>
-                        <h4>Publica tu comentario</h4>
-                        <Input
-                          id="exampleText"
-                          name="text"
-                          type="textarea"
-                          placeholder="Ingrese aquí su comentario..."
-                          onChange={handleChange}
-                        />
-                      </FormGroup>
-                        <Row>
-                          <Col></Col>
-                          <Col ><h5>Puntuación </h5></Col>
-                          <Col>
-                            <Rating
-                              emptySymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com1.png")} className="icon" />}
-                              fullSymbol={<img style={{ width: '25px', height: '25px' }} src={require("assets/img/pngwing.com.png")} className="icon" />}
-                              style={{ float: 'right' }}
-                              onChange={(rate) => setRate(rate)}
-                            />
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <Button style={{ float: 'right' }} color="info" onClick={saveComment}>Comentar</Button>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    <div className="px-md-5">
-                    </div>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col md="6">
-              </Col>
-            </Row>
-          </Container>
-        </section>
         <Footer />
         {response !== null && (
           <Alert isOpen color={successful ? 'success' : 'danger'} toggle={onDismiss} style={{

@@ -25,7 +25,7 @@ import {
 // core components
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
-import Loader from "components/PageHeader/Loader.js"
+import Loader from "components/Utils/Loader.js"
 
 let ps = null;
 

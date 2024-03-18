@@ -23,11 +23,13 @@ import {
   Container,
   Row,
   Col,
+  UncontrolledAlert,
 } from "reactstrap";
 
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
+import Loader from "components/Utils/Loader.js"
 
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
@@ -82,25 +84,24 @@ export default function RegisterPage() {
   const { handleSubmit, control, watch, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
+  const [response, setResponse] = useState(null);
+  const onDismiss = () => setResponse(null);
 
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     setLoading(true);
-    //e.preventDefault();
-
     setSuccessful(false);
-
-    //form.current.validateAll();
-
-    //if (checkBtn.current.context._errors.length === 0) {
     dispatch(register(data.name, data.username, data.email, data.password, data.country, data.year))
       .then(() => {
         setSuccessful(true);
       })
       .catch(() => {
+        console.log(message)
+        setResponse(message)
         setSuccessful(false);
+        setLoading(false);
       });
     //}
   };
@@ -120,6 +121,7 @@ export default function RegisterPage() {
 
   return (
     <>
+      <Loader loading={loading} />
       <IndexNavbar activado={3} />
       <div className="wrapper">
         <div className="page-header">
@@ -381,18 +383,11 @@ export default function RegisterPage() {
 
                         </CardBody>
                         <CardFooter>
-                          <Button className="btn btn-lg w-100" size="lg" disabled={loading} type="submit">
+                          <Button className="btn btn-lg w-100" size="lg" disabled={loading} type="submit" color="info">
                             Registrar
                           </Button>
                         </CardFooter>
                       </>)}
-                      {message && (
-                        <div className="form-group">
-                          <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
-                            {message}
-                          </div>
-                        </div>
-                      )}
                     </Form>
                   </Card>
                 </Col>
@@ -432,6 +427,26 @@ export default function RegisterPage() {
             </Container>
           </div>
         </div>
+        {response !== null && (
+          <UncontrolledAlert
+            isOpen
+            toggle={onDismiss}
+            className="alert-with-icon"
+            color={successful ? 'success' : 'danger'}
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 9999,
+            }}
+          >
+            <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
+            <span>
+              {response}
+            </span>
+          </UncontrolledAlert>
+        )}
         <Footer />
       </div>
     </>

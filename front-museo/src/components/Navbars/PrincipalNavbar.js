@@ -19,6 +19,7 @@ import {
   UncontrolledTooltip,
   Modal, ModalHeader, ModalBody, ModalFooter,Button,
 } from "reactstrap";
+import logoSVG from 'assets/img/Logo museo.svg';
 
 export default function ExamplesNavbar({ activado }) {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -99,8 +100,7 @@ export default function ExamplesNavbar({ activado }) {
         </div>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-            <span>UCuenca• </span>
-            Museo de las Conceptas
+          <img alt="..." src={logoSVG} style={{width:"80%", paddingLeft:"80px"}}/>
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
             Universidad de Cuenca
@@ -188,7 +188,7 @@ export default function ExamplesNavbar({ activado }) {
                   tag={Link} to="/report-page"
                 >
                   <i className="tim-icons icon-chart-bar-32" />
-                  Estadísticas
+                  Reportes
                 </NavLink>
               </NavItem>)}
             {showAdminBoard && (
@@ -201,7 +201,7 @@ export default function ExamplesNavbar({ activado }) {
                   tag={Link} to="/admin-page"
                 >
                   <i className="tim-icons icon-settings-gear-63" />
-                  Administración
+                  Settings
                 </NavLink>
               </NavItem>)}
             <NavItem>

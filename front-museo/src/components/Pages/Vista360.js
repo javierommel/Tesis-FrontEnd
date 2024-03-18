@@ -9,8 +9,8 @@ import Chat from "assets/img/chat.png";
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import { Navigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { Container } from "reactstrap";
 import Footer from "components/Footer/Footer.js";
+import 'components/Utils/Button.css';
 
 export default function Vista360() {
   const [showBot, toggleBot] = useState(false);
@@ -35,6 +35,7 @@ export default function Vista360() {
       </button>
     </Flip>
     <div className="wrapper">
+    <div style={{ height: "60px" }}></div>
       <section className="section section-lg section-safe">
         <Pannellum
           width="100%"

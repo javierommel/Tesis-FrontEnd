@@ -14,6 +14,7 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
+import logoSVG from 'assets/img/Logo museo.svg';
 
 export default function IndexNavbar({activado}) {
   //console.log("activado: "+activado);
@@ -55,8 +56,7 @@ export default function IndexNavbar({activado}) {
       <Container>
         <div className="navbar-translate">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
-            <span>UCuenca• </span>
-            Museo de las Conceptas
+            <img alt="..." src={logoSVG} style={{width:"80%", paddingLeft:"110px"}}/>
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
             Universidad de Cuenca
