@@ -77,6 +77,7 @@ export default function ListComment(props) {
         {
             header: '',
             accessorKey: 'botones',
+            size:200,
             cell: ({ row }) => (
                 <NuevaColumna
                     id={row.original.id}

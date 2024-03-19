@@ -7,6 +7,9 @@ export const CommentData = [
     {
         header: 'Commentario',
         accessorKey: 'comentario',
+        size: 200,
+        maxSize: 200, 
+        maxWidth:200,
     },
     {
         header: 'Estado',

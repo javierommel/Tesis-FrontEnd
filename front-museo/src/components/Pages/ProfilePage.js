@@ -20,6 +20,7 @@ import {
   Row,
   Col,
   Alert,
+  Label,
 } from "reactstrap";
 
 // core components
@@ -39,7 +40,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
-  const [cargafoto, setCargaFoto]=useState(false);
+  const [cargafoto, setCargaFoto] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const inputRef = useRef();
   // Crear un array con los últimos 80 años
@@ -132,8 +133,8 @@ export default function ProfilePage() {
     setPasswordUpdate(!passwordUpdate);
   };
   const onSubmit = (data) => {
-
-    updateUser(currentUser.id, data, currentUser.id, null, cargafoto?image:null).then(({ message, retcode }) => {
+    setLoading(true)
+    updateUser(currentUser.id, data, currentUser.id, null, cargafoto ? image : null).then(({ message, retcode }) => {
       if (retcode === 0) {
         setResponse(message);
         localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -172,10 +173,10 @@ export default function ProfilePage() {
           />
           <Container className="align-items-center">
             <Row>
-            <Col className="ml-auto mr-auto" lg="4" md="6">
+              <Col className="ml-auto mr-auto" lg="4" md="6">
                 <Card className="card-plain">
                   <CardHeader>
-                  <img
+                    <img
                       alt="..."
                       className="img-center img-fluid rounded-circle"
                       src={image}
@@ -262,12 +263,20 @@ export default function ProfilePage() {
                             render={({ field }) => (
                               <FormGroup>
                                 <label>Año Nacimiento</label>
-                                <Input {...field} type="select" >
+                                <Input {...field}
+                                  type="select"
+                                >
                                   <option style={{ color: '#434444' }} key={0} disabled value="0">
                                     Año Nacimiento
                                   </option>
                                   {anios.map((step) => (
-                                    <option style={{ color: '#2b3553' }} key={step} value={step}>{step}</option>
+                                    <option
+                                      style={{ color: '#2b3553' }}
+                                      key={step}
+                                      value={step}
+                                    >
+                                      {step}
+                                    </option>
                                   ))}
                                 </Input>
                                 {errors.year && <div className="typography-line"><p className="text-danger">{errors.year.message}</p></div>}
@@ -300,14 +309,22 @@ export default function ProfilePage() {
                           />
                         </Col>
                       </Row>
-                      <Button
-                        className="btn btn-lg w-100 float-right"
-                        color="info"
-                        data-placement="right"
-                        onClick={TogglePassword}
-                      >
-                        {passwordUpdate ? "Cambiar Password" : "No Cambiar Password"}
-                      </Button>
+                      <Row>
+                        <Col lg="6" md="6">
+                          <FormGroup check>
+                            <Label check>
+                              <Input
+                                type="checkbox"
+                                onChange={(e) => TogglePassword()}
+                              />
+                              <span className="form-check-sign" />
+                              Cambiar Password
+                            </Label>
+                          </FormGroup>
+                          <br />
+                        </Col>
+                      </Row>
+
                       <Row>
                         <Col md="6">
                           <Controller

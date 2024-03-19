@@ -57,7 +57,7 @@ export default function Footer() {
                 id="tooltip230450801"
                 target="_blank"
               >
-                <img alt="..." src={faceSVG} style={{paddingTop:"0.5px", paddingLeft:"0.1px", width:"95%"}}/>
+                <img alt="..." src={faceSVG} style={{paddingTop:"0.8px", paddingLeft:"0.5px", width:"35px"}}/>
               </Button>
               <UncontrolledTooltip delay={0} target="tooltip230450801">
                 Dale me gusta

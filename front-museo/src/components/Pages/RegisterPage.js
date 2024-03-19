@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
 import { useForm, Controller } from 'react-hook-form';
 import { getCountry } from "../../actions/general"
-//import { isEmail } from "validator";
 
 import { register } from "actions/auth";
 import { CLEAR_MESSAGE } from "actions/types"
@@ -42,6 +41,8 @@ export default function RegisterPage() {
   const [emailFocus, setEmailFocus] = React.useState(false);
   const [passwordFocus, setPasswordFocus] = React.useState(false);
   const [password2Focus, setPassword2Focus] = React.useState(false);
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
   const [country, setCountry] = useState([]);
   const anioActual = new Date().getFullYear();
   // Crear un array con los últimos 80 años
@@ -86,7 +87,6 @@ export default function RegisterPage() {
   const { handleSubmit, control, watch, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
-  const [response, setResponse] = useState(null);
   const onDismiss = () => dispatch({ type: CLEAR_MESSAGE });
 
   const { message } = useSelector(state => state.message);
@@ -101,7 +101,6 @@ export default function RegisterPage() {
       })
       .catch(() => {
         console.log(message)
-        setResponse(message)
         setSuccessful(false);
         setLoading(false);
       });
@@ -119,6 +118,13 @@ export default function RegisterPage() {
 
   const validateEdad = (value) => {
     return value !== "0" || 'El año de nacimiento es obligatorio.';
+  };
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
   };
 
   return (
@@ -232,7 +238,7 @@ export default function RegisterPage() {
                                   <Input
                                     {...field}
                                     placeholder="Email"
-                                    type="text"
+                                    type="email"
                                     onFocus={(e) => setEmailFocus(true)}
                                     onBlur={(e) => setEmailFocus(false)}
                                   />
@@ -327,7 +333,11 @@ export default function RegisterPage() {
                                     type="select"
                                     onFocus={(e) => setCountryFocus(true)}
                                     onBlur={(e) => setCountryFocus(false)}
-                                    style={{ color: '#6c757d' }}
+                                    onChange={(e) => {
+                                      field.onChange(e);
+                                      handleCountryChange(e);
+                                    }}
+                                    style={{ color: selectedCountry === "" ? '#6c757d' : '#ffffff' }}
                                   >
                                     <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                                       Nacionalidad
@@ -368,7 +378,11 @@ export default function RegisterPage() {
                                     type="select"
                                     onFocus={(e) => setYearFocus(true)}
                                     onBlur={(e) => setYearFocus(false)}
-                                    style={{ color: '#6c757d' }}
+                                    onChange={(e) => {
+                                      field.onChange(e);
+                                      handleYearChange(e);
+                                    }}
+                                    style={{ color: selectedYear === "" ? '#6c757d' : '#ffffff' }}
                                   >
                                     <option style={{ color: '#434444' }} key={0} disabled value="0">
                                       Año Nacimiento
