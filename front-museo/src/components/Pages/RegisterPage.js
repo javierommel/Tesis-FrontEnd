@@ -6,6 +6,7 @@ import { getCountry } from "../../actions/general"
 //import { isEmail } from "validator";
 
 import { register } from "actions/auth";
+import { CLEAR_MESSAGE } from "actions/types"
 // reactstrap components
 import {
   Button,
@@ -47,6 +48,7 @@ export default function RegisterPage() {
   const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
 
   React.useEffect(() => {
+    dispatch({ type: CLEAR_MESSAGE })
     getCountry().then((dat) => {
       setCountry(dat.data);
       //console.log("dat " + dat)
@@ -85,7 +87,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const [response, setResponse] = useState(null);
-  const onDismiss = () => setResponse(null);
+  const onDismiss = () => dispatch({ type: CLEAR_MESSAGE });
 
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
@@ -427,7 +429,7 @@ export default function RegisterPage() {
             </Container>
           </div>
         </div>
-        {response !== null && (
+        {message !== "" && (
           <UncontrolledAlert
             isOpen
             toggle={onDismiss}
@@ -443,7 +445,7 @@ export default function RegisterPage() {
           >
             <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
             <span>
-              {response}
+              {message}
             </span>
           </UncontrolledAlert>
         )}

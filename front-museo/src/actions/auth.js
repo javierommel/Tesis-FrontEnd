@@ -49,6 +49,7 @@ export const register = (name, username, email, password, country, year) => (dis
 export const login = (username, password) => (dispatch) => {
     return AuthService.login(username, password).then(
         (data) => {
+            console.log("da: "+data)
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: { user: data },
@@ -57,6 +58,7 @@ export const login = (username, password) => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
+            console.log("da1: "+error.response.data.message)
             const message =
                 (error.response &&
                     error.response.data &&

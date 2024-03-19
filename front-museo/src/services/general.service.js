@@ -26,7 +26,6 @@ const getCountry = () => {
 }
 
 function base64toBlob(base64) {
-  console.log("asdfd: " + base64)
   if (!base64) return null;
   const parts = base64.split(';base64,');
   const contentType = parts[0].split(':')[1];

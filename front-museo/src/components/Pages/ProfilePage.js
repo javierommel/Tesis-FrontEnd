@@ -39,6 +39,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
+  const [cargafoto, setCargaFoto]=useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const inputRef = useRef();
   // Crear un array con los últimos 80 años
@@ -101,6 +102,7 @@ export default function ProfilePage() {
   }
 
   const handleImageChange = (e) => {
+    setCargaFoto(true)
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -130,8 +132,8 @@ export default function ProfilePage() {
     setPasswordUpdate(!passwordUpdate);
   };
   const onSubmit = (data) => {
-    //console.log("datasdf: " + JSON.stringify(data))
-    updateUser(currentUser.id, data, currentUser.id, null, image).then(({ message, retcode }) => {
+
+    updateUser(currentUser.id, data, currentUser.id, null, cargafoto?image:null).then(({ message, retcode }) => {
       if (retcode === 0) {
         setResponse(message);
         localStorage.setItem('storedResponse', JSON.stringify(message));

@@ -24,12 +24,19 @@ export default function GeneralForm(props) {
   const [imagen2, setImagen2] = useState(null);
   const [imagen3, setImagen3] = useState(null);
   const [imagen4, setImagen4] = useState(null);
+  const [cargaimagen1, setCargaimagen1] = useState(false);
+  const [cargaimagen2, setCargaimagen2] = useState(false);
+  const [cargaimagen3, setCargaimagen3] = useState(false);
+  const [cargaimagen4, setCargaimagen4] = useState(false);
   const imagen1Ref = useRef();
   const imagen2Ref = useRef();
   const imagen3Ref = useRef();
   const imagen4Ref = useRef();
+  
   const { handleSubmit, control, formState: { errors } } = useForm();
+  
   const handleImage1Change = (e) => {
+    setCargaimagen1(true)
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -40,6 +47,7 @@ export default function GeneralForm(props) {
     }
   };
   const handleImage2Change = (e) => {
+    setCargaimagen2(true)
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -50,6 +58,7 @@ export default function GeneralForm(props) {
     }
   };
   const handleImage3Change = (e) => {
+    setCargaimagen3(true)
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -60,6 +69,7 @@ export default function GeneralForm(props) {
     }
   };
   const handleImage4Change = (e) => {
+    setCargaimagen4(true)
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -88,7 +98,7 @@ export default function GeneralForm(props) {
   }, []);
 
   const onSubmit = (data) => {
-    props.handleSubmit(data, imagen1, imagen2, imagen3, imagen4, false)
+    props.handleSubmit(data, cargaimagen1?imagen1:null, cargaimagen2?imagen2:null, cargaimagen3?imagen3:null, cargaimagen4?imagen4:null, false)
   }
   const onCancelar = () => {
     props.handleSubmit(null, null, null, null, null, true)
@@ -96,6 +106,7 @@ export default function GeneralForm(props) {
 
   return (
     <div>
+      {datos&&(
       <Form className="form" onSubmit={handleSubmit(onSubmit)}>
         {<>
           <CardBody>
@@ -104,7 +115,7 @@ export default function GeneralForm(props) {
                 <Controller
                   name="titulo"
                   control={control}
-                  defaultValue={datos.titulo}
+                  defaultValue={datos?datos.titulo:""}
                   rules={{ required: 'El titulo es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -136,7 +147,7 @@ export default function GeneralForm(props) {
                 <Controller
                   name="contenido"
                   control={control}
-                  defaultValue={datos.contenido}
+                  defaultValue={datos?datos.contenido:""}
                   rules={{ required: 'El contenido es obligatorio.' }}
                   render={({ field }) => (
                     <>
@@ -154,7 +165,7 @@ export default function GeneralForm(props) {
                           {...field}
                           placeholder="Contenido"
                           type="textarea"
-                          rows="5"
+                          rows="4"
                           onFocus={(e) => setContenidoFocus(true)}
                           onBlur={(e) => setContenidoFocus(false)}
                         />
@@ -241,7 +252,7 @@ export default function GeneralForm(props) {
             </Button>
           </CardFooter>
         </>}
-      </Form>
+      </Form>)}
     </div>
 
   )

@@ -1,12 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import { useDispatch, useSelector } from "react-redux";
 import { getInformationPiece } from "../../actions/piece"
 import classnames from "classnames";
 import { labelStyle, titleStyle } from '../../assets/styles/style'
 import {
   Button,
-  Card,
   CardBody,
   CardFooter,
   Input,
@@ -58,18 +56,21 @@ export default function PieceForm(props) {
   const [revisadoFocus, setRevisadoFocus] = useState(false);
   const [fecharevisionFocus, setFecharevisionFocus] = useState(false);
   const [realizafotoFocus, setRealizafotoFocus] = useState(false);
+  const [cargafoto1, setCargafoto1] = useState(false);
+  const [cargafoto2, setCargafoto2] = useState(false);
   const imagen1Ref = useRef();
   const imagen2Ref = useRef();
   const { handleSubmit, control, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-    props.handleUpdate(valoresInicialesp.numero_ordinal, data, imagen1, imagen2, information,false)
+    props.handleUpdate(valoresInicialesp.numero_ordinal, data, cargafoto1?imagen1:null, cargafoto2?imagen2:null, information,false)
   }
   const onCancelar = () => {
     props.handleUpdate(valoresInicialesp.numero_ordinal, null, null, null, null, true)
   }
 
   const handleImage1Change = (e) => {
+    setCargafoto1(true)
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -80,6 +81,7 @@ export default function PieceForm(props) {
     }
   };
   const handleImage2Change = (e) => {
+    setCargafoto2(true)
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();

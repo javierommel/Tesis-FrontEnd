@@ -6,6 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { login } from 'actions/auth';
 import { auth, provider } from "../../variables/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { CLEAR_MESSAGE } from "actions/types"
 
 // reactstrap components
 import {
@@ -33,14 +34,15 @@ import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
 
 export default function RegisterPage() {
-  const [squares1to6, setSquares1to6] = React.useState("");
-  const [squares7and8, setSquares7and8] = React.useState("");
-  const [emailFocus, setEmailFocus] = React.useState(false);
-  const [passwordFocus, setPasswordFocus] = React.useState(false);
+  const [squares1to6, setSquares1to6] = useState("");
+  const [squares7and8, setSquares7and8] = useState("");
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
   useEffect(() => {
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
     // Specify how to clean up after this effect:
+    dispatch({ type: CLEAR_MESSAGE })
     return function cleanup() {
       document.body.classList.toggle("register-page");
       document.documentElement.removeEventListener("mousemove", followCursor);
@@ -68,29 +70,24 @@ export default function RegisterPage() {
   const { handleSubmit, control, formState: { errors } } = useForm();
 
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
 
   const { isLoggedIn } = useSelector(state => state.auth);
   const { message } = useSelector(state => state.message);
-  const onDismiss = () => setResponse(null);
+  const onDismiss = () => dispatch({ type: CLEAR_MESSAGE });
 
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     setLoading(true);
-    setResponse("");
     dispatch(login(data.username, data.password))
       .then(() => {
-        console.log(message)
         setLoading(false);
         setSuccessful(true);
         navigate("/home");
         window.location.reload();
       })
       .catch(() => {
-        console.log(message)
-        setResponse(message)
         setSuccessful(false);
         setLoading(false);
 
@@ -99,7 +96,7 @@ export default function RegisterPage() {
   const signGoogle = () => {
     signInWithPopup(auth, provider).then((data) => {
       const credential = GoogleAuthProvider.credentialFromResult(data);
-      console.log("asfasf: "+JSON.stringify(credential))
+      console.log("asfasf: " + JSON.stringify(credential))
       console.log(data.user.email);
     });
   }
@@ -160,7 +157,7 @@ export default function RegisterPage() {
                                   type="text"
                                   onFocus={(e) => {
                                     setEmailFocus(true)
-                                    setSuccessful(true)
+                                    dispatch({ type: CLEAR_MESSAGE })
                                   }}
                                   onBlur={(e) => setEmailFocus(false)}
                                 />
@@ -193,7 +190,7 @@ export default function RegisterPage() {
                                   type="password"
                                   onFocus={(e) => {
                                     setPasswordFocus(true)
-                                    setSuccessful(true)
+                                    dispatch({ type: CLEAR_MESSAGE })
                                   }}
                                   onBlur={(e) => setPasswordFocus(false)}
                                 />
@@ -223,7 +220,7 @@ export default function RegisterPage() {
             </Container>
           </div>
         </div>
-        {response !== null && (
+        {message !== "" && (
           <UncontrolledAlert
             isOpen
             toggle={onDismiss}
@@ -239,7 +236,7 @@ export default function RegisterPage() {
           >
             <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
             <span>
-              {response}
+              {message}
             </span>
           </UncontrolledAlert>
         )}

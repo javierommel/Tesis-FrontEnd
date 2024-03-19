@@ -21,7 +21,6 @@ const getAdminBoard = () => {
 };
 
 function base64toBlob(base64) {
-  console.log("asdfd: "+base64)
   if (!base64) return null;
   const parts = base64.split(';base64,');
   const contentType = parts[0].split(':')[1];
@@ -70,15 +69,13 @@ const deletePiece = (id, user) => {
 }
 
 const getPiece = (page, pageSize) => {
-  return axios.
-    post(API_URL1 + "getpiece", {
+  return axios.post(API_URL1 + "getpiece", {
       page,
       pageSize,
     });
 }
 const getInformationPiece = () => {
-  return axios.
-    post(API_URL1 + "getinformationpiece", {
+  return axios.post(API_URL1 + "getinformationpiece", {
     });
 }
 

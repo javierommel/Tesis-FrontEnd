@@ -135,24 +135,8 @@ export default function Index() {
                     <h3 className="text-white font-weight-light">
                       {contenido&&contenido.titulo}
                     </h3>
-                    <p className="text-white mt-4" style={{ textAlign: "justify" }}>
-                      En un edificio colonial, de los más antiguos
-                      de la ciudad de Cuenca, a trescientos metros
-                      de la plaza central “Parque Calderón”,el
-                      Museo de las Conceptas cuenta historia de
-                      la ciudad desde un Monasterio de Claustro.<br />
-                      <br />
-                      Las colecciones que se exhiben son parte del
-                      dote que las religiosas aportaron al convento
-                      durante los cuatro siglos de vida del monasterio.
-                      En su mayoría pinturas y esculturas religiosas,
-                      representaciones de la vida de Jesús, de la Virgen
-                      en diversas advocaciones; arcángeles, ángeles,
-                      querubines y maravillosos retratos de santos y santas.<br />
-                      <br />
-                      En la actualidad el museo auspicia y propicia actos
-                      culturales como seminarios, talleres, exposiciones y
-                      otros eventos artísticos.
+                    <p className="text-white mt-4" style={{ textAlign: "justify", whiteSpace: 'pre-wrap' }}>
+                      {contenido&&contenido.contenido}
                     </p>
                   </div>
                 </Col>
