@@ -189,7 +189,7 @@ export default function AdminPage() {
         //console.log(JSON.stringify(usuario))
         usuario.roles.map((check, index) => {
           if (index !== 0) {
-            if (check) rol_array.push(datos.roles[index - 1].nombre)
+            if (check) rol_array.push(datos.roles[index - 2].nombre)
           }
           return null;
         })
@@ -275,7 +275,7 @@ export default function AdminPage() {
     toggle()
     setLoading(true);
     setTimeout(() => {
-      deleteUser({ id: idcomment, usuario_modificacion: currentUser.id }).then(({ message, retcode }) => {
+      deleteUser( iduser, currentUser.id ).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
           localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -296,7 +296,7 @@ export default function AdminPage() {
     toggle()
     setLoading(true);
     setTimeout(() => {
-      deleteComment(iduser, currentUser.id).then(({ message, retcode }) => {
+      deleteComment(idcomment, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
           localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -377,7 +377,7 @@ export default function AdminPage() {
       setSuccessful(false);
       values.roles.forEach((check, index) => {
         if (index !== 0 && check) {
-          rol_array.push(datos.roles[index - 1].nombre);
+          rol_array.push(datos.roles[index - 2].nombre);
         }
       });
       setTimeout(() => {

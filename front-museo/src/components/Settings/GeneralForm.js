@@ -87,10 +87,11 @@ export default function GeneralForm(props) {
   useEffect(() => {
     getContent().then((dat) => {
       setDatos(dat.data[0]);
-      setImagen1(toBlob(dat.data.imagen1));
-      setImagen2(toBlob(dat.data.imagen2));
-      setImagen3(toBlob(dat.data.imagen3));
-      setImagen4(toBlob(dat.data.imagen4));
+      setImagen1(toBlob(dat.data[0].imagen1.data));
+      setImagen2(toBlob(dat.data[0].imagen2.data));
+      setImagen3(toBlob(dat.data[0].imagen3.data));
+      setImagen4(toBlob(dat.data[0].imagen4.data));
+      console.log(dat.data[0])
     })
       .catch((error) => {
         console.log("error" + error.message)
@@ -111,6 +112,36 @@ export default function GeneralForm(props) {
         {<>
           <CardBody>
             <Row>
+            <Col lg="6" md="6">
+                <Controller
+                  name="nrocomentario"
+                  control={control}
+                  defaultValue={""}
+                  rules={{ required: 'El número de comentarios es obligatorio.' }}
+                  render={({ field }) => (
+                    <>
+                      <InputGroup
+                        className={classnames({
+                          "input-group-focus": tituloFocus,
+                        })}
+                      >
+                        <InputGroupText style={labelStyle} >
+                        Nro. Com
+                      </InputGroupText>
+                        <Input
+                          {...field}
+                          placeholder="Número de comentarios..."
+                          type="text"
+                          onFocus={(e) => setTituloFocus(true)}
+                          onBlur={(e) => setTituloFocus(false)}
+                        />
+                      </InputGroup>
+                      {errors.nrocomentario && <div className="typography-line"><p className="text-danger">{errors.nrocomentario.message}</p></div>}
+                    </>
+                  )}
+                />
+              </Col>
+              <Col lg="6" md="6"></Col>
               <Col lg="6" md="6">
                 <Controller
                   name="titulo"
@@ -124,11 +155,9 @@ export default function GeneralForm(props) {
                           "input-group-focus": tituloFocus,
                         })}
                       >
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="tim-icons icon-paper" />
-                          </InputGroupText>
-                        </InputGroupAddon>
+                        <InputGroupText style={labelStyle} >
+                        Titulo
+                      </InputGroupText>
                         <Input
                           {...field}
                           placeholder="Titulo"
@@ -156,11 +185,9 @@ export default function GeneralForm(props) {
                           "input-group-focus": contenidoFocus,
                         })}
                       >
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="tim-icons icon-paper" />
-                          </InputGroupText>
-                        </InputGroupAddon>
+                         <InputGroupText style={labelStyle} >
+                        Contenido
+                      </InputGroupText>
                         <Input
                           {...field}
                           placeholder="Contenido"
@@ -174,6 +201,7 @@ export default function GeneralForm(props) {
                     </>
                   )}
                 />
+                <br/>
               </Col>
               <Col lg="6" md="6"></Col>
               <Col lg="6" >

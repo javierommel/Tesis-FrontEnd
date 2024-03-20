@@ -3,9 +3,7 @@ import AuthService from "../services/general.service";
 export const getCountry = async () => {
     return AuthService.getCountry().then(
         (response) => {
-            //console.log("datosp "+JSON.stringify(response.data.data))
             return response.data
-            //return Promise.resolve();
         },
         (error) => {
             const message =
@@ -16,7 +14,6 @@ export const getCountry = async () => {
                 error.toString();
 
                 return message;
-            //return Promise.reject();
         }
     );
 };
@@ -42,7 +39,7 @@ export const getContent = async () => {
 export const updateContent = async (data, usuario_modificacion, imagen1, imagen2, imagen3, imagen4) => {
     return AuthService.updateContent(data, usuario_modificacion, imagen1, imagen2, imagen3, imagen4).then(
         (response) => {
-            return response.data
+            return { message: response.data.message, retcode: 0 };
         },
         (error) => {
             const message =
@@ -52,7 +49,7 @@ export const updateContent = async (data, usuario_modificacion, imagen1, imagen2
                 error.message ||
                 error.toString();
 
-                return message;
+                return { message, retcode: 1 };
         }
     );
 };

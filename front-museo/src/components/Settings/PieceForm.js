@@ -791,27 +791,37 @@ export default function PieceForm(props) {
             </Col>
             <Col lg="6" >
               <Controller
-                name="otro_deterioro"
+                name="estado_integridad"
                 control={control}
-                defaultValue={valoresInicialesp.otro_deterioro}
+                defaultValue={valoresInicialesp.estado_integridad}
+                rules={{ required: 'El estado de integridad es obligatorio.' }}
                 render={({ field }) => (
                   <>
-                    <InputGroup disabled
+                    <InputGroup
                       className={classnames({
-                        "input-group-focus": otrodeterioroFocus,
+                        "input-group-focus": estadointegridadFocus,
                       })}
                     >
                       <InputGroupText style={labelStyle} >
-                        Otro Det.
+                        Integridad
                       </InputGroupText>
                       <Input
                         {...field}
-                        placeholder="Otro deterioro..."
-                        type="text"
-                        onFocus={(e) => setOtrodeterioroFocus(true)}
-                        onBlur={(e) => setOtrodeterioroFocus(false)}
-                      />
+                        placeholder="Estado de Integridad..."
+                        type="select"
+                        onFocus={(e) => setEstadointegridadFocus(true)}
+                        onBlur={(e) => setEstadointegridadFocus(false)}
+                        style={{ color: '#FFFFFFCC' }}
+                      >
+                        <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
+                          Estado Integridad
+                        </option>
+                        {information?.integrity?.map((step) => (
+                          <option style={{ color: '#2b3553' }} key={step.id} value={step.id}>{step.nombre}</option>
+                        ))}
+                      </Input>
                     </InputGroup>
+                    {errors.estado_integridad && <div className="typography-line"><p className="text-danger">{errors.estado_integridad.message}</p></div>}
                   </>
                 )}
               />
@@ -858,37 +868,27 @@ export default function PieceForm(props) {
             </Row>
             <Col lg="6" >
               <Controller
-                name="estado_integridad"
+                name="otro_deterioro"
                 control={control}
-                defaultValue={valoresInicialesp.estado_integridad}
-                rules={{ required: 'El estado de integridad es obligatorio.' }}
+                defaultValue={valoresInicialesp.otro_deterioro}
                 render={({ field }) => (
                   <>
-                    <InputGroup
+                    <InputGroup disabled
                       className={classnames({
-                        "input-group-focus": estadointegridadFocus,
+                        "input-group-focus": otrodeterioroFocus,
                       })}
                     >
                       <InputGroupText style={labelStyle} >
-                        Integridad
+                        Otro Det.
                       </InputGroupText>
                       <Input
                         {...field}
-                        placeholder="Estado de Integridad..."
-                        type="select"
-                        onFocus={(e) => setEstadointegridadFocus(true)}
-                        onBlur={(e) => setEstadointegridadFocus(false)}
-                        style={{ color: '#FFFFFFCC' }}
-                      >
-                        <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
-                          Estado Integridad
-                        </option>
-                        {information?.integrity?.map((step) => (
-                          <option style={{ color: '#2b3553' }} key={step.id} value={step.id}>{step.nombre}</option>
-                        ))}
-                      </Input>
+                        placeholder="Otro deterioro..."
+                        type="text"
+                        onFocus={(e) => setOtrodeterioroFocus(true)}
+                        onBlur={(e) => setOtrodeterioroFocus(false)}
+                      />
                     </InputGroup>
-                    {errors.estado_integridad && <div className="typography-line"><p className="text-danger">{errors.estado_integridad.message}</p></div>}
                   </>
                 )}
               />

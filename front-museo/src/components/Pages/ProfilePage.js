@@ -21,12 +21,15 @@ import {
   Col,
   Alert,
   Label,
+  InputGroupAddon,
+  InputGroupText, InputGroup
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
+import eye from 'assets/img/eye.png';
 
 let ps = null;
 
@@ -41,6 +44,8 @@ export default function ProfilePage() {
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
   const [cargafoto, setCargaFoto] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const inputRef = useRef();
   // Crear un array con los últimos 80 años
@@ -128,9 +133,29 @@ export default function ProfilePage() {
   const validateEdad = (value) => {
     return value !== "0" || 'El año de nacimiento es obligatorio.';
   };
+  const handleMouseDown = () => {
+    // Muestra la contraseña cuando se mantiene presionado el ojo
+    setShowPassword(true);
+  };
+
+  const handleMouseUp = () => {
+    // Oculta la contraseña cuando se suelta el ojo
+    setShowPassword(false);
+  };
+  const handleMouseDown2 = () => {
+    // Muestra la contraseña cuando se mantiene presionado el ojo
+    setShowPassword2(true);
+  };
+
+  const handleMouseUp2 = () => {
+    // Oculta la contraseña cuando se suelta el ojo
+    setShowPassword2(false);
+  };
 
   const TogglePassword = () => {
     setPasswordUpdate(!passwordUpdate);
+    setValue("password", "");
+    setValue("password2", "");
   };
   const onSubmit = (data) => {
     setLoading(true)
@@ -239,7 +264,7 @@ export default function ProfilePage() {
                             name="name"
                             control={control}
                             defaultValue={""}
-                            rules={{ required: 'El email es obligatorio.' }}
+                            rules={{ required: 'El nombre es obligatorio.' }}
                             render={({ field }) => (
                               <FormGroup>
                                 <label>Nombre Completo</label>
@@ -334,8 +359,25 @@ export default function ProfilePage() {
                             rules={{ required: passwordUpdate ? false : 'El password es obligatorio.' }}
                             render={({ field }) => (
                               <FormGroup>
+
                                 <label>Password</label>
-                                <Input {...field} disabled={passwordUpdate} type="password" />
+                                <InputGroup disabled={passwordUpdate}>
+                                  <Input {...field} disabled={passwordUpdate} type={showPassword ? 'text' : 'password'} />
+                                  <InputGroupAddon addonType="append"
+                                    style={{ borderLeft: 'none', }}
+                                  >
+                                    <InputGroupText
+                                      onMouseDown={handleMouseDown}
+                                      onMouseUp={handleMouseUp}
+                                      onMouseLeave={handleMouseUp}
+                                      style={{
+                                        cursor: 'pointer',
+                                      }}
+                                    >
+                                      <img alt="..." src={eye} style={{ width: '16px' }} />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                </InputGroup>
                                 {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
                               </FormGroup>
                             )}
@@ -353,7 +395,23 @@ export default function ProfilePage() {
                             render={({ field }) => (
                               <FormGroup>
                                 <label>Repetir-Password</label>
-                                <Input {...field} disabled={passwordUpdate} type="password" />
+                                <InputGroup disabled={passwordUpdate}>
+                                  <Input {...field} disabled={passwordUpdate} type={showPassword2 ? 'text' : 'password'} />
+                                  <InputGroupAddon addonType="append"
+                                    style={{ borderLeft: 'none', }}
+                                  >
+                                    <InputGroupText
+                                      onMouseDown={handleMouseDown2}
+                                      onMouseUp={handleMouseUp2}
+                                      onMouseLeave={handleMouseUp2}
+                                      style={{
+                                        cursor: 'pointer',
+                                      }}
+                                    >
+                                      <img alt="..." src={eye} style={{ width: '16px' }} />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                </InputGroup>
                                 {errors.password2 && <div className="typography-line"><p className="text-danger">{errors.password2.message}</p></div>}
                               </FormGroup>
                             )}

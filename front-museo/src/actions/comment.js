@@ -3,9 +3,7 @@ import AuthService from "../services/comment.service";
 export const getCommentList = async ({ page, pageSize }) => {
     return AuthService.getCommentList(page, pageSize).then(
         (response) => {
-            //console.log("datos "+JSON.stringify(response.data))
             return response.data
-            //return Promise.resolve();
         },
         (error) => {
             const message =

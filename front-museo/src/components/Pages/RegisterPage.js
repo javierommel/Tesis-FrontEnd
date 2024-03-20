@@ -30,6 +30,7 @@ import {
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
+import eye from 'assets/img/eye.ico';
 
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
@@ -44,6 +45,8 @@ export default function RegisterPage() {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [country, setCountry] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const anioActual = new Date().getFullYear();
   // Crear un array con los últimos 80 años
   const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
@@ -98,6 +101,7 @@ export default function RegisterPage() {
     dispatch(register(data.name, data.username, data.email, data.password, data.country, data.year))
       .then(() => {
         setSuccessful(true);
+        setLoading(false);
       })
       .catch(() => {
         console.log(message)
@@ -108,8 +112,7 @@ export default function RegisterPage() {
   };
   const password = watch('password', '');
   const validatePassword = (value) => {
-    console.log("value: " + value)
-    console.log("password: " + password)
+
     return value === password || 'El password ingresado no coincide';
   };
   const validateNacionalidad = (value) => {
@@ -126,7 +129,24 @@ export default function RegisterPage() {
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
   };
+  const handleMouseDown = () => {
+    // Muestra la contraseña cuando se mantiene presionado el ojo
+    setShowPassword(true);
+  };
 
+  const handleMouseUp = () => {
+    // Oculta la contraseña cuando se suelta el ojo
+    setShowPassword(false);
+  };
+  const handleMouseDown2 = () => {
+    // Muestra la contraseña cuando se mantiene presionado el ojo
+    setShowPassword2(true);
+  };
+
+  const handleMouseUp2 = () => {
+    // Oculta la contraseña cuando se suelta el ojo
+    setShowPassword2(false);
+  };
   return (
     <>
       <Loader loading={loading} />
@@ -269,10 +289,29 @@ export default function RegisterPage() {
                                   <Input
                                     {...field}
                                     placeholder="Password"
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     onFocus={(e) => setPasswordFocus(true)}
                                     onBlur={(e) => setPasswordFocus(false)}
+                                    style={{
+                                      borderRight: 'none',
+                                      borderTopRightRadius: 0, // Sin border radius en la esquina derecha
+                                      borderBottomRightRadius: 0, // Sin border radius en la esquina derecha
+                                    }}
                                   />
+                                  <InputGroupAddon addonType="append"
+                                    style={{ borderLeft: 'none', }}
+                                  >
+                                    <InputGroupText
+                                      onMouseDown={handleMouseDown}
+                                      onMouseUp={handleMouseUp}
+                                      onMouseLeave={handleMouseUp}
+                                      style={{
+                                        cursor: 'pointer',
+                                      }}
+                                    >
+                                      <img src={eye} style={{ width: '16px' }} />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
                                 </InputGroup>
                                 {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
                               </>
@@ -301,10 +340,29 @@ export default function RegisterPage() {
                                   <Input
                                     {...field}
                                     placeholder="Repetir Password"
-                                    type="password"
+                                    type={showPassword2 ? 'text' : 'password'}
                                     onFocus={(e) => setPassword2Focus(true)}
                                     onBlur={(e) => setPassword2Focus(false)}
+                                    style={{
+                                      borderRight: 'none',
+                                      borderTopRightRadius: 0, // Sin border radius en la esquina derecha
+                                      borderBottomRightRadius: 0, // Sin border radius en la esquina derecha
+                                    }}
                                   />
+                                  <InputGroupAddon addonType="append"
+                                    style={{ borderLeft: 'none', }}
+                                  >
+                                    <InputGroupText
+                                      onMouseDown={handleMouseDown2}
+                                      onMouseUp={handleMouseUp2}
+                                      onMouseLeave={handleMouseUp2}
+                                      style={{
+                                        cursor: 'pointer',
+                                      }}
+                                    >
+                                      <img src={eye} style={{ width: '16px' }} />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
                                 </InputGroup>
                                 {errors.password2 && <div className="typography-line"><p className="text-danger">{errors.password2.message}</p></div>}
                               </>

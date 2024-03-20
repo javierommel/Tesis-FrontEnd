@@ -18,6 +18,7 @@ import {
   Card,
   CustomInput
 } from "reactstrap";
+import eye from 'assets/img/eye.ico';
 
 export default function UserForm(props) {
   const [userFocus, setUserFocus] = useState(false);
@@ -135,7 +136,6 @@ export default function UserForm(props) {
                   name="estado"
                   control={control}
                   defaultValue={true}
-                  rules={{ required: 'El nombre de usuario es obligatorio.' }}
                   render={({ field }) => (
                     <>
                       <CustomInput
@@ -145,7 +145,6 @@ export default function UserForm(props) {
                         label={field.value ? 'Activado' : 'Desactivado'}
                         checked={field.value}
                       />
-                      {errors.estado && <div className="typography-line"><p className="text-danger">{errors.estado.message}</p></div>}
                     </>
                   )}
                 />
@@ -311,7 +310,7 @@ export default function UserForm(props) {
                               cursor: 'pointer',
                             }}
                           >
-                            <i className="tim-icons icon-zoom-split" />
+                            <img src={eye} style={{width:'16px'}}/>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -366,7 +365,8 @@ export default function UserForm(props) {
                               cursor: 'pointer',
                             }}
                           >
-                            <i className="tim-icons icon-zoom-split" />
+                            
+                            <img src={eye} style={{width:'16px'}}/>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -402,7 +402,7 @@ export default function UserForm(props) {
                           type="select"
                           onFocus={(e) => setCountryFocus(true)}
                           onBlur={(e) => setCountryFocus(false)}
-                          style={{ color: '#6c757d' }}
+                          style={{ color: nuevoregistro?'#6c757d':'#ffffff' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                             Nacionalidad
@@ -445,7 +445,7 @@ export default function UserForm(props) {
                           type="select"
                           onFocus={(e) => setYearFocus(true)}
                           onBlur={(e) => setYearFocus(false)}
-                          style={{ color: '#6c757d' }}
+                          style={{ color: nuevoregistro?'#6c757d':'#ffffff' }}
                         >
                           <option style={{ color: '#434444' }} key={0} disabled value="0">
                             Año Nacimiento

@@ -38,7 +38,7 @@ export default function PrincipalPage() {
   const { user: currentUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getComment({ page: 1, pageSize: 10, usuario: currentUser.id }).then((dat) => {
+    getComment({ page: 1, pageSize: 5, usuario: currentUser.id }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
       setImage(cambiarImagen(dat.avatar))
     }).catch((error) => {

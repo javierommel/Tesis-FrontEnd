@@ -32,12 +32,14 @@ import {
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
+import eye from 'assets/img/eye.ico';
 
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = useState("");
   const [squares7and8, setSquares7and8] = useState("");
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
@@ -100,7 +102,15 @@ export default function RegisterPage() {
       console.log(data.user.email);
     });
   }
+  const handleMouseDown = () => {
+    // Muestra la contraseña cuando se mantiene presionado el ojo
+    setShowPassword(true);
+  };
 
+  const handleMouseUp = () => {
+    // Oculta la contraseña cuando se suelta el ojo
+    setShowPassword(false);
+  };
   if (isLoggedIn) {
     return <Navigate to="/home" />;
   }
@@ -187,13 +197,32 @@ export default function RegisterPage() {
                                 <Input
                                   {...field}
                                   placeholder="Password"
-                                  type="password"
+                                  type={showPassword ? 'text' : 'password'}
                                   onFocus={(e) => {
                                     setPasswordFocus(true)
                                     dispatch({ type: CLEAR_MESSAGE })
                                   }}
                                   onBlur={(e) => setPasswordFocus(false)}
+                                  style={{
+                                    borderRight: 'none',
+                                    borderTopRightRadius: 0, // Sin border radius en la esquina derecha
+                                    borderBottomRightRadius: 0, // Sin border radius en la esquina derecha
+                                  }}
                                 />
+                                <InputGroupAddon addonType="append"
+                                  style={{ borderLeft: 'none', }}
+                                >
+                                  <InputGroupText
+                                    onMouseDown={handleMouseDown}
+                                    onMouseUp={handleMouseUp}
+                                    onMouseLeave={handleMouseUp}
+                                    style={{
+                                      cursor: 'pointer',
+                                    }}
+                                  >
+                                    <img src={eye} style={{ width: '16px' }} />
+                                  </InputGroupText>
+                                </InputGroupAddon>
                               </InputGroup>
                               {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
                             </>
