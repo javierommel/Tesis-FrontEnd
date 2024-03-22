@@ -29,3 +29,27 @@ div.sso-divider span {
     text-transform: capitalize;
     padding: 0 8px;
 }
+/*Visita 360*/
+.custom-modal {
+  transform: rotateX(10deg) rotateY(-5deg); /* Efecto 3D */
+}
+
+.image-container {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.text-container {
+  margin-top: 20px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+}
