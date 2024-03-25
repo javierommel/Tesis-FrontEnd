@@ -120,9 +120,9 @@ export default function RegisterPage() {
       <IndexNavbar activado={2} />
       <div className="wrapper">
         <div className="page-header">
-          <div className="page-header-image" />
-          <div className="content">
-            <Container>
+          
+          <div className="content content-museo">
+            <Container className='container-museo'>
               <Row>
                 <Col />
                 <Col className="offset-lg-0 offset-md-3" lg="5" md="6">

@@ -153,9 +153,8 @@ export default function RegisterPage() {
       <IndexNavbar activado={3} />
       <div className="wrapper">
         <div className="page-header">
-          <div className="page-header-image" />
-          <div className="content">
-            <Container>
+          <div className="content content-museo">
+            <Container className="container-museo">
               <Row>
                 <Col />
                 <Col className="offset-lg-0 offset-md-3" lg="5" md="6">
@@ -395,7 +394,7 @@ export default function RegisterPage() {
                                       field.onChange(e);
                                       handleCountryChange(e);
                                     }}
-                                    style={{ color: selectedCountry === "" ? '#6c757d' : '#ffffff' }}
+                                    style={{ color: selectedCountry === "" ? '#807d7d' : '#ffffff' }}
                                   >
                                     <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                                       Nacionalidad
@@ -440,7 +439,7 @@ export default function RegisterPage() {
                                       field.onChange(e);
                                       handleYearChange(e);
                                     }}
-                                    style={{ color: selectedYear === "" ? '#6c757d' : '#ffffff' }}
+                                    style={{ color: selectedYear === "" ? '#807d7d' : '#ffffff' }}
                                   >
                                     <option style={{ color: '#434444' }} key={0} disabled value="0">
                                       Año Nacimiento

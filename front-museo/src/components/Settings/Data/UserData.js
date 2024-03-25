@@ -22,7 +22,7 @@ export const UserData = [
         header: 'Estado',
         accessorKey: 'estado',
         cell: value => (
-            <div style={{ textAlign: 'center', width: '10%' }}>
+            <div style={{ alignContent: 'center', width: '10%' }}>
                 {value.getValue() === 1 ? <Badge color="success">Activo</Badge> : <Badge className="badge-default">Inactivo</Badge>}
             </div>
         ),

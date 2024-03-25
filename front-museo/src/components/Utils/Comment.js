@@ -17,8 +17,8 @@ export default function Comment({ data }) {
         style={{ width: '60px', height: '60px', borderRadius: '50%' }}
       /></Col>
       <Col>
-        <h5>{data.usuario_id.nombre}<span style={{ color: "gray", fontSize: '80%', whiteSpace: 'nowrap' }}> - {timeAgo}</span></h5>
-        <p style={{ color: "gray" }}>
+        <h5>{data.usuario_id.nombre}<span style={{ color: "#bdb8b8", fontSize: '80%', whiteSpace: 'nowrap' }}> - {timeAgo}</span></h5>
+        <p style={{ color: "#bdb8b8" }}>
           {data.comentario}
         </p>
         <Row>

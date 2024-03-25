@@ -40,7 +40,7 @@ export default function Index() {
   const [commentl, setCommentl] = useState([]);
   const [contenido, setContenido] = useState(false);
   useEffect(() => {
-    getComment({ page: 1, pageSize: 10, usuario: null }).then((dat) => {
+    getComment({ page: 1, pageSize: 5, usuario: null }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
     }).catch((error) => {
       console.error("error" + error.message)

@@ -58,10 +58,10 @@ export default function PieceForm(props) {
             </Row>
           </CardBody>
           <CardFooter>
-            <Button color="primary" size="sm" type="submit">
+            <Button color="info" size="sm" type="submit">
               Guardar
             </Button>
-            <Button color="primary" size="sm" onClick={onCancelar}>
+            <Button color="warning" size="sm" onClick={onCancelar}>
               Cancelar
             </Button>
           </CardFooter>

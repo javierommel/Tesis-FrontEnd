@@ -58,12 +58,12 @@
 .input-group-append .input-group-text,
 .input-group-prepend .input-group-text {
     background-color: transparent;
-    border: 1px solid lighten($black,5%);
+    border: 1px solid $white;
     border-radius: $border-radius-lg;
     color: $white;
 
     & i{
-      opacity: .5;
+      opacity: .8;
     }
 
     @include transition-input-focus-color();
@@ -97,7 +97,7 @@
 .input-group-prepend .input-group-text,
 .input-group-prepend .input-group-text {
     background-color: transparent;
-    border: 1px solid lighten($black,5%);
+    border: 1px solid $white;
     border-radius: $border-radius-lg;
     color: $white;
     margin: 0;
@@ -140,7 +140,7 @@
 .input-group[disabled]{
     .input-group-prepend .input-group-text,
     .input-group-append .input-group-text{
-        background-color: #1d253b;
+        background-color: $default;
     }
 }
 
@@ -162,8 +162,8 @@
     border-left: 0 none;
 }
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-    background-color: $black-states;
-    color: $default;
+    background-color: $default;
+    color: $default-color-opacity;
     cursor: not-allowed;
 }
 
@@ -184,8 +184,8 @@ textarea.form-control{
     padding: 10px 10px 0 0;
     resize: none;
     border: none;
-    border-bottom: 1px solid lighten($black,5%);
-    border-radius: 0;
+    border: 1px solid lighten($white,5%);
+    border-radius: 5px;
     line-height: 2;
 
     &:focus,

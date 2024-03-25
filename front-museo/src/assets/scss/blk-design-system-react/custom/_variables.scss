@@ -115,7 +115,7 @@ $warning-states:       #ff6491 !default;
 $danger-states:        #ec250d !default;
 $black-states:         #1d253b !default;
 
-$background-black:           #171941 !default;
+$background-black:           #29509F !default;
 $background-states-black:    #1e1e24 !default;
 
 // opacity
@@ -895,7 +895,7 @@ $card-border-color:                 rgba($black, .05);
 $card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width});
 $card-cap-bg:                       $gray-100 !default;
 $card-bg:                           $white !default;
-$card-black-background:             #1f2251 !default;
+$card-black-background:             #29509F !default;
 $card-img-overlay-padding:          1.25rem !default;
 
 //$card-group-margin:                 ($grid-gutter-width / 2);

@@ -15,7 +15,7 @@ import '../../assets/css/table.css';
 import { Button, UncontrolledTooltip } from "reactstrap";
 
 export default function ListPiece(props) {
-
+    const editar = require('assets/img/editar.png')
     const handleClick = id => e => {
         //console.log("id: " + id)
         props.handleClick(id)
@@ -27,7 +27,7 @@ export default function ListPiece(props) {
 
     const NuevaColumna = ({ id: id }) => <>
         <Button id={'c-' + id} color="success" size="sm" onClick={handleClick(id)}>
-            <i className="tim-icons icon-refresh-02" />
+        <img src={editar} alt="..." style={{height: "16px"}}/>
             
         </Button>
         <UncontrolledTooltip

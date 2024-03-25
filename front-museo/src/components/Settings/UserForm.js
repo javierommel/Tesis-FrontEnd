@@ -238,7 +238,7 @@ export default function UserForm(props) {
                         <Input
                           {...field}
                           placeholder="Email"
-                          type="text"
+                          type="email"
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
                           disabled={valoresIniciales.email ? true : false}
@@ -402,7 +402,7 @@ export default function UserForm(props) {
                           type="select"
                           onFocus={(e) => setCountryFocus(true)}
                           onBlur={(e) => setCountryFocus(false)}
-                          style={{ color: nuevoregistro?'#6c757d':'#ffffff' }}
+                          style={{ color: nuevoregistro?'#807d7d':'#ffffff' }}
                         >
                           <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
                             Nacionalidad
@@ -445,7 +445,7 @@ export default function UserForm(props) {
                           type="select"
                           onFocus={(e) => setYearFocus(true)}
                           onBlur={(e) => setYearFocus(false)}
-                          style={{ color: nuevoregistro?'#6c757d':'#ffffff' }}
+                          style={{ color: nuevoregistro?'#807d7d':'#ffffff' }}
                         >
                           <option style={{ color: '#434444' }} key={0} disabled value="0">
                             Año Nacimiento
