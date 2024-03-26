@@ -71,6 +71,10 @@ export default function AdminPage() {
   })
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.numero_ordinal === datosp.objetoSeleccionado)
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [showReportBoard, setShowReportBoard] = useState(false);
+  const [showManagerBoard, setShowManagerBoard] = useState(false);
+  const [showSupervisorBoard, setShowSupervisorBoard] = useState(false);
   const [iconTabs, setIconsTabs] = React.useState(1);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
@@ -150,12 +154,15 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (currentUser) {
-      //console.log("current: " + currentUser.roles)
-      if (!currentUser.roles.includes("ROLE_ADMIN")) {
+      setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+      setShowReportBoard(currentUser.roles.includes("ROLE_REPORT"));
+      setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
+      setShowSupervisorBoard(currentUser.roles.includes("ROLE_SUPERVISOR"));
+      if (!setShowAdminBoard) {
         return <Navigate to="/home" />;
       }
     } else {
-      return <Navigate to="/home" />;
+      return <Navigate to="/login-page" />;
     }
   }, [currentUser]);
 

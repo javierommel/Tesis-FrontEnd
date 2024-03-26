@@ -169,23 +169,114 @@ div.sso-divider span {
   margin-bottom: 10px;
   margin-top: 20px;
 }
-.pnlm-container{
+
+.pnlm-container {
   border-color: #e9e7e7;
   border-style: solid;
   border-width: 5px;
 }
 
 /*Generales*/
-.container-museo{
+.container-museo {
   margin-top: 20vh;
 }
-.content-museo{
+
+.content-museo {
   height: 83vh;
 }
 
-.section-museo{
-padding-top: 70px;
-padding-left: 0px;
-padding-right: 0px;
-padding-bottom: 0px;
+.section-museo {
+  padding-top: 70px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+}
+
+/*Estilos para hotspot*/
+
+.hotspot {
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.hotspot .out-museo:before {
+  font-size: 48px;
+  line-height: 90px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  display: block;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hotspot .out-museo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, .8);
+  -webkit-transition: -webkit-transform ease-out 0.1s, border 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, border 0.2s;
+  transition: transform ease-out 0.1s, border 0.2s;
+  box-sizing: border-box;
+  opacity: 0.6;
+}
+
+.hotspot .in-museo {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: rgba(255, 255, 255, .8);
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+  opacity: 0.6;
+}
+
+.hotspot .out-museo:after {
+  top: 0;
+  left: 0;
+  padding: 0;
+  z-index: -1;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  content: '';
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-transform: scale(0.9);
+  -moz-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+}
+
+.hotspot:hover .out-museo {
+  border: 5px solid rgba(255, 255, 255, 1);
+  -webkit-transform: scale(0.9);
+  -moz-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  color: #fff;
+}
+
+.hotspot:hover .in-museo {
+  background-color: rgba(255, 255, 255, 1);
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+}
+
+.hotspot:hover .out-museo:after {
+  -webkit-animation: sonarEffect 1.2s ease-out;
+  -moz-animation: sonarEffect 1.2s ease-out;
+  animation: sonarEffect 1.2s ease-out;
 }

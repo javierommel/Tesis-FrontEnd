@@ -12,6 +12,8 @@ import Footer from "components/Footer/Footer.js";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import 'components/Utils/Button.css';
 import 'assets/css/museo.css';
+import piecesArray from "./DataVisita/Visita";
+
 export default function Vista360() {
   const [showBot, toggleBot] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -23,6 +25,18 @@ export default function Vista360() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const handle = useFullScreenHandle();
 
+  const hotspotIcon = (hotSpotDiv) => {
+    const image = document.createElement("div");
+    image.classList.add("hotspot");
+    const inmuseo = document.createElement("div");
+    inmuseo.classList.add("in-museo");
+    const outmuseo = document.createElement("div");
+    outmuseo.classList.add("out-museo");
+    image.appendChild(inmuseo);
+    image.appendChild(outmuseo);
+    hotSpotDiv.appendChild(image);
+  };
+  
   const hanldeClick = name => {
     console.log("name: " + JSON.stringify(name))
     toggle();
@@ -42,18 +56,18 @@ export default function Vista360() {
         <FullScreen handle={handle} onChange={handleFullscreenChange}>
           {modal &&
             (<><div className="backdrop"></div>
-            <div className="modal-content-visita">
-              <h4 class="title-visita">Virgen Niña</h4>
-              <img className="close-button" src={cerrar} onClick={toggle} alt="Imagen"  />
-              
-              <div class="image-container" >
-                <img src={require('assets/img/visita360/Virgen Niña.JPG')} alt="Imagen" class="image" />
-              </div>
-              <p class="description">Entre los ornamentos se nombra: la custodia, mandada
-                a trabajar por la madre Abadesa Sebastiana de San
-                Juan en un costo de 800 patacones; una estatua de la
-                Santísima Virgen de la Inmaculada,</p>
-            </div></>)}
+              <div className="modal-content-visita">
+                <h4 class="title-visita">Virgen Niña</h4>
+                <img className="close-button" src={cerrar} onClick={toggle} alt="Imagen" />
+
+                <div class="image-container" >
+                  <img src={require('assets/img/visita360/Virgen Niña.JPG')} alt="Imagen" class="image" />
+                </div>
+                <p class="description">Entre los ornamentos se nombra: la custodia, mandada
+                  a trabajar por la madre Abadesa Sebastiana de San
+                  Juan en un costo de 800 patacones; una estatua de la
+                  Santísima Virgen de la Inmaculada,</p>
+              </div></>)}
           {showBot && (
             <Chatbot />
           )}
@@ -75,39 +89,41 @@ export default function Vista360() {
             image={myImage}
             showFullscreenCtrl={false}
             pitch={10}
-            yaw={180}
+            yaw={-90}
             hfov={110}
             autoLoad
             onLoad={() => {
               console.log("panorama loaded");
             }}
           >
-            {/* Otro contenido de tu componente */}
-            <Pannellum.Hotspot
+            {piecesArray.map((hotSpot) => {
+              return (
+                <Pannellum.Hotspot
+                  type="custom"
+                  pitch={hotSpot.pitch}
+                  yaw={hotSpot.yaw}
+                  tooltip={hotspotIcon}
+                  handleClick={(evt, name) => hanldeClick(name)}
+                  name="image info"
+                />
+              );
+            })}
+            {/*<Pannellum.Hotspot
               type="custom"
               pitch={11}
               yaw={-167}
-              text="Info Hotspot Text 3"
-              URL="https://github.com/farminf/pannellum-react"
+              tooltip={hotspotIcon}
+              handleClick={(evt, name) => hanldeClick(name)}
             />
 
             <Pannellum.Hotspot
-              id="prueba1"
               cssClass="prueba1"
               type="custom"
               pitch={10}
               yaw={-85}
-              text="Info Hotspot Text 4"
-              URL="https://github.com/farminf/pannellum-react"
-              name="hs1"
+              tooltip={hotspotIcon}
               handleClick={(evt, name) => hanldeClick(name)}
-              render={() => (
-                <div style={{ width: 10, height: 10 }}>
-                  <h1>Este es un hotspot personalizado</h1>
-                </div>
-              )}
-
-            />
+            />*/}
           </Pannellum>
         </FullScreen>
       </section>

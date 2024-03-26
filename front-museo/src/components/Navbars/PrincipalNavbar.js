@@ -23,6 +23,9 @@ import logoSVG from 'assets/img/Logo museo.svg';
 
 export default function ExamplesNavbar({ activado }) {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [showReportBoard, setShowReportBoard] = useState(false);
+  const [showManagerBoard, setShowManagerBoard] = useState(false);
+  const [showSupervisorBoard, setShowSupervisorBoard] = useState(false);
   const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
@@ -73,6 +76,9 @@ export default function ExamplesNavbar({ activado }) {
   useEffect(() => {
     if (currentUser) {
       setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+      setShowReportBoard(currentUser.roles.includes("ROLE_REPORT"));
+      setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
+      setShowSupervisorBoard(currentUser.roles.includes("ROLE_SUPERVISOR"));
     } else {
       setShowAdminBoard(false);
     }
@@ -186,7 +192,7 @@ export default function ExamplesNavbar({ activado }) {
                 Perfil
               </NavLink>
             </NavItem>
-            {showAdminBoard && (
+            {(showAdminBoard || showReportBoard || showManagerBoard) && (
               <NavItem>
                 <NavLink
                   className={classnames({
@@ -199,7 +205,7 @@ export default function ExamplesNavbar({ activado }) {
                   Reportes
                 </NavLink>
               </NavItem>)}
-            {showAdminBoard && (
+            {(showAdminBoard || showManagerBoard || showSupervisorBoard) && (
               <NavItem>
                 <NavLink
                   className={classnames({

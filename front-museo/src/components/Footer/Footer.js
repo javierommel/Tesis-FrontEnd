@@ -8,7 +8,7 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 import faceSVG from 'assets/img/Logo Facebook.svg';
-import xSVG from 'assets/img/x1.png';
+import xSVG from 'assets/img/Logo X.svg';
 import tkSVG from 'assets/img/tiktok.png';
 import insSVG from 'assets/img/Logo Instagram.svg';
 
@@ -21,7 +21,7 @@ export default function Footer() {
           <Col md="3">
             <h1 className="texto-footer">UCUENCA</h1>
           </Col>
-          <Col md="4">
+          <Col md="3">
             <h4 className="texto-footer">Síguenos:</h4>
             <div className="iconos-redes">
               <Button
@@ -43,7 +43,7 @@ export default function Footer() {
                 id="idtwitter"
                 target="_blank"
               >
-                <img alt="..." src={xSVG} />
+                <img alt="..." src={xSVG} style={{paddingTop:"7px", paddingLeft:"0.5px", width:"30px"}} />
               </Button>
               <UncontrolledTooltip delay={0} target="idtwitter">
                 Síguenos
@@ -55,7 +55,7 @@ export default function Footer() {
                 id="tooltip230450801"
                 target="_blank"
               >
-                <img alt="..." src={faceSVG} style={{paddingTop:"6px", paddingLeft:"0.5px", width:"30px"}}/>
+                <img alt="..." src={faceSVG} style={{paddingTop:"5px", paddingLeft:"0.5px", width:"30px"}}/>
               </Button>
               <UncontrolledTooltip delay={0} target="tooltip230450801">
                 Dale me gusta
