@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import { getInformationPiece } from "../../actions/piece"
+import { getInformationPiece } from "../../../actions/piece"
 import classnames from "classnames";
-import { labelStyle, titleStyle } from '../../assets/styles/style'
+import { labelStyle, titleStyle } from '../../../assets/styles/style'
 import {
   Button,
   CardBody,
@@ -60,7 +60,7 @@ export default function PieceForm(props) {
   const [cargafoto2, setCargafoto2] = useState(false);
   const imagen1Ref = useRef();
   const imagen2Ref = useRef();
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const { handleSubmit, control, getValues, setError, clearErrors, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
     props.handleUpdate(valoresInicialesp.numero_ordinal, data, cargafoto1?imagen1:null, cargafoto2?imagen2:null, information,false)
@@ -91,6 +91,21 @@ export default function PieceForm(props) {
       reader.readAsDataURL(file);
     }
   };
+  const validateMateriales = (value) => {
+    console.log(value+" : "+getValues('materiales'))
+    //const hasTrueValue = getValues('roles').some(role => role.isChecked);
+    const hasTrueValue = getValues('materiales').includes(true);
+    if (!hasTrueValue) {
+      setError('materiales', {
+        type: 'manual',
+        message: 'Debe seleccionar al menos un material'
+      });
+    } else {
+      clearErrors('materiales'); // Elimina el error si al menos un rol está seleccionado
+    }
+    return hasTrueValue;
+  };
+  
   useEffect(() => {
     const uint8Array1 = valoresInicialesp.imagen1 ? new Uint8Array(valoresInicialesp.imagen1.data) : null;
     const blob1 = uint8Array1 ? new Blob([uint8Array1]) : null;
@@ -342,6 +357,7 @@ export default function PieceForm(props) {
                     name={`materiales[${option.id}]`}
                     control={control}
                     defaultValue={materialesSeleccionados && materialesSeleccionados.includes(option.id)}
+                    rules={{validate: validateMateriales}}
                     render={({ field }) => <FormGroup check>
                       <Label check>
                         <Input key={option.id} id={option.id}
@@ -358,6 +374,7 @@ export default function PieceForm(props) {
               ))
               }
             </Row>
+            {errors.materiales && <div className="typography-line"><p className="text-danger">{errors.materiales.message}</p></div>}
             <Col lg="6" >
               <Controller
                 name="otro_material"

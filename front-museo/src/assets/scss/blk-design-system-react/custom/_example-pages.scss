@@ -131,24 +131,28 @@
       top: 50%;
       right: 18%;
       max-height: 200px;
+      z-index: 0;
     }
 
     .wave {
       top: 45%;
       right: 30%;
       max-height: 90px;
+      z-index: 0;
     }
 
     .circle {
       top: 20%;
       right: 36%;
       max-height: 75px;
+      z-index: 0;
     }
 
     .triangle {
       top: 35%;
       left: 5%;
       max-height: 200px;
+      z-index: 0;
     }
   }
 

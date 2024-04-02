@@ -12,8 +12,8 @@ import {
     getSortedRowModel,
 } from '@tanstack/react-table'
 import { CommentData as columnDefinitions } from "./Data/CommentData"
-import '../../assets/css/table.css';
-import { Button, UncontrolledTooltip } from "reactstrap";
+import '../../../assets/css/table.css';
+import { Button, UncontrolledTooltip,Pagination, PaginationLink, PaginationItem, } from "reactstrap";
 
 export default function ListComment(props) {
     const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -167,67 +167,102 @@ export default function ListComment(props) {
             </table>
             <div className="h-2" />
             <div className="pagination">
-                <span className="flex items-center gap-1">
-                    <div>Página</div>
-                    <strong>
-                        {table.getState().pagination.pageIndex + 1} of{' '}
-                        {table.getPageCount().toLocaleString()}
-                    </strong>
+            <span className="flex items-center gap-1">
+                    <div>Página <strong>
+                        {props.datat.currentPage} de{' '}
+                        {props.datat.totalPages.toLocaleString()}
+                    </strong></div>
+
                 </span>
                 <div className="controls">
-                    <button
-                        className="border rounded p-1"
-                        onClick={() => table.firstPage()}
-                        disabled={!table.getCanPreviousPage()}
+                <Pagination
+                        className="pagination pagination-info"
+                        listClassName="pagination-info"
                     >
-                        <span aria-hidden={true}></span>
-                        <i
-                            aria-hidden={true}
-                            className="tim-icons icon-double-left"
-                        />
+                        <PaginationItem disabled={!props.datat.prevPage}>
+                            <PaginationLink
+                                aria-label="Previous"
+                                href="#pablo"
+                                onClick={() => {
+                                    table.firstPage()
+                                    props.getCommentTable(1, table.getState().pagination.pageSize)
+                                }}
 
-                    </button>
-                    <button
-                        className="border rounded p-1"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        <span aria-hidden={true}></span>
-                        <i
-                            aria-hidden={true}
-                            className="tim-icons icon-minimal-left"
-                        />
-                    </button>
-                    <button
-                        className="border rounded p-1"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        <span aria-hidden={true}></span>
-                        <i
-                            aria-hidden={true}
-                            className="tim-icons icon-minimal-right"
-                        />
-                    </button>
-                    <button
-                        className="border rounded p-1"
-                        onClick={() => table.lastPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        <span aria-hidden={true}></span>
-                        <i
-                            aria-hidden={true}
-                            className="tim-icons icon-double-right"
-                        />
-                    </button>
+                            >
+                                <span aria-hidden={true}>
+                                    <i
+                                        aria-hidden={true}
+                                        className="tim-icons icon-double-left"
+                                    />
+                                </span>
+                            </PaginationLink>
+                        </PaginationItem >
+                        <PaginationItem disabled={!props.datat.prevPage}>
+                            <PaginationLink
+                                aria-label="Previous"
+                                href="#pablo"
+                                onClick={() => {
+                                    table.previousPage()
+                                    props.getCommentTable(props.datat.prevPage, table.getState().pagination.pageSize)
+                                }}
+
+                            >
+                                <span aria-hidden={true}>
+                                    <i
+                                        aria-hidden={true}
+                                        className="tim-icons icon-minimal-left"
+                                    />
+                                </span>
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem disabled={!props.datat.nextPage}>
+                            <PaginationLink
+                                aria-label="Previous"
+                                href="#pablo"
+                                onClick={() => {
+                                    table.nextPage()
+                                    props.getCommentTable(props.datat.nextPage, table.getState().pagination.pageSize)
+                                }}
+
+                            >
+                                <span aria-hidden={true}>
+                                    <i
+                                        aria-hidden={true}
+                                        className="tim-icons icon-minimal-right"
+                                    />
+                                </span>
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem disabled={!props.datat.nextPage}>
+                            <PaginationLink
+                                aria-label="Next"
+                                href="#pablo"
+
+                                onClick={() => {
+                                    table.lastPage()
+                                    props.getCommentTable(props.datat.totalPages, table.getState().pagination.pageSize)
+                                }}
+
+                            >
+                                <span aria-hidden={true}>
+                                    <i
+                                        aria-hidden={true}
+                                        className="tim-icons icon-double-right"
+                                    />
+                                </span>
+                            </PaginationLink>
+                        </PaginationItem>
+                    </Pagination>
                 </div>
                 <select
                     value={table.getState().pagination.pageSize}
                     onChange={e => {
+                        props.getCommentTable(table.getState().pagination.pageIndex + 1, Number(e.target.value))
                         table.setPageSize(Number(e.target.value))
+
                     }}
                 >
-                    {[10, 20, 30, 40, 50].map(pageSize => (
+                    {[10, 20, 30].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Mostrar {pageSize}
                         </option>
@@ -236,7 +271,7 @@ export default function ListComment(props) {
             </div>
             <div>
                 Mostrar {table.getRowModel().rows.length.toLocaleString()} de {' '}
-                {table.getRowCount().toLocaleString()} Resultados
+                {props.datat.total.toLocaleString()} Resultados
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form';
-import { getCountry } from "../../actions/general"
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { getCountry } from "../../../actions/general"
 import classnames from "classnames";
 import {
   Button,
@@ -19,6 +19,7 @@ import {
   CustomInput
 } from "reactstrap";
 import eye from 'assets/img/eye.ico';
+import { error } from 'jquery';
 
 export default function UserForm(props) {
   const [userFocus, setUserFocus] = useState(false);
@@ -28,7 +29,7 @@ export default function UserForm(props) {
   const [password2Focus, setPassword2Focus] = useState(false);
   const [countryFocus, setCountryFocus] = React.useState(false);
   const [yearFocus, setYearFocus] = React.useState(false);
-  const { handleSubmit, control, setValue, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, getValues, control, watch, setError, clearErrors, formState: { errors } } = useForm();
   const [country, setCountry] = useState([]);
   const anioActual = new Date().getFullYear();
   // Crear un array con los últimos 80 años
@@ -36,9 +37,12 @@ export default function UserForm(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [passwordUpdate, setPasswordUpdate] = useState(true);
+  const nacionalidadUpdate = watch('country') > 0;
+  const anioUpdate = watch('year') > 0;
+
   const activo = watch('estado') === 1;
 
-  React.useEffect(() => {   
+  React.useEffect(() => {
     getCountry().then((dat) => {
       setCountry(dat.data);
     })
@@ -91,8 +95,25 @@ export default function UserForm(props) {
   };
 
   const validateEdad = (value) => {
+    console.log("123: " + value)
     return value !== "0" || 'El año de nacimiento es obligatorio.';
   };
+
+  const validateRoles = (value) => {
+    console.log(value+" : "+getValues('roles'))
+    //const hasTrueValue = getValues('roles').some(role => role.isChecked);
+    const hasTrueValue = getValues('roles').includes(true);
+    if (!hasTrueValue) {
+      setError('roles', {
+        type: 'manual',
+        message: 'Debe seleccionar al menos un rol'
+      });
+    } else {
+      clearErrors('roles'); // Elimina el error si al menos un rol está seleccionado
+    }
+    return hasTrueValue;
+  };
+
   const { valoresIniciales } = props
   const rolesSeleccionados = valoresIniciales.roles && valoresIniciales.roles.split(',').map(role => parseInt(role.trim()));
   const nuevoregistro = valoresIniciales.usuario ? false : true;
@@ -107,13 +128,14 @@ export default function UserForm(props) {
                   <CardBody>
                     <p className="category">Roles</p>
 
-                    {props.datos.roles.map((option) =>
+                    {props.datos.roles.map((option, index) =>
                     (
                       <Controller
                         key={option.id}
-                        name={`roles[${option.id}]`}
+                        name={`roles.${option.id}]`}
                         control={control}
                         defaultValue={rolesSeleccionados && rolesSeleccionados.includes(option.id)}
+                        rules={{validate: validateRoles}}
                         render={({ field }) => <FormGroup check>
                           <Label check>
                             <Input key={option.id} id={option.id}
@@ -125,7 +147,9 @@ export default function UserForm(props) {
                           </Label>
                         </FormGroup>}
                       />
+                      
                     ))}
+                    {errors.roles && <div className="typography-line"><p className="text-danger">{errors.roles.message}</p></div>}
                   </CardBody>
                 </Card>
               </Col>
@@ -148,7 +172,6 @@ export default function UserForm(props) {
                     </>
                   )}
                 />
-
                 <br />
               </Col>
               <Col lg="6" md="6"></Col>
@@ -249,9 +272,10 @@ export default function UserForm(props) {
                   )}
                 />
               </Col>
+              <Col lg="6" md="6"></Col>
               {!nuevoregistro && (
                 <>
-                  <Col lg="6"></Col>
+
                   <Col lg="6" md="6">
                     <FormGroup check>
                       <Label check>
@@ -310,7 +334,7 @@ export default function UserForm(props) {
                               cursor: 'pointer',
                             }}
                           >
-                            <img src={eye} style={{width:'16px'}}/>
+                            <img src={eye} style={{ width: '16px' }} />
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -365,8 +389,8 @@ export default function UserForm(props) {
                               cursor: 'pointer',
                             }}
                           >
-                            
-                            <img src={eye} style={{width:'16px'}}/>
+
+                            <img src={eye} style={{ width: '16px' }} />
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -381,7 +405,7 @@ export default function UserForm(props) {
                   control={control}
                   defaultValue={valoresIniciales.pais}
                   rules={{
-                    required: 'El pais de nacimiento es obligatorio.',
+                    required: 'El pais es obligatorio.',
                     validate: validateNacionalidad
                   }}
                   render={({ field }) => (
@@ -402,9 +426,9 @@ export default function UserForm(props) {
                           type="select"
                           onFocus={(e) => setCountryFocus(true)}
                           onBlur={(e) => setCountryFocus(false)}
-                          style={{ color: nuevoregistro?'#807d7d':'#ffffff' }}
+                          style={{ color: nuevoregistro ? (!nacionalidadUpdate ? '#807d7d' : '#ffffff') : '#ffffff' }}
                         >
-                          <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
+                          <option style={{ color: '#434444' }} key={"0"} selected={nuevoregistro} disabled value="0" >
                             Nacionalidad
                           </option>
                           {country.map((step) => (
@@ -445,9 +469,9 @@ export default function UserForm(props) {
                           type="select"
                           onFocus={(e) => setYearFocus(true)}
                           onBlur={(e) => setYearFocus(false)}
-                          style={{ color: nuevoregistro?'#807d7d':'#ffffff' }}
+                          style={{ color: nuevoregistro ? (!anioUpdate ? '#807d7d' : '#ffffff') : '#ffffff' }}
                         >
-                          <option style={{ color: '#434444' }} key={0} disabled value="0">
+                          <option style={{ color: '#434444' }} key={0} selected={nuevoregistro ? (anioUpdate ? false : true) : false} disabled value="0">
                             Año Nacimiento
                           </option>
                           {anios.map((step) => (

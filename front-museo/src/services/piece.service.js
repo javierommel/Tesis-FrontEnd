@@ -1,8 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-const API_URL = "http://localhost:8080/api/test/";
-const API_URL1 = "http://localhost:8080/api/auth/";
-const API_URL2 = "http://localhost:5000/servicio1/";
+const API_URL = process.env.REACT_APP_URL_BACK+"api/test/";
+const API_URL1 = process.env.REACT_APP_URL_BACK+"api/auth/";
+const API_URL2 = process.env.REACT_APP_URL_PROCESS+"servicio1/";
 
 const getPublicContent = () => {
   return axios.get(API_URL + "all");

@@ -15,7 +15,8 @@ th {
   }
 
 .pagination {
-    margin-top: 1.5rem;
+    margin-top: 0.2rem;
+    margin-bottom: auto;
     display: flex;
     justify-content: space-between;
   }

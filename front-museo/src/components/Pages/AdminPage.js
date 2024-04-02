@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { clearMessage } from "actions/message";
-import UserForm from "../Settings/UserForm"
-import ViewListUser from "../Settings/ViewListUser"
-import PieceForm from "../Settings/PieceForm"
-import PieceAddForm from "../Settings/PieceAddForm"
-import GeneralForm from "../Settings/GeneralForm"
-import ViewListPiece from "../Settings/ViewListPiece"
-import ViewListComment from "../Settings/ViewListComment"
+import UserForm from "./Settings/UserForm"
+import ViewListUser from "./Settings/ViewListUser"
+import PieceForm from "./Settings/PieceForm"
+import PieceAddForm from "./Settings/PieceAddForm"
+import GeneralForm from "./Settings/GeneralForm"
+import ViewListPiece from "./Settings/ViewListPiece"
+import ViewListComment from "./Settings/ViewListComment"
 import { getUser, deleteUser, addUser, updateUser } from "../../actions/user"
 import { getPiece, addPiece, updatePiece, deletePiece } from "../../actions/piece"
 import { getCommentList, deleteComment, updateComment } from "../../actions/comment"
@@ -40,6 +40,7 @@ import {
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
+import { get } from "react-hook-form";
 
 
 export default function AdminPage() {
@@ -50,6 +51,11 @@ export default function AdminPage() {
     page: 1,
     pageSize: 10,
     roles: [],
+    total: 0,
+    totalPages: 0,
+    prevPage: 0,
+    nextPage: 0,
+    currentPage: 0,
   })
 
   const [datosp, setDatosp] = useState({
@@ -59,6 +65,11 @@ export default function AdminPage() {
     page: 1,
     pageSize: 10,
     tipo: [],
+    total: 0,
+    totalPages: 0,
+    prevPage: 0,
+    nextPage: 0,
+    currentPage: 0,
   })
 
   const [datosc, setDatosc] = useState({
@@ -68,6 +79,11 @@ export default function AdminPage() {
     page: 1,
     pageSize: 10,
     tipo: [],
+    total: 0,
+    totalPages: 0,
+    prevPage: 0,
+    nextPage: 0,
+    currentPage: 0,
   })
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.numero_ordinal === datosp.objetoSeleccionado)
@@ -75,7 +91,7 @@ export default function AdminPage() {
   const [showReportBoard, setShowReportBoard] = useState(false);
   const [showManagerBoard, setShowManagerBoard] = useState(false);
   const [showSupervisorBoard, setShowSupervisorBoard] = useState(false);
-  const [iconTabs, setIconsTabs] = React.useState(1);
+  const [iconTabs, setIconsTabs] = useState(1);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
@@ -90,12 +106,21 @@ export default function AdminPage() {
   const onDismiss = () => setResponse(null);
 
   useEffect(() => {
+    getUserTable(datos.page, datos.pageSize)
+    getPieceTable(datosp.page, datosp.pageSize)
+    getCommentTable(datosc.page, datosc.pageSize);
+    /*
     getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
-      //console.log("rolesss: "+JSON.stringify(dat.data))
+      console.log("rolesss: " + JSON.stringify(dat))
       setDatos((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
         roles: dat.roles,
+        total: dat.total,
+        totalPages: dat.totalPages,
+        nextPage: dat.nextPage,
+        prevPage: dat.prevPage,
+        currentPage: dat.currentPage
       }));
 
     })
@@ -108,6 +133,11 @@ export default function AdminPage() {
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
         tipo: dat.tipo,
+        total: dat.total,
+        totalPages: dat.totalPages,
+        nextPage: dat.nextPage,
+        prevPage: dat.prevPage,
+        currentPage: dat.currentPage
       }));
 
     })
@@ -121,13 +151,18 @@ export default function AdminPage() {
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
         tipo: dat.tipo,
+        total: dat.total,
+        totalPages: dat.totalPages,
+        nextPage: dat.nextPage,
+        prevPage: dat.prevPage,
+        currentPage: dat.currentPage
       }));
 
     })
       .catch((error) => {
         console.log("error" + error.message)
         setLoading(false);
-      });
+      })*/
     // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
     const storedResponse = localStorage.getItem('storedResponse');
     if (storedResponse) {
@@ -153,12 +188,19 @@ export default function AdminPage() {
   }, [dispatch, location]);
 
   useEffect(() => {
+
     if (currentUser) {
       setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
-      setShowReportBoard(currentUser.roles.includes("ROLE_REPORT"));
+      if (currentUser.roles.includes("ROLE_REPORT")) {
+        setShowReportBoard(true);
+        setIconsTabs(3)
+      }
+      if (currentUser.roles.includes("ROLE_SUPERVISOR")) {
+        setShowSupervisorBoard(true);
+        setIconsTabs(2)
+      }
       setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
-      setShowSupervisorBoard(currentUser.roles.includes("ROLE_SUPERVISOR"));
-      if (!setShowAdminBoard) {
+      if (!showAdminBoard && !showManagerBoard && !showReportBoard && !showSupervisorBoard) {
         return <Navigate to="/home" />;
       }
     } else {
@@ -185,7 +227,69 @@ export default function AdminPage() {
       objetoSeleccionado: id
     }));
   }
+  const getUserTable = (page, pageSize) => {
+    console.log(page + ": " + pageSize)
+    getUser({ page: page, pageSize: pageSize }).then((dat) => {
+      console.log("rolesss: " + JSON.stringify(dat))
+      setDatos((prevDatos) => ({
+        ...prevDatos,         // Manteniendo las propiedades existentes
+        data: dat.data,    // Actualizando solo la propiedad 'data'
+        roles: dat.roles,
+        total: dat.total,
+        totalPages: dat.totalPages,
+        nextPage: dat.nextPage,
+        prevPage: dat.prevPage,
+        currentPage: dat.currentPage
+      }));
 
+    })
+      .catch((error) => {
+        console.log("error" + error.message)
+        setLoading(false);
+      });
+  }
+  const getPieceTable = (page, pageSize) => {
+    console.log(page + ": " + pageSize)
+    getPiece({ page, pageSize }).then((dat) => {
+      console.log("rolesss: " + JSON.stringify(dat))
+      setDatosp((prevDatos) => ({
+        ...prevDatos,         // Manteniendo las propiedades existentes
+        data: dat.data,    // Actualizando solo la propiedad 'data'
+        tipo: dat.tipo,
+        total: dat.total,
+        totalPages: dat.totalPages,
+        nextPage: dat.nextPage,
+        prevPage: dat.prevPage,
+        currentPage: dat.currentPage
+      }));
+
+    })
+      .catch((error) => {
+        console.log("error" + error.message)
+        setLoading(false);
+      });
+  }
+  const getCommentTable = (page, pageSize) => {
+    console.log(page + ": " + pageSize)
+    getCommentList({ page, pageSize }).then((dat) => {
+      //console.log("data: " + JSON.stringify(dat))
+      setDatosc((prevDatos) => ({
+        ...prevDatos,         // Manteniendo las propiedades existentes
+        data: dat.data,    // Actualizando solo la propiedad 'data'
+        tipo: dat.tipo,
+        total: dat.total,
+        totalPages: dat.totalPages,
+        nextPage: dat.nextPage,
+        prevPage: dat.prevPage,
+        currentPage: dat.currentPage
+      }));
+
+    })
+      .catch((error) => {
+        console.log("error" + error.message)
+        setLoading(false);
+      })
+  }
   const agregarNuevoUsuario = (usuario, cancel) => {
     if (cancel) { cancelarUsuario(); }
     else {
@@ -282,7 +386,7 @@ export default function AdminPage() {
     toggle()
     setLoading(true);
     setTimeout(() => {
-      deleteUser( iduser, currentUser.id ).then(({ message, retcode }) => {
+      deleteUser(iduser, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
           localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -520,166 +624,220 @@ export default function AdminPage() {
       <Loader loading={loading} />
       <ExamplesNavbar activado={5} />
       <div className="section-museo section section-tabs">
-        <Container>
-          <Modal isOpen={modal} toggle={toggle} modalClassName="modal-mini modal-info modal-mini" >
-            <div toggle={toggle} className="modal-header justify-content-center">
-              <button className="close" onClick={toggle}>
-                <i className="tim-icons icon-simple-remove text-white" />
-              </button>
-              <div className="modal-profile">
-                <i className="tim-icons icon-alert-circle-exc" />
-              </div></div>
-            <div className="modal-body">
-              {mensajealert}
-            </div>
-            <div className="modal-footer">
-              <Button className="btn-neutral"
-                color="link" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate === 1 ? eliminarObjet : (tipoupdate === 2 ? eliminarComment : modificarComment))}>
-                Aceptar
-              </Button>{' '}
-              <Button className="btn-neutral"
-                color="link" onClick={toggle}>
-                Cancelar
-              </Button>
-            </div>
-          </Modal>
-          <div className="title">
-            <h3 className="mb-3"><br /></h3>
-          </div>
-          <Row>
-            <Col className="ml-auto mr-auto" md="12" xl="20">
-              <div className="mb-3">
-                <small className="text-uppercase font-weight-bold">
-                  
-
-                </small>
+        <div className="page-header">
+          <img
+            alt="..."
+            className="path"
+            src={require("assets/img/blob.png")}
+          />
+          <img
+            alt="..."
+            className="path2"
+            src={require("assets/img/path2.png")}
+          />
+          <img
+            alt="..."
+            className="shapes triangle"
+            src={require("assets/img/triunghiuri.png")}
+          />
+          <img
+            alt="..."
+            className="shapes wave"
+            src={require("assets/img/waves.png")}
+          />
+          <img
+            alt="..."
+            className="shapes squares"
+            src={require("assets/img/patrat.png")}
+          />
+          <img
+            alt="..."
+            className="shapes circle"
+            src={require("assets/img/cercuri.png")}
+          />
+          <Container>
+            <Modal isOpen={modal} toggle={toggle} modalClassName="modal-mini modal-info modal-mini" >
+              <div toggle={toggle} className="modal-header justify-content-center">
+                <button className="close" onClick={toggle}>
+                  <i className="tim-icons icon-simple-remove text-white" />
+                </button>
+                <div className="modal-profile">
+                  <i className="tim-icons icon-alert-circle-exc" />
+                </div></div>
+              <div className="modal-body">
+                {mensajealert}
               </div>
-              <Card>
-                <CardHeader>
-                  <Nav className="nav-tabs-info" role="tablist" tabs>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: iconTabs === 1,
-                        })}
-                        onClick={(e) => { setIconsTabs(1); cancelarObjeto() }}
-                        href="#usuarios"
-                      >
-                        <i className="tim-icons icon-single-02" />
-                        Usuarios
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: iconTabs === 2,
-                        })}
-                        onClick={(e) => { setIconsTabs(2); cancelarUsuario() }}
-                        href="#piezas"
-                      >
-                        <i className="tim-icons icon-settings-gear-63" />
-                        Piezas
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: iconTabs === 3,
-                        })}
-                        onClick={(e) => { setIconsTabs(3); cancelarObjeto(); cancelarUsuario() }}
-                        href="#comentarios"
-                      >
-                        <i className="tim-icons icon-paper" />
-                        Comentarios
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: iconTabs === 4,
-                        })}
-                        onClick={(e) => { setIconsTabs(4); cancelarObjeto(); cancelarUsuario() }}
-                        href="#general"
-                      >
-                        <i className="tim-icons icon-align-center" />
-                        General
-                      </NavLink>
-                    </NavItem>
-                  </Nav>
-                </CardHeader>
-                <CardBody>
-                  <TabContent className="tab-space" activeTab={"link" + iconTabs}>
-                    <TabPane tabId="link1">
-                      {datos.ruta === 'lista' && <ViewListUser
-                        nuevoUsuario={nuevoUsuario}
-                        handleClick={seleccionUsuario}
-                        handleDelete={eliminarUsuario}
-                        data={datos.data}
-                      />}
+              <div className="modal-footer">
+                <Button className="btn-neutral"
+                  color="link" onClick={tipoupdate === 0 ? eliminarUser : (tipoupdate === 1 ? eliminarObjet : (tipoupdate === 2 ? eliminarComment : modificarComment))}>
+                  Aceptar
+                </Button>{' '}
+                <Button className="btn-neutral"
+                  color="link" onClick={toggle}>
+                  Cancelar
+                </Button>
+              </div>
+            </Modal>
+            <div className="title">
+              <h3 className="mb-3"><br /></h3>
+            </div>
+            <Row>
+              <Col className="ml-auto mr-auto" md="12" xl="20">
+                <div className="mb-3">
+                  <small className="text-uppercase font-weight-bold">
 
-                      {datos.ruta === 'formulario' && <UserForm
-                        datos={datos}
-                        valoresIniciales={valoresIniciales || {}}
-                        handleSubmit={agregarNuevoUsuario}
-                        handleUpdate={actualizarUsuario}
-                      />}
-                    </TabPane>
-                    <TabPane tabId="link2">
-                      {datosp.ruta === 'lista' && <ViewListPiece
-                        nuevoObjeto={nuevoObjeto}
-                        handleClick={seleccionObjeto}
-                        handleDelete={eliminarObjeto}
-                        data={datosp.data}
-                      />}
 
-                      {datosp.ruta === 'formulario' && <PieceForm
-                        datos={datosp}
-                        valoresInicialesp={valoresInicialesp || {}}
-                        handleUpdate={actualizarObjeto}
-                      />}
-                      {datosp.ruta === 'formularion' && <PieceAddForm
-                        handleSubmit={agregarNuevoObjeto}
-                      />}
-                    </TabPane>
-                    <TabPane tabId="link3">
-                      {datosc.ruta === 'lista' && <ViewListComment
-                        handleClick={modificarComentario}
-                        handleDelete={eliminarComentario}
-                        data={datosc.data}
-                      />}
-                    </TabPane>
-                    <TabPane tabId="link4">
-                      <GeneralForm
-                        handleSubmit={updateContenido}
-                      />
-                    </TabPane>
-                  </TabContent>
-                </CardBody>
-              </Card>
-            </Col>
+                  </small>
+                </div>
+                <Card>
+                  <CardHeader>
+                    <Nav className="nav-tabs-info" role="tablist" tabs>
+                      {(showAdminBoard || showManagerBoard) && (
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: iconTabs === 1,
+                            })}
+                            onClick={(e) => { setIconsTabs(1); cancelarObjeto() }}
+                            href="#usuarios"
+                          >
+                            <i className="tim-icons icon-single-02" />
+                            Usuarios
+                          </NavLink>
+                        </NavItem>
+                      )}
+                      {(showAdminBoard || showManagerBoard || showSupervisorBoard) && (
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: iconTabs === 2,
+                            })}
+                            onClick={(e) => { setIconsTabs(2); cancelarUsuario() }}
+                            href="#piezas"
+                          >
+                            <i className="tim-icons icon-settings-gear-63" />
+                            Piezas
+                          </NavLink>
+                        </NavItem>
+                      )}
+                      {(showAdminBoard || showManagerBoard || showReportBoard) && (
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: iconTabs === 3,
+                            })}
+                            onClick={(e) => { setIconsTabs(3); cancelarObjeto(); cancelarUsuario() }}
+                            href="#comentarios"
+                          >
+                            <i className="tim-icons icon-paper" />
+                            Comentarios
+                          </NavLink>
+                        </NavItem>
+                      )}
+                      {(showAdminBoard || showManagerBoard) && (
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: iconTabs === 4,
+                            })}
+                            onClick={(e) => { setIconsTabs(4); cancelarObjeto(); cancelarUsuario() }}
+                            href="#general"
+                          >
+                            <i className="tim-icons icon-align-center" />
+                            General
+                          </NavLink>
+                        </NavItem>
+                      )}
+                    </Nav>
+                  </CardHeader>
+                  <CardBody>
+                    <TabContent className="tab-space" activeTab={"link" + iconTabs}>
+                      {(showAdminBoard || showManagerBoard) && (
+                        <TabPane tabId="link1">
+                          {datos.ruta === 'lista' && <ViewListUser
+                            nuevoUsuario={nuevoUsuario}
+                            handleClick={seleccionUsuario}
+                            handleDelete={eliminarUsuario}
+                            getUserTable={getUserTable}
+                            data={datos.data}
+                            datat={{ currentPage: datos.currentPage, total: datos.total, totalPages: datos.totalPages, nextPage: datos.nextPage, prevPage: datos.prevPage }}
+                          />}
 
-          </Row>
-          {response !== null && (
-            <UncontrolledAlert
-              isOpen
-              toggle={onDismiss}
-              className="alert-with-icon"
-              color={successful ? 'success' : 'danger'}
-              style={{
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 9999,
-              }}
-            >
-              <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
-              <span>
-                {response}
-              </span>
-            </UncontrolledAlert>
-          )}
-        </Container>
+                          {datos.ruta === 'formulario' && <UserForm
+                            datos={datos}
+                            valoresIniciales={valoresIniciales || {}}
+                            handleSubmit={agregarNuevoUsuario}
+                            handleUpdate={actualizarUsuario}
+                          />}
+                        </TabPane>
+                      )}
+                      {(showAdminBoard || showManagerBoard || showSupervisorBoard) && (
+                        <TabPane tabId="link2">
+                          {datosp.ruta === 'lista' && <ViewListPiece
+                            nuevoObjeto={nuevoObjeto}
+                            handleClick={seleccionObjeto}
+                            handleDelete={eliminarObjeto}
+                            getPieceTable={getPieceTable}
+                            datat={{ currentPage: datosp.currentPage, total: datosp.total, totalPages: datosp.totalPages, nextPage: datosp.nextPage, prevPage: datosp.prevPage }}
+                            data={datosp.data}
+                          />}
+
+                          {datosp.ruta === 'formulario' && <PieceForm
+                            datos={datosp}
+                            valoresInicialesp={valoresInicialesp || {}}
+                            handleUpdate={actualizarObjeto}
+                          />}
+                          {datosp.ruta === 'formularion' && <PieceAddForm
+                            handleSubmit={agregarNuevoObjeto}
+                          />}
+                        </TabPane>
+                      )}
+                      {(showAdminBoard || showManagerBoard || showReportBoard) && (
+                        <TabPane tabId="link3">
+                          {datosc.ruta === 'lista' && <ViewListComment
+                            handleClick={modificarComentario}
+                            handleDelete={eliminarComentario}
+                            getCommentTable={getCommentTable}
+                            data={datosc.data}
+                            datat={{ currentPage: datosc.currentPage, total: datosc.total, totalPages: datosc.totalPages, nextPage: datosc.nextPage, prevPage: datosc.prevPage }}
+                          />}
+                        </TabPane>
+                      )}
+                      {(showAdminBoard || showManagerBoard) && (
+                        <TabPane tabId="link4">
+                          <GeneralForm
+                            handleSubmit={updateContenido}
+                          />
+                        </TabPane>
+                      )}
+                    </TabContent>
+                  </CardBody>
+                </Card>
+              </Col>
+
+            </Row>
+            {response !== null && (
+              <UncontrolledAlert
+                isOpen
+                toggle={onDismiss}
+                className="alert-with-icon"
+                color={successful ? 'success' : 'danger'}
+                style={{
+                  position: 'fixed',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: 9999,
+                }}
+              >
+                <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
+                <span>
+                  {response}
+                </span>
+              </UncontrolledAlert>
+            )}
+          </Container>
+        </div>
         <Footer />
       </div>
 

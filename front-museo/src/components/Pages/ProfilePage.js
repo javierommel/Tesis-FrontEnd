@@ -36,7 +36,7 @@ let ps = null;
 export default function ProfilePage() {
 
   const [country, setCountry] = useState([]);
-  const { handleSubmit, control, watch, setValue, formState: { errors } } = useForm();
+  const { handleSubmit, control, clearErrors, watch, setValue, formState: { errors } } = useForm();
   const anioActual = new Date().getFullYear();
   const [passwordUpdate, setPasswordUpdate] = useState(true);
   const [image, setImage] = useState(require("assets/img/avatar2.png"));
@@ -65,6 +65,7 @@ export default function ProfilePage() {
     }
 
     getUserId(currentUser.id).then((dat) => {
+      console.log("datas: "+JSON.stringify(dat))
       setValue('name', dat.data.nombre);
       setValue('email', dat.data.email);
       setValue('year', dat.data.fnacimiento);
@@ -156,6 +157,8 @@ export default function ProfilePage() {
     setPasswordUpdate(!passwordUpdate);
     setValue("password", "");
     setValue("password2", "");
+    clearErrors('password');
+    clearErrors('password2');
   };
   const onSubmit = (data) => {
     setLoading(true)
@@ -418,14 +421,24 @@ export default function ProfilePage() {
                           />
                         </Col>
                       </Row>
-                      <Button
-                        className="btn btn-lg w-100 float-right"
-                        color="info"
-                        data-placement="right"
-                        type="submit"
-                      >
-                        Guardar
-                      </Button>
+                      <Row>
+                        <Col>
+                          <Button
+                            className="btn btn-lg w-100 float-right"
+                            color="info"
+                            data-placement="right"
+                            type="submit"
+                          >
+                            Guardar
+                          </Button>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md="6">
+                          <br />
+                          <br />
+                        </Col>
+                      </Row>
                     </Form>
                   </CardBody>
                 </Card>

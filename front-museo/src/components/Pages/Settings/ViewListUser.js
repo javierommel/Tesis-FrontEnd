@@ -4,11 +4,11 @@ import ListUser from './ListUser'
 
 export default function ViewListUser(props)  {
 
-    const { nuevoUsuario, handleClick, handleDelete, data } = props;
+    const { nuevoUsuario, handleClick, handleDelete, getUserTable, data, datat } = props;
     return (
         <div>
             <HeaderUser nuevoUsuario={nuevoUsuario} />
-            <ListUser data={data} handleClick={handleClick} handleDelete={handleDelete}/>
+            <ListUser datat={datat} data={data} handleClick={handleClick} handleDelete={handleDelete} getUserTable={getUserTable}/>
         </div>
     );
 }
