@@ -90,7 +90,7 @@ export default function PrincipalPage() {
       return
     }
     addComment(comment, rate, currentUser.id).then(({ message, retcode }) => {
-      console.log("asdf: " + message + " " + retcode)
+      //console.log("asdf: " + message + " " + retcode)
       if (retcode === 0) {
         setResponse(message);
         localStorage.setItem('storedResponse', JSON.stringify(message));

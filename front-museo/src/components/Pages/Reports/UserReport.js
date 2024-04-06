@@ -7,8 +7,27 @@ import {
     Row,
     Col,
 } from 'reactstrap'
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
 import { Line } from "react-chartjs-2";
 import userChart from "./Data/UserData";
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+);
 export default function UserReport() {
 
     return (

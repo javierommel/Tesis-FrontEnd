@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { clearMessage } from "actions/message";
@@ -29,9 +30,6 @@ import {
   Row,
   Col,
   Modal,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
   Button,
   UncontrolledAlert
 } from "reactstrap";
@@ -40,8 +38,6 @@ import {
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
-import { get } from "react-hook-form";
-
 
 export default function AdminPage() {
   const [datos, setDatos] = useState({
@@ -85,6 +81,7 @@ export default function AdminPage() {
     nextPage: 0,
     currentPage: 0,
   })
+  const navigate = useNavigate();
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.numero_ordinal === datosp.objetoSeleccionado)
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -104,88 +101,8 @@ export default function AdminPage() {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
   const onDismiss = () => setResponse(null);
-
-  useEffect(() => {
-    getUserTable(datos.page, datos.pageSize)
-    getPieceTable(datosp.page, datosp.pageSize)
-    getCommentTable(datosc.page, datosc.pageSize);
-    /*
-    getUser({ page: datos.page, pageSize: datos.pageSize }).then((dat) => {
-      console.log("rolesss: " + JSON.stringify(dat))
-      setDatos((prevDatos) => ({
-        ...prevDatos,         // Manteniendo las propiedades existentes
-        data: dat.data,    // Actualizando solo la propiedad 'data'
-        roles: dat.roles,
-        total: dat.total,
-        totalPages: dat.totalPages,
-        nextPage: dat.nextPage,
-        prevPage: dat.prevPage,
-        currentPage: dat.currentPage
-      }));
-
-    })
-      .catch((error) => {
-        console.log("error" + error.message)
-        setLoading(false);
-      });
-    getPiece({ page: datosp.page, pageSize: datosp.pageSize }).then((dat) => {
-      setDatosp((prevDatos) => ({
-        ...prevDatos,         // Manteniendo las propiedades existentes
-        data: dat.data,    // Actualizando solo la propiedad 'data'
-        tipo: dat.tipo,
-        total: dat.total,
-        totalPages: dat.totalPages,
-        nextPage: dat.nextPage,
-        prevPage: dat.prevPage,
-        currentPage: dat.currentPage
-      }));
-
-    })
-      .catch((error) => {
-        console.log("error" + error.message)
-        setLoading(false);
-      });
-    getCommentList({ page: datosc.page, pageSize: datosc.pageSize }).then((dat) => {
-      //console.log("data: " + JSON.stringify(dat))
-      setDatosc((prevDatos) => ({
-        ...prevDatos,         // Manteniendo las propiedades existentes
-        data: dat.data,    // Actualizando solo la propiedad 'data'
-        tipo: dat.tipo,
-        total: dat.total,
-        totalPages: dat.totalPages,
-        nextPage: dat.nextPage,
-        prevPage: dat.prevPage,
-        currentPage: dat.currentPage
-      }));
-
-    })
-      .catch((error) => {
-        console.log("error" + error.message)
-        setLoading(false);
-      })*/
-    // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
-    const storedResponse = localStorage.getItem('storedResponse');
-    if (storedResponse) {
-      setResponse(JSON.parse(storedResponse));
-      setSuccessful(true);
-      // Limpia el estado almacenado después de cargarlo
-      localStorage.removeItem('storedResponse');
-    }
-    document.body.classList.toggle("landing-page");
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      document.body.classList.toggle("landing-page");
-    };
-  }, []);
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  let location = useLocation();
-
-  useEffect(() => {
-    if (["/login", "/register"].includes(location.pathname)) {
-      dispatch(clearMessage()); // clear message when changing location
-    }
-  }, [dispatch, location]);
 
   useEffect(() => {
 
@@ -200,20 +117,39 @@ export default function AdminPage() {
         setIconsTabs(2)
       }
       setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
-      if (!showAdminBoard && !showManagerBoard && !showReportBoard && !showSupervisorBoard) {
-        return <Navigate to="/home" />;
+      if (currentUser.roles.includes("ROLE_MANAGER", "ROLE_REPORT", "ROLE_SUPERVISOR")) {
+        navigate("/home");
+        window.location.reload();
       }
     } else {
-      return <Navigate to="/login-page" />;
+      navigate("/login-page");
+      window.location.reload();
     }
+    document.body.classList.toggle("landing-page");
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      document.body.classList.toggle("landing-page");
+    };
   }, [currentUser]);
 
+  useEffect(() => {
+    getUserTable(datos.page, datos.pageSize)
+    getPieceTable(datosp.page, datosp.pageSize)
+    getCommentTable(datosc.page, datosc.pageSize);
+  }, [datos.page, datos.pageSize, datosc.page, datosc.pageSize, datosp.page, datosp.pageSize]);
+
+  let location = useLocation();
+
+  useEffect(() => {
+    if (["/login-page", "/register-page"].includes(location.pathname)) {
+      dispatch(clearMessage()); // clear message when changing location
+    }
+  }, [dispatch, location]);
 
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login-page" />;
   }
   const seleccionUsuario = id => {
-    //console.log("seleccion: " + id)
     setDatos((prevDatos) => ({
       ...prevDatos,
       ruta: 'formulario',
@@ -228,9 +164,7 @@ export default function AdminPage() {
     }));
   }
   const getUserTable = (page, pageSize) => {
-    console.log(page + ": " + pageSize)
     getUser({ page: page, pageSize: pageSize }).then((dat) => {
-      console.log("rolesss: " + JSON.stringify(dat))
       setDatos((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
@@ -249,9 +183,7 @@ export default function AdminPage() {
       });
   }
   const getPieceTable = (page, pageSize) => {
-    console.log(page + ": " + pageSize)
     getPiece({ page, pageSize }).then((dat) => {
-      console.log("rolesss: " + JSON.stringify(dat))
       setDatosp((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
@@ -270,9 +202,7 @@ export default function AdminPage() {
       });
   }
   const getCommentTable = (page, pageSize) => {
-    console.log(page + ": " + pageSize)
     getCommentList({ page, pageSize }).then((dat) => {
-      //console.log("data: " + JSON.stringify(dat))
       setDatosc((prevDatos) => ({
         ...prevDatos,         // Manteniendo las propiedades existentes
         data: dat.data,    // Actualizando solo la propiedad 'data'
@@ -297,7 +227,6 @@ export default function AdminPage() {
         const rol_array = [];
         setLoading(true);
         setSuccessful(false);
-        //console.log(JSON.stringify(usuario))
         usuario.roles.map((check, index) => {
           if (index !== 0) {
             if (check) rol_array.push(datos.roles[index - 2].nombre)
@@ -305,7 +234,6 @@ export default function AdminPage() {
           return null;
         })
         addUser(usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(({ message, retcode }) => {
-          //console.log("asdf: " + message + " " + retcode)
           if (retcode === 0) {
             setResponse(message);
             localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -368,10 +296,10 @@ export default function AdminPage() {
       updateComment(idcomment, activarcomment, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
-          localStorage.setItem('storedResponse', JSON.stringify(message));
           setSuccessful(true);
           setLoading(false);
-          window.location.reload();
+          getCommentTable(datosc.page, datosc.pageSize)
+          cancelarComentario()
         }
         else {
           console.log(message)
@@ -389,10 +317,10 @@ export default function AdminPage() {
       deleteUser(iduser, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
-          localStorage.setItem('storedResponse', JSON.stringify(message));
           setSuccessful(true);
           setLoading(false);
-          window.location.reload();
+          getUserTable(datos.page, datos.pageSize)
+          cancelarUsuario()
         }
         else {
           console.log(message)
@@ -410,10 +338,10 @@ export default function AdminPage() {
       deleteComment(idcomment, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
-          localStorage.setItem('storedResponse', JSON.stringify(message));
           setSuccessful(true);
           setLoading(false);
-          window.location.reload();
+          getCommentTable(datosc.page, datosc.pageSize)
+          cancelarComentario()
         }
         else {
           console.log(message)
@@ -439,10 +367,10 @@ export default function AdminPage() {
       deletePiece(idpiece, currentUser.id).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
-          localStorage.setItem('storedResponse', JSON.stringify(message));
           setSuccessful(true);
           setLoading(false);
-          window.location.reload();
+          getPieceTable(datosp.page, datosp.pageSize)
+          cancelarObjeto()
         }
         else {
           console.log(message)
@@ -464,10 +392,10 @@ export default function AdminPage() {
         addPiece(file).then(({ message, retcode }) => {
           if (retcode === 0) {
             setResponse(message);
-            localStorage.setItem('storedResponse', JSON.stringify(message));
             setSuccessful(true);
             setLoading(false);
-            window.location.reload();
+            getPieceTable(datosp.page, datosp.pageSize)
+            cancelarObjeto()
           }
           else {
             console.log(message)
@@ -495,10 +423,10 @@ export default function AdminPage() {
         updateUser(id, values, currentUser.id, rol_array).then(({ message, retcode }) => {
           if (retcode === 0) {
             setResponse(message);
-            localStorage.setItem('storedResponse', JSON.stringify(message));
             setSuccessful(true);
             setLoading(false);
-            window.location.reload();
+            getUserTable(datos.page, datos.pageSize)
+            cancelarUsuario()
           }
           else {
             console.log(message)
@@ -537,10 +465,10 @@ export default function AdminPage() {
         updatePiece(id, values, currentUser.id, materiales_array, deterioros_array, imagen1, imagen2).then(({ message, retcode }) => {
           if (retcode === 0) {
             setResponse(message);
-            localStorage.setItem('storedResponse', JSON.stringify(message));
             setSuccessful(true);
             setLoading(false);
-            window.location.reload();
+            getPieceTable(datosp.page, datosp.pageSize)
+            cancelarObjeto()
           }
           else {
             console.log(message)
@@ -567,10 +495,8 @@ export default function AdminPage() {
         updateContent(values, currentUser.id, imagen1, imagen2, imagen3, imagen4).then(({ message, retcode }) => {
           if (retcode === 0) {
             setResponse(message);
-            localStorage.setItem('storedResponse', JSON.stringify(message));
             setSuccessful(true);
             setLoading(false);
-            window.location.reload();
           }
           else {
             console.log(message)
@@ -614,6 +540,13 @@ export default function AdminPage() {
   }
   const cancelarObjeto = () => {
     setDatosp((prevDatos) => ({
+      ...prevDatos,         // Manteniendo las propiedades existentes
+      ruta: 'lista',
+      objetoSeleccionado: undefined
+    }));
+  }
+  const cancelarComentario = () => {
+    setDatosc((prevDatos) => ({
       ...prevDatos,         // Manteniendo las propiedades existentes
       ruta: 'lista',
       objetoSeleccionado: undefined

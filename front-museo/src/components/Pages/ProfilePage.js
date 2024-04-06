@@ -65,7 +65,7 @@ export default function ProfilePage() {
     }
 
     getUserId(currentUser.id).then((dat) => {
-      console.log("datas: "+JSON.stringify(dat))
+      //console.log("datas: "+JSON.stringify(dat))
       setValue('name', dat.data.nombre);
       setValue('email', dat.data.email);
       setValue('year', dat.data.fnacimiento);
@@ -161,8 +161,12 @@ export default function ProfilePage() {
     clearErrors('password2');
   };
   const onSubmit = (data) => {
+    const dataaux = {
+      ...data,
+      estado:true,
+    };
     setLoading(true)
-    updateUser(currentUser.id, data, currentUser.id, null, cargafoto ? image : null).then(({ message, retcode }) => {
+    updateUser(currentUser.id, dataaux, currentUser.id, null, cargafoto ? image : null).then(({ message, retcode }) => {
       if (retcode === 0) {
         setResponse(message);
         localStorage.setItem('storedResponse', JSON.stringify(message));

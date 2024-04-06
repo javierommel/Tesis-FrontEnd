@@ -83,7 +83,7 @@ export default function ListUser(props) {
     const table = useReactTable({
         columns,
         data: datosConNuevaColumnaMemo,
-        debugTable: true,
+        debugTable: false,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -119,6 +119,8 @@ export default function ListUser(props) {
                 })
             }
         };
+        handleResize();
+        
 
         // Agregar el event listener al montar el componente
         window.addEventListener('resize', handleResize);
@@ -313,7 +315,7 @@ function Filter({
             type="text"
             value={(columnFilterValue ?? '')}
             onChange={e => column.setFilterValue(e.target.value)}
-            placeholder={`Search...`}
+            placeholder={`Buscar...`}
             className="w-36 border shadow rounded"
         />
     )

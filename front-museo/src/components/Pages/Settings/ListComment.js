@@ -95,7 +95,7 @@ export default function ListComment(props) {
     const table = useReactTable({
         columns,
         data: datosConNuevaColumnaMemo,
-        debugTable: true,
+        debugTable: false,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),

@@ -92,7 +92,7 @@ export default function GeneralForm(props) {
       setImagen2(toBlob(dat.data[0].imagen2.data));
       setImagen3(toBlob(dat.data[0].imagen3.data));
       setImagen4(toBlob(dat.data[0].imagen4.data));
-      console.log(dat.data[0])
+      //console.log(dat.data[0])
     })
       .catch((error) => {
         console.log("error" + error.message)

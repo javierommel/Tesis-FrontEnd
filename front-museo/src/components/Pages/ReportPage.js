@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { clearMessage } from "actions/message";
 // react plugin used to create charts
@@ -33,6 +33,26 @@ export default function ReportPage() {
   const [showReportBoard, setShowReportBoard] = useState(false);
   const [showManagerBoard, setShowManagerBoard] = useState(false);
   const [showSupervisorBoard, setShowSupervisorBoard] = useState(false);
+  const navigate = useNavigate();
+  const { user: currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  let location = useLocation();
+
+  useEffect(() => {
+    if (currentUser) {
+      setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+      setShowReportBoard(currentUser.roles.includes("ROLE_REPORT"));
+      setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
+      setShowSupervisorBoard(currentUser.roles.includes("ROLE_SUPERVISOR"));
+      if (currentUser.roles.includes("ROLE_MANAGER", "ROLE_REPORT", "ROLE_SUPERVISOR")) {
+        navigate("/home");
+        window.location.reload();
+      }
+    } else {
+      navigate("/login-page");
+      //window.location.reload();
+    }
+  }, [currentUser,navigate]);
 
   useEffect(() => {
     document.body.classList.toggle("landing-page");
@@ -41,29 +61,12 @@ export default function ReportPage() {
       document.body.classList.toggle("landing-page");
     };
   }, []);
-  const { user: currentUser } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  let location = useLocation();
 
   useEffect(() => {
-    if (["/login", "/register"].includes(location.pathname)) {
+    if (["/login-page", "/register-page"].includes(location.pathname)) {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
-  useEffect(() => {
-    if (currentUser) {
-      setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
-      setShowReportBoard(currentUser.roles.includes("ROLE_REPORT"));
-      setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
-      setShowSupervisorBoard(currentUser.roles.includes("ROLE_SUPERVISOR"));
-      console.log("current: " + currentUser.roles)
-      if (!currentUser.roles.includes("ROLE_ADMIN")) {
-        return <Navigate to="/home" />;
-      }
-    } else {
-      return <Navigate to="/home" />;
-    }
-  }, [currentUser]);
 
   if (!currentUser) {
     return <Navigate to="/login" />;

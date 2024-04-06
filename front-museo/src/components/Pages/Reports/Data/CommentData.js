@@ -1,103 +1,30 @@
-
 const commentChart = {
-    data: (canvas) => {
-      let ctx = canvas.getContext("2d");
-  
-      let gradientFill = ctx.createLinearGradient(0, 230, 0, 50);
-  
-      gradientFill.addColorStop(1, "rgba(29,140,248,0.2)");
-      gradientFill.addColorStop(0.4, "rgba(29,140,248,0.0)");
-      gradientFill.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
-  
-      return {
-        labels: [
-          "JUN",
-          "FEB",
-          "MAR",
-          "APR",
-          "MAY",
-          "JUN",
-          "JUL",
-          "AUG",
-          "SEP",
-          "OCT",
-          "NOV",
-          "DEC",
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
         ],
-        datasets: [
-          {
-            label: "Data",
-            fill: true,
-            backgroundColor: gradientFill,
-            borderColor: "#1d8cf8",
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: "#1d8cf8",
-            pointBorderColor: "rgba(255,255,255,0)",
-            pointHoverBackgroundColor: "#5464ed",
-            //pointHoverBorderColor:'rgba(35,46,55,1)',
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: [80, 160, 200, 160, 250, 280, 220, 190, 200, 250, 290, 320],
-          },
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
         ],
-      };
-    },
-    options: {
-      maintainAspectRatio: false,
-      legend: {
-        display: false,
+        borderWidth: 1,
       },
-  
-      tooltips: {
-        backgroundColor: "#fff",
-        titleFontColor: "#ccc",
-        bodyFontColor: "#666",
-        bodySpacing: 4,
-        xPadding: 12,
-        mode: "nearest",
-        intersect: 0,
-        position: "nearest",
-      },
-      responsive: true,
-      scales: {
-        yAxes: [
-          {
-            barPercentage: 1.6,
-            gridLines: {
-              drawBorder: false,
-              color: "rgba(0,0,0,0.0)",
-              zeroLineColor: "transparent",
-            },
-            ticks: {
-              display: false,
-              suggestedMin: 0,
-              suggestedMax: 350,
-              padding: 20,
-              fontColor: "#9a9a9a",
-            },
-          },
-        ],
-        xAxes: [
-          {
-            barPercentage: 1.6,
-            gridLines: {
-              drawBorder: false,
-              color: "rgba(0,0,0,0)",
-              zeroLineColor: "transparent",
-            },
-            ticks: {
-              padding: 20,
-              fontColor: "#9a9a9a",
-            },
-          },
-        ],
-      },
-    },
-  };
-  
-  export default commentChart;
-  
+    ],
+  }
+};
+
+export default commentChart;

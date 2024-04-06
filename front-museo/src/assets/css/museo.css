@@ -33,27 +33,212 @@ div.sso-divider span {
   padding: 0 8px;
 }
 
-.modal-content-visita {
-  background-image: url('assets/img/visita360/fondo1.png');
-  /* URL de la imagen de fondo */
-  background-size: cover;
-  /* Ajusta el tamaño de la imagen para cubrir todo el contenido */
-  background-position: center;
-  /* Centra la imagen de fondo */
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-  z-index: 999;
+
+/*Estilos para presentación de imágenes en visitas 360*/
+.image-viewer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 1);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px;
+  border-color: white;
+  border-radius: none;
+}
+
+.imagen-visita-zoom {
+  width: auto;
+  height: 99vh;
+  object-fit: cover;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 8px 24px, rgba(255, 255, 222, 0.1) 0px 16px 56px, rgba(255, 255, 255, 0.1) 0px 24px 80px;
+}
+
+.imagen-visita {
+  width: auto;
+  height: 99vh;
+  object-fit: cover;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 8px 24px, rgba(255, 255, 222, 0.1) 0px 16px 56px, rgba(255, 255, 255, 0.1) 0px 24px 80px;
+}
+
+.toggle-description {
   position: absolute;
+  bottom: 30px;
+  background: transparent;
+  color: white;
+  margin-right: 50px;
+  border: none;
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  right: 50%;
+  transform: translateX(50%);
+}
+.tooltip-description {
+  position: absolute;
+  width: 170px;
+  height: 40px;
+  background-color:  rgba(63, 62, 62, 0.8);
+  border: 1px solid #ccc;
+  color:white;
+  border-radius: 10px;
+  visibility: hidden;
+  border:none;
+  bottom:60px;
+  right: 50%;
+  transform: translateX(50%);
+}
+.tooltip-description p{
+  padding:10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+}
+.toggle-description:hover .tooltip-description {
+  visibility: visible;
+  opacity: 1;
+}
+.toggle-description-active {
+  position: absolute;
+  bottom: 30px;
+  background: transparent;
+  color: white;
+  margin-right: 50px;
+  border: none;
+  border-radius: 30px;
+  padding: 8px;
+  background-color: #1d8cf8;
+  filter: drop-shadow(2px 2px 2px white);
+  right: 50%;
+  transform: translateX(50%);
+}
+.toggle-zoom {
+  position: absolute;
+  bottom: 30px;
+  background: transparent;
+  border: none;
+  color: white;
+  margin-left: 50px;
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  right: 50%;
+  transform: translateX(50%);
+}
+.tooltip-zoom {
+  position: absolute;
+  width: 160px;
+  height: 40px;
+  background-color:  rgba(63, 62, 62, 0.8);
+  border: 1px solid #ccc;
+  color:white;
+  border-radius: 10px;
+  visibility: hidden;
+  border:none;
+  bottom:60px;
+  right: 50%;
+  transform: translateX(50%);
+}
+.tooltip-zoom p{
+  padding:10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+}
+.toggle-zoom:hover .tooltip-zoom {
+  visibility: visible;
+  opacity: 1;
+}
+.toggle-zoom-active {
+  position: absolute;
+  bottom: 30px;
+  background: transparent;
+  border: none;
+  color: white;
+  margin-left: 50px;
+  border-radius: 30px;
+  padding: 8px;
+  background-color: #1d8cf8;
+  filter: drop-shadow(2px 2px 2px white);
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.toggle-zoom:hover {
+  filter: drop-shadow(5px 5px 10px white);
+}
+
+.toggle-description:hover {
+  filter: drop-shadow(5px 5px 10px white);
+}
+
+.image-description {
+  height: 25px;
+  width: 25px;
+}
+
+.image-zoom {
+  height: 25px;
+  width: 25px;
+}
+
+.prev-image {
+  background: none;
+  border: none;
+  position: absolute;
+  width: 15px;
+  height: 25px;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: aparecer 1s ease forwards;
-  /* Aplica la animación */
+  opacity: 0.9;
+  padding: 0px;
+  transform: rotate(180deg);
+  /* Centra verticalmente la imagen */
+  left: 50px;
+}
+
+.next-image {
+  background: none;
+  border: none;
+  position: absolute;
+  width: 15px;
+  height: 25px;
+  opacity: 0.9;
+  top: 50%;
+  /* Centra verticalmente la imagen */
+  right: 50px;
+  /* La posiciona a la derecha del contenedor */
+  padding: 0px;
+}
+
+.next-image:hover {
+  filter: drop-shadow(5px 5px 10px white);
+  width: 17px;
+}
+
+.prev-image:hover {
+  filter: drop-shadow(5px 5px 10px white);
+  width: 17px;
+}
+
+.next-image:active {
+  width: 13px;
+}
+
+.prev-image:active {
+  width: 13px;
+}
+
+.nav-museo>.nav-item>.nav-link {
+  padding: 4px 10px;
+  border-radius: 30px;
 }
 
 .title-visita {
   text-align: center;
-  /* Centra el título horizontalmente */
-  margin: 15px;
   letter-spacing: 2px;
   text-shadow: 0px 0px 0px #696562,
     1px 1px 0px #696562,
@@ -62,47 +247,107 @@ div.sso-divider span {
 
 .close-button {
   position: absolute;
-  top: 10px;
+  top: 30px;
   /* Distancia desde la parte superior */
-  right: 60px;
+  right: 30px;
   /* Distancia desde la derecha */
   background-color: transparent;
   border: none;
   cursor: pointer;
-  height: 14px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 7px;
 }
 
 .close-button:hover {
-  box-shadow: 1px 1px 2px yellow, 0 0 1em rgb(37, 37, 37), 0 0 0.2em rgb(15, 15, 15);
-  ;
+  filter: drop-shadow(5px 5px 10px white);
+  cursor: pointer;
+}
+
+.close-button-description {
+  position: absolute;
+  top: 30px;
+  /* Distancia desde la parte superior */
+  right: 20px;
+  /* Distancia desde la derecha */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  height: 30px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 9px;
+}
+
+
+.close-button-description:hover {
+  cursor: pointer;
+  filter: drop-shadow(5px 5px 10px white);
 }
 
 .image-container {
   text-align: center;
   /* Centra la imagen horizontalmente */
-  margin-top: 10px;
+  margin-top: 70px;
   /* Espacio entre el título y la imagen */
   border-radius: 8px;
+  position: absolute;
 }
 
 .image {
   max-width: 100%;
   /* Ajusta el tamaño máximo de la imagen */
-  width: 600px;
-  height: 400px;
+  width: 25%;
+  height: 25%;
   border-radius: 8px;
   border: 8px solid #696562;
   /* Color marrón para el marco */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.description {
-  text-align: center;
-  /* Centra la descripción horizontalmente */
-  margin: 30px;
-  /* Espacio entre la imagen y la descripción */
-  color: #ffffff;
-  height: 100px;
+@media (max-width: 768px) {
+
+  .image {
+    max-width: 100%;
+    /* Ajusta el tamaño máximo de la imagen */
+    width: 50%;
+    height: 40%;
+    border-radius: 8px;
+    border: 8px solid #696562;
+    /* Color marrón para el marco */
+    box-shadow: 0 0 10px rgba(0, 0, 0,0.5);
+  }
+}
+
+.description-piece {
+  position: absolute;
+  width: 25%;
+  height: 100%;
+  right: 0px;
+  font-family: "Courier New";
+  text-align: justify;
+  font-size: medium;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: rgba(187, 185, 185, 0.56) 0px 22px 70px 4px;
+  animation-duration: 1s;
+  animation-name: slidein;
+}
+@keyframes slidein {
+  from {
+    margin-right: -25%;
+    
+  }
+
+  to {
+    margin-right: 0%;
+    
+  }
+}
+
+.description-piece .card {
+  height: 100%;
+  background-color: rgba(0, 23, 23, 0.5);
 }
 
 .imgfullscreen {
@@ -120,17 +365,6 @@ div.sso-divider span {
   box-shadow: 10px, 10px, 10px, #ffffff;
 }
 
-@keyframes aparecer {
-  from {
-    opacity: 0;
-    /* La imagen comienza completamente transparente */
-  }
-
-  to {
-    opacity: 1;
-    /* La imagen termina completamente visible */
-  }
-}
 
 .backdrop {
   position: fixed;

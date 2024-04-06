@@ -88,7 +88,7 @@ export default function ExamplesNavbar({ activado }) {
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
         <Modal isOpen={modal} toggle={toggle} modalClassName="modal-mini modal-info modal-mini" >
-          <div toggle={toggle} className="modal-header justify-content-center">
+          <div className="modal-header justify-content-center">
             <button className="close" onClick={toggle}>
               <i className="tim-icons icon-simple-remove text-white" />
             </button>

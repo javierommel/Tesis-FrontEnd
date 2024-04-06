@@ -159,7 +159,7 @@ export default function UserForm(props) {
                 <Controller
                   name="estado"
                   control={control}
-                  defaultValue={true}
+                  defaultValue={valoresIniciales&&valoresIniciales.estado===1?true:false}
                   render={({ field }) => (
                     <>
                       <CustomInput

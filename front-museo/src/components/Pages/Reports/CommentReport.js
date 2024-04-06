@@ -7,8 +7,12 @@ import {
     Row,
     Col,
 } from 'reactstrap'
-import { Line } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import commentChart from "./Data/CommentData";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 export default function CommentReport() {
 
     return (
@@ -25,9 +29,8 @@ export default function CommentReport() {
                 </CardHeader>
                 <CardBody>
                     <div className="chart-area">
-                        <Line
+                        <Pie
                             data={commentChart.data}
-                            options={commentChart.options}
                         />
                     </div>
                 </CardBody>

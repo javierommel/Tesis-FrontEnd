@@ -7,8 +7,26 @@ import {
     Row,
     Col,
 } from 'reactstrap'
-import { Line } from "react-chartjs-2";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+  import { Bar } from 'react-chartjs-2';
+  
 import museumChart from "./Data/MuseumData";
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
 export default function MuseumReport() {
 
     return (
@@ -25,10 +43,10 @@ export default function MuseumReport() {
                 </CardHeader>
                 <CardBody>
                     <div className="chart-area">
-                        <Line
+                        <Bar
                             data={museumChart.data}
                             options={museumChart.options}
-                        />
+    />
                     </div>
                 </CardBody>
             </Card>
