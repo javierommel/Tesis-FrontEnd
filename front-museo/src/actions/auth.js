@@ -76,7 +76,22 @@ export const login = (username, password) => (dispatch) => {
         }
     );
 };
-
+export const verifyTokenConfirmation = async ( token) => {
+    return AuthService.verifyTokenConfirmation(token).then(
+        (response) => {
+            return { message: response.data.message, retcode: 0 };
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return { message, retcode: 1 };
+        }
+    );
+};
 export const logout = () => (dispatch) => {
     AuthService.logout();
 

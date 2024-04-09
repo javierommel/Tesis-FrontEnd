@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_URL_BACK+"api/auth/";
+const API_URL = process.env.REACT_APP_URL_BACK + "api/auth/";
 
-const register = (name, username, email, password, country, year, usuario_modificacion,roles) => {
-    return axios.
-        post(API_URL + "signup", {
+const register = (name, username, email, password, country, year, usuario_modificacion, roles) => {
+    return axios.post(API_URL + "signup", {
             name: name,
             user: username,
             email,
@@ -18,7 +17,7 @@ const register = (name, username, email, password, country, year, usuario_modifi
 const login = (username, password) => {
     return axios
         .post(API_URL + "signin", {
-            user:username,
+            user: username,
             password,
         })
         .then((response) => {
@@ -29,6 +28,12 @@ const login = (username, password) => {
         });
 };
 
+const verifyTokenConfirmation = (token) => {
+    return axios
+        .post(API_URL + "verifytokenconfirmation", {
+            token
+        });
+};
 const logout = () => {
     localStorage.removeItem("user");
 };
@@ -37,4 +42,5 @@ export default {
     register,
     login,
     logout,
+    verifyTokenConfirmation
 };

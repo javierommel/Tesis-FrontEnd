@@ -85,9 +85,10 @@ export default function AdminPage() {
   const valoresIniciales = datos.usuarioSeleccionado && datos.data.find(x => x.usuario === datos.usuarioSeleccionado)
   const valoresInicialesp = datosp.objetoSeleccionado && datosp.data.find(x => x.numero_ordinal === datosp.objetoSeleccionado)
   const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [showReportBoard, setShowReportBoard] = useState(false);
-  const [showManagerBoard, setShowManagerBoard] = useState(false);
-  const [showSupervisorBoard, setShowSupervisorBoard] = useState(false);
+  const [showUsuarioBoard, setShowUsuarioBoard] = useState(false);
+  const [showAsistenteBoard, setShowAsistenteBoard] = useState(false);
+  const [showDirectorBoard, setShowDirectorBoard] = useState(false);
+  const [showCuradorBoard, setShowCuradorBoard] = useState(false);
   const [iconTabs, setIconsTabs] = useState(1);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
@@ -107,17 +108,18 @@ export default function AdminPage() {
   useEffect(() => {
 
     if (currentUser) {
+      setShowUsuarioBoard(currentUser.roles.includes("ROLE_USUARIO"));
       setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
-      if (currentUser.roles.includes("ROLE_REPORT")) {
-        setShowReportBoard(true);
-        setIconsTabs(3)
-      }
-      if (currentUser.roles.includes("ROLE_SUPERVISOR")) {
-        setShowSupervisorBoard(true);
+      setShowDirectorBoard(currentUser.roles.includes("ROLE_DIRECTOR"));
+      if (currentUser.roles.includes("ROLE_ASISTENTE")) {
+        setShowAsistenteBoard(true);
         setIconsTabs(2)
       }
-      setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
-      if (currentUser.roles.includes("ROLE_MANAGER", "ROLE_REPORT", "ROLE_SUPERVISOR")) {
+      if (currentUser.roles.includes("ROLE_CURADOR")) {
+        setShowCuradorBoard(true);
+        setIconsTabs(2)
+      }
+      if (currentUser.roles.includes("ROLE_DIRECTOR", "ROLE_ASISTENTE", "ROLE_CURADOR")) {
         navigate("/home");
         window.location.reload();
       }
@@ -625,7 +627,7 @@ export default function AdminPage() {
                 <Card>
                   <CardHeader>
                     <Nav className="nav-tabs-info" role="tablist" tabs>
-                      {(showAdminBoard || showManagerBoard) && (
+                      {(showAdminBoard || showDirectorBoard) && (
                         <NavItem>
                           <NavLink
                             className={classnames({
@@ -639,7 +641,7 @@ export default function AdminPage() {
                           </NavLink>
                         </NavItem>
                       )}
-                      {(showAdminBoard || showManagerBoard || showSupervisorBoard) && (
+                      {(showAdminBoard || showDirectorBoard || showCuradorBoard) && (
                         <NavItem>
                           <NavLink
                             className={classnames({
@@ -653,7 +655,7 @@ export default function AdminPage() {
                           </NavLink>
                         </NavItem>
                       )}
-                      {(showAdminBoard || showManagerBoard || showReportBoard) && (
+                      {(!showUsuarioBoard) && (
                         <NavItem>
                           <NavLink
                             className={classnames({
@@ -667,7 +669,7 @@ export default function AdminPage() {
                           </NavLink>
                         </NavItem>
                       )}
-                      {(showAdminBoard || showManagerBoard) && (
+                      {(!showUsuarioBoard) && (
                         <NavItem>
                           <NavLink
                             className={classnames({
@@ -685,7 +687,7 @@ export default function AdminPage() {
                   </CardHeader>
                   <CardBody>
                     <TabContent className="tab-space" activeTab={"link" + iconTabs}>
-                      {(showAdminBoard || showManagerBoard) && (
+                      {(showAdminBoard || showDirectorBoard) && (
                         <TabPane tabId="link1">
                           {datos.ruta === 'lista' && <ViewListUser
                             nuevoUsuario={nuevoUsuario}
@@ -704,7 +706,7 @@ export default function AdminPage() {
                           />}
                         </TabPane>
                       )}
-                      {(showAdminBoard || showManagerBoard || showSupervisorBoard) && (
+                      {(showAdminBoard || showDirectorBoard || showCuradorBoard) && (
                         <TabPane tabId="link2">
                           {datosp.ruta === 'lista' && <ViewListPiece
                             nuevoObjeto={nuevoObjeto}
@@ -725,7 +727,7 @@ export default function AdminPage() {
                           />}
                         </TabPane>
                       )}
-                      {(showAdminBoard || showManagerBoard || showReportBoard) && (
+                      {(!showUsuarioBoard) && (
                         <TabPane tabId="link3">
                           {datosc.ruta === 'lista' && <ViewListComment
                             handleClick={modificarComentario}
@@ -736,7 +738,7 @@ export default function AdminPage() {
                           />}
                         </TabPane>
                       )}
-                      {(showAdminBoard || showManagerBoard) && (
+                      {(!showUsuarioBoard) && (
                         <TabPane tabId="link4">
                           <GeneralForm
                             handleSubmit={updateContenido}

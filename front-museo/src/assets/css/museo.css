@@ -74,34 +74,38 @@ div.sso-divider span {
   border: none;
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 8px;
+  padding: 6px;
   right: 50%;
   transform: translateX(50%);
 }
+
 .tooltip-description {
   position: absolute;
   width: 170px;
   height: 40px;
-  background-color:  rgba(63, 62, 62, 0.8);
+  background-color: rgba(63, 62, 62, 0.8);
   border: 1px solid #ccc;
-  color:white;
+  color: white;
   border-radius: 10px;
   visibility: hidden;
-  border:none;
-  bottom:60px;
+  border: none;
+  bottom: 60px;
   right: 50%;
   transform: translateX(50%);
 }
-.tooltip-description p{
-  padding:10px;
+
+.tooltip-description p {
+  padding: 10px;
   font-size: 1.1em;
   font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
 }
+
 .toggle-description:hover .tooltip-description {
   visibility: visible;
   opacity: 1;
 }
+
 .toggle-description-active {
   position: absolute;
   bottom: 30px;
@@ -110,12 +114,12 @@ div.sso-divider span {
   margin-right: 50px;
   border: none;
   border-radius: 30px;
-  padding: 8px;
+  padding: 6px;
   background-color: #1d8cf8;
-  filter: drop-shadow(2px 2px 2px white);
   right: 50%;
   transform: translateX(50%);
 }
+
 .toggle-zoom {
   position: absolute;
   bottom: 30px;
@@ -125,34 +129,38 @@ div.sso-divider span {
   margin-left: 50px;
   border-radius: 30px;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 8px;
+  padding: 6px;
   right: 50%;
   transform: translateX(50%);
 }
+
 .tooltip-zoom {
   position: absolute;
   width: 160px;
   height: 40px;
-  background-color:  rgba(63, 62, 62, 0.8);
+  background-color: rgba(63, 62, 62, 0.8);
   border: 1px solid #ccc;
-  color:white;
+  color: white;
   border-radius: 10px;
   visibility: hidden;
-  border:none;
-  bottom:60px;
+  border: none;
+  bottom: 60px;
   right: 50%;
   transform: translateX(50%);
 }
-.tooltip-zoom p{
-  padding:10px;
+
+.tooltip-zoom p {
+  padding: 10px;
   font-size: 1.1em;
   font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
 }
+
 .toggle-zoom:hover .tooltip-zoom {
   visibility: visible;
   opacity: 1;
 }
+
 .toggle-zoom-active {
   position: absolute;
   bottom: 30px;
@@ -161,9 +169,8 @@ div.sso-divider span {
   color: white;
   margin-left: 50px;
   border-radius: 30px;
-  padding: 8px;
+  padding: 6px;
   background-color: #1d8cf8;
-  filter: drop-shadow(2px 2px 2px white);
   right: 50%;
   transform: translateX(50%);
 }
@@ -177,13 +184,13 @@ div.sso-divider span {
 }
 
 .image-description {
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
 }
 
 .image-zoom {
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
 }
 
 .prev-image {
@@ -316,7 +323,7 @@ div.sso-divider span {
     border-radius: 8px;
     border: 8px solid #696562;
     /* Color marrón para el marco */
-    box-shadow: 0 0 10px rgba(0, 0, 0,0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -333,15 +340,16 @@ div.sso-divider span {
   animation-duration: 1s;
   animation-name: slidein;
 }
+
 @keyframes slidein {
   from {
     margin-right: -25%;
-    
+
   }
 
   to {
     margin-right: 0%;
-    
+
   }
 }
 
@@ -433,84 +441,120 @@ div.sso-divider span {
   box-sizing: border-box;
 }
 
-.hotspot .out-museo:before {
-  font-size: 48px;
-  line-height: 90px;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  display: block;
-  -webkit-font-smoothing: antialiased;
-}
-
 .hotspot .out-museo {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, .8);
+  background: rgba(0, 0, 0, 0.6);
   -webkit-transition: -webkit-transform ease-out 0.1s, border 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, border 0.2s;
   transition: transform ease-out 0.1s, border 0.2s;
   box-sizing: border-box;
-  opacity: 0.6;
 }
 
-.hotspot .in-museo {
+.hotspot .camara-museo {
   width: 20px;
   height: 20px;
   position: absolute;
   top: 5px;
   left: 5px;
-  background-color: rgba(255, 255, 255, .8);
-  border-radius: 50%;
+  background-image: url("assets/img/visita360/camara.png");
   -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
   transition: transform ease-out 0.1s, background 0.2s;
-  opacity: 0.6;
+  background-size: cover;
 }
 
-.hotspot .out-museo:after {
-  top: 0;
-  left: 0;
-  padding: 0;
-  z-index: -1;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  pointer-events: none;
+.hotspot .salir-museo {
+  width: 20px;
+  height: 20px;
   position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  content: '';
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  -webkit-transform: scale(0.9);
-  -moz-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
+  top: 5px;
+  left: 5px;
+  background-image: url("assets/img/visita360/salir.png");
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+  background-size: cover;
+}
+.hotspot .arcangel-museo {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-image: url("assets/img/visita360/escena3/arcangel.png");
+  background-size: cover;
+}
+.hotspot .left-museo {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-image: url("assets/img/visita360/left.png");
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+  background-size: cover;
+}
+.hotspot .up-museo {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-image: url("assets/img/visita360/up.png");
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+  background-size: cover;
+}
+.hotspot .right-museo {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-image: url("assets/img/visita360/right.png");
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+  background-size: cover;
+}
+.hotspot .down-museo {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-image: url("assets/img/visita360/down.png");
+  -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
+  -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
+  transition: transform ease-out 0.1s, background 0.2s;
+  background-size: cover;
 }
 
 .hotspot:hover .out-museo {
-  border: 5px solid rgba(255, 255, 255, 1);
-  -webkit-transform: scale(0.9);
-  -moz-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
-  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 1);
+  -webkit-transform: scale(1.3);
+  -moz-transform: scale(1.3);
+  -ms-transform: scale(1.3);
+  transform: scale(1.3);
+  background: rgba(0, 0, 0, 0.6);
+  filter: drop-shadow(5px 5px 10px white);
 }
 
-.hotspot:hover .in-museo {
-  background-color: rgba(255, 255, 255, 1);
-  -webkit-transform: scale(0.8);
-  -moz-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  transform: scale(0.8);
+.hotspot:hover .camara-museo {
+  -webkit-transform: scale(1.3);
+  -moz-transform: scale(1.3);
+  -ms-transform: scale(1.3);
+  transform: scale(1.3);
 }
 
-.hotspot:hover .out-museo:after {
-  -webkit-animation: sonarEffect 1.2s ease-out;
-  -moz-animation: sonarEffect 1.2s ease-out;
-  animation: sonarEffect 1.2s ease-out;
+.hotspot:hover .salir-museo {
+  -webkit-transform: scale(1.3);
+  -moz-transform: scale(1.3);
+  -ms-transform: scale(1.3);
+  transform: scale(1.3);
 }

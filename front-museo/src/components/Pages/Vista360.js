@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from "react";
 import { Pannellum } from 'pannellum-react';
-import myImage from "assets/img/visita360/escena1.JPG";
 import Chatbot from "components/Chatbot/Chatbot"
 import Flip from "react-reveal/Flip";
 import Chat from "assets/img/chat.png";
@@ -19,15 +18,15 @@ export default function Vista360() {
   const [showBot, toggleBot] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const [modal, setModal] = useState(false);
+  const [currentScene, setCurrentScene] = useState(0);
   const completa = require('assets/img/visita360/fullscreen.png')
   const normal = require('assets/img/visita360/reducir.png')
-  
-  const letrero = require('assets/img/visita360/fondo1.png')
+
   const imagenes = [
-    require('assets/img/visita360/Virgen_Niña.JPG'),
-    require('assets/img/visita360/Virgen_de_la_Merced.jpg'),
+    require('assets/img/visita360/escena3/Virgen_Niña.JPG'),
+    require('assets/img/visita360/escena3/Virgen_de_la_Merced.jpg'),
   ];
-  
+
   const videos = [
     require('assets/img/visita360/video1.mp4'),
   ];
@@ -35,27 +34,38 @@ export default function Vista360() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const handle = useFullScreenHandle();
 
-  const hotspotIcon = (hotSpotDiv) => {
+  const hotspotIcon = (hotSpotDiv, hotSpot) => {
+    console.log("asdfas:; " + hotSpot.arcangel)
     const image = document.createElement("div");
     image.classList.add("hotspot");
-    const inmuseo = document.createElement("div");
-    inmuseo.classList.add("in-museo");
-    const outmuseo = document.createElement("div");
-    outmuseo.classList.add("out-museo");
-    image.appendChild(inmuseo);
-    image.appendChild(outmuseo);
+    
+      const outmuseo = document.createElement("div");
+      outmuseo.classList.add("out-museo");
+      const inmuseo = document.createElement("div");
+      if (hotSpot.left) inmuseo.classList.add("left-museo")
+      else if (hotSpot.up) inmuseo.classList.add("up-museo")
+      else if (hotSpot.right) inmuseo.classList.add("right-museo")
+      else if (hotSpot.down) inmuseo.classList.add("down-museo")
+      else if (hotSpot.arcangel > -1) inmuseo.classList.add("arcangel-museo");
+      else if (hotSpot.escena > -1) inmuseo.classList.add("salir-museo");
+      else inmuseo.classList.add("camara-museo");
+      image.appendChild(outmuseo);
+      image.appendChild(inmuseo);
+    
     hotSpotDiv.appendChild(image);
   };
 
-  const handleClick = name => {
+  const handleClick = (name, escena, left, up, right, down) => {
     console.log("name: " + JSON.stringify(name))
-    toggle();
+    if (left) setCurrentScene(left)
+    else if (up) setCurrentScene(up)
+    else if (right) setCurrentScene(right)
+    else if (down) setCurrentScene(down)
+    else if (escena > -1) setCurrentScene(escena)
+    else toggle();
   }
   const handleFullscreenChange = (isFullscreen) => {
     setIsFullscreen(isFullscreen);
-  };
-  const onInit = () => {
-    console.log('lightGallery has been initialized');
   };
   if (!currentUser) {
     return <Navigate to="/login" />;
@@ -68,8 +78,8 @@ export default function Vista360() {
         <FullScreen handle={handle} onChange={handleFullscreenChange}>
           {modal &&
             (<>{/*<div className="backdrop"></div>*/}
-              <CustomImageViewer images={imagenes} videos={videos} toggle={toggle}/>
-              
+              <CustomImageViewer images={imagenes} videos={videos} toggle={toggle} />
+
               {/*<div className="modal-content-visita">
                 <img src={letrero} alt="Imagen" className="image-fondo" />
                 <h4 className="title-visita">Virgen Niña</h4>
@@ -104,10 +114,10 @@ export default function Vista360() {
             sceneId="firstScene"
             width="100%"
             height={isFullscreen ? "100%" : "730px"}
-            image={myImage}
+            image={piecesArray[currentScene].scenePanoImg}
             showFullscreenCtrl={false}
             pitch={0}
-            yaw={-90}
+            yaw={0}
             hfov={2000}
             autoLoad
             autoRotate={-0.5}
@@ -116,15 +126,15 @@ export default function Vista360() {
               console.log("panorama loaded");
             }}
           >
-            {piecesArray.map((hotSpot, index) => {
+            {piecesArray[currentScene].hotSpots.map((hotSpot, index) => {
               return (
                 <Pannellum.Hotspot
                   key={index}
                   type="custom"
                   pitch={hotSpot.pitch}
                   yaw={hotSpot.yaw}
-                  tooltip={hotspotIcon}
-                  handleClick={(evt, name) => handleClick(name)}
+                  tooltip={(e) => hotspotIcon(e, hotSpot)}
+                  handleClick={(evt, name) => handleClick(name, hotSpot.escena, hotSpot.left, hotSpot.up, hotSpot.right, hotSpot.down)}
                   name="image info"
                 />
               );

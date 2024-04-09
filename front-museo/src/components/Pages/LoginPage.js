@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import { useForm, Controller } from 'react-hook-form';
-import { login } from 'actions/auth';
+import { login, verifyTokenConfirmation } from 'actions/auth';
 import { auth, provider } from "../../variables/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 import { CLEAR_MESSAGE } from "actions/types"
@@ -40,7 +40,31 @@ export default function RegisterPage() {
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [response, setResponse] = useState("")
+  const { token } = useParams();
   useEffect(() => {
+    if (token) {
+      verifyTokenConfirmation(token).then(({ message, retcode }) => {
+        if (retcode === 0) {
+          setResponse(message);
+          localStorage.setItem('storedResponse', JSON.stringify(message));
+          setSuccessful(true);
+          setLoading(false);
+          window.location.reload();
+        }
+        else {
+          console.log(message)
+          setResponse("Error al intentar actualizar el registro en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        }
+      }).catch((e) => {
+        console.log(e.message)
+        setResponse("Error al intentar actualizar la información en el servidor")
+        setSuccessful(false);
+        setLoading(false);
+      });
+    }
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
     // Specify how to clean up after this effect:
@@ -76,7 +100,7 @@ export default function RegisterPage() {
 
   const { isLoggedIn } = useSelector(state => state.auth);
   const { message } = useSelector(state => state.message);
-  const onDismiss = () => dispatch({ type: CLEAR_MESSAGE });
+  const onDismiss = () => { dispatch({ type: CLEAR_MESSAGE }); setResponse("") }
 
   const dispatch = useDispatch();
 
@@ -120,7 +144,7 @@ export default function RegisterPage() {
       <IndexNavbar activado={2} />
       <div className="wrapper">
         <div className="page-header">
-          
+
           <div className="content content-museo">
             <Container className='container-museo'>
               <Row>
@@ -249,7 +273,7 @@ export default function RegisterPage() {
             </Container>
           </div>
         </div>
-        {message !== "" && (
+        {(message !== "" || response !== "") && (
           <UncontrolledAlert
             isOpen
             toggle={onDismiss}
@@ -265,7 +289,7 @@ export default function RegisterPage() {
           >
             <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
             <span>
-              {message}
+              {response===""?message:response}
             </span>
           </UncontrolledAlert>
         )}

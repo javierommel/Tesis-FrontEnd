@@ -77,9 +77,9 @@ export default function ExamplesNavbar({ activado }) {
   useEffect(() => {
     if (currentUser) {
       setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
-      setShowReportBoard(currentUser.roles.includes("ROLE_REPORT"));
-      setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
-      setShowSupervisorBoard(currentUser.roles.includes("ROLE_SUPERVISOR"));
+      setShowReportBoard(currentUser.roles.includes("ROLE_ASISTENTE"));
+      setShowManagerBoard(currentUser.roles.includes("ROLE_DIRECTOR"));
+      setShowSupervisorBoard(currentUser.roles.includes("ROLE_CURADOR"));
     } else {
       setShowAdminBoard(false);
     }
