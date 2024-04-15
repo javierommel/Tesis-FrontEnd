@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ImageZoom from 'react-image-zoom';
 import classnames from "classnames";
 import { Card, CardHeader, CardBody, TabContent, TabPane, NavLink, NavItem, Nav } from 'reactstrap'
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 
-const CustomImageVideoViewer = ({ images, videos, toggle }) => {
+const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull1, yaw1 }) => {
     const [showDescription, setShowDescription] = useState(false);
     const [showZoom, setShowZoom] = useState(false);
     const [inImage, setInImage] = useState(false);
     const [currentItemIndex, setCurrentItemIndex] = useState(0);
+    const [numeropaginas, setNumeroPaginas] = useState(1);
     const [iconTabs, setIconsTabs] = React.useState(1);
     const cerrar = require('assets/img/visita360/cerrar.png')
     const information = require('assets/img/visita360/information.png')
     const next = require('assets/img/visita360/next.png')
     const zoom = require('assets/img/visita360/zoom.png')
-    const [isFullscreen, setIsFullscreen] = useState(true);
-    const handle = useFullScreenHandle();
+    const [isFullscreen2, setIsFullscreen2] = useState(true);
+    const handle2 = useFullScreenHandle();
+    const inputRef = useRef();
     useEffect(() => {
-        handle.enter()
+        
+        setNumeroPaginas(textos.length)
+        handle2.enter()
+        console.log("useeffect: "+isFullscreen2)
         setInImage(true)
-        document.addEventListener('keydown', handleKeyDown);
-        // Es importante remover el event listener al desmontar el componente
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
     }, []);
     const toggleDescription = () => {
         setShowDescription(!showDescription);
@@ -35,25 +35,28 @@ const CustomImageVideoViewer = ({ images, videos, toggle }) => {
     const goToNextItem = () => {
         setCurrentItemIndex((prevIndex) => (prevIndex + 1) % (images.length + videos.length));
     };
-
+    const goBackItem = () => {
+        setCurrentItemIndex((prevIndex) => {
+            const totalItems = images.length + videos.length;
+            return (prevIndex - 1 + totalItems) % totalItems;
+        });
+    };
     const currentItem = currentItemIndex < images.length ? images[currentItemIndex] : videos[currentItemIndex - images.length];
-    const handleKeyDown = (event) => {
-        if (event.key === 'Escape') {
-            console.log("aefasd")
-            setIsFullscreen(isFullscreen);
-            toggle();
-        }
-    };
-    const handleFullscreenChange = (isFullscreen) => {
-        console.log("full: ", isFullscreen + " : " + inImage);
-        if (inImage && !isFullscreen) toggle();
-        setIsFullscreen(isFullscreen);
 
-
+    const handleFullscreenChange = (isFullscreen2) => {
+        console.log("pieza: ", isFullscreen2);
+        if (inImage && !isFullscreen2) toggle();
+        setIsFullscreen2(isFullscreen2);
     };
+
+    const handleExit=()=>{
+        handle2.exit();
+        toggle(isfull1, yaw1);
+    }
+
     return (
-        <FullScreen handle={handle} onChange={handleFullscreenChange}>
-            <div className="image-viewer-container">
+        <FullScreen handle={handle2} onChange={handleFullscreenChange} >
+            <div className="image-viewer-container" >
                 {/* Renderizar imagen o video actual */}
                 {currentItemIndex < images.length ? (
                     showZoom ?
@@ -79,7 +82,7 @@ const CustomImageVideoViewer = ({ images, videos, toggle }) => {
                         loop
                         controls />
                 )}
-                {!showDescription && <img className="close-button" src={cerrar} onClick={toggle} alt="Imagen" />}
+                {!showDescription && <img className="close-button" src={cerrar} ref={inputRef} onClick={handleExit} alt="Imagen" />}
                 {showDescription && <div className="description-piece">
                     <Card>
                         <CardHeader>
@@ -95,63 +98,47 @@ const CustomImageVideoViewer = ({ images, videos, toggle }) => {
                                         1
                                     </NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        className={classnames({
-                                            active: iconTabs === 2,
-                                        })}
-                                        onClick={(e) => setIconsTabs(2)}
-                                        href="#pablo"
-                                    >
-                                        2
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        className={classnames({
-                                            active: iconTabs === 3,
-                                        })}
-                                        onClick={(e) => setIconsTabs(3)}
-                                        href="#pablo"
-                                    >
-                                        3
-                                    </NavLink>
-                                </NavItem>
+                                {numeropaginas >= 2 &&
+                                    <NavItem>
+                                        <NavLink
+                                            className={classnames({
+                                                active: iconTabs === 2,
+                                            })}
+                                            onClick={(e) => setIconsTabs(2)}
+                                            href="#pablo"
+                                        >
+                                            2
+                                        </NavLink>
+                                    </NavItem>}
+                                {numeropaginas >= 3 &&
+                                    <NavItem>
+                                        <NavLink
+                                            className={classnames({
+                                                active: iconTabs === 3,
+                                            })}
+                                            onClick={(e) => setIconsTabs(3)}
+                                            href="#pablo"
+                                        >
+                                            3
+                                        </NavLink>
+                                    </NavItem>}
                             </Nav>
                             <img className="close-button-description" src={cerrar} onClick={toggleDescription} alt="Imagen" />
                         </CardHeader>
                         <CardBody>
                             <TabContent className="tab-space" activeTab={"link" + iconTabs}>
                                 <TabPane tabId="link1">
-                                    <h3 className='title-visita'>Virgen de la Merced</h3>
-                                    <p> Collaboratively administrate empowered markets via
-                                        plug-and-play networks. Dynamically procrastinate B2C
-                                        users after installed base benefits. <br />
-                                        <br />
-                                        Dramatically visualize customer directed convergence
-                                        without revolutionary ROI.
-                                    </p>
+                                    <h3 className='title-visita'>{titulo}</h3>
+                                    <p>{textos[0]}</p>
                                 </TabPane>
-                                <TabPane tabId="link2">
-                                    <p>
-                                        Completely synergize resource taxing relationships via
-                                        premier niche markets. Professionally cultivate one-to-one
-                                        customer service with robust ideas. <br />
-                                        <br />
-                                        Dynamically innovate resource-leveling customer service
-                                        for state of the art customer service.
-                                    </p>
-                                </TabPane>
-                                <TabPane tabId="link3">
-                                    <p>
-                                        Efficiently unleash cross-media information without
-                                        cross-media value. Quickly maximize timely deliverables
-                                        for real-time schemas. <br />
-                                        <br />
-                                        Dramatically maintain clicks-and-mortar solutions without
-                                        functional solutions.
-                                    </p>
-                                </TabPane>
+                                {numeropaginas >= 2 &&
+                                    <TabPane tabId="link2">
+                                        <p>{textos[1]}</p>
+                                    </TabPane>}
+                                {numeropaginas >= 3 &&
+                                    <TabPane tabId="link3">
+                                        <p>{textos[2]}</p>
+                                    </TabPane>}
                             </TabContent>
                         </CardBody>
                     </Card>
@@ -169,7 +156,7 @@ const CustomImageVideoViewer = ({ images, videos, toggle }) => {
                     </button>
                 }
                 {!showDescription &&
-                    <button className="prev-image" onClick={goToNextItem}>
+                    <button className="prev-image" onClick={goBackItem}>
                         <img src={next} alt="..." />
                     </button>
                 }

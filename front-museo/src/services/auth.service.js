@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_URL_BACK + "api/auth/";
 
-const register = (name, username, email, password, country, year, usuario_modificacion, roles) => {
+const register = (name, username, email, password, country, year) => {
     return axios.post(API_URL + "signup", {
             name: name,
             user: username,
@@ -14,11 +14,12 @@ const register = (name, username, email, password, country, year, usuario_modifi
         });
 }
 
-const login = (username, password) => {
+const login = (username, password, google) => {
     return axios
         .post(API_URL + "signin", {
             user: username,
             password,
+            google
         })
         .then((response) => {
             if (response.data.accessToken) {
@@ -30,7 +31,7 @@ const login = (username, password) => {
 
 const verifyTokenConfirmation = (token) => {
     return axios
-        .post(API_URL + "verifytokenconfirmation", {
+        .post(API_URL + "verifyconfirmationtoken", {
             token
         });
 };

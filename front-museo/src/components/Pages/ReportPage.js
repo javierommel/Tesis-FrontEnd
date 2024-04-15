@@ -98,18 +98,7 @@ export default function ReportPage() {
             className="shapes circle"
             src={require("assets/img/cercuri.png")}
           />
-          <div className="content-center">
-            <section className="section-museo section section-tabs">
-              <img
-                alt="..."
-                className="path"
-                src={require("assets/img/path4.png")}
-              />
-              <img
-                alt="..."
-                className="path2"
-                src={require("assets/img/path2.png")}
-              />
+          
               <Container>
                 {/*<Modal isOpen={modal} toggle={toggle} modalClassName="modal-mini modal-info modal-mini" >
                   <div toggle={toggle} className="modal-header justify-content-center">
@@ -224,8 +213,7 @@ export default function ReportPage() {
                   )*/}
               </Container>
 
-            </section>
-          </div>
+            
         </div>
         <section className="section section-lg">
           <section className="section">

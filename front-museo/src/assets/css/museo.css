@@ -477,15 +477,17 @@ div.sso-divider span {
   transition: transform ease-out 0.1s, background 0.2s;
   background-size: cover;
 }
+
 .hotspot .arcangel-museo {
-  width: 100px;
-  height: 100px;
+  width: 300px;
+  height: 300px;
   position: absolute;
   top: 5px;
   left: 5px;
   background-image: url("assets/img/visita360/escena3/arcangel.png");
   background-size: cover;
 }
+
 .hotspot .left-museo {
   width: 20px;
   height: 20px;
@@ -498,6 +500,7 @@ div.sso-divider span {
   transition: transform ease-out 0.1s, background 0.2s;
   background-size: cover;
 }
+
 .hotspot .up-museo {
   width: 20px;
   height: 20px;
@@ -510,6 +513,7 @@ div.sso-divider span {
   transition: transform ease-out 0.1s, background 0.2s;
   background-size: cover;
 }
+
 .hotspot .right-museo {
   width: 20px;
   height: 20px;
@@ -522,6 +526,7 @@ div.sso-divider span {
   transition: transform ease-out 0.1s, background 0.2s;
   background-size: cover;
 }
+
 .hotspot .down-museo {
   width: 20px;
   height: 20px;
@@ -557,4 +562,41 @@ div.sso-divider span {
   -moz-transform: scale(1.3);
   -ms-transform: scale(1.3);
   transform: scale(1.3);
+}
+
+/*Estilos para reportes*/
+.pie-museo {
+  padding: 20px;
+  height: 500px;
+}
+
+@media (max-width: 768px) {
+
+  .pie-museo {
+    margin-left: 0px;
+  }
+  .bar-museo{
+      height: 400px;
+      width: auto;
+  }
+  .line-museo{
+    height: 400px;
+    width: auto;
+  }
+}
+
+.bar-museo {
+  padding: 20px;
+  width: 100%;
+  height: 450px;
+}
+.chart-bar-museo {
+  
+  width: 100%;
+  height: 450px;
+}
+.line-museo {
+  padding: 20px;
+  width: 100%;
+  height: 450px;
 }

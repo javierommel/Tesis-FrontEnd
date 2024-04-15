@@ -55,8 +55,8 @@ export const updateUser = async (id, values, usuario_modificacion, roles, image)
     );
 };
 
-export const addUser = async (name, username, email, password, country, year, usuario_modificacion, roles) => {
-    return AuthService.addUser(name, username, email, password, country, year, usuario_modificacion, roles).then(
+export const addUser = async (estado, name, username, email, password, country, year, usuario_modificacion, roles) => {
+    return AuthService.addUser(estado, name, username, email, password, country, year, usuario_modificacion, roles).then(
         (response) => {
             return { message: response.data.message, retcode: 0 };
         },
@@ -86,6 +86,25 @@ export const getUserId = async ( usuario ) => {
                 error.toString();
 
             return message;
+        }
+    );
+};
+
+export const addUserGoogle = async (name, username, email, imagen) => {
+    return AuthService.addUserGoogle(name, username, email, imagen).then(
+        (response) => {
+            console.log("correcto")
+            return { message: response.data.message, retcode: 0 };
+        },
+        (error) => {
+            console.log("incorrecto")
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return { message, retcode: 1 };
         }
     );
 };

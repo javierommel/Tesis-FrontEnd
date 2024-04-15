@@ -235,7 +235,7 @@ export default function AdminPage() {
           }
           return null;
         })
-        addUser(usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(({ message, retcode }) => {
+        addUser(usuario.estado, usuario.name, usuario.username, usuario.email, usuario.password, usuario.country, usuario.year, currentUser.id, rol_array).then(({ message, retcode }) => {
           if (retcode === 0) {
             setResponse(message);
             localStorage.setItem('storedResponse', JSON.stringify(message));

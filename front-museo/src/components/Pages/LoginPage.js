@@ -4,8 +4,9 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import { useForm, Controller } from 'react-hook-form';
 import { login, verifyTokenConfirmation } from 'actions/auth';
-import { auth, provider } from "../../variables/firebase";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { addUserGoogle } from "../../actions/user"
+import { gapi } from 'gapi-script'
+import {GoogleLogin} from 'react-google-login'
 import { CLEAR_MESSAGE } from "actions/types"
 
 // reactstrap components
@@ -41,16 +42,18 @@ export default function RegisterPage() {
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [response, setResponse] = useState("")
-  const { token } = useParams();
+  const clienID = process.env.REACT_APP_CLIENTE_ID
+  //const { token } = useParams();
+  //const { search } = useLocation();
   useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get('token');
+    console.log("token: " + token)
     if (token) {
       verifyTokenConfirmation(token).then(({ message, retcode }) => {
         if (retcode === 0) {
           setResponse(message);
-          localStorage.setItem('storedResponse', JSON.stringify(message));
           setSuccessful(true);
           setLoading(false);
-          window.location.reload();
         }
         else {
           console.log(message)
@@ -64,6 +67,12 @@ export default function RegisterPage() {
         setSuccessful(false);
         setLoading(false);
       });
+    }
+    const start = () => {
+      gapi.auth2.init({
+        clienId: clienID
+      })
+      gapi.load("client:auth2", start)
     }
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
@@ -104,9 +113,10 @@ export default function RegisterPage() {
 
   const dispatch = useDispatch();
 
+
   const onSubmit = (data) => {
     setLoading(true);
-    dispatch(login(data.username, data.password))
+    dispatch(login(data.username, data.password, false))
       .then(() => {
         setLoading(false);
         setSuccessful(true);
@@ -119,12 +129,59 @@ export default function RegisterPage() {
 
       });
   };
-  const signGoogle = () => {
-    signInWithPopup(auth, provider).then((data) => {
-      const credential = GoogleAuthProvider.credentialFromResult(data);
-      console.log("asfasf: " + JSON.stringify(credential))
-      console.log(data.user.email);
-    });
+
+  const onSuccess = (response) => {
+    console.log(response)
+    verifyUserGoogle(response.profileObj)
+
+  }
+  const onFailure = () => {
+    console.log("Algo salió mal")
+  }
+  const verifyUserGoogle = (usuario) => {
+    try {
+      setLoading(true);
+      setSuccessful(false);
+      const usuariogoogle = usuario.email
+      console.log("emaulL: " + usuariogoogle)
+      addUserGoogle(usuario.name, usuario.email, usuario.email, usuario.imageUrl)
+        .then(({ message, retcode }) => {
+          console.log("m " + message)
+          if (retcode === 0) {
+            dispatch(login(usuariogoogle, "", true))
+              .then(() => {
+                setLoading(false);
+                setSuccessful(true);
+                navigate("/home");
+                window.location.reload();
+              })
+              .catch(() => {
+                setSuccessful(false);
+                setLoading(false);
+              });
+            setResponse(message);
+            setSuccessful(true);
+            setLoading(false);
+          }
+          else {
+            console.log(message)
+            setResponse("Error al intentar guardar la información en el servidor")
+            setSuccessful(false);
+            setLoading(false);
+          }
+        }).catch((e) => {
+          console.log(e.message)
+          setResponse("Error al intentar guardar la información en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        });
+    }
+    catch (e) {
+      console.log(e.message)
+      setResponse("Error al intentar guardar la información")
+      setSuccessful(false);
+      setLoading(false);
+    }
   }
   const handleMouseDown = () => {
     // Muestra la contraseña cuando se mantiene presionado el ojo
@@ -161,10 +218,16 @@ export default function RegisterPage() {
                     </CardHeader>
                     <Form className="form" onSubmit={handleSubmit(onSubmit)} >
                       <CardBody>
-                        <Button className="btn btn-lg w-100" color="success" size="lg" onClick={signGoogle}>
-                          <i className="fab fa-google" />&nbsp;&nbsp;&nbsp;
-                          Ingresar con Google
-                        </Button>
+                        <GoogleLogin
+                          clientId={clienID}
+                          onSuccess={onSuccess}
+                          onFailure={onFailure}
+                          cookiePolicy={"single_host_origin"}
+                          isSignedIn={true}
+                          render={renderProps => (
+                            <Button className="btn btn-lg w-100" color="success" size="lg" onClick={renderProps.onClick} ><i className="fab fa-google" />&nbsp;&nbsp;&nbsp;Ingresar con Google</Button>
+                          )}
+                        />
                         <div className="sso-divider">
                           <span>O</span>
                         </div>
@@ -289,7 +352,7 @@ export default function RegisterPage() {
           >
             <span data-notify="icon" className={successful ? "tim-icons icon-check-2" : "tim-icons icon-alert-circle-exc"} />
             <span>
-              {response===""?message:response}
+              {response === "" ? message : response}
             </span>
           </UncontrolledAlert>
         )}

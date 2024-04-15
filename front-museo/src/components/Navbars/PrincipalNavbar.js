@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { logout } from "actions/auth";
 import { clearMessage } from "actions/message";
 import classnames from "classnames";
+import { useGoogleLogout } from 'react-google-login'
 // reactstrap components
 import {
   Collapse,
@@ -32,6 +33,18 @@ export default function ExamplesNavbar({ activado }) {
   const [color, setColor] = React.useState("navbar-transparent");
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  const clientId = process.env.REACT_APP_CLIENTE_ID
+  const onLogoutSuccess = () => {
+    console.log("salio")
+  }
+  const onFailure = () => {
+    console.log("Error al salir salio")
+  }
+  const { signOut } = useGoogleLogout({
+    clientId,
+    onLogoutSuccess,
+    onFailure,
+  });
   React.useEffect(() => {
     window.addEventListener("scroll", changeColor);
     return function cleanup() {
@@ -65,12 +78,14 @@ export default function ExamplesNavbar({ activado }) {
   const dispatch = useDispatch();
   let location = useLocation();
 
+
   useEffect(() => {
     if (["/login", "/register"].includes(location.pathname)) {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
   const logOut = useCallback(() => {
+    signOut();
     dispatch(logout());
   }, [dispatch]);
 
