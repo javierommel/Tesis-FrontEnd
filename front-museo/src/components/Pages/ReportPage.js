@@ -215,15 +215,7 @@ export default function ReportPage() {
 
             
         </div>
-        <section className="section section-lg">
-          <section className="section">
-            <img
-              alt="..."
-              className="path"
-              src={require("assets/img/path4.png")}
-            />
-          </section>
-        </section>
+        
         <Footer />
       </div>
     </>

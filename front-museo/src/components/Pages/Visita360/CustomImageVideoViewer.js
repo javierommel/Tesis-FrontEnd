@@ -20,7 +20,7 @@ const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull
     const handle2 = useFullScreenHandle();
     const inputRef = useRef();
     useEffect(() => {
-        
+        console.log("textos:" +JSON.stringify(textos))
         setNumeroPaginas(textos.length)
         handle2.enter()
         console.log("useeffect: "+isFullscreen2)
@@ -147,12 +147,12 @@ const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull
                 {/* Botón para mostrar/ocultar descripción */}
                 <button className={showDescription ? "toggle-description-active" : "toggle-description"} onClick={toggleDescription}>
                     <img className="image-description" src={information} alt="..." />
-                    <div class="tooltip-description"><p>Mostrar Historia</p></div>
+                    <div className="tooltip-description"><p>Mostrar Historia</p></div>
                 </button>
                 {currentItemIndex < images.length &&
                     <button className={showZoom ? "toggle-zoom-active" : "toggle-zoom"} onClick={toggleZoom}>
                         <img className="image-zoom" src={zoom} alt="..." />
-                        <div class="tooltip-zoom"><p>Hacer Zoom</p></div>
+                        <div className="tooltip-zoom"><p>Hacer Zoom</p></div>
                     </button>
                 }
                 {!showDescription &&

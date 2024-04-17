@@ -47,14 +47,16 @@ export default function UserReport() {
         if (selectedValue === 0) {
             exportComponentAsPDF(componentRef,
                 {
-                    fileName: 'comentario',
+                    fileName: 'nrovisitas',
                     html2CanvasOptions:
                     {
                         backgroundColor: '#525f7f'
                     },
                     pdfOptions: {
-                        w: 220,
-                        h: 140,
+                        w: 276,
+                        h: 160,
+                        x:10,
+                        y:10,
                         orientation: 'p',
                     }
                 })
@@ -62,14 +64,14 @@ export default function UserReport() {
         else if (selectedValue === 1) {
             exportComponentAsPNG(componentRef,
                 {
-                    fileName: 'comentario',
+                    fileName: 'nrovisitas',
                     html2CanvasOptions: { backgroundColor: '#525f7f' }
                 })
         }
         else {
             exportComponentAsJPEG(componentRef,
                 {
-                    fileName: 'comentario',
+                    fileName: 'nrovisitas',
                     html2CanvasOptions: { backgroundColor: '#525f7f' }
                 })
         }
@@ -111,7 +113,7 @@ export default function UserReport() {
             cell.font = { bold: true }; // Apply bold font to each cell in header row
         });
         // Guardar el libro de trabajo en un archivo
-        const fileName = 'datos_usuario.xlsx';
+        const fileName = 'NumeroVisitas.xlsx';
         try {
             const buffer = workbook.xlsx.writeBuffer().then((buffer) => {
                 const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -130,7 +132,7 @@ export default function UserReport() {
         const worksheet = utils.json_to_sheet(dataUserTime);
         const workbook = utils.book_new();
         utils.book_append_sheet(workbook, worksheet, 'Usuarios');
-        writeFile(workbook, 'DatosUsuarios.xlsx'); // Triggers a download in the browser
+        writeFile(workbook, 'TiempoVisitas.xlsx'); // Triggers a download in the browser
     };
     const componentRef = useRef();
     return (

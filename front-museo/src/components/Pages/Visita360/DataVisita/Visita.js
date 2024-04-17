@@ -55,6 +55,7 @@ const piecesArray = [
                 yaw: 182,
                 escena: 3,
                 sala : 1,
+                nombre_sala: "Sala de Bordado 2"
             }
         ],
     },
@@ -106,6 +107,7 @@ const piecesArray = [
                 yaw: -115,
                 escena: 3,
                 sala : 1,
+                nombre_sala: "Sala de Bordado 2"
             }
         ],
     },
@@ -157,6 +159,7 @@ const piecesArray = [
                 yaw: -252,
                 escena: 3,
                 sala : 1,
+                nombre_sala: "Sala de Bordado 2"
             }
         ],
     },
@@ -204,6 +207,7 @@ const piecesArray = [
                 yaw: -237,
                 escena: 6,
                 sala : 2,
+                nombre_sala: "Sala del Risco",
             }
         ],
     },
@@ -227,7 +231,7 @@ const piecesArray = [
                 orden: 1,
             },
             {
-                pitch: 0,
+                pitch: -0.5,
                 yaw: -130,
                 sala : 2,
                 orden: 2,
@@ -243,6 +247,7 @@ const piecesArray = [
                 yaw: -220,
                 escena: 6,
                 sala : 2,
+                nombre_sala: "Sala del Risco",
             }
         ],
     },
@@ -260,20 +265,20 @@ const piecesArray = [
                 yawp: 90,
             },
             {
-                pitch: 38,
-                yaw: 44,
+                pitch: -25,
+                yaw: 157,
                 orden: 1,
                 sala : 2,
             },
             {
-                pitch: 9,
-                yaw: 109,
+                pitch: 1,
+                yaw: 88,
                 orden: 2,
                 sala : 2,
             },
             {
-                pitch: 28,
-                yaw: 205,
+                pitch: -24,
+                yaw: 24,
                 orden: 3,
                 sala : 2,
             },
@@ -282,6 +287,7 @@ const piecesArray = [
                 yaw: -85,
                 escena: 6,
                 sala : 2,
+                nombre_sala: "Sala del Risco",
             },
         ],
     },
@@ -327,6 +333,7 @@ const piecesArray = [
                 yaw: -295,
                 escena: 0,
                 sala : 3,
+                nombre_sala: "Sala de Bordado 1"
             },
         ],
     },
@@ -372,6 +379,7 @@ const piecesArray = [
                 yaw: -235,
                 escena: 0,
                 sala : 3,
+                nombre_sala: "Sala de Bordado 1",
             }
         ],
     },
@@ -403,7 +411,7 @@ const information = [
             videos: [],
             texto: ["",
                 "",
-                "",
+                
             ]
         },
         {

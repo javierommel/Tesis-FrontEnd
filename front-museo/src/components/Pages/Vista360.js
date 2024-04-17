@@ -23,6 +23,7 @@ export default function Vista360() {
   const [videos, setVideos] = useState([]);
   const [textos, setTextos] = useState([]);
   const [titulo, setTitulo] = useState("");
+  const [sala, setSala] = useState("Sala de Bordado 1");
   const [hfov, setHfov] = useState(2000);
   const [yaw, setYaw] = useState(0);
   const completa = require('assets/img/visita360/fullscreen.png')
@@ -48,7 +49,14 @@ export default function Vista360() {
     outmuseo.classList.add("out-museo");
     const inmuseo = document.createElement("div");
     if (hotSpot.up > -1) inmuseo.classList.add("up-museo")
-    else if (hotSpot.escena > -1) inmuseo.classList.add("salir-museo");
+    else if (hotSpot.escena > -1) {
+      inmuseo.classList.add("salir-museo");
+      const tooltip_salir = document.createElement("div");
+      tooltip_salir.classList.add("tooltip-salir");
+      const texto = document.createTextNode("Visitar otra Sala");
+      tooltip_salir.appendChild(texto);
+      image.appendChild(tooltip_salir);
+    }
     else inmuseo.classList.add("camara-museo");
     image.appendChild(outmuseo);
     image.appendChild(inmuseo);
@@ -72,6 +80,7 @@ export default function Vista360() {
     }
     else if (hotSpot.escena > -1) {
       setCurrentScene(hotSpot.escena)
+      setSala(hotSpot.nombre_sala)
       setYaw(0)
       setHfov(180)
     }
@@ -131,6 +140,7 @@ export default function Vista360() {
             hfov={hfov}
             autoLoad
             autoRotate={-0.5}
+            title={sala}
             onLoad={() => {
               console.log("panorama loaded");
             }}

@@ -44,14 +44,16 @@ export default function MuseumReport() {
         if (selectedValue === 0) {
             exportComponentAsPDF(componentRef,
                 {
-                    fileName: 'comentario',
+                    fileName: 'piezasvisitadas',
                     html2CanvasOptions:
                     {
                         backgroundColor: '#525f7f'
                     },
                     pdfOptions: {
-                        w: 220,
-                        h: 140,
+                        w: 276,
+                        h: 160,
+                        x:10,
+                        y:10,
                         orientation: 'p',
                     }
                 })
@@ -59,14 +61,14 @@ export default function MuseumReport() {
         else if (selectedValue === 1) {
             exportComponentAsPNG(componentRef,
                 {
-                    fileName: 'comentario',
+                    fileName: 'piezasvisitadas',
                     html2CanvasOptions: { backgroundColor: '#525f7f' }
                 })
         }
         else {
             exportComponentAsJPEG(componentRef,
                 {
-                    fileName: 'comentario',
+                    fileName: 'piezasvisitadas',
                     html2CanvasOptions: { backgroundColor: '#525f7f' }
                 })
         }
