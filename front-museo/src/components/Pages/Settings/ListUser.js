@@ -106,11 +106,35 @@ export default function ListUser(props) {
                             column.toggleVisibility()
                         }
                     }
+                    if (column.id === "rolesname") {
+                        if (column.getIsVisible()) {
+                            column.show = false;
+                            column.toggleVisibility()
+                        }
+                    }
+                    if (column.id === "nombre") {
+                        if (column.getIsVisible()) {
+                            column.show = false;
+                            column.toggleVisibility()
+                        }
+                    }
                 })
             }
             else {
                 table.getAllLeafColumns().map(column => {
                     if (column.id === "email") {
+                        if (!column.getIsVisible()) {
+                            column.show = true;
+                            column.toggleVisibility()
+                        }
+                    }
+                    if (column.id === "rolesname") {
+                        if (!column.getIsVisible()) {
+                            column.show = true;
+                            column.toggleVisibility()
+                        }
+                    }
+                    if (column.id === "nombre") {
                         if (!column.getIsVisible()) {
                             column.show = true;
                             column.toggleVisibility()
@@ -131,9 +155,9 @@ export default function ListUser(props) {
         };
     }, []);
     return (
-        <div className="p-2">
+        <div className="p-2">ta
             <div className="h-2" />
-            <table>
+            <table className="mobile">
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>

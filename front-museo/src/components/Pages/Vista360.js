@@ -11,7 +11,7 @@ import Footer from "components/Footer/Footer.js";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import 'components/Utils/Button.css';
 import 'assets/css/museo.css';
-import { piecesArray, information } from "./Visita360/DataVisita/Visita";
+import { piecesArray, information } from "./Visita360/DataVisita/VisitaMovil";
 import CustomImageViewer from "./Visita360/CustomImageVideoViewer"
 
 export default function Vista360() {

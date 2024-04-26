@@ -10,7 +10,7 @@ export const UserData = [
     {
         header: 'Nombres',
         accessorKey: 'nombre',
-        enableColumnFilter: true,
+        enableColumnFilter: false,
     },
     {
         header: 'Email',

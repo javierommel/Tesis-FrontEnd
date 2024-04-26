@@ -124,7 +124,7 @@ export default function ExamplesNavbar({ activado }) {
             </Button>
           </div>
         </Modal>
-        <div style={{ position: 'absolute', top: '30px', left: '30px', color: 'white' }}>
+        <div className="saludo-usuario mobile" >
           <p><b>Usuario: </b></p>
           {currentUser.name}
         </div>

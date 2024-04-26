@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 //import { useTable, usePagination } from "react-table";
 import {
     Table as ReactTable,
@@ -96,10 +96,58 @@ export default function ListPiece(props) {
         },
         // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
     })
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+                table.getAllLeafColumns().map(column => {
+                    if (column.id === "numero_ordinal") {
+                        if (column.getIsVisible()) {
+                            column.show = false;
+                            column.toggleVisibility()
+                        }
+                    }
+                })
+                table.getAllLeafColumns().map(column => {
+                    if (column.id === "autor") {
+                        if (column.getIsVisible()) {
+                            column.show = false;
+                            column.toggleVisibility()
+                        }
+                    }
+                })
+            }
+            else {
+                table.getAllLeafColumns().map(column => {
+                    if (column.id === "numero_ordinal") {
+                        if (!column.getIsVisible()) {
+                            column.show = true;
+                            column.toggleVisibility()
+                        }
+                    }
+                    if (column.id === "autor") {
+                        if (!column.getIsVisible()) {
+                            column.show = true;
+                            column.toggleVisibility()
+                        }
+                    }
+                })
+            }
+        };
+        handleResize();
+        
+
+        // Agregar el event listener al montar el componente
+        window.addEventListener('resize', handleResize);
+
+        // Remover el event listener al desmontar el componente
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     return (
         <div className="p-2">
             <div className="h-2" />
-            <table>
+            <table className="mobile">
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
