@@ -28,7 +28,7 @@ import Loader from "components/Utils/Loader.js"
 export default function PrincipalPage() {
   const [commentl, setCommentl] = useState([]);
   const [rate, setRate] = useState(0);
-  const [image, setImage] = useState(require("assets/img/mike.jpg"));
+  const [image, setImage] = useState(require("assets/img/avatar.jpg"));
   const [comment, setComment] = useState("")
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
@@ -274,7 +274,6 @@ export default function PrincipalPage() {
                       alt="..."
                       className="img-center img-fluid rounded-circle"
                       src={image}
-                      //src={require("assets/img/mike.jpg")}
                       style={{ width: '60px', height: '60px', borderRadius: '50%' }}
                     /></Col>
                     <Col><FormGroup>

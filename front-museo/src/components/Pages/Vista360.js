@@ -11,13 +11,14 @@ import Footer from "components/Footer/Footer.js";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import 'components/Utils/Button.css';
 import 'assets/css/museo.css';
-import { piecesArray, information } from "./Visita360/DataVisita/VisitaMovil";
+import { piecesArray, information } from "./Visita360/DataVisita/Visita";
 import CustomImageViewer from "./Visita360/CustomImageVideoViewer"
 
 export default function Vista360() {
   const [showBot, toggleBot] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const [modal, setModal] = useState(false);
+  const [showSala, setShowSala] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
   const [imagenes, setImagenes] = useState([]);
   const [videos, setVideos] = useState([]);
@@ -28,6 +29,11 @@ export default function Vista360() {
   const [yaw, setYaw] = useState(0);
   const completa = require('assets/img/visita360/fullscreen.png')
   const normal = require('assets/img/visita360/reducir.png')
+  const salasup = require('assets/img/visita360/up.png')
+  const salasdown = require('assets/img/visita360/down.png')
+  const sala1 = require('assets/img/visita360/sala1.jpg')
+  const sala2 = require('assets/img/visita360/sala2.jpg')
+  const sala3 = require('assets/img/visita360/sala3.jpg')
   const toggle = (isfull1, yaw1) => {
     console.log("fullscreen1: " + isFullscreen + " vuelvefull1: " + isfull1)
     setModal(!modal);
@@ -37,6 +43,9 @@ export default function Vista360() {
       handle.enter();
     }
 
+  }
+  const toggleSala = () => {
+    setShowSala(!showSala);
   }
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isFull, setIsFull] = useState(false);
@@ -85,11 +94,17 @@ export default function Vista360() {
       setHfov(180)
     }
     else {
-      if(isFullscreen) setYaw(hotSpot.yaw);
+      if (isFullscreen) setYaw(hotSpot.yaw);
       toggle();
     }
   }
-
+  const changeSala = (sala, nombre_sala) => {
+    setCurrentScene(sala)
+    setSala(nombre_sala)
+    setYaw(0)
+    setHfov(180)
+    //toggleSala();
+  }
   const handleEnter = () => {
     handle.enter();
     setIsFull(true);
@@ -113,11 +128,11 @@ export default function Vista360() {
         <FullScreen handle={handle} onChange={handleFullscreenChange} >
           {modal &&
             (
-              <CustomImageViewer images={imagenes} videos={videos} textos={textos} titulo={titulo} toggle={toggle} isfull1={isFull} yaw1={yaw}/>
+              <CustomImageViewer images={imagenes} videos={videos} textos={textos} titulo={titulo} toggle={toggle} isfull1={isFull} yaw1={yaw} />
             )}
-          {showBot && (
-            <Chatbot />
-          )}
+          {/*showBot && (*/}
+          <Chatbot />
+          {/*})}
           <Flip left cascade>
             <button
               className="app-chatbot-button"
@@ -125,7 +140,8 @@ export default function Vista360() {
             >
               <img src={Chat} alt="Chat" />
             </button>
-          </Flip>
+          </Flip>*/}
+
           <img className="imgfullscreen" src={isFullscreen ? normal : completa} alt="..." onClick={isFullscreen ? handleExit : handleEnter} />
           <Pannellum
             className="panellum"
@@ -158,7 +174,40 @@ export default function Vista360() {
                 />
               );
             })}
+
           </Pannellum>
+          {showSala && <div className="salas-museo">
+            <div class="imagen-item">
+              <img
+                alt="   Seleccione una imagen..."
+                className="salas-imagen"
+                src={sala1}
+                onClick={() => changeSala(0, "Sala de Bordado 1")}
+              />
+              <div class="descripcion-imagen" onClick={() => changeSala(0, "Sala de Bordado 1")}>Sala de Bordado 1</div>
+            </div>
+            <div class="imagen-item">
+              <img
+                alt="   Seleccione una imagen..."
+                className="salas-imagen"
+                src={sala2}
+                onClick={() => changeSala(3, "Sala de Bordado 2")}
+              />
+              <div class="descripcion-imagen" onClick={() => changeSala(3, "Sala de Bordado 2")}>Sala de Bordado 2</div>
+            </div>
+            <div class="imagen-item">
+              <img
+                alt="   Seleccione una imagen..."
+                className="salas-imagen"
+                src={sala3}
+                onClick={() => changeSala(6, "Sala del Risco")}
+              />
+              <div class="descripcion-imagen" onClick={() => changeSala(6, "Sala del Risco")}
+              >Sala del Risco</div>
+            </div>
+          </div>}
+          <img className="imgsala" src={showSala ? salasdown : salasup} alt="..." onClick={toggleSala} />
+
         </FullScreen>
       </section>
     </div >

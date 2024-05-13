@@ -2,7 +2,7 @@ const piecesArray = [
     {
         sceneName: "escena1_1",
         scenePanoImg:
-            require("assets/img/visita360/escena1/escena1-1.JPG"),
+            require("assets/img/visita360/escena1/escena1-1.jpg"),
         hotSpots: [
             {
                 pitch: -40,
@@ -62,7 +62,7 @@ const piecesArray = [
     {
         sceneName: "escena1-2",
         scenePanoImg:
-            require("assets/img/visita360/escena1/escena1-2.JPG"),
+            require("assets/img/visita360/escena1/escena1-2.jpg"),
         hotSpots: [
             {
                 pitch: -40,
@@ -114,7 +114,7 @@ const piecesArray = [
     {
         sceneName: "escena1-3",
         scenePanoImg:
-            require("assets/img/visita360/escena1/escena1-3.JPG"),
+            require("assets/img/visita360/escena1/escena1-3.jpg"),
         hotSpots: [
             {
                 pitch: -40,
@@ -166,7 +166,7 @@ const piecesArray = [
     {
         sceneName: "escena2-1",
         scenePanoImg:
-            require("assets/img/visita360/escena2/escena2-1.JPG"),
+            require("assets/img/visita360/escena2/escena2-1.jpg"),
         hotSpots: [
             {
                 pitch: -40,
@@ -214,7 +214,7 @@ const piecesArray = [
     {
         sceneName: "escena2-2",
         scenePanoImg:
-            require("assets/img/visita360/escena2/escena2-2.JPG"),
+            require("assets/img/visita360/escena2/escena2-2.jpg"),
         hotSpots: [
             {
                 pitch: -40,
@@ -254,7 +254,7 @@ const piecesArray = [
     {
         sceneName: "escena2-3",
         scenePanoImg:
-            require("assets/img/visita360/escena2/escena2-3.JPG"),
+            require("assets/img/visita360/escena2/escena2-3.jpg"),
         hotSpots: [
             {
                 pitch: -40,
@@ -294,7 +294,7 @@ const piecesArray = [
     {
         sceneName: "escena3-1",
         scenePanoImg:
-            require("assets/img/visita360/escena3/escena3-1.JPG"),
+            require("assets/img/visita360/escena3/escena3-1.jpg"),
         hotSpots: [
             {
                 pitch: -30,
@@ -340,7 +340,7 @@ const piecesArray = [
     {
         sceneName: "escena3-2",
         scenePanoImg:
-            require("assets/img/visita360/escena3/escena3-2.JPG"),
+            require("assets/img/visita360/escena3/escena3-2.jpg"),
         hotSpots: [
             {
                 pitch: -40,

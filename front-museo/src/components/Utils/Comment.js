@@ -13,7 +13,7 @@ export default function Comment({ data }) {
       <Col lg="3"><img
         alt="..."
         className="img-center img-fluid rounded-circle"
-        src={data.usuario_id.avatar ? data.usuario_id.avatar : require("assets/img/avatar2.png")}
+        src={data.usuario_id.avatar ? data.usuario_id.avatar : require("assets/img/avatar.jpg")}
         style={{ width: '60px', height: '60px', borderRadius: '50%' }}
       /></Col>
       <Col>

@@ -39,7 +39,7 @@ export default function ProfilePage() {
   const { handleSubmit, control, clearErrors, watch, setValue, formState: { errors } } = useForm();
   const anioActual = new Date().getFullYear();
   const [passwordUpdate, setPasswordUpdate] = useState(true);
-  const [image, setImage] = useState(require("assets/img/avatar2.png"));
+  const [image, setImage] = useState(require("assets/img/avatar.jpg"));
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);

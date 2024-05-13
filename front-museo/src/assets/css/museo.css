@@ -83,28 +83,28 @@ div.sso-divider span {
   padding: 6px;
   right: 50%;
   transform: translateX(50%);
+  opacity: 0.9;
 }
 
 .tooltip-description {
   position: absolute;
-  width: 170px;
-  height: 40px;
+  width: 130px;
+  height: 30px;
   background-color: rgba(63, 62, 62, 0.8);
   border: 1px solid #ccc;
   color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   visibility: hidden;
   border: none;
-  bottom: 60px;
+  bottom: 35px;
   right: 50%;
   transform: translateX(50%);
 }
 
 .tooltip-description p {
-  padding: 10px;
-  font-size: 1.1em;
-  font-weight: bold;
-  font-family: 'Courier New', Courier, monospace;
+  padding: 5px;
+  font-size: 1.0em;
+  font-family: 'Poppins', sans-serif;
 }
 
 .toggle-description:hover .tooltip-description {
@@ -123,6 +123,7 @@ div.sso-divider span {
   padding: 6px;
   background-color: #1d8cf8;
   right: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
   transform: translateX(50%);
 }
 
@@ -138,28 +139,29 @@ div.sso-divider span {
   padding: 6px;
   right: 50%;
   transform: translateX(50%);
+  opacity: 0.9;
 }
 
 .tooltip-zoom {
   position: absolute;
-  width: 160px;
-  height: 40px;
+  width: 120px;
+  height: 30px;
   background-color: rgba(63, 62, 62, 0.8);
   border: 1px solid #ccc;
   color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   visibility: hidden;
   border: none;
-  bottom: 60px;
+  bottom: 35px;
   right: 50%;
   transform: translateX(50%);
+  opacity: 1;
 }
 
 .tooltip-zoom p {
-  padding: 10px;
-  font-size: 1.1em;
-  font-weight: bold;
-  font-family: 'Courier New', Courier, monospace;
+  padding: 5px;
+  font-size: 1.0em;
+  font-family: 'Poppins', sans-serif;
 }
 
 .toggle-zoom:hover .tooltip-zoom {
@@ -178,15 +180,16 @@ div.sso-divider span {
   padding: 6px;
   background-color: #1d8cf8;
   right: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
   transform: translateX(50%);
 }
 
 .toggle-zoom:hover {
-  filter: drop-shadow(5px 5px 10px white);
+  transform: translateX(50%) scale(1.1);
 }
 
 .toggle-description:hover {
-  filter: drop-shadow(5px 5px 10px white);
+  transform: translateX(50%) scale(1.1);
 }
 
 .image-description {
@@ -369,10 +372,24 @@ div.sso-divider span {
   cursor: pointer;
   background: #ffffff;
   padding: 5px;
-  position: fixed;
+  position: relative;
   z-index: 999;
-  margin-top: 65px;
   margin-left: 10px;
+  top:90px;
+}
+
+.imgsala {
+  width: 50px;
+  height: 15px;
+  cursor: pointer;
+  position: relative;
+  z-index: 999;
+  margin-top: -50px;
+  left: 50%; /* Desplaza la imagen hacia la derecha en un 50% de su propio ancho */
+  transform: translateX(-50%);
+}
+.imgsala:hover {
+  transform: translateX(-50%) scale(1.1); 
 }
 
 .pannellum {
@@ -448,8 +465,8 @@ div.sso-divider span {
 }
 
 .hotspot .out-museo {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.6);
   -webkit-transition: -webkit-transform ease-out 0.1s, border 0.2s;
@@ -459,11 +476,12 @@ div.sso-divider span {
 }
 
 .hotspot .camara-museo {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 5px;
   left: 5px;
+  opacity: 0.7;
   background-image: url("assets/img/visita360/camara.png");
   -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
@@ -472,11 +490,12 @@ div.sso-divider span {
 }
 
 .hotspot .salir-museo {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 5px;
   left: 5px;
+  opacity: 0.7;
   background-image: url("assets/img/visita360/salir.png");
   -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
@@ -485,11 +504,12 @@ div.sso-divider span {
 }
 
 .hotspot .left-museo {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 5px;
   left: 5px;
+  opacity: 0.7;
   background-image: url("assets/img/visita360/left.png");
   -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
@@ -498,11 +518,12 @@ div.sso-divider span {
 }
 
 .hotspot .up-museo {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 5px;
   left: 5px;
+  opacity: 0.7;
   background-image: url("assets/img/visita360/up.png");
   -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
@@ -511,11 +532,12 @@ div.sso-divider span {
 }
 
 .hotspot .right-museo {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 5px;
   left: 5px;
+  opacity: 0.7;
   background-image: url("assets/img/visita360/right.png");
   -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
@@ -524,11 +546,12 @@ div.sso-divider span {
 }
 
 .hotspot .down-museo {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 5px;
   left: 5px;
+  opacity: 0.7;
   background-image: url("assets/img/visita360/down.png");
   -webkit-transition: -webkit-transform ease-out 0.1s, background 0.2s;
   -moz-transition: -moz-transform ease-out 0.1s, background 0.2s;
@@ -538,26 +561,28 @@ div.sso-divider span {
 
 .hotspot:hover .out-museo {
   border: 1px solid rgba(255, 255, 255, 1);
-  -webkit-transform: scale(1.3);
-  -moz-transform: scale(1.3);
-  -ms-transform: scale(1.3);
-  transform: scale(1.3);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
   background: rgba(0, 0, 0, 0.6);
   filter: drop-shadow(5px 5px 10px white);
 }
 
 .hotspot:hover .camara-museo {
-  -webkit-transform: scale(1.3);
-  -moz-transform: scale(1.3);
-  -ms-transform: scale(1.3);
-  transform: scale(1.3);
+  opacity: 1;
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .hotspot:hover .salir-museo {
-  -webkit-transform: scale(1.3);
-  -moz-transform: scale(1.3);
-  -ms-transform: scale(1.3);
-  transform: scale(1.3);
+  opacity: 1;
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .tooltip-salir {
@@ -651,4 +676,74 @@ div.sso-divider span {
   top: 30px;
   left: 30px;
   color: white;
+}
+
+.salas-museo {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  margin-top: -150px;
+  font-family: "Courier New";
+  text-align: justify;
+  font-size: medium;
+  display: flex; /* Utiliza flexbox para alinear los elementos hijos */
+  justify-content: center; /* Centra los elementos hijos horizontalmente */
+  align-items: center; /* Centra los elementos hijos verticalmente */
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: rgba(187, 185, 185, 0.56) 0px 22px 70px 4px;
+  animation-duration: 1s;
+  animation-name: slideins;
+}
+
+@keyframes slideins {
+  from {
+    height: 0px;
+    transform: translateY(100%);
+  }
+
+  to {
+    height: -150px; /* Usando un valor positivo */
+    transform: translateY(0%);
+  }
+}
+.salas-imagen{
+  width: 150px; 
+  height: 95px;
+  border-radius: 5%; 
+  cursor: pointer; 
+ 
+}
+.imagen-item{
+  width: 150px; 
+  height: 100px;
+  border-radius: 5%;
+  border-style: solid; 
+  cursor: pointer; 
+  display: inline-block; 
+  margin: 0 10px;
+}
+
+.imagen-item:hover{
+  transform: scale(110%);
+  opacity: 0.7;
+}
+
+.descripcion-imagen {
+  position: relative;
+  top:-95px;
+  height: 95px;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  opacity: 0; /* Ocultar la descripción inicialmente */
+  transition: opacity 0.3s ease; /* Transición para suavizar el efecto de aparición */
+}
+
+.imagen-item:hover .descripcion-imagen {
+  opacity: 1; /* Mostrar la descripción al pasar el mouse */
+}
+.wrapper{
+  height: 900px;
 }
