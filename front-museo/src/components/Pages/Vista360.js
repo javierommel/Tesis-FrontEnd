@@ -29,8 +29,8 @@ export default function Vista360() {
   const [yaw, setYaw] = useState(0);
   const completa = require('assets/img/visita360/fullscreen.png')
   const normal = require('assets/img/visita360/reducir.png')
-  const salasup = require('assets/img/visita360/up.png')
-  const salasdown = require('assets/img/visita360/down.png')
+  const salasup = require('assets/img/visita360/rowup.png')
+  const salasdown = require('assets/img/visita360/rowdown.png')
   const sala1 = require('assets/img/visita360/sala1.jpg')
   const sala2 = require('assets/img/visita360/sala2.jpg')
   const sala3 = require('assets/img/visita360/sala3.jpg')
@@ -55,8 +55,9 @@ export default function Vista360() {
     const image = document.createElement("div");
     image.classList.add("hotspot");
     const outmuseo = document.createElement("div");
-    outmuseo.classList.add("out-museo");
     const inmuseo = document.createElement("div");
+    if (hotSpot.up > -1) inmuseo.classList.add("out-up-museo")
+    else outmuseo.classList.add("out-museo");
     if (hotSpot.up > -1) inmuseo.classList.add("up-museo")
     else if (hotSpot.escena > -1) {
       inmuseo.classList.add("salir-museo");
