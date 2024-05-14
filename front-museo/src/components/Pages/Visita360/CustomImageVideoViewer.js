@@ -78,7 +78,7 @@ const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull
                         src={currentItem}
                         width="100%"
                         height="100%"
-                        autoplay
+                        autoPlay
                         loop
                         controls />
                 )}

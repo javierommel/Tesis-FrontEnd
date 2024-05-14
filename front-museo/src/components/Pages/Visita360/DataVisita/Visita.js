@@ -298,7 +298,7 @@ const piecesArray = [
         hotSpots: [
             {
                 pitch: -30,
-                yaw: -1,
+                yaw: -8,
                 up: 7,
                 sala : 3,
                 hfov: 140,
