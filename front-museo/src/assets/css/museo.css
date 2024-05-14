@@ -752,6 +752,6 @@ div.sso-divider span {
 .imagen-item:hover .descripcion-imagen {
   opacity: 1; /* Mostrar la descripción al pasar el mouse */
 }
-.wrapper{
+.wrapper-museo{
   height: 900px;
 }

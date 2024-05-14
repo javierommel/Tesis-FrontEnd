@@ -123,7 +123,7 @@ export default function Vista360() {
   }
   return (<>
     <ExamplesNavbar activado={2} />
-    <div className="wrapper">
+    <div className="wrapper-museo">
       <div style={{ height: "70px" }}></div>
       <section className="section section-lg section-safe" style={{ height: "800px" }}>
         <FullScreen handle={handle} onChange={handleFullscreenChange} >

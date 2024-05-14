@@ -26,6 +26,10 @@ async function urlToBlob(url) {
   console.log("blob: " + JSON.stringify(blob))
   return blob;
 }
+function getaccessToken() {
+  const accestoken = JSON.parse(localStorage.getItem('user'));
+  return accestoken.accessToken ? accestoken.accessToken : "";
+}
 
 const getPublicContent = () => {
   return axios.get(API_URL + "all");
@@ -46,17 +50,23 @@ const getAdminBoard = () => {
 const addUser = (estado, name, username, email, password, country, year, usuario_modificacion, roles) => {
   if (!roles.length === 0) roles = "user"
   if (!usuario_modificacion) usuario_modificacion = "admin"
-  return axios.post(API_URL1 + "signup", {
-    estado,
-    name,
-    user: username,
-    email,
-    password,
-    pais: country,
-    nacimiento: year,
-    usuario_modificacion,
-    roles
-  });
+  return axios.post(API_URL1 + "signup",
+    {
+      estado,
+      name,
+      user: username,
+      email,
+      password,
+      pais: country,
+      nacimiento: year,
+      usuario_modificacion,
+      roles
+    },
+    {
+      headers: {
+        'x-access-token': getaccessToken()
+      }
+    });
 }
 const updateUser = (id, data, usuario_modificacion, roles, image) => {
   if (image) {
@@ -69,36 +79,62 @@ const updateUser = (id, data, usuario_modificacion, roles, image) => {
     return axios.post(API_URL1 + "updateuserprofile", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        'x-access-token': getaccessToken(),
       },
     }
     );
   }
   else {
-    return axios.post(API_URL1 + "updateuser", {
-      id,
-      data,
-      usuario_modificacion,
-      roles: roles ? roles : null,
-    });
+    return axios.post(API_URL1 + "updateuser",
+      {
+        id,
+        data,
+        usuario_modificacion,
+        roles: roles ? roles : null,
+      },
+      {
+        headers: {
+          'x-access-token': getaccessToken()
+        }
+      });
   }
 
 }
 const getUser = (page, pageSize) => {
-  return axios.post(API_URL1 + "getuser", {
-    page,
-    pageSize,
-  });
+  return axios.post(API_URL1 + "getuser",
+    {
+      page,
+      pageSize,
+    },
+    {
+      headers: {
+        'x-access-token': getaccessToken()
+      }
+    });
 }
 const deleteUser = (id, user) => {
-  return axios.post(API_URL1 + "deleteuser", {
-    id,
-    usuario_modificacion: user
-  });
+  return axios.post(API_URL1 + "deleteuser",
+    {
+      id,
+      usuario_modificacion: user
+    },
+    {
+      headers: {
+        'x-access-token': getaccessToken()
+      }
+    }
+  );
 }
-const getUserId = (usuario) => {
-  return axios.post(API_URL1 + "getuserid", {
-    usuario
-  });
+const getUserId = (usuario,) => {
+  return axios.post(API_URL1 + "getuserid",
+    {
+      usuario
+    },
+    {
+      headers: {
+        'x-access-token': getaccessToken()
+      }
+    });
 }
 const addUserGoogle = async (name, username, email, imagen) => {
   const imagenblob = urlToBlob(imagen)
