@@ -2,8 +2,6 @@ import React from 'react';
 import { useState } from "react";
 import { Pannellum } from 'pannellum-react';
 import Chatbot from "components/Chatbot/Chatbot"
-import Flip from "react-reveal/Flip";
-import Chat from "assets/img/chat.png";
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
 import { Navigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -15,7 +13,6 @@ import { piecesArray, information } from "./Visita360/DataVisita/Visita";
 import CustomImageViewer from "./Visita360/CustomImageVideoViewer"
 
 export default function Vista360() {
-  const [showBot, toggleBot] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const [modal, setModal] = useState(false);
   const [showSala, setShowSala] = useState(false);
@@ -82,6 +79,7 @@ export default function Vista360() {
         setTextos(datos.texto)
         setTitulo(datos.titulo)
       }
+      return true;
     })
     if (hotSpot.up > -1) {
       setCurrentScene(hotSpot.up)
@@ -131,19 +129,8 @@ export default function Vista360() {
             (
               <CustomImageViewer images={imagenes} videos={videos} textos={textos} titulo={titulo} toggle={toggle} isfull1={isFull} yaw1={yaw} />
             )}
-          {/*showBot && (*/}
           <Chatbot />
-          {/*})}
-          <Flip left cascade>
-            <button
-              className="app-chatbot-button"
-              onClick={() => toggleBot((prev) => !prev)}
-            >
-              <img src={Chat} alt="Chat" />
-            </button>
-          </Flip>*/}
-
-          <img className="imgfullscreen" src={isFullscreen ? normal : completa} alt="..." onClick={isFullscreen ? handleExit : handleEnter} />
+          <img className={isFullscreen?"imgfullscreen1":"imgfullscreen"} src={isFullscreen ? normal : completa} alt="..." onClick={isFullscreen ? handleExit : handleEnter} />
           <Pannellum
             className="panellum"
             id="1"
@@ -178,32 +165,32 @@ export default function Vista360() {
 
           </Pannellum>
           {showSala && <div className="salas-museo">
-            <div class="imagen-item">
+            <div className="imagen-item">
               <img
                 alt="   Seleccione una imagen..."
                 className="salas-imagen"
                 src={sala1}
                 onClick={() => changeSala(0, "Sala de Bordado 1")}
               />
-              <div class="descripcion-imagen" onClick={() => changeSala(0, "Sala de Bordado 1")}>Sala de Bordado 1</div>
+              <div className="descripcion-imagen" onClick={() => changeSala(0, "Sala de Bordado 1")}>Sala de Bordado 1</div>
             </div>
-            <div class="imagen-item">
+            <div className="imagen-item">
               <img
                 alt="   Seleccione una imagen..."
                 className="salas-imagen"
                 src={sala2}
                 onClick={() => changeSala(3, "Sala de Bordado 2")}
               />
-              <div class="descripcion-imagen" onClick={() => changeSala(3, "Sala de Bordado 2")}>Sala de Bordado 2</div>
+              <div className="descripcion-imagen" onClick={() => changeSala(3, "Sala de Bordado 2")}>Sala de Bordado 2</div>
             </div>
-            <div class="imagen-item">
+            <div className="imagen-item">
               <img
                 alt="   Seleccione una imagen..."
                 className="salas-imagen"
                 src={sala3}
                 onClick={() => changeSala(6, "Sala del Risco")}
               />
-              <div class="descripcion-imagen" onClick={() => changeSala(6, "Sala del Risco")}
+              <div className="descripcion-imagen" onClick={() => changeSala(6, "Sala del Risco")}
               >Sala del Risco</div>
             </div>
           </div>}

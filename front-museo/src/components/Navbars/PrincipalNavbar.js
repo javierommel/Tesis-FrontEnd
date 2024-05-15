@@ -18,7 +18,7 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
-  Modal, ModalHeader, ModalBody, ModalFooter, Button,
+  Modal, Button,
 } from "reactstrap";
 import logoSVG from 'assets/img/Logo museo.svg';
 

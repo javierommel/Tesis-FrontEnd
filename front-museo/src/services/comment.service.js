@@ -1,23 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-const API_URL = process.env.REACT_APP_URL_BACK+"api/test/";
+
 const API_URL1 = process.env.REACT_APP_URL_BACK+"api/auth/";
-
-const getPublicContent = () => {
-  return axios.get(API_URL + "all");
-};
-
-const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
-};
-
-const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
-};
-
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
-};
 
 const addComment = (comentario, puntuacion, usuario) => {
   return axios.post(API_URL1 + "addcomment", {
@@ -31,19 +15,34 @@ const updateComment = (id, estado, usuario_modificacion) => {
     id,
     estado,
     usuario_modificacion,
+  },
+  {
+    headers: {
+      'x-access-token': authHeader()
+    }
   });
 }
 const getCommentList = (page, pageSize) => {
   return axios.post(API_URL1 + "getcomment", {
     page,
     pageSize,
+  },
+  {
+    headers: {
+      'x-access-token': authHeader()
+    }
   });
 }
 const deleteComment = (id, usuario_modificacion) => {
   return axios.post(API_URL1 + "deletecomment", {
     id,
     usuario_modificacion
-  });
+  }),
+  {
+    headers: {
+      'x-access-token': authHeader()
+    }
+  };
 }
 const getComment = (page, pageSize, usuario) => {
   return axios.post(API_URL1 + "getcommentprincipal", {
@@ -54,10 +53,6 @@ const getComment = (page, pageSize, usuario) => {
 }
 
 export default {
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
   addComment,
   updateComment,
   getComment,

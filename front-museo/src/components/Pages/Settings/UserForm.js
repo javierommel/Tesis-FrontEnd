@@ -19,7 +19,6 @@ import {
   CustomInput
 } from "reactstrap";
 import eye from 'assets/img/eye.ico';
-import { error } from 'jquery';
 
 export default function UserForm(props) {
   const [userFocus, setUserFocus] = useState(false);
@@ -29,7 +28,7 @@ export default function UserForm(props) {
   const [password2Focus, setPassword2Focus] = useState(false);
   const [countryFocus, setCountryFocus] = React.useState(false);
   const [yearFocus, setYearFocus] = React.useState(false);
-  const { register, handleSubmit, getValues, control, watch, setError, clearErrors, formState: { errors } } = useForm();
+  const { handleSubmit, getValues, control, watch, setError, clearErrors, formState: { errors } } = useForm();
   const [country, setCountry] = useState([]);
   const anioActual = new Date().getFullYear();
   // Crear un array con los últimos 80 años
@@ -334,7 +333,7 @@ export default function UserForm(props) {
                               cursor: 'pointer',
                             }}
                           >
-                            <img src={eye} style={{ width: '16px' }} />
+                            <img src={eye} alt="..." style={{ width: '16px' }} />
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -390,7 +389,7 @@ export default function UserForm(props) {
                             }}
                           >
 
-                            <img src={eye} style={{ width: '16px' }} />
+                            <img src={eye} alt="..." style={{ width: '16px' }} />
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>

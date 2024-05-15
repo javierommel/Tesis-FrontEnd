@@ -1,7 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = process.env.REACT_APP_URL_BACK + "api/test/";
 const API_URL1 = process.env.REACT_APP_URL_BACK + "api/auth/";
 
 function base64toBlob(base64) {
@@ -26,26 +25,6 @@ async function urlToBlob(url) {
   console.log("blob: " + JSON.stringify(blob))
   return blob;
 }
-function getaccessToken() {
-  const accestoken = JSON.parse(localStorage.getItem('user'));
-  return accestoken.accessToken ? accestoken.accessToken : "";
-}
-
-const getPublicContent = () => {
-  return axios.get(API_URL + "all");
-};
-
-const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
-};
-
-const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
-};
-
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
-};
 
 const addUser = (estado, name, username, email, password, country, year, usuario_modificacion, roles) => {
   if (!roles.length === 0) roles = "user"
@@ -64,7 +43,7 @@ const addUser = (estado, name, username, email, password, country, year, usuario
     },
     {
       headers: {
-        'x-access-token': getaccessToken()
+        'x-access-token': authHeader()
       }
     });
 }
@@ -79,7 +58,7 @@ const updateUser = (id, data, usuario_modificacion, roles, image) => {
     return axios.post(API_URL1 + "updateuserprofile", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        'x-access-token': getaccessToken(),
+        'x-access-token': authHeader(),
       },
     }
     );
@@ -94,7 +73,7 @@ const updateUser = (id, data, usuario_modificacion, roles, image) => {
       },
       {
         headers: {
-          'x-access-token': getaccessToken()
+          'x-access-token': authHeader()
         }
       });
   }
@@ -108,7 +87,7 @@ const getUser = (page, pageSize) => {
     },
     {
       headers: {
-        'x-access-token': getaccessToken()
+        'x-access-token': authHeader()
       }
     });
 }
@@ -120,7 +99,7 @@ const deleteUser = (id, user) => {
     },
     {
       headers: {
-        'x-access-token': getaccessToken()
+        'x-access-token': authHeader()
       }
     }
   );
@@ -132,7 +111,7 @@ const getUserId = (usuario,) => {
     },
     {
       headers: {
-        'x-access-token': getaccessToken()
+        'x-access-token': authHeader()
       }
     });
 }
@@ -152,10 +131,6 @@ const addUserGoogle = async (name, username, email, imagen) => {
 
 
 export default {
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
   addUser,
   updateUser,
   getUser,

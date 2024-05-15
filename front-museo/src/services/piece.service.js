@@ -1,24 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-const API_URL = process.env.REACT_APP_URL_BACK+"api/test/";
-const API_URL1 = process.env.REACT_APP_URL_BACK+"api/auth/";
-const API_URL2 = process.env.REACT_APP_URL_PROCESS+"servicio1/";
 
-const getPublicContent = () => {
-  return axios.get(API_URL + "all");
-};
-
-const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
-};
-
-const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
-};
-
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
-};
+const API_URL1 = process.env.REACT_APP_URL_BACK + "api/auth/";
+const API_URL2 = process.env.REACT_APP_URL_PROCESS + "servicio1/";
 
 function base64toBlob(base64) {
   if (!base64) return null;
@@ -41,6 +25,7 @@ const addPiece = (file) => {
   return axios.post(API_URL2 + "cargar_archivo", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
+      'x-access-token': authHeader()
     },
   }
   );
@@ -57,6 +42,7 @@ const updatePiece = (id, data, usuario_modificacion, materiales, deterioros, ima
   return axios.post(API_URL1 + "updatepiece", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
+      'x-access-token': authHeader()
     },
   }
   )
@@ -65,25 +51,36 @@ const deletePiece = (id, user) => {
   return axios.post(API_URL1 + "deletepiece", {
     id,
     usuario_modificacion: user
-  });
+  },
+    {
+      headers: {
+        'x-access-token': authHeader()
+      }
+    });
 }
 
 const getPiece = (page, pageSize) => {
   return axios.post(API_URL1 + "getpiece", {
-      page,
-      pageSize,
+    page,
+    pageSize,
+  },
+    {
+      headers: {
+        'x-access-token': authHeader()
+      }
     });
 }
 const getInformationPiece = () => {
   return axios.post(API_URL1 + "getinformationpiece", {
+  },
+    {
+      headers: {
+        'x-access-token': authHeader()
+      }
     });
 }
 
 export default {
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
   addPiece,
   updatePiece,
   getPiece,

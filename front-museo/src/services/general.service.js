@@ -1,23 +1,12 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-const API_URL = process.env.REACT_APP_URL_BACK+"api/test/";
-const API_URL1 = process.env.REACT_APP_URL_BACK+"api/general/";
 
-const getPublicContent = () => {
-  return axios.get(API_URL + "all");
-};
+const API_URL1 = process.env.REACT_APP_URL_BACK + "api/general/";
 
-const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
-};
-
-const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
-};
-
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
-};
+function getaccessToken() {
+  const accestoken = JSON.parse(localStorage.getItem('user'));
+  return accestoken.accessToken ? accestoken.accessToken : "";
+}
 
 const getCountry = () => {
   return axios.post(API_URL1 + "getcountries", {
@@ -56,15 +45,12 @@ const updateContent = (data, usuario_modificacion, imagen1, imagen2, imagen3, im
   return axios.post(API_URL1 + "updatecontent", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
+      'x-access-token': authHeader()
     },
   }
   )
 }
 export default {
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
   getCountry,
   getContent,
   updateContent,

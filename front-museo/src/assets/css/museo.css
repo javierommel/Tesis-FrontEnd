@@ -368,16 +368,50 @@ div.sso-divider span {
 }
 
 .imgfullscreen {
-  width: 27px;
+  width: 28px;
   cursor: pointer;
   background: #ffffff;
   padding: 5px;
   position: relative;
   z-index: 999;
-  margin-left: 10px;
-  top:90px;
+  margin-left: 9px;
+  top: 89.5px;
+  opacity: 1;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-color: #a7a19d;
+  border-style: solid;
+  border-width: 0.05px;
+  border-top-style: none;
+  border-top-width: 0px;
 }
 
+.imgfullscreen:hover {
+  opacity: 0.9;
+}
+
+.imgfullscreen1 {
+  width: 28px;
+  cursor: pointer;
+  background: #ffffff;
+  padding: 5px;
+  position: absolute;
+  z-index: 999;
+  margin-left: 9px;
+  top: 62.5px;
+  opacity: 1;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-color: #a7a19d;
+  border-style: solid;
+  border-width: 0.05px;
+  border-top-style: none;
+  border-top-width: 0px;
+}
+
+.imgfullscreen1:hover {
+  opacity: 0.9;
+}
 .imgsala {
   width: 50px;
   height: 12px;
@@ -385,12 +419,14 @@ div.sso-divider span {
   position: relative;
   z-index: 999;
   margin-top: -50px;
-  left: 50%; /* Desplaza la imagen hacia la derecha en un 50% de su propio ancho */
+  left: 50%;
+  /* Desplaza la imagen hacia la derecha en un 50% de su propio ancho */
   transform: translateX(-50%);
   opacity: 0.8;
 }
+
 .imgsala:hover {
-  transform: translateX(-50%) scale(1.1); 
+  transform: translateX(-50%) scale(1.1);
 }
 
 .pannellum {
@@ -569,6 +605,7 @@ div.sso-divider span {
   background: rgba(0, 0, 0, 0.6);
   filter: drop-shadow(5px 5px 10px white);
 }
+
 .hotspot:hover .out-up-museo {
   -webkit-transform: scale(1.2);
   -moz-transform: scale(1.2);
@@ -694,9 +731,12 @@ div.sso-divider span {
   font-family: "Courier New";
   text-align: justify;
   font-size: medium;
-  display: flex; /* Utiliza flexbox para alinear los elementos hijos */
-  justify-content: center; /* Centra los elementos hijos horizontalmente */
-  align-items: center; /* Centra los elementos hijos verticalmente */
+  display: flex;
+  /* Utiliza flexbox para alinear los elementos hijos */
+  justify-content: center;
+  /* Centra los elementos hijos horizontalmente */
+  align-items: center;
+  /* Centra los elementos hijos verticalmente */
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: rgba(187, 185, 185, 0.56) 0px 22px 70px 4px;
   animation-duration: 1s;
@@ -710,48 +750,56 @@ div.sso-divider span {
   }
 
   to {
-    height: -130px; /* Usando un valor positivo */
+    height: -130px;
+    /* Usando un valor positivo */
     transform: translateY(0%);
   }
 }
-.salas-imagen{
-  width: 150px; 
+
+.salas-imagen {
+  width: 150px;
   height: 95px;
-  border-radius: 5%; 
-  cursor: pointer; 
- 
+  border-radius: 5%;
+  cursor: pointer;
+
 }
-.imagen-item{
-  width: 150px; 
+
+.imagen-item {
+  width: 150px;
   height: 100px;
   border-radius: 5%;
-  border-style: solid; 
-  cursor: pointer; 
-  display: inline-block; 
+  border-style: solid;
+  cursor: pointer;
+  display: inline-block;
   margin: 0 10px 18px 5px;
 }
 
-.imagen-item:hover{
+.imagen-item:hover {
   transform: scale(110%);
   opacity: 0.7;
 }
 
 .descripcion-imagen {
   position: relative;
-  top:-95px;
+  top: -95px;
   height: 95px;
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Fondo oscuro semitransparente */
   color: white;
   padding: 10px;
   font-size: 14px;
   text-align: center;
-  opacity: 0; /* Ocultar la descripción inicialmente */
-  transition: opacity 0.3s ease; /* Transición para suavizar el efecto de aparición */
+  opacity: 0;
+  /* Ocultar la descripción inicialmente */
+  transition: opacity 0.3s ease;
+  /* Transición para suavizar el efecto de aparición */
 }
 
 .imagen-item:hover .descripcion-imagen {
-  opacity: 1; /* Mostrar la descripción al pasar el mouse */
+  opacity: 1;
+  /* Mostrar la descripción al pasar el mouse */
 }
-.wrapper-museo{
+
+.wrapper-museo {
   height: 900px;
 }
