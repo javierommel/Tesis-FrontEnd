@@ -50,58 +50,52 @@ export default function Chatbot() {
             steps={[
               {
                 id: '1',
-                message: "Hola " + currentUser.name + " soy Albert, seré tu guía en esta visita.",
+                message: "Hola " + currentUser.name + " soy Albert, seré tu guía en esta visita. Para comenzar aquí tienes algunas piezas destacadas que podrían interesarte:",
                 trigger: '2',
               },
               {
                 id: '2',
-                message: 'Para comenzar aquí tienes algunas piezas destacadas que podrían interesarte:',
-                messageia: false,
-                trigger: '3',
+                options: [
+                  { value: 1, label: 'Arcángel San miguel', trigger: '3' },
+                  { value: 2, label: 'Virgen de la Merced', trigger: '4' },
+                  { value: 3, label: 'El Risco', trigger: '5' },
+                  { value: 4, label: 'Preguntar otra cosa', trigger: '6' },
+                ],
               },
               {
                 id: '3',
-                options: [
-                  { value: 1, label: 'Arcángel San miguel', trigger: '4' },
-                  { value: 2, label: 'Virgen de la Merced', trigger: '5' },
-                  { value: 3, label: 'El Risco', trigger: '6' },
-                  { value: 4, label: 'Preguntar otra cosa', trigger: '7' },
-                ],
+                message: 'De acuerdo a tus búsquedas y visitas hemos preparado estas piezas de arte que te podrían gustar.',
+                messageia: false,
+                trigger: '6',
               },
               {
                 id: '4',
                 message: 'De acuerdo a tus búsquedas y visitas hemos preparado estas piezas de arte que te podrían gustar.',
                 messageia: false,
-                trigger: '7',
+                trigger: '6',
               },
               {
                 id: '5',
                 message: 'De acuerdo a tus búsquedas y visitas hemos preparado estas piezas de arte que te podrían gustar.',
                 messageia: false,
-                trigger: '7',
+                trigger: '6',
               },
               {
                 id: '6',
-                message: 'De acuerdo a tus búsquedas y visitas hemos preparado estas piezas de arte que te podrían gustar.',
+                message: '¿Que te interesaría saber sobre el museo?',
                 messageia: false,
                 trigger: '7',
               },
               {
                 id: '7',
-                message: '¿Que te interesaría saber sobre el museo?',
-                messageia: false,
+                user: true,
                 trigger: '8',
               },
               {
                 id: '8',
-                user: true,
-                trigger: '9',
-              },
-              {
-                id: '9',
                 message: 'previusValue',
                 messageia: true,
-                trigger: '8',
+                trigger: '7',
               },
             ]}
             floating={true}
