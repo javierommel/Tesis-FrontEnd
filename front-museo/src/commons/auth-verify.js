@@ -21,7 +21,7 @@ const AuthVerify = (props) => {
         console.log("esp: "+(decodedJwt.exp * 1000)+ " date:"+Date.now())
         console.log(decodedJwt.exp * 1000 < Date.now())
       if (decodedJwt.exp * 1000 < Date.now()) {
-        props.logOut();
+        //props.logOut();
       }
     }
   }, [location, props]);
