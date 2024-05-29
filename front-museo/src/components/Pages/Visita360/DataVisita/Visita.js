@@ -394,7 +394,7 @@ const information = [
                 require('assets/img/visita360/escena1/hotSpot1/3.jpg'),
             ],
             videos: [require('assets/img/visita360/escena1/hotSpot1/1.mp4'),],
-            titulo:"Madre Corturera",
+            titulo:"Madre Costurera",
             texto: ["En la colonia las labores manuales de las mujeres de los monasterios eran ampliamente consideradas como las más complejas y delicadas y recibían, por tanto, gran aprecio. " +
             "Estos elementos pueden encontrase en el Museo de las Conceptas de Cuenca, que conserva colecciones de bordados, objetos de madera y plata, miniaturas de tagua y otros, que fueron elaborados por las monjas de claustro",
             "El bordado siempre ha sido una expresión que ha unido a las mujeres y les ha permitido estar en comunidad. " +
@@ -459,9 +459,11 @@ const information = [
                 require('assets/img/visita360/escena2/hotSpot1/2.jpg'),
             ],
             videos: [],
-            texto: ["",
-                "",
-                "",
+            titulo: "Ornamentos Litúrgicos",
+            texto: ["Otras de las actividades diarias de las religiosas por más de 400 años, es "+
+            "la confección de Ornamentos litúrgicos de estilo barroco bordados en un "+
+            "alto relieve con hilos de oro, plata y piedras preciosas, podemos ver lasplanchas de la época, se calentaban con carbón, debían tener mucho "+
+            "cautela para no ensuciar la ropa.",
             ]
         },
         {
@@ -497,9 +499,27 @@ const information = [
                 require('assets/img/visita360/escena3/hotSpot1/3.jpg'),
             ],
             videos: [],
-            texto: ["",
-                "",
-                "",
+            titulo:"El Risco",
+            texto: ["La palabra Risco hace referencia a la presentación de rocas, peñascos " +
+            `agudos y montañas que se supone que rodea el ambiente del pesebre. 
+            En el risco podemos destacar la representación de varias iglesias ` +
+            "cuencanas como son El Carmen de la Asunción, (a lado del mercado " +
+            "de las flores) la iglesia de este Monasterio de las Conceptas, con su " +
+            "Espadaña aún inconclusa, una representación de la extinta Compañia " +
+            "de Jesús (una de las poquísimas imágenes que se tiene de este edificio) y " +
+            "la de San Sebastián. " ,
+            "Las paredes están cubiertas de pan de plata y oro y " +
+            "adornadas con espejos y un sol en la parte central. Sobresalen las figuras " +
+            "del grupo central: la del Niño Dios, que es de notable factura y la de " +
+            "San José y la Virgen que son de madera y están policromadas en forma " +
+            "peculiar cuencana, con los vestidos adornados de franjas dispuestas en " +
+            "sentido horizontal.",
+            "Es de estilo barroco bañado en pan de oro y pan de plata, en el " +
+            "cielo raso están incrustados ángeles, querubines, serafines, encontramos " +
+            "varias iglesias como la del Carmen de la Asunción, San Sebastián, " +
+            "Inmaculada Concepción, y una de las poquísimas representaciones " +
+            "gráficas de la Iglesia de la Compañía, así como las casas del barranco aorillas del Tomebamba en el centro está la Virgen María, el niño Jesús y " +
+            "José, una joya del Arte Ecuatoriano.",
             ]
         },
         {
