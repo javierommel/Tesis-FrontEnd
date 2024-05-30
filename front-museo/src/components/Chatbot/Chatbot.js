@@ -3,6 +3,7 @@ import './Chatbot.css'; // Archivo de estilos personalizados
 import { ThemeProvider } from 'styled-components';
 import { useSelector } from "react-redux";
 import { useState, useEffect } from 'react';
+import { getRecommendation } from "../../actions/ia";
 
 const theme = {
   background: '#ffffff',
@@ -27,14 +28,17 @@ export default function Chatbot() {
     setOpened(opened)
   }
   useEffect(() => {
-    /*getRecommendation("").then((recommendations)=>{
-      setRecommendation(recommendations)
-    })*/
+    console.log("user: "+JSON.stringify(currentUser.id))
+    getRecommendation(currentUser.id).then((recommendations)=>{
+      console.log("recomendations: "+JSON.stringify(recommendation))
+      setRecommendation(recommendations.recomendaciones)
+    })
   }, []);
   
   return (
     <>
       <div className="chatbot-container">
+        {recommendation.length>0&&
         <ThemeProvider theme={theme}>
           <ChatBot
             headerTitle="Guía Virtual del Museo"
@@ -56,30 +60,30 @@ export default function Chatbot() {
               {
                 id: '2',
                 options: [
-                  { value: 1, label: 'Arcángel San miguel', trigger: '3' },
-                  { value: 2, label: 'Virgen de la Merced', trigger: '4' },
-                  { value: 3, label: 'El Risco', trigger: '5' },
+                  { value: 1, label: recommendation[0][0], trigger: '3' },
+                  { value: 2, label: recommendation[1][0], trigger: '4' },
+                  { value: 3, label: recommendation[2][0], trigger: '5' },
                   { value: 4, label: 'Preguntar otra cosa', trigger: '6' },
                 ],
               },
               {
                 id: '3',
-                message: 'De acuerdo a tus búsquedas y visitas hemos preparado estas piezas de arte que te podrían gustar.',
+                message: recommendation[0][1],
                 messageia: false,
                 trigger: '6',
               },
               {
                 id: '4',
-                message: 'De acuerdo a tus búsquedas y visitas hemos preparado estas piezas de arte que te podrían gustar.',
+                message: recommendation[1][1],
                 messageia: false,
                 trigger: '6',
               },
               {
                 id: '5',
-                message: 'De acuerdo a tus búsquedas y visitas hemos preparado estas piezas de arte que te podrían gustar.',
+                message: recommendation[2][1],
                 messageia: false,
                 trigger: '6',
-              },
+              }, 
               {
                 id: '6',
                 message: '¿Que te interesaría saber sobre el museo?',
@@ -102,7 +106,7 @@ export default function Chatbot() {
             opened={opened}
             toggleFloating={toggleFloating}
           />
-        </ThemeProvider>
+        </ThemeProvider>}
       </div>
 
     </>
