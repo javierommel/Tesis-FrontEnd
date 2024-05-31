@@ -35,8 +35,18 @@ const verifyTokenConfirmation = (token) => {
             token
         });
 };
-const logout = () => {
+const logout = (user, token) => {
     localStorage.removeItem("user");
+    axios
+        .post(API_URL + "savequestion", {
+            user,
+            token,
+        },
+        {
+          headers: {
+            'x-access-token': token
+          }
+        });
 };
 
 export default {

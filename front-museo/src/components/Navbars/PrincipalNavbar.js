@@ -86,7 +86,7 @@ export default function ExamplesNavbar({ activado }) {
   }, [dispatch, location]);
   const logOut = useCallback(() => {
     signOut();
-    dispatch(logout());
+    dispatch(logout(currentUser.id, currentUser.accessToken));
   }, [dispatch]);
 
   useEffect(() => {

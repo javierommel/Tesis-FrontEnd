@@ -1,6 +1,6 @@
 {
   "name": "front-museo",
-  "version": "1.2.2",
+  "version": "1.2.8",
   "description": "Aplicación 360° con ChatBot Museo Las Conceptas",
   "main": "index.js",
   "author": "Rommel Chocho",

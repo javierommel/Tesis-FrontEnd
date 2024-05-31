@@ -24,7 +24,7 @@ const App = () => {
     const currentUser = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const logOut = useCallback(() => {
-        dispatch(logout());
+        dispatch(logout(currentUser.id, currentUser.accessToken));
     }, [dispatch]);
 
     return (

@@ -92,8 +92,8 @@ export const verifyTokenConfirmation = async ( token) => {
         }
     );
 };
-export const logout = () => (dispatch) => {
-    AuthService.logout();
+export const logout = (user, token) => (dispatch) => {
+    AuthService.logout(user, token);
 
     dispatch({
         type: LOGOUT,
