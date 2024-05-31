@@ -45,16 +45,17 @@ export default function Chatbot() {
             placeholder='Escriba su mensaje ...'
             recognitionPlaceholder='Escuchando ...'
             recognitionEnable={true}
-            typeRecognition={2}
+            typeRecognition={1}
             timeRecognition={10000}
             recognitionLang='es'
-            urlRecognition='http://localhost:5000/servicio2/transcribe'
+            urlRecognition='http://localhost:5000/servicio1/transcribe'
+            urlChatIa= 'http://localhost:5000/servicio1/chat'
             botAvatar={botAvatar}
             userAvatar={userAvatar}
             steps={[
               {
                 id: '1',
-                message: "Hola " + currentUser.name + " soy Albert, seré tu guía en esta visita. Para comenzar aquí tienes algunas piezas destacadas que podrían interesarte:",
+                message: "Hola " + currentUser.name + " soy Albert, seré tu guía en esta visita. De acuerdo a tus visitas te recomendamos algunas piezas destacadas que podrían interesarte:",
                 trigger: '2',
               },
               {
@@ -86,7 +87,7 @@ export default function Chatbot() {
               }, 
               {
                 id: '6',
-                message: '¿Que te interesaría saber sobre el museo?',
+                message: 'Estoy listo para tus preguntas',
                 messageia: false,
                 trigger: '7',
               },

@@ -3,11 +3,6 @@ import authHeader from "./auth-header";
 
 const API_URL1 = process.env.REACT_APP_URL_BACK + "api/general/";
 
-function getaccessToken() {
-  const accestoken = JSON.parse(localStorage.getItem('user'));
-  return accestoken.accessToken ? accestoken.accessToken : "";
-}
-
 const getCountry = () => {
   return axios.post(API_URL1 + "getcountries", {
 
