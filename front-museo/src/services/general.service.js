@@ -45,8 +45,14 @@ const updateContent = (data, usuario_modificacion, imagen1, imagen2, imagen3, im
   }
   )
 }
+const getReport = (tipo) => {
+  return axios.post(API_URL1 + "getreport", {
+    tipo
+  });
+}
 export default {
   getCountry,
   getContent,
   updateContent,
+  getReport,
 };

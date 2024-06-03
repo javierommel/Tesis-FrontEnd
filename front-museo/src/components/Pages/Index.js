@@ -39,6 +39,9 @@ const carouselItems = [
 export default function Index() {
   const [commentl, setCommentl] = useState([]);
   const [contenido, setContenido] = useState(false);
+  const [puntuacion, setPuntuacion] = useState(false);
+  const [nrovisitas, setNroVisitas] = useState(false);
+  const [nrousuarios, setNroUsuarios] = useState(false);
   useEffect(() => {
     getComment({ page: 1, pageSize: 5, usuario: null }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
@@ -46,8 +49,10 @@ export default function Index() {
       console.error("error" + error.message)
     });
     getContent().then((dat) => {
-      setContenido(dat.data[0]);
-      //console.log("datos: "+JSON.stringify(contenido.titulo))
+      setContenido(dat.data.general[0]);
+      setPuntuacion(dat.data.porcentage);
+      setNroUsuarios(dat.data.nrouser);
+      setNroVisitas(dat.data.nrovisit);
       /*setImagen1(toBlob(dat.data.imagen1));
       setImagen2(toBlob(dat.data.imagen2));
       setImagen3(toBlob(dat.data.imagen3));
@@ -100,7 +105,7 @@ export default function Index() {
                     <CardBody>
                       <div className="justify-content-center">
                         <div className="numbers">
-                          <CardTitle tag="p">100%</CardTitle>
+                          <CardTitle tag="p">{puntuacion}%</CardTitle>
                           <p className="card-category text-white">Puntuación</p>
                         </div>
                       </div>
@@ -110,7 +115,7 @@ export default function Index() {
                     <CardBody>
                       <div className="justify-content-center">
                         <div className="numbers">
-                          <CardTitle tag="p">573 K</CardTitle>
+                          <CardTitle tag="p">{nrousuarios}</CardTitle>
                           <p className="card-category text-white">
                             Usuarios Registrados
                           </p>
@@ -122,7 +127,7 @@ export default function Index() {
                     <CardBody>
                       <div className="justify-content-center">
                         <div className="numbers">
-                          <CardTitle tag="p">10 425</CardTitle>
+                          <CardTitle tag="p">{nrovisitas}</CardTitle>
                           <p className="card-category text-white">Visitas</p>
                         </div>
                       </div>

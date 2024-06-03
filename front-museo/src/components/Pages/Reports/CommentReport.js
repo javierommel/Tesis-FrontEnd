@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { getReport } from "../../../actions/general"
+
 import {
     Card,
     CardHeader,
@@ -20,6 +22,21 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CommentReport() {
     const [selectedValue, setSelectedValue] = useState(2);
+    const [carga, setCarga]=useState(false)
+    useEffect(() => {
+        const tipo=4
+        getReport(tipo ).then((dat) => {
+            const counts = dat.data.map(item => parseInt(item.count));
+            if (commentChart.data.datasets && commentChart.data.datasets.length > 0) {
+                commentChart.data.datasets[0].data = counts;
+              } else {
+                console.error("Datasets array is empty or undefined");
+              }
+            setCarga(true)
+          }).catch((error) => {
+            console.log("error" + error.message)
+          });
+      }, []);
 
     const handleChange = (event) => {
         setSelectedValue(parseInt(event.target.value));
@@ -79,10 +96,11 @@ export default function CommentReport() {
             <Card className="card-chart card-plain">
                 <CardBody>
                     <div className="pie-museo " ref={componentRef}>
+                        {carga&&
                         <Pie
                             data={commentChart.data}
                             options={commentChart.options}
-                        />
+                        />}
                     </div>
                 </CardBody>
                 <Row>

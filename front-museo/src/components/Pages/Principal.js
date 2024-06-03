@@ -34,6 +34,10 @@ export default function PrincipalPage() {
   const [response, setResponse] = useState(null);
   const [successful, setSuccessful] = useState(false);
   const [errorrate, setErrorrate] = useState("");
+  const [search, setSearch] = useState("")
+  const [visit, setVisit] = useState("")
+  const [recommendation, setRecommendation] = useState("")
+  const [nrocomment, setNroComment] = useState("")
   const onDismiss = () => setResponse(null);
   const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -41,6 +45,10 @@ export default function PrincipalPage() {
     getComment({ page: 1, pageSize: 5, usuario: currentUser.id }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
       setImage(cambiarImagen(dat.avatar))
+      setSearch(dat.search)
+      setVisit(dat.visit)
+      setRecommendation(dat.recomendation)
+      setNroComment(dat.comment)
     }).catch((error) => {
       console.log("error" + error.message)
     });
@@ -168,7 +176,7 @@ export default function PrincipalPage() {
                           </Col>
                           <Col md="8" xs="7">
                             <div className="numbers">
-                              <CardTitle tag="p">3,237</CardTitle>
+                              <CardTitle tag="p">{search}</CardTitle>
                               <p />
                               <p className="card-category">Búsquedas</p>
                             </div>
@@ -188,7 +196,7 @@ export default function PrincipalPage() {
                           </Col>
                           <Col md="8" xs="7">
                             <div className="numbers">
-                              <CardTitle tag="p">3,653</CardTitle>
+                              <CardTitle tag="p">{nrocomment}</CardTitle>
                               <p />
                               <p className="card-category">Comentarios</p>
                             </div>
@@ -210,7 +218,7 @@ export default function PrincipalPage() {
                           </Col>
                           <Col md="8" xs="7">
                             <div className="numbers">
-                              <CardTitle tag="p">593</CardTitle>
+                              <CardTitle tag="p">{recommendation}</CardTitle>
                               <p />
                               <p className="card-category">Recomendaciones</p>
                             </div>
@@ -230,7 +238,7 @@ export default function PrincipalPage() {
                           </Col>
                           <Col md="8" xs="7">
                             <div className="numbers">
-                              <CardTitle tag="p">10,783</CardTitle>
+                              <CardTitle tag="p">{visit}</CardTitle>
                               <p />
                               <p className="card-category">Visitas</p>
                             </div>
