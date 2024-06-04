@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { getReport } from "../../../actions/general"
 import {
     Card,
     CardHeader,
@@ -39,6 +40,25 @@ export default function UserReport() {
 
     const [selectedValue, setSelectedValue] = useState(2);
 
+    const [carga, setCarga] = useState(false)
+    useEffect(() => {
+        const tipo = 1
+        getReport(tipo).then((dat) => {
+            console.log("asdf: "+JSON.stringify(dat.data))
+            const counts = dat.data.map(item => parseInt(item.nacional));
+            const counts1 = dat.data.map(item => parseInt(item.internacional));
+            if (userChart.data.datasets && userChart.data.datasets.length > 0) {
+                userChart.data.datasets[0].data = counts;
+                userChart.data.datasets[1].data = counts1;
+            } else {
+                console.error("Datasets array is empty or undefined");
+            }
+            setCarga(true)
+        }).catch((error) => {
+            console.log("error" + error.message)
+        });
+    }, []);
+
     const handleChange = (event) => {
         setSelectedValue(parseInt(event.target.value));
     };
@@ -55,8 +75,8 @@ export default function UserReport() {
                     pdfOptions: {
                         w: 276,
                         h: 160,
-                        x:10,
-                        y:10,
+                        x: 10,
+                        y: 10,
                         orientation: 'p',
                     }
                 })
@@ -91,22 +111,28 @@ export default function UserReport() {
         }
     ]
 
-    const handleExport = () => {
+    const handleExport = async () => {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('DatosUsuario');
 
         // Definir encabezados de columna con estilos
         worksheet.columns = [
-            { header: 'Usuario', key: 'Usuario', width: 20, style: { alignment: { horizontal: 'center' } } },
-            { header: 'NroVisitas', key: 'NroVisitas', width: 10, style: { alignment: { horizontal: 'center' } } },
-            { header: 'Pais', key: 'Pais', width: 30 },
-            { header: 'Edad', key: 'Edad', width: 30 },
+            { header: 'Usuario', key: 'usuario', width: 40, style: { alignment: { horizontal: 'center' } } },
+            { header: 'Nombre', key: 'nombre', width: 40, style: { alignment: { horizontal: 'center' } } },
+            { header: 'NroVisitas', key: 'nrovisitas', width: 10, style: { alignment: { horizontal: 'center' } } },
+            { header: 'Pais', key: 'pais', width: 30 },
+            { header: 'Edad', key: 'edad', width: 30 },
         ];
 
+        const tipo=2;
+        const resultado= await getReport(tipo);
         // Poblar filas de datos
-        dataUserVisit.forEach((row) => {
+        resultado.data.forEach((row) => {
             worksheet.addRow(row);
         });
+        /*dataUserVisit.forEach((row) => {
+            worksheet.addRow(row);
+        });*/
 
         const headerRow = worksheet.getRow(1); // Get row 1 (header row)
         headerRow.eachCell((cell) => {
@@ -128,8 +154,10 @@ export default function UserReport() {
             console.error('Error al exportar el archivo Excel:', error);
         }
     };
-    const handleExportT = () => {
-        const worksheet = utils.json_to_sheet(dataUserTime);
+    const handleExportT = async () => {
+        const tipo=3;
+        const resultado= await getReport(tipo);
+        const worksheet = utils.json_to_sheet(resultado.data);
         const workbook = utils.book_new();
         utils.book_append_sheet(workbook, worksheet, 'Usuarios');
         writeFile(workbook, 'TiempoVisitas.xlsx'); // Triggers a download in the browser
@@ -140,10 +168,12 @@ export default function UserReport() {
             <Card className="card-chart card-plain">
                 <CardBody>
                     <div className="line-museo" ref={componentRef}>
-                        <Line
-                            data={userChart.data}
-                            options={userChart.options}
-                        />
+                        {carga &&
+                            <Line
+                                data={userChart.data}
+                                options={userChart.options}
+                            />
+                        }
                     </div>
                 </CardBody>
                 <Row>
