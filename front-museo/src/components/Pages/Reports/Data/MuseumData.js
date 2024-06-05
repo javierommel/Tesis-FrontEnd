@@ -1,7 +1,7 @@
 import faker from 'faker';
 const labels = ['Risco', 'Virgen la Merced', 'Arcange San Miguel', 'Corazón de Jesús', 'Virgen Niña', 'Bordado', 'Juguetes'];
 
-const museumChart = {
+export const museumChart = {
   options: {
     maintainAspectRatio: false,
     scales: {
@@ -49,7 +49,7 @@ const museumChart = {
 
 
   data: {
-    labels,
+    labels: ['Risco', 'Virgen la Merced', 'Arcange San Miguel', 'Corazón de Jesús', 'Virgen Niña', 'Bordado', 'Juguetes'],
     datasets: [
       {
         label: 'Visitas',
@@ -68,5 +68,3 @@ const museumChart = {
     ],
   }
 };
-
-export default museumChart;

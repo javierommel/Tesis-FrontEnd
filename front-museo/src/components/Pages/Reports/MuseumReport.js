@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { getReport } from "../../../actions/general"
 import {
     Card,
     CardBody,
@@ -22,7 +23,8 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { exportComponentAsPNG, exportComponentAsPDF, exportComponentAsJPEG } from "react-component-export-image";
 
-import museumChart from "./Data/MuseumData";
+import {museumChart} from "./Data/MuseumData";
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -33,6 +35,27 @@ ChartJS.register(
 );
 export default function MuseumReport() {
     const [selectedValue, setSelectedValue] = useState(2);
+
+    const [carga, setCarga] = useState(false)
+    useEffect(() => {
+        const tipo = 5
+        getReport(tipo).then((dat) => {
+            console.log("asdf: "+JSON.stringify(dat.data))
+            const counts = dat.data.map(item => parseInt(item.visitas));
+            const counts1 = dat.data.map(item => parseInt(item.recomendaciones));
+            const counts2 = dat.data.map(item => item.nombre);
+            if (museumChart.data.datasets && museumChart.data.datasets.length > 0) {
+                museumChart.data.labels = counts2;
+                museumChart.data.datasets[0].data = counts;
+                museumChart.data.datasets[1].data = counts1;
+            } else {
+                console.error("Datasets array is empty or undefined");
+            }
+            setCarga(true)
+        }).catch((error) => {
+            console.log("error" + error.message)
+        });
+    }, []);
 
     const handleChange = (event) => {
         setSelectedValue(parseInt(event.target.value));
@@ -91,10 +114,11 @@ export default function MuseumReport() {
             <Card className="card-chart card-plain">
                 <CardBody>
                     <div className="bar-museo" ref={componentRef}>
+                    {carga&&
                         <Bar
                             data={museumChart.data}
                             options={museumChart.options}
-                        />
+                        />}
                     </div>
                 </CardBody>
                 <Row>
