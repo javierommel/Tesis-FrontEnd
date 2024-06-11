@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL2 = process.env.REACT_APP_URL_PROCESS + "servicio1/";
+const API_URL2 = process.env.REACT_APP_URL_PROCESS + "ia/auth/";
 
 const getRecommendation = (user) => {
   const formData = new FormData();
@@ -10,6 +10,7 @@ const getRecommendation = (user) => {
   return axios.post(API_URL2 + "recomendation", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
+      'x-access-token': authHeader()
     },
   }
   );

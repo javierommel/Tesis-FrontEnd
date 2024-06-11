@@ -1,14 +1,12 @@
-FROM node:18-alpine3.19
+FROM node:18-alpine
 
 WORKDIR /app
 
 COPY package.json .
 
-RUN npm install --production --force
+RUN npm install --force --legacy-peer-deps
 
 COPY . .
-
-RUN npm run build --prod
 
 EXPOSE 3000
 

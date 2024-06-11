@@ -87,11 +87,12 @@ export default function GeneralForm(props) {
   }
   useEffect(() => {
     getContent().then((dat) => {
-      setDatos(dat.data[0]);
-      setImagen1(toBlob(dat.data[0].imagen1.data));
-      setImagen2(toBlob(dat.data[0].imagen2.data));
-      setImagen3(toBlob(dat.data[0].imagen3.data));
-      setImagen4(toBlob(dat.data[0].imagen4.data));
+      setDatos(dat.data.general[0]);
+      setDatos(dat.data.general[0]);
+      setImagen1(toBlob(dat.data.general[0].imagen1.data));
+      setImagen2(toBlob(dat.data.general[0].imagen2.data));
+      setImagen3(toBlob(dat.data.general[0].imagen3.data));
+      setImagen4(toBlob(dat.data.general[0].imagen4.data));
       //console.log(dat.data[0])
     })
       .catch((error) => {
