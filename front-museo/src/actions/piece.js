@@ -38,8 +38,8 @@ export const getInformationPiece = async () => {
     );
 };
 
-export const addPiece = async (file) => {
-    return AuthService.addPiece(file).then(
+export const addPiece = async (file, usuario_modificacion) => {
+    return AuthService.addPiece(file, usuario_modificacion).then(
         (response) => {
             return { message: response.data.message, retcode: 0 };
         },

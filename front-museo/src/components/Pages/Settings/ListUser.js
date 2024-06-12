@@ -28,24 +28,24 @@ export default function ListUser(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id }) => <>
-        <Button id={'f-' + id} color="success" size="sm" onClick={handleClick(id)}>
+        <Button id={'f-' + id.replace('@','-').replace('.','-')} color="success" size="sm" onClick={handleClick(id)}>
             <img src={editar} alt="..." style={{ height: "16px" }} />
         </Button>
         <UncontrolledTooltip
             delay={0}
             placement="top"
-            target={'f-' + id}
+            target={'f-' + id.replace('@','-').replace('.','-')}
         >
             Modificar
         </UncontrolledTooltip>
-        <Button id={'e-' + id} color="primary" size="sm" onClick={handleDelete(id)}>
+        <Button id={'e-' + id.replace('@','-').replace('.','-')} color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
 
         </Button>
         <UncontrolledTooltip
             delay={0}
             placement="top"
-            target={'e-' + id}
+            target={'e-' + id.replace('@','-').replace('.','-')}
         >
             Eliminar
         </UncontrolledTooltip>

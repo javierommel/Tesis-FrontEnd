@@ -32,7 +32,7 @@ export default function Vista360() {
   const sala2 = require('assets/img/visita360/sala2.jpg')
   const sala3 = require('assets/img/visita360/sala3.jpg')
   const toggle = (isfull1, yaw1) => {
-    console.log("fullscreen1: " + isFullscreen + " vuelvefull1: " + isfull1)
+    //console.log("fullscreen1: " + isFullscreen + " vuelvefull1: " + isfull1)
     setModal(!modal);
     if (isfull1) {
       setIsFull(false)
@@ -113,7 +113,7 @@ export default function Vista360() {
     setIsFull(false);
   }
   const handleFullscreenChange = (isFullscreen) => {
-    console.log("vista360: " + isFullscreen)
+    //console.log("vista360: " + isFullscreen)
     setIsFullscreen(isFullscreen);
   };
   if (!currentUser) {

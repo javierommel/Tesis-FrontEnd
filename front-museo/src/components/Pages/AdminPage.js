@@ -391,7 +391,7 @@ export default function AdminPage() {
     else {
       setLoading(true);
       setTimeout(() => {
-        addPiece(file).then(({ message, retcode }) => {
+        addPiece(file, currentUser.id).then(({ message, retcode }) => {
           if (retcode === 0) {
             setResponse(message);
             setSuccessful(true);

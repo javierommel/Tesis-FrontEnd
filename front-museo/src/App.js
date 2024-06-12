@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useCallback } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import logout from "./services/auth.service";
+import {logout} from "./actions/auth";
 import AuthVerify from "./commons/auth-verify";
 
 import "assets/css/nucleo-icons.css";
@@ -24,6 +24,7 @@ const App = () => {
     const currentUser = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const logOut = useCallback(() => {
+        console.log("si3")
         dispatch(logout(currentUser.id, currentUser.accessToken));
     }, [dispatch]);
 
@@ -42,7 +43,7 @@ const App = () => {
                     <Route path="*" element={<Navigate to="/inicio" replace />} />
                 </Routes>
             </div>
-            <AuthVerify logOut={logOut} />
+            <AuthVerify logOutA={logOut} />
         </div>
     );
 };

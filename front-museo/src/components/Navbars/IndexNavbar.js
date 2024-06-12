@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 import logoSVG from 'assets/img/Logo museo.svg';
 
-export default function IndexNavbar({activado}) {
+export default function IndexNavbar({ activado = 1 }) {
   //console.log("activado: "+activado);
   const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
@@ -56,7 +56,7 @@ export default function IndexNavbar({activado}) {
       <Container>
         <div className="navbar-translate">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
-            <img alt="..." src={logoSVG} style={{width:"80%", paddingLeft:"110px"}}/>
+            <img alt="..." src={logoSVG} style={{ width: "80%", paddingLeft: "110px" }} />
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
             Universidad de Cuenca
@@ -121,19 +121,19 @@ export default function IndexNavbar({activado}) {
                 Ingresar
               </NavLink>
             </NavItem>
-            {activado===3 &&
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  "active show": pills === 3,
-                })}
-                onClick={(e) => setPills(3)}
-                tag={Link} to="/register-page"
-              >
-                <i className="tim-icons icon-badge" />
-                Registrar
-              </NavLink>
-            </NavItem>}
+            {activado === 3 &&
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    "active show": pills === 3,
+                  })}
+                  onClick={(e) => setPills(3)}
+                  tag={Link} to="/register-page"
+                >
+                  <i className="tim-icons icon-badge" />
+                  Registrar
+                </NavLink>
+              </NavItem>}
           </Nav>
         </Collapse>
       </Container>

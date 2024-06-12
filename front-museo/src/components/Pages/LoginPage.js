@@ -47,7 +47,7 @@ export default function RegisterPage() {
   //const { search } = useLocation();
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get('token');
-    console.log("token: " + token)
+    //console.log("token: " + token)
     if (token) {
       verifyTokenConfirmation(token).then(({ message, retcode }) => {
         if (retcode === 0) {

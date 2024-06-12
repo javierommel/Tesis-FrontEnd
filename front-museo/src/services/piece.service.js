@@ -2,7 +2,7 @@ import axios from "axios";
 import authHeader from "./auth-header";
 
 const API_URL1 = process.env.REACT_APP_URL_BACK + "api/auth/";
-const API_URL2 = process.env.REACT_APP_URL_PROCESS + "servicio1/";
+const API_URL2 = process.env.REACT_APP_URL_PROCESS + "ia/auth/";
 
 function base64toBlob(base64) {
   if (!base64) return null;
@@ -19,10 +19,11 @@ function base64toBlob(base64) {
   return new Blob([uInt8Array], { type: contentType });
 }
 
-const addPiece = (file) => {
+const addPiece = (file, usuario_modificacion) => {
   const formData = new FormData();
   formData.append('archivo', file);
-  return axios.post(API_URL2 + "cargar_archivo", formData, {
+  formData.append('usuario_modificacion', usuario_modificacion);
+  return axios.post(API_URL2 + "cargarpiezas", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
       'x-access-token': authHeader()

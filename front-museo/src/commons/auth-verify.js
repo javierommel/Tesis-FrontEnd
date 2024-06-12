@@ -9,24 +9,26 @@ const parseJwt = (token) => {
   }
 };
 
-const AuthVerify = (props) => {
+const AuthVerify = ({logOutA}) => {
+  console.log("si")
   let location = useLocation();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user) {
-        console.log("user: "+user)
+        //console.log("user: "+user)
       const decodedJwt = parseJwt(user.accessToken);
-        console.log("esp: "+(decodedJwt.exp * 1000)+ " date:"+Date.now())
-        console.log(decodedJwt.exp * 1000 < Date.now())
+        //console.log("esp: "+(decodedJwt.exp * 1000)+ " date:"+Date.now())
+        //console.log(decodedJwt.exp * 1000 < Date.now())
       if (decodedJwt.exp * 1000 < Date.now()) {
-        //props.logOut();
+        console.log("si2")
+        logOutA();
       }
     }
-  }, [location, props]);
+  }, [location, logOutA]);
 
-  return ;
+  return null;
 };
 
 export default AuthVerify;

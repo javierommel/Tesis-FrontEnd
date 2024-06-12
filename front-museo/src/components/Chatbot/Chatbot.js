@@ -30,7 +30,7 @@ export default function Chatbot() {
     setOpened(opened)
   }
   useEffect(() => {
-    console.log("user: " + JSON.stringify(currentUser.id))
+    //console.log("user: " + JSON.stringify(currentUser.id))
     getRecommendation(currentUser.id).then((recommendations) => {
       console.log("recomendations: " + JSON.stringify(recommendations.recomendaciones))
       if (recommendations.retcode === 0) {
