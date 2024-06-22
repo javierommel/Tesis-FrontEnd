@@ -27,29 +27,34 @@ export default function ListUser(props) {
 
         props.handleDelete(id)
     }
-    const NuevaColumna = ({ id: id }) => <>
-        <Button id={'f-' + id.replace('@','-').replace('.','-')} color="success" size="sm" onClick={handleClick(id)}>
-            <img src={editar} alt="..." style={{ height: "16px" }} />
-        </Button>
-        <UncontrolledTooltip
-            delay={0}
-            placement="top"
-            target={'f-' + id.replace('@','-').replace('.','-')}
-        >
-            Modificar
-        </UncontrolledTooltip>
-        <Button id={'e-' + id.replace('@','-').replace('.','-')} color="primary" size="sm" onClick={handleDelete(id)}>
-            <i className="tim-icons icon-trash-simple" />
+    const NuevaColumna = ({ id }) => {
+        const sanitizedId = id.replace('@', '-').replace('.', '-');
 
-        </Button>
-        <UncontrolledTooltip
-            delay={0}
-            placement="top"
-            target={'e-' + id.replace('@','-').replace('.','-')}
-        >
-            Eliminar
-        </UncontrolledTooltip>
-    </>
+        return (
+            <>
+                <Button id={`f-${sanitizedId}`} color="success" size="sm" onClick={() => handleClick(id)}>
+                    <img src={editar} alt="..." style={{ height: "16px" }} />
+                </Button>
+                <UncontrolledTooltip
+                    delay={0}
+                    placement="top"
+                    target={`f-${sanitizedId}`}
+                >
+                    Modificar
+                </UncontrolledTooltip>
+                <Button id={`e-${sanitizedId}`} color="primary" size="sm" onClick={() => handleDelete(id)}>
+                    <i className="tim-icons icon-trash-simple" />
+                </Button>
+                <UncontrolledTooltip
+                    delay={0}
+                    placement="top"
+                    target={`e-${sanitizedId}`}
+                >
+                    Eliminar
+                </UncontrolledTooltip>
+            </>
+        );
+    };
     const { data } = props
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
@@ -144,7 +149,7 @@ export default function ListUser(props) {
             }
         };
         handleResize();
-        
+
 
         // Agregar el event listener al montar el componente
         window.addEventListener('resize', handleResize);

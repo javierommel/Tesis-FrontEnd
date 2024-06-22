@@ -394,12 +394,12 @@ const information = [
                 require('assets/img/visita360/escena1/hotSpot1/3.jpg'),
             ],
             videos: [require('assets/img/visita360/escena1/hotSpot1/1.mp4'),],
-            titulo:"Madre Costurera",
-            texto: ["En la colonia las labores manuales de las mujeres de los monasterios eran ampliamente consideradas como las más complejas y delicadas y recibían, por tanto, gran aprecio. " +
-            "Estos elementos pueden encontrase en el Museo de las Conceptas de Cuenca, que conserva colecciones de bordados, objetos de madera y plata, miniaturas de tagua y otros, que fueron elaborados por las monjas de claustro",
+            titulo:"Manualidad Monja Tejiendo",
+            texto: [`Elaborada manualmente con papel y madera; y cubierta con una túnica blanca, capa azul y un velo negro,S`,
+                `En la colonia las labores manuales de las mujeres de los monasterios eran ampliamente consideradas como las más complejas y delicadas y recibían, por tanto, gran aprecio.
+            Estos elementos pueden encontrase en el Museo de las Conceptas de Cuenca, que conserva colecciones de bordados, objetos de madera y plata, miniaturas de tagua y otros, que fueron elaborados por las monjas de claustro`,
             "El bordado siempre ha sido una expresión que ha unido a las mujeres y les ha permitido estar en comunidad. " +
             "Se analizará esta técnica que siempre fue infravalorada frente a otras manifestaciones artísticas.",
-            "Con distintas características y tamaños este pequeño emblema bordado por las monjas concepcionistas y carmelitas se puede comprar a través del torno en los monasterios cuencanos.",
             ]
         },
         {
@@ -409,8 +409,12 @@ const information = [
                 require('assets/img/visita360/escena1/hotSpot2/2.jpg')
             ],
             videos: [],
-            texto: ["",
-                "",
+            titulo:"Estandarte  “El Obrerismo”",
+            texto: ["Los estandartes religiosos bordados son elementos de gran importancia en la tradición cristiana católica. Estos símbolos representan la entrega de una bandera por parte de Dios, simbolizando su presencia, protección y ayuda extendida a su pueblo. Los estandartes portan imágenes de santidades que son idolatradas por las feligresías y han sido utilizados durante años en procesiones y concentraciones para venerar a santos y vírgenes",
+                    `Origen y Significado:
+                    El estandarte religioso representa el establecimiento o entrega de una bandera por parte de Dios, simbolizando su presencia, protección y ayuda extendida a su pueblo.
+                    Estos estandartes portan imágenes de santidades que son idolatradas por las feligresías.
+                Su significado religioso se basa en las primeras formas de arte religioso, representando ideas o conceptos abstractos.`,
                 
             ]
         },

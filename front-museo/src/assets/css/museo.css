@@ -341,9 +341,9 @@ div.sso-divider span {
   width: 20%;
   height: 100%;
   right: 0px;
-  font-family: "Courier New";
+  font-family: 'Poppins', sans-serif;
   text-align: justify;
-  font-size: medium;
+  font-size: large;
   white-space: pre-line;
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: rgba(187, 185, 185, 0.56) 0px 22px 70px 4px;
