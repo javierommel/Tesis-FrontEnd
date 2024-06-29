@@ -804,3 +804,34 @@ div.sso-divider span {
 .wrapper-museo {
   height: 900px;
 }
+.destacado
+{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.destacado-on
+{
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin-left: 22px;
+}
+
+.comentario-destacado
+{
+  background: linear-gradient(45deg, black, transparent);
+  border-radius: 5px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: rgba(0, 0, 0, 0.4) 4px 2px 8px, rgba(0, 0, 0, 0.3) 0px 7px 13px -4px, rgba(0, 0, 0, 0.2) 0px -4px 0px inset;
+}
+.comentario-normal
+{
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}

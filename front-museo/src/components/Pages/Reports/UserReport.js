@@ -41,6 +41,8 @@ export default function UserReport() {
     const [selectedValue, setSelectedValue] = useState(2);
 
     const [carga, setCarga] = useState(false)
+    const anioActual = new Date().getFullYear();
+    const anios = Array.from({ length: 80 }, (_, index) => anioActual - index);
     useEffect(() => {
         const tipo = 1
         getReport(tipo).then((dat) => {
@@ -124,8 +126,8 @@ export default function UserReport() {
             { header: 'Edad', key: 'edad', width: 30 },
         ];
 
-        const tipo=2;
-        const resultado= await getReport(tipo);
+        const tipo = 2;
+        const resultado = await getReport(tipo);
         // Poblar filas de datos
         resultado.data.forEach((row) => {
             worksheet.addRow(row);
@@ -155,8 +157,8 @@ export default function UserReport() {
         }
     };
     const handleExportT = async () => {
-        const tipo=3;
-        const resultado= await getReport(tipo);
+        const tipo = 3;
+        const resultado = await getReport(tipo);
         const worksheet = utils.json_to_sheet(resultado.data);
         const workbook = utils.book_new();
         utils.book_append_sheet(workbook, worksheet, 'Usuarios');
@@ -166,6 +168,28 @@ export default function UserReport() {
     return (
         <div>
             <Card className="card-chart card-plain">
+                {/*<CardHeader>
+                <Row>
+                    <Col md="3">
+                        <FormGroup className='w-100'>
+                            <Input type="select" value={selectedValue} onChange={handleChange}>
+                                {anios.map((step) => (
+                                    <option style={{ color: '#2b3553' }} key={step} value={step}>{step}</option>
+                                ))}
+                            </Input>
+                        </FormGroup>
+                    </Col>
+                    <Col md="3">
+                        <Button
+                            className="btn btn-lg w-100 float-right"
+                            color="info"
+                            onClick={handleClick}
+                        >
+                            Cargar Reporte
+                        </Button>
+                    </Col>
+                    </Row>
+                            </CardHeader>*/}
                 <CardBody>
                     <div className="line-museo" ref={componentRef}>
                         {carga &&

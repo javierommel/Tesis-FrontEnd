@@ -13,14 +13,16 @@ import {
 } from '@tanstack/react-table'
 import { CommentData as columnDefinitions } from "./Data/CommentData"
 import '../../../assets/css/table.css';
-import { Button, UncontrolledTooltip,Pagination, PaginationLink, PaginationItem, } from "reactstrap";
+import '../../../assets/css/museo.css';
+import { Button, UncontrolledTooltip,Pagination, PaginationLink, PaginationItem} from "reactstrap";
 
 export default function ListComment(props) {
-    const [tooltipOpen, setTooltipOpen] = useState(false);
 
-    const toggle = () => {
-        setTooltipOpen(!tooltipOpen);
-    };
+    const handleDestacado = (id, favorito) => e => {
+        console.log("asdfasd "+id+"ssdfdfdf "+favorito)
+
+        props.handleDestacado(id, favorito)
+    }
     const handleClick = (id, estado) => e => {
 
         props.handleClick(id, estado)
@@ -51,10 +53,25 @@ export default function ListComment(props) {
             Eliminar
         </UncontrolledTooltip>
     </>
+    const NuevaColumnaDestacado = ({ id: id, destacado: destacado }) => <>
+    {destacado === 1?<img alt='...'  
+                    id={id}
+                    src={require("assets/img/pngwing.com.png")} 
+                    className='destacado-on'
+                    onClick={handleDestacado(id, destacado)}
+                    />:<img alt='...'
+                    id={id}  
+                    src={require("assets/img/pngwing.com1.png")}
+                    className='destacado'
+                    onClick={handleDestacado(id, destacado)} 
+                    />}
+    </>
     const { data } = props
+    //console.log(JSON.stringify(data))
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
+            favorito: <NuevaColumnaDestacado key={objeto.id} id={objeto.id} destacado={objeto.destacado} />, 
             botones: <NuevaColumna key={objeto.id} id={objeto.id} estado={objeto.estado} />,
         }));
     };
@@ -75,6 +92,17 @@ export default function ListComment(props) {
     const columns = [
         ...columnDefinitions,
         {
+            header: 'Destacado',
+            accessorKey: 'favorito',
+            cell: ({ row }) => (
+                
+                <NuevaColumnaDestacado
+                    id={row.original.id}
+                    destacado={row.original.destacado}
+                />
+            ),
+        },
+        {
             header: '',
             accessorKey: 'botones',
             size:200,
@@ -82,8 +110,6 @@ export default function ListComment(props) {
                 <NuevaColumna
                     id={row.original.id}
                     estado={row.original.estado}
-                    handleClick={handleClick}
-                    handleDelete={handleDelete}
                 />
             ),
         },

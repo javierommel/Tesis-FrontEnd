@@ -12,7 +12,7 @@ import ViewListPiece from "./Settings/ViewListPiece"
 import ViewListComment from "./Settings/ViewListComment"
 import { getUser, deleteUser, addUser, updateUser } from "../../actions/user"
 import { getPiece, addPiece, updatePiece, deletePiece } from "../../actions/piece"
-import { getCommentList, deleteComment, updateComment } from "../../actions/comment"
+import { getCommentList, deleteComment, updateComment, favouriteComment } from "../../actions/comment"
 import { updateContent } from "../../actions/general"
 // react plugin used to create charts
 import classnames from "classnames";
@@ -353,6 +353,27 @@ export default function AdminPage() {
         }
       })
     }, 2000);
+  }
+  const favoritoComment = (id, destacado) => {
+    console.log("sadf " +id+" "+destacado)
+    setLoading(true);
+    setTimeout(() => {
+      favouriteComment(id, currentUser.id, destacado).then(({ message, retcode }) => {
+        if (retcode === 0) {
+          setResponse(message);
+          setSuccessful(true);
+          setLoading(false);
+          getCommentTable(datosc.page, datosc.pageSize)
+          cancelarComentario()
+        }
+        else {
+          console.log(message)
+          setResponse("Error al intentar borrar el registro en el servidor")
+          setSuccessful(false);
+          setLoading(false);
+        }
+      })
+    }, 1000);
   }
   const eliminarObjeto = (objeto) => {
 
@@ -733,6 +754,7 @@ export default function AdminPage() {
                             handleClick={modificarComentario}
                             handleDelete={eliminarComentario}
                             getCommentTable={getCommentTable}
+                            handleDestacado={favoritoComment}
                             data={datosc.data}
                             datat={{ currentPage: datosc.currentPage, total: datosc.total, totalPages: datosc.totalPages, nextPage: datosc.nextPage, prevPage: datosc.prevPage }}
                           />}

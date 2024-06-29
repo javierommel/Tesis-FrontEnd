@@ -9,7 +9,7 @@ export default function Comment({ data }) {
   const timeAgo = formatDistanceToNow(new Date(data.fecha_registro), { addSuffix: true });
 
   return (
-    <Row key={data.id}>
+    <Row key={data.id} className={data.destacado===1?"comentario-destacado":"comentario-normal"}>
       <Col lg="3"><img
         alt="..."
         className="img-center img-fluid rounded-circle"

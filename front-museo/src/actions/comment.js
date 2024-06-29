@@ -87,3 +87,19 @@ export const getComment = async ( { page, pageSize, usuario } ) => {
         }
     );
 };
+export const favouriteComment = async (id, estado, usuario_modificacion, destacado) => {
+    return AuthService.favouriteComment(id, estado, usuario_modificacion, destacado).then(
+        (response) => {
+            return { message: response.data.message, retcode: 0 };
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return { message, retcode: 1 };
+        }
+    );
+};

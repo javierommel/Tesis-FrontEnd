@@ -22,7 +22,7 @@ export default function Vista360() {
   const [textos, setTextos] = useState([]);
   const [titulo, setTitulo] = useState("");
   const [sala, setSala] = useState("Sala de Bordado 1");
-  const [hfov, setHfov] = useState(2000);
+  const [hfov, setHfov] = useState(120);
   const [yaw, setYaw] = useState(0);
   const completa = require('assets/img/visita360/fullscreen.png')
   const normal = require('assets/img/visita360/reducir.png')
@@ -90,7 +90,7 @@ export default function Vista360() {
       setCurrentScene(hotSpot.escena)
       setSala(hotSpot.nombre_sala)
       setYaw(0)
-      setHfov(180)
+      setHfov(120)
     }
     else {
       if (isFullscreen) setYaw(hotSpot.yaw);
@@ -101,7 +101,7 @@ export default function Vista360() {
     setCurrentScene(sala)
     setSala(nombre_sala)
     setYaw(0)
-    setHfov(180)
+    setHfov(120)
     //toggleSala();
   }
   const handleEnter = () => {
@@ -139,7 +139,8 @@ export default function Vista360() {
             height={isFullscreen ? "100%" : "730px"}
             image={piecesArray[currentScene].scenePanoImg}
             showFullscreenCtrl={false}
-            pitch={0}
+            showZoomCtrl={false}
+            pitch={-10}
             yaw={yaw}
             hfov={hfov}
             autoLoad

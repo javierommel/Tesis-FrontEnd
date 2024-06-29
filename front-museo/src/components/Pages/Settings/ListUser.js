@@ -20,41 +20,35 @@ import { Button, UncontrolledTooltip, Pagination, PaginationLink, PaginationItem
 export default function ListUser(props) {
     const editar = require('assets/img/editar.png')
     const handleClick = id => e => {
-
         props.handleClick(id)
     }
     const handleDelete = id => e => {
-
         props.handleDelete(id)
     }
-    const NuevaColumna = ({ id }) => {
-        const sanitizedId = id.replace('@', '-').replace('.', '-');
+    const NuevaColumna = ({ id: id }) => <>
+        <Button id={'f-' + id.replace(/\./g, '-').replace(/@/g, '-')} color="success" size="sm" onClick={handleClick(id)}>
+            <img src={editar} alt="..." style={{ height: "16px" }} />
 
-        return (
-            <>
-                <Button id={`f-${sanitizedId}`} color="success" size="sm" onClick={() => handleClick(id)}>
-                    <img src={editar} alt="..." style={{ height: "16px" }} />
-                </Button>
-                <UncontrolledTooltip
-                    delay={0}
-                    placement="top"
-                    target={`f-${sanitizedId}`}
-                >
-                    Modificar
-                </UncontrolledTooltip>
-                <Button id={`e-${sanitizedId}`} color="primary" size="sm" onClick={() => handleDelete(id)}>
-                    <i className="tim-icons icon-trash-simple" />
-                </Button>
-                <UncontrolledTooltip
-                    delay={0}
-                    placement="top"
-                    target={`e-${sanitizedId}`}
-                >
-                    Eliminar
-                </UncontrolledTooltip>
-            </>
-        );
-    };
+        </Button>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'f-' + id.replace(/\./g, '-').replace(/@/g, '-')}
+        >
+            Modificar
+        </UncontrolledTooltip>
+        <Button id={'e-' + id.replace(/\./g, '-').replace(/@/g, '-')} color="primary" size="sm" onClick={handleDelete(id)}>
+            <i className="tim-icons icon-trash-simple" />
+
+        </Button>
+        <UncontrolledTooltip
+            delay={0}
+            placement="top"
+            target={'e-' + id.replace(/\./g, '-').replace(/@/g, '-')}
+        >
+            Eliminar
+        </UncontrolledTooltip>
+    </>
     const { data } = props
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({

@@ -52,10 +52,23 @@ const getComment = (page, pageSize, usuario) => {
   });
 }
 
+const favouriteComment = (id, usuario_modificacion, destacado) => {
+  return axios.post(API_URL1 + "favouritecomment", {
+    id,
+    usuario_modificacion,
+    destacado: destacado === 0 ? 1 : 0,
+  }, {
+    headers: {
+      'x-access-token': authHeader()
+    }
+  });
+}
+
 export default {
   addComment,
   updateComment,
   getComment,
   deleteComment,
-  getCommentList
+  getCommentList,
+  favouriteComment,
 };
