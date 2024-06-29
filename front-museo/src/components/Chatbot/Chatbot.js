@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { useSelector } from "react-redux";
 import { useState, useEffect } from 'react';
 import { getRecommendation } from "../../actions/ia";
+import Recommendation from "./Recommendation"
 
 const theme = {
   background: '#ffffff',
@@ -71,14 +72,16 @@ export default function Chatbot() {
                 },
                 {
                   id: '3',
-                  message: recommendation[0][1]?recommendation[0][1]:'No hay datos',
-                  messageia: false,
+                  component: (
+                    <Recommendation data={recommendation[0]}/>
+                  ),
                   trigger: '6',
                 },
                 {
                   id: '4',
-                  message: recommendation[1][1]?recommendation[1][1]:'No hay datos',
-                  messageia: false,
+                  component: (
+                    <Recommendation data={recommendation[1]}/>
+                  ),
                   trigger: '6',
                 },
                 {
