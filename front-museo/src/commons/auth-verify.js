@@ -10,7 +10,6 @@ const parseJwt = (token) => {
 };
 
 const AuthVerify = ({logOutA}) => {
-  console.log("si")
   let location = useLocation();
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const AuthVerify = ({logOutA}) => {
         //console.log("esp: "+(decodedJwt.exp * 1000)+ " date:"+Date.now())
         //console.log(decodedJwt.exp * 1000 < Date.now())
       if (decodedJwt.exp * 1000 < Date.now()) {
-        console.log("si2")
+
         logOutA();
       }
     }

@@ -35,9 +35,11 @@ export default function ExamplesNavbar({ activado }) {
   const toggle = () => setModal(!modal);
   const clientId = process.env.REACT_APP_CLIENTE_ID
   const onLogoutSuccess = () => {
+    localStorage.removeItem('isGoogleLogin');
     console.log("salio")
   }
   const onFailure = () => {
+    localStorage.removeItem('isGoogleLogin');
     console.log("Error al salir salio")
   }
   const { signOut } = useGoogleLogout({
@@ -80,12 +82,15 @@ export default function ExamplesNavbar({ activado }) {
 
 
   useEffect(() => {
-    if (["/login", "/register"].includes(location.pathname)) {
+    if (["/login-page", "/register-page"].includes(location.pathname)) {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
   const logOut = useCallback(() => {
-    signOut();
+    const isgoogleogin = localStorage.getItem("isGoogleLogin")
+    if (isgoogleogin) {
+      signOut();
+    }
     dispatch(logout(currentUser.id, currentUser.accessToken));
   }, [dispatch]);
 

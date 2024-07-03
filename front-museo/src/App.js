@@ -3,8 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useCallback } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {logout} from "./actions/auth";
+import { useGoogleLogout } from 'react-google-login'
+import { logout } from "./actions/auth";
 import AuthVerify from "./commons/auth-verify";
+
 
 import "assets/css/nucleo-icons.css";
 import "assets/scss/blk-design-system-react.scss";
@@ -21,10 +23,30 @@ import Reportes from "components/Pages/ReportPage";
 import Administracion from "components/Pages/AdminPage";
 
 const App = () => {
+    const clientId = process.env.REACT_APP_CLIENTE_ID
+
+    const onLogoutSuccess = () => {
+        localStorage.removeItem('isGoogleLogin');
+        console.log("salio")
+    }
+    const onFailure = () => {
+        localStorage.removeItem('isGoogleLogin');
+        console.log("Error al salir salio")
+    }
+    const { signOut } = useGoogleLogout({
+        clientId,
+        onLogoutSuccess,
+        onFailure,
+    });
+
     const currentUser = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
+
     const logOut = useCallback(() => {
-        console.log("si3")
+        const isgoogleogin = localStorage.getItem("isGoogleLogin")
+        if (isgoogleogin) {
+            signOut();
+        }
         dispatch(logout(currentUser.id, currentUser.accessToken));
     }, [dispatch]);
 

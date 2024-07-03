@@ -105,7 +105,7 @@ export default function ProfilePage() {
   }, []);
 
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login-page" />;
   }
 
   const handleImageChange = (e) => {

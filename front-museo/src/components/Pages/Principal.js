@@ -121,7 +121,7 @@ export default function PrincipalPage() {
   };
 
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login-page" />;
   }
 
   return (

@@ -8,6 +8,11 @@ const addComment = (comentario, puntuacion, usuario) => {
     comentario,
     puntuacion,
     usuario,
+  },
+  {
+    headers: {
+      'x-access-token': authHeader()
+    }
   });
 }
 const updateComment = (id, estado, usuario_modificacion) => {

@@ -117,7 +117,7 @@ export default function Vista360() {
     setIsFullscreen(isFullscreen);
   };
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login-page" />;
   }
   return (<>
     <ExamplesNavbar activado={2} />

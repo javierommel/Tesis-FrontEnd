@@ -61,7 +61,7 @@ export default function ReportPage() {
   }, [dispatch, location]);
 
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login-page" />;
   }
   return (
     <>

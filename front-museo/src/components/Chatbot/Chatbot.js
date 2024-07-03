@@ -33,7 +33,7 @@ export default function Chatbot() {
   useEffect(() => {
     //console.log("user: " + JSON.stringify(currentUser.id))
     getRecommendation(currentUser.id).then((recommendations) => {
-      console.log("recomendations: " + JSON.stringify(recommendations.recomendaciones))
+      //console.log("recomendations: " + JSON.stringify(recommendations.recomendaciones))
       if (recommendations.retcode === 0) {
         setRecommendation(recommendations.recomendaciones)
       }
@@ -86,13 +86,14 @@ export default function Chatbot() {
                 },
                 {
                   id: '5',
-                  message: recommendation[2][1]?recommendation[2][1]:'No hay datos',
-                  messageia: false,
+                  component: (
+                    <Recommendation data={recommendation[2]}/>
+                  ),
                   trigger: '6',
                 },
                 {
                   id: '6',
-                  message: 'Estoy listo para tus preguntas',
+                  message: 'Estoy listo para tus preguntas!!',
                   messageia: false,
                   trigger: '7',
                 },

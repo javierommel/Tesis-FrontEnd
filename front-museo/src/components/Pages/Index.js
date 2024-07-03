@@ -17,23 +17,6 @@ import {
   CardBody,
   CardTitle,
 } from "reactstrap";
-const carouselItems = [
-  {
-    src: require("assets/img/museo1.jpeg"),
-    altText: "Slide 1",
-    caption: "",
-  },
-  {
-    src: require("assets/img/museo2.jpeg"),
-    altText: "Slide 2",
-    caption: "",
-  },
-  {
-    src: require("assets/img/museo3.jpeg"),
-    altText: "Slide 3",
-    caption: "",
-  },
-];
 
 
 export default function Index() {
@@ -42,6 +25,15 @@ export default function Index() {
   const [puntuacion, setPuntuacion] = useState(false);
   const [nrovisitas, setNroVisitas] = useState(false);
   const [nrousuarios, setNroUsuarios] = useState(false);
+  const [imagen1, setImagen1] = useState(null);
+  const [imagen2, setImagen2] = useState(null);
+  const [imagen3, setImagen3] = useState(null);
+  const [imagen4, setImagen4] = useState(null);
+  const toBlob = (image) => {
+    const uint8Array1 = image ? new Uint8Array(image) : null;
+    const blob1 = uint8Array1 ? new Blob([uint8Array1]) : null;
+    return blob1 ? URL.createObjectURL(blob1) : null;
+  }
   useEffect(() => {
     getComment({ page: 1, pageSize: 5, usuario: null }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
@@ -53,10 +45,13 @@ export default function Index() {
       setPuntuacion(dat.data.porcentage);
       setNroUsuarios(dat.data.nrouser);
       setNroVisitas(dat.data.nrovisit);
-      /*setImagen1(toBlob(dat.data.imagen1));
-      setImagen2(toBlob(dat.data.imagen2));
-      setImagen3(toBlob(dat.data.imagen3));
-      setImagen4(toBlob(dat.data.imagen4));*/
+      setImagen1(toBlob(dat.data.general[0].imagen1.data));
+      setImagen2(toBlob(dat.data.general[0].imagen2.data));
+      setImagen3(toBlob(dat.data.general[0].imagen3.data));
+      setImagen4(toBlob(dat.data.general[0].imagen4.data));
+      //setImagen2(toBlob(dat.data.imagen2));
+      //setImagen3(toBlob(dat.data.imagen3));
+      //setImagen4(toBlob(dat.data.imagen4));
     })
       .catch((error) => {
         console.log("error" + error.message)
@@ -76,7 +71,23 @@ export default function Index() {
       return data;
     });
   };
-
+  const carouselItems = [
+    {
+      src: {imagen1},
+      altText: "Slide 1",
+      caption: "",
+    },
+    {
+      src: require("assets/img/museo2.jpeg"),
+      altText: "Slide 2",
+      caption: "",
+    },
+    {
+      src: require("assets/img/museo3.jpeg"),
+      altText: "Slide 3",
+      caption: "",
+    },
+  ];
   return (
     <>
       <IndexNavbar activado={1} />
@@ -95,11 +106,37 @@ export default function Index() {
             <Container>
               <Row className="row-grid justify-content-between">
                 <Col md="5">
-                  <UncontrolledCarousel
-                    items={carouselItems}
+                  {imagen1&&<UncontrolledCarousel
+                     items={[
+                      {
+                        altText: 'Slide 1',
+                        caption: '',
+                        key: 1,
+                        src: imagen1
+                      },
+                      {
+                        altText: 'Slide 2',
+                        caption: '',
+                        key: 2,
+                        src: imagen2
+                      },
+                      {
+                        altText: 'Slide 3',
+                        caption: '',
+                        key: 3,
+                        src: imagen3
+                      }
+                      ,
+                      {
+                        altText: 'Slide 3',
+                        caption: '',
+                        key: 4,
+                        src: imagen4
+                      }
+                    ]}
                     indicators={false}
                     autoPlay={false}
-                  />
+                  />}
 
                   <Card className="card-stats bg-danger">
                     <CardBody>

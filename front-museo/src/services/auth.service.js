@@ -37,10 +37,12 @@ const verifyTokenConfirmation = (token) => {
 };
 const logout = (user, token) => {
     localStorage.removeItem("user");
+    const logout=true
     axios
         .post(API_URL + "savequestion", {
             user,
             token,
+            logout,
         },
         {
           headers: {
