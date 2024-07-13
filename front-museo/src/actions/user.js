@@ -93,11 +93,11 @@ export const getUserId = async ( usuario ) => {
 export const addUserGoogle = async (name, username, email, imagen) => {
     return AuthService.addUserGoogle(name, username, email, imagen).then(
         (response) => {
-            console.log("correcto")
+            //console.log("correcto")
             return { message: response.data.message, retcode: 0 };
         },
         (error) => {
-            console.log("incorrecto")
+            //console.log("incorrecto")
             const message =
                 (error.response &&
                     error.response.data &&

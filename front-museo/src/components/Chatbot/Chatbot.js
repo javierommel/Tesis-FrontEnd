@@ -1,6 +1,7 @@
 import ChatBot from 'react-simple-chatbot-ia'
 import './Chatbot.css'; // Archivo de estilos personalizados
 import { ThemeProvider } from 'styled-components';
+import ImageViewerChat from './ImageViewerChat';
 import { useSelector } from "react-redux";
 import { useState, useEffect } from 'react';
 import { getRecommendation } from "../../actions/ia";
@@ -27,6 +28,7 @@ export default function Chatbot() {
   const { user: currentUser } = useSelector((state) => state.auth);
   const [opened, setOpened] = useState(false)
   const [recommendation, setRecommendation] = useState([])
+  const [imageChat, setImageChat] = useState(null)
   const toggleFloating = ({ opened }) => {
     setOpened(opened)
   }
@@ -39,7 +41,10 @@ export default function Chatbot() {
       }
     })
   }, []);
-
+  const fullImageViewerChat = (image) => {
+    console.log("imagen: "+image)
+    setImageChat(image)
+  }
   return (
     <>
       {recommendation.length > 0 &&
@@ -53,8 +58,9 @@ export default function Chatbot() {
               typeRecognition={1}
               timeRecognition={10000}
               recognitionLang='es'
-              urlRecognition={API_URL2+'transcribe'}
-              urlChatIa={API_URL2+'chat'}
+              urlRecognition={API_URL2 + 'transcribe'}
+              urlChatIa={API_URL2 + 'chat'}
+              fullImageViewer={fullImageViewerChat}
               steps={[
                 {
                   id: '1',
@@ -73,21 +79,21 @@ export default function Chatbot() {
                 {
                   id: '3',
                   component: (
-                    <Recommendation data={recommendation[0]}/>
+                    <Recommendation data={recommendation[0]} />
                   ),
                   trigger: '6',
                 },
                 {
                   id: '4',
                   component: (
-                    <Recommendation data={recommendation[1]}/>
+                    <Recommendation data={recommendation[1]} />
                   ),
                   trigger: '6',
                 },
                 {
                   id: '5',
                   component: (
-                    <Recommendation data={recommendation[2]}/>
+                    <Recommendation data={recommendation[2]} />
                   ),
                   trigger: '6',
                 },
@@ -114,6 +120,9 @@ export default function Chatbot() {
               toggleFloating={toggleFloating}
             />
           </ThemeProvider>
+          {imageChat &&
+            <ImageViewerChat data={imageChat} />
+          }
         </div>}
 
     </>

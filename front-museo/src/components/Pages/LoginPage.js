@@ -120,8 +120,8 @@ export default function RegisterPage() {
       .then(() => {
         setLoading(false);
         setSuccessful(true);
-        navigate("/home");
-        window.location.reload();
+        //navigate("/home");
+        //window.location.reload();
       })
       .catch(() => {
         setSuccessful(false);
@@ -131,7 +131,7 @@ export default function RegisterPage() {
   };
 
   const onSuccess = (response) => {
-    console.log(response)
+    //console.log(response)
     verifyUserGoogle(response.profileObj)
 
   }
@@ -143,18 +143,18 @@ export default function RegisterPage() {
       setLoading(true);
       setSuccessful(false);
       const usuariogoogle = usuario.email
-      console.log("email: " + usuariogoogle)
+      //console.log("email: " + usuariogoogle)
       addUserGoogle(usuario.name, usuario.email, usuario.email, usuario.imageUrl)
         .then(({ message, retcode }) => {
-          console.log("m " + message)
+          console.log(message)
           if (retcode === 0) {
             dispatch(login(usuariogoogle, "", true))
               .then(() => {
                 localStorage.setItem("isGoogleLogin", true);
                 setLoading(false);
                 setSuccessful(true);
-                navigate("/home");
-                window.location.reload();
+                //navigate("/home");
+                //window.location.reload();
               })
               .catch(() => {
                 setSuccessful(false);

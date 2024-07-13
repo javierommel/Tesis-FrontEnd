@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pannellum } from 'pannellum-react';
 import Chatbot from "components/Chatbot/Chatbot"
 import ExamplesNavbar from "components/Navbars/PrincipalNavbar.js";
@@ -31,6 +31,25 @@ export default function Vista360() {
   const sala1 = require('assets/img/visita360/sala1.jpg')
   const sala2 = require('assets/img/visita360/sala2.jpg')
   const sala3 = require('assets/img/visita360/sala3.jpg')
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Inicialmente chequea el ancho de la pantalla
+    handleResize();
+
+    // Agrega un event listener para manejar cambios de tamaño de pantalla
+    window.addEventListener('resize', handleResize);
+
+    // Limpia el event listener cuando el componente se desmonta
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const toggle = (isfull1, yaw1) => {
     //console.log("fullscreen1: " + isFullscreen + " vuelvefull1: " + isfull1)
     setModal(!modal);
@@ -123,7 +142,7 @@ export default function Vista360() {
     <ExamplesNavbar activado={2} />
     <div className="wrapper-museo">
       <div style={{ height: "70px" }}></div>
-      <section className="section section-lg section-safe" style={{ height: "800px" }}>
+      <section className="section section-lg section-safe" style={{ height: isMobile?"620px":"800px" }}>
         <FullScreen handle={handle} onChange={handleFullscreenChange} >
           {modal &&
             (
@@ -136,7 +155,7 @@ export default function Vista360() {
             id="1"
             sceneId="firstScene"
             width="100%"
-            height={isFullscreen ? "100%" : "730px"}
+            height={isFullscreen ? "100%" : (isMobile?"600px":"730px")}
             image={piecesArray[currentScene].scenePanoImg}
             showFullscreenCtrl={false}
             showZoomCtrl={false}

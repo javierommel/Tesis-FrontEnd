@@ -116,7 +116,7 @@ const getUserId = (usuario,) => {
     });
 }
 const addUserGoogle = async (name, username, email, imagen) => {
-  const imagenblob = urlToBlob(imagen)
+  const imagenblob = await urlToBlob(imagen)
   const formData = new FormData();
   formData.append('avatar', imagenblob);
   formData.append('name', name);

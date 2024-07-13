@@ -402,7 +402,7 @@ export default function PieceForm(props) {
                 )}
               />
             </Col>
-            <Col lg="6" >
+            {/*<Col lg="6" >
               <Controller
                 name="tecnica"
                 control={control}
@@ -433,6 +433,35 @@ export default function PieceForm(props) {
                           <option style={{ color: '#2b3553' }} key={step.id} value={step.id}>{step.nombre}</option>
                         ))}
                       </Input>
+                    </InputGroup>
+                    {errors.tecnica && <div className="typography-line"><p className="text-danger">{errors.tecnica.message}</p></div>}
+                  </>
+                )}
+              />
+              </Col>*/}
+              <Col lg="6" >
+              <Controller
+                name="tecnica"
+                control={control}
+                defaultValue={valoresInicialesp.tecnica}
+                rules={{ required: 'La técnica es obligatoria.' }}
+                render={({ field }) => (
+                  <>
+                    <InputGroup
+                      className={classnames({
+                        "input-group-focus": tecnicaFocus,
+                      })}
+                    >
+                      <InputGroupText style={labelStyle} >
+                        Técnica
+                      </InputGroupText>
+                      <Input
+                        {...field}
+                        placeholder="Técnica"
+                        type="text"
+                        onFocus={(e) => setTecnicaFocus(true)}
+                        onBlur={(e) => setTecnicaFocus(false)}
+                      />
                     </InputGroup>
                     {errors.tecnica && <div className="typography-line"><p className="text-danger">{errors.tecnica.message}</p></div>}
                   </>
