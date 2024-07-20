@@ -134,21 +134,25 @@ export default function ProfilePage() {
   const validateEdad = (value) => {
     return value !== "0" || 'El año de nacimiento es obligatorio.';
   };
-  const handleMouseDown = () => {
+  const handleMouseDown = (event) => {
+    event.preventDefault();
     // Muestra la contraseña cuando se mantiene presionado el ojo
     setShowPassword(true);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (event) => {
+    event.preventDefault();
     // Oculta la contraseña cuando se suelta el ojo
     setShowPassword(false);
   };
-  const handleMouseDown2 = () => {
+  const handleMouseDown2 = (event) => {
+    event.preventDefault();
     // Muestra la contraseña cuando se mantiene presionado el ojo
     setShowPassword2(true);
   };
 
-  const handleMouseUp2 = () => {
+  const handleMouseUp2 = (event) => {
+    event.preventDefault();
     // Oculta la contraseña cuando se suelta el ojo
     setShowPassword2(false);
   };
@@ -377,11 +381,21 @@ export default function ProfilePage() {
                                       onMouseDown={handleMouseDown}
                                       onMouseUp={handleMouseUp}
                                       onMouseLeave={handleMouseUp}
+                                      onTouchStart={handleMouseDown}
+                                      onTouchEnd={handleMouseUp}
                                       style={{
                                         cursor: 'pointer',
                                       }}
                                     >
-                                      <img alt="..." src={eye} style={{ width: '16px' }} />
+                                      <img alt="..." 
+                                      src={eye} 
+                                      style={{ width: '16px' }} 
+                                      onMouseDown={handleMouseDown}
+                                      onMouseUp={handleMouseUp}
+                                      onMouseLeave={handleMouseUp}
+                                      onTouchStart={handleMouseDown}
+                                      onTouchEnd={handleMouseUp}
+                                      />
                                     </InputGroupText>
                                   </InputGroupAddon>
                                 </InputGroup>
@@ -411,11 +425,21 @@ export default function ProfilePage() {
                                       onMouseDown={handleMouseDown2}
                                       onMouseUp={handleMouseUp2}
                                       onMouseLeave={handleMouseUp2}
+                                      onTouchStart={handleMouseDown2}
+                                      onTouchEnd={handleMouseUp2}
                                       style={{
                                         cursor: 'pointer',
                                       }}
                                     >
-                                      <img alt="..." src={eye} style={{ width: '16px' }} />
+                                      <img alt="..." 
+                                      src={eye} 
+                                      style={{ width: '16px' }} 
+                                      onMouseDown={handleMouseDown2}
+                                      onMouseUp={handleMouseUp2}
+                                      onMouseLeave={handleMouseUp2}
+                                      onTouchStart={handleMouseDown2}
+                                      onTouchEnd={handleMouseUp2}
+                                      />
                                     </InputGroupText>
                                   </InputGroupAddon>
                                 </InputGroup>

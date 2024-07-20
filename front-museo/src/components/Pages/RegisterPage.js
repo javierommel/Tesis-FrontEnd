@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
 import { useForm, Controller } from 'react-hook-form';
 import { getCountry } from "../../actions/general"
-
+import PerfectScrollbar from "perfect-scrollbar";
 import { register } from "actions/auth";
 import { CLEAR_MESSAGE } from "actions/types"
 // reactstrap components
@@ -31,7 +31,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
 import eye from 'assets/img/eye.ico';
-
+let ps = null;
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
@@ -61,10 +61,30 @@ export default function RegisterPage() {
         console.log("error" + error.message)
         //setLoading(false);
       });
+    /*document.body.classList.toggle("register-page");
+    document.documentElement.addEventListener("mousemove", followCursor);
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      document.body.classList.toggle("register-page");
+      document.documentElement.removeEventListener("mousemove", followCursor);
+    };*/
+    if (navigator.platform.indexOf("Win") > -1) {
+      document.documentElement.className += " perfect-scrollbar-on";
+      document.documentElement.classList.remove("perfect-scrollbar-off");
+      let tables = document.querySelectorAll(".table-responsive");
+      for (let i = 0; i < tables.length; i++) {
+        ps = new PerfectScrollbar(tables[i]);
+      }
+    }
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
     // Specify how to clean up after this effect:
     return function cleanup() {
+      if (navigator.platform.indexOf("Win") > -1 && ps) {
+        ps.destroy();
+        document.documentElement.className += " perfect-scrollbar-off";
+        document.documentElement.classList.remove("perfect-scrollbar-on");
+      }
       document.body.classList.toggle("register-page");
       document.documentElement.removeEventListener("mousemove", followCursor);
     };
@@ -129,21 +149,25 @@ export default function RegisterPage() {
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
   };
-  const handleMouseDown = () => {
+  const handleMouseDown = (event) => {
+    event.preventDefault();
     // Muestra la contraseña cuando se mantiene presionado el ojo
     setShowPassword(true);
   };
 
   const handleMouseUp = () => {
+    event.preventDefault(event);
     // Oculta la contraseña cuando se suelta el ojo
     setShowPassword(false);
   };
-  const handleMouseDown2 = () => {
+  const handleMouseDown2 = (event) => {
+    event.preventDefault();
     // Muestra la contraseña cuando se mantiene presionado el ojo
     setShowPassword2(true);
   };
 
-  const handleMouseUp2 = () => {
+  const handleMouseUp2 = (event) => {
+    event.preventDefault();
     // Oculta la contraseña cuando se suelta el ojo
     setShowPassword2(false);
   };
@@ -304,11 +328,21 @@ export default function RegisterPage() {
                                       onMouseDown={handleMouseDown}
                                       onMouseUp={handleMouseUp}
                                       onMouseLeave={handleMouseUp}
+                                      onTouchStart={handleMouseDown}
+                                      onTouchEnd={handleMouseUp}
                                       style={{
                                         cursor: 'pointer',
                                       }}
                                     >
-                                      <img src={eye} style={{ width: '16px' }} />
+                                      <img 
+                                      src={eye} 
+                                      style={{ width: '16px' }} 
+                                      onMouseDown={handleMouseDown}
+                                      onMouseUp={handleMouseUp}
+                                      onMouseLeave={handleMouseUp}
+                                      onTouchStart={handleMouseDown}
+                                      onTouchEnd={handleMouseUp}
+                                      />
                                     </InputGroupText>
                                   </InputGroupAddon>
                                 </InputGroup>
@@ -355,11 +389,21 @@ export default function RegisterPage() {
                                       onMouseDown={handleMouseDown2}
                                       onMouseUp={handleMouseUp2}
                                       onMouseLeave={handleMouseUp2}
+                                      onTouchStart={handleMouseDown2}
+                                      onTouchEnd={handleMouseUp2}
                                       style={{
                                         cursor: 'pointer',
                                       }}
                                     >
-                                      <img src={eye} style={{ width: '16px' }} />
+                                      <img 
+                                      src={eye} 
+                                      style={{ width: '16px' }} 
+                                      onMouseDown={handleMouseDown2}
+                                      onMouseUp={handleMouseUp2}
+                                      onMouseLeave={handleMouseUp2}
+                                      onTouchStart={handleMouseDown2}
+                                      onTouchEnd={handleMouseUp2}
+                                      />
                                     </InputGroupText>
                                   </InputGroupAddon>
                                 </InputGroup>

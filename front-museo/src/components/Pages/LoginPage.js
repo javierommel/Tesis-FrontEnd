@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import classnames from 'classnames';
+import PerfectScrollbar from "perfect-scrollbar";
 import { useForm, Controller } from 'react-hook-form';
 import { login, verifyTokenConfirmation } from 'actions/auth';
 import { addUserGoogle } from "../../actions/user"
@@ -34,7 +35,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
 import eye from 'assets/img/eye.ico';
-
+let ps=null;
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = useState("");
   const [squares7and8, setSquares7and8] = useState("");
@@ -74,14 +75,32 @@ export default function RegisterPage() {
       })
       gapi.load("client:auth2", start)
     }
-    document.body.classList.toggle("register-page");
+    dispatch({ type: CLEAR_MESSAGE })
+    if (navigator.platform.indexOf("Win") > -1) {
+      document.documentElement.className += " perfect-scrollbar-on";
+      document.documentElement.classList.remove("perfect-scrollbar-off");
+      let tables = document.querySelectorAll(".table-responsive");
+      for (let i = 0; i < tables.length; i++) {
+        ps = new PerfectScrollbar(tables[i]);
+      }
+    }
+    document.body.classList.toggle("login-page");
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      if (navigator.platform.indexOf("Win") > -1 && ps) {
+        ps.destroy();
+        document.documentElement.className += " perfect-scrollbar-off";
+        document.documentElement.classList.remove("perfect-scrollbar-on");
+      }
+      document.body.classList.toggle("login-page");
+    };
+    /*document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
     // Specify how to clean up after this effect:
-    dispatch({ type: CLEAR_MESSAGE })
     return function cleanup() {
       document.body.classList.toggle("register-page");
       document.documentElement.removeEventListener("mousemove", followCursor);
-    };
+    };*/
   }, []);
   const followCursor = (event) => {
     let posX = event.clientX - window.innerWidth / 2;
@@ -184,12 +203,14 @@ export default function RegisterPage() {
       setLoading(false);
     }
   }
-  const handleMouseDown = () => {
+  const handleMouseDown = (event) => {
+    event.preventDefault();
     // Muestra la contraseña cuando se mantiene presionado el ojo
     setShowPassword(true);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (event) => {
+    event.preventDefault();
     // Oculta la contraseña cuando se suelta el ojo
     setShowPassword(false);
   };
@@ -304,11 +325,21 @@ export default function RegisterPage() {
                                     onMouseDown={handleMouseDown}
                                     onMouseUp={handleMouseUp}
                                     onMouseLeave={handleMouseUp}
+                                    onTouchStart={handleMouseDown}
+                                    onTouchEnd={handleMouseUp}
                                     style={{
                                       cursor: 'pointer',
                                     }}
                                   >
-                                    <img src={eye} style={{ width: '16px' }} />
+                                    <img 
+                                    src={eye} 
+                                    style={{ width: '16px' }} 
+                                    onMouseDown={handleMouseDown}
+                                    onMouseUp={handleMouseUp}
+                                    onMouseLeave={handleMouseUp}
+                                    onTouchStart={handleMouseDown}
+                                    onTouchEnd={handleMouseUp}
+                                    />
                                   </InputGroupText>
                                 </InputGroupAddon>
                               </InputGroup>
