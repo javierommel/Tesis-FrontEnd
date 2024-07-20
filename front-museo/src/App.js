@@ -45,7 +45,9 @@ const App = () => {
     const logOut = useCallback(() => {
         const isgoogleogin = localStorage.getItem("isGoogleLogin")
         if (isgoogleogin) {
-            signOut();
+            const user = localStorage.getItem("user")
+            if(user) signOut();
+            else localStorage.removeItem('isGoogleLogin');
         }
         dispatch(logout(currentUser.id, currentUser.accessToken));
     }, [dispatch]);
@@ -65,7 +67,7 @@ const App = () => {
                     <Route path="*" element={<Navigate to="/inicio" replace />} />
                 </Routes>
             </div>
-            <AuthVerify logOutA={logOut} />
+            {/*<AuthVerify logOutA={logOut} />*/}
         </div>
     );
 };

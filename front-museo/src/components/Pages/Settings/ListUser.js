@@ -26,25 +26,25 @@ export default function ListUser(props) {
         props.handleDelete(id)
     }
     const NuevaColumna = ({ id: id }) => <>
-        <Button id={'f-' + id.replace(/\./g, '-').replace(/@/g, '-')} color="success" size="sm" onClick={handleClick(id)}>
+        <Button id={'f-' + id.replace(/[^a-zA-Z0-9]/g, '-')} color="success" size="sm" onClick={handleClick(id)}>
             <img src={editar} alt="..." style={{ height: "16px" }} />
 
         </Button>
         <UncontrolledTooltip
             delay={0}
             placement="top"
-            target={'f-' + id.replace(/\./g, '-').replace(/@/g, '-')}
+            target={'f-' + id.replace(/[^a-zA-Z0-9]/g, '-')}
         >
             Modificar
         </UncontrolledTooltip>
-        <Button id={'e-' + id.replace(/\./g, '-').replace(/@/g, '-')} color="primary" size="sm" onClick={handleDelete(id)}>
+        <Button id={'e-' + id.replace(/[^a-zA-Z0-9]/g, '-')} color="primary" size="sm" onClick={handleDelete(id)}>
             <i className="tim-icons icon-trash-simple" />
 
         </Button>
         <UncontrolledTooltip
             delay={0}
             placement="top"
-            target={'e-' + id.replace(/\./g, '-').replace(/@/g, '-')}
+            target={'e-' + id.replace(/[^a-zA-Z0-9]/g, '-')}
         >
             Eliminar
         </UncontrolledTooltip>

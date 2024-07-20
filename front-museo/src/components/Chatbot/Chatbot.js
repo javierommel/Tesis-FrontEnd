@@ -42,8 +42,10 @@ export default function Chatbot() {
     })
   }, []);
   const fullImageViewerChat = (image) => {
-    console.log("imagen: "+image)
     setImageChat(image)
+  }
+  const outImage = () => {
+    setImageChat(null)
   }
   return (
     <>
@@ -121,7 +123,7 @@ export default function Chatbot() {
             />
           </ThemeProvider>
           {imageChat &&
-            <ImageViewerChat data={imageChat} />
+            <ImageViewerChat data={imageChat} onOut={outImage}/>
           }
         </div>}
 

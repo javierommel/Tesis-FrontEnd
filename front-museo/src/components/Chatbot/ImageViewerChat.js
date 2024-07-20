@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import ImageViewer from 'react-simple-image-viewer';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
-export default function ImageViewerChat({ data }) {
+export default function ImageViewerChat({ data, onOut }) {
   const inf = require('assets/img/visita360/escena3/hotSpot2/3.jpg')
   const imgSrc = `data:image/jpeg;base64,${data}`
   const images = [
@@ -16,17 +16,14 @@ export default function ImageViewerChat({ data }) {
     setCurrentImage(0);
     setIsViewerOpen(true);
     handleEnter();
-  }, []);
-  const openImageViewer = useCallback((index) => {
-    setCurrentImage(0);
-    setIsViewerOpen(true);
-    handleEnter();
-  }, []);
 
+  }, []);
+  
   const closeImageViewer = () => {
     handleExit();
     setCurrentImage(0);
     setIsViewerOpen(false);
+    onOut();
   };
   const handleEnter = () => {
     handle.enter();

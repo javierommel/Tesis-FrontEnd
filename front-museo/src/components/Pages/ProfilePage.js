@@ -95,7 +95,7 @@ export default function ProfilePage() {
     document.body.classList.toggle("profile-page");
     // Specify how to clean up after this effect:
     return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
+      if (navigator.platform.indexOf("Win") > -1 && ps) {
         ps.destroy();
         document.documentElement.className += " perfect-scrollbar-off";
         document.documentElement.classList.remove("perfect-scrollbar-on");

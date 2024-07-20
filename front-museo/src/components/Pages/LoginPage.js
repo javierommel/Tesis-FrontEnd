@@ -166,7 +166,7 @@ export default function RegisterPage() {
           }
           else {
             console.log(message)
-            setResponse("Error al intentar guardar la información en el servidor")
+            setResponse(message)
             setSuccessful(false);
             setLoading(false);
           }
