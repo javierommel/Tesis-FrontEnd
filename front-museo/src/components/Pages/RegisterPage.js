@@ -155,7 +155,7 @@ export default function RegisterPage() {
     setShowPassword(true);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (event) => {
     event.preventDefault(event);
     // Oculta la contraseña cuando se suelta el ojo
     setShowPassword(false);
