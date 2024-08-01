@@ -207,6 +207,7 @@ export default function ProfilePage() {
             className="path"
             src={require("assets/img/path4.png")}
           />
+          <div className="content content-museo">
           <Container className="align-items-center">
             <Row>
               <Col className="ml-auto mr-auto" lg="4" md="6">
@@ -484,6 +485,7 @@ export default function ProfilePage() {
               </Alert>
             )}
           </Container>
+          </div>
         </div>
         <Footer />
       </div>

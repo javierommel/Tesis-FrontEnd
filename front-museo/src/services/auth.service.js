@@ -1,24 +1,25 @@
 import axios from "axios";
+import {encrypt} from "../commons/crypto";
 
 const API_URL = process.env.REACT_APP_URL_BACK + "api/auth/";
 
 const register = (name, username, email, password, country, year) => {
     return axios.post(API_URL + "signup", {
-            name: name,
-            user: username,
-            email,
-            password,
+            name: encrypt(name),
+            user: encrypt(username),
+            email:encrypt(email),
+            password:encrypt(password),
             pais: country,
             nacimiento: year,
-            usuario_modificacion: "admin",
+            usuario_modificacion: encrypt("admin"),
         });
 }
 
 const login = (username, password, google) => {
     return axios
         .post(API_URL + "signin", {
-            user: username,
-            password,
+            user: encrypt(username),
+            password: encrypt(password),
             google
         })
         .then((response) => {
