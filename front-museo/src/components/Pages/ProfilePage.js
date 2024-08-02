@@ -65,7 +65,6 @@ export default function ProfilePage() {
     }
 
     getUserId(currentUser.id).then((dat) => {
-      //console.log("datas: "+JSON.stringify(dat))
       setValue('name', dat.data.nombre);
       setValue('email', dat.data.email);
       setValue('year', dat.data.fnacimiento);
@@ -75,13 +74,13 @@ export default function ProfilePage() {
       setImage(blob ? URL.createObjectURL(blob) : null);
 
     }).catch((error) => {
-      console.log("error" + error.message)
+      console.log("Error: " + error.message)
     });
 
     getCountry().then((dat) => {
       setCountry(dat.data);
     }).catch((error) => {
-      console.log("error" + error.message)
+      console.error("Error: " + error.message)
     });
 
     if (navigator.platform.indexOf("Win") > -1) {
@@ -179,13 +178,13 @@ export default function ProfilePage() {
         window.location.reload();
       }
       else {
-        console.log(message)
+        console.error(message)
         setResponse("Error al intentar actualizar el registro en el servidor")
         setSuccessful(false);
         setLoading(false);
       }
     }).catch((e) => {
-      console.log(e.message)
+      console.error(e.message)
       setResponse("Error al intentar actualizar la información en el servidor")
       setSuccessful(false);
       setLoading(false);
@@ -223,7 +222,6 @@ export default function ProfilePage() {
                   <CardBody>
                     <Button
                       onClick={() => {
-                        //console.log(inputRef);
                         inputRef.current.click();
                       }}
                       className="btn btn-lg w-100"

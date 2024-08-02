@@ -22,7 +22,6 @@ async function urlToBlob(url) {
   const arrayBuffer = await response.arrayBuffer();
   const uInt8Array = new Uint8Array(arrayBuffer);
   const blob = new Blob([uInt8Array], { type: response.headers.get("content-type") });
-  console.log("blob: " + JSON.stringify(blob))
   return blob;
 }
 

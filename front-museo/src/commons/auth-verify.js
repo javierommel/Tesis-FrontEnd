@@ -16,10 +16,7 @@ const AuthVerify = ({logOutA}) => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user) {
-        //console.log("user: "+user)
       const decodedJwt = parseJwt(user.accessToken);
-        //console.log("esp: "+(decodedJwt.exp * 1000)+ " date:"+Date.now())
-        //console.log(decodedJwt.exp * 1000 < Date.now())
       if (decodedJwt.exp * 1000 < Date.now()) {
 
         logOutA();

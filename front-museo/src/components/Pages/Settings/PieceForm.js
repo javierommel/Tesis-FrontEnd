@@ -63,7 +63,7 @@ export default function PieceForm(props) {
   const { handleSubmit, control, getValues, setError, clearErrors, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-    props.handleUpdate(valoresInicialesp.numero_ordinal, data, cargafoto1?imagen1:null, cargafoto2?imagen2:null, information,false)
+    props.handleUpdate(valoresInicialesp.numero_ordinal, data, cargafoto1 ? imagen1 : null, cargafoto2 ? imagen2 : null, information, false)
   }
   const onCancelar = () => {
     props.handleUpdate(valoresInicialesp.numero_ordinal, null, null, null, null, true)
@@ -92,8 +92,6 @@ export default function PieceForm(props) {
     }
   };
   const validateMateriales = (value) => {
-    console.log(value+" : "+getValues('materiales'))
-    //const hasTrueValue = getValues('roles').some(role => role.isChecked);
     const hasTrueValue = getValues('materiales').includes(true);
     if (!hasTrueValue) {
       setError('materiales', {
@@ -105,7 +103,7 @@ export default function PieceForm(props) {
     }
     return hasTrueValue;
   };
-  
+
   useEffect(() => {
     const uint8Array1 = valoresInicialesp.imagen1 ? new Uint8Array(valoresInicialesp.imagen1.data) : null;
     const blob1 = uint8Array1 ? new Blob([uint8Array1]) : null;
@@ -118,7 +116,7 @@ export default function PieceForm(props) {
       setInformation(dat.data);
     })
       .catch((error) => {
-        console.log("error" + error.message)
+        console.error("Error: " + error.message)
       });
   }, []);
 
@@ -357,7 +355,7 @@ export default function PieceForm(props) {
                     name={`materiales[${option.id}]`}
                     control={control}
                     defaultValue={materialesSeleccionados && materialesSeleccionados.includes(option.id)}
-                    rules={{validate: validateMateriales}}
+                    rules={{ validate: validateMateriales }}
                     render={({ field }) => <FormGroup check>
                       <Label check>
                         <Input key={option.id} id={option.id}
@@ -439,7 +437,7 @@ export default function PieceForm(props) {
                 )}
               />
               </Col>*/}
-              <Col lg="6" >
+            <Col lg="6" >
               <Controller
                 name="tecnica"
                 control={control}

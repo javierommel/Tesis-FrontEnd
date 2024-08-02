@@ -29,7 +29,6 @@ export default function ImageViewerChat({ data, onOut }) {
     handle.enter();
   }
   const handleExit = () => {
-    console.log("ffffff")
     handle.exit();
   }
   return (

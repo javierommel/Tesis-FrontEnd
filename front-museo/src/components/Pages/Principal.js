@@ -50,7 +50,7 @@ export default function PrincipalPage() {
       setRecommendation(dat.recomendation)
       setNroComment(dat.comment)
     }).catch((error) => {
-      console.log("error" + error.message)
+      console.error("Error: " + error.message)
     });
     // Recupera el estado de la respuesta almacenado en localStorage al cargar la página
     const storedResponse = localStorage.getItem('storedResponse');
@@ -98,7 +98,6 @@ export default function PrincipalPage() {
       return
     }
     addComment(comment, rate, currentUser.id).then(({ message, retcode }) => {
-      //console.log("asdf: " + message + " " + retcode)
       if (retcode === 0) {
         setResponse(message);
         localStorage.setItem('storedResponse', JSON.stringify(message));
@@ -107,13 +106,13 @@ export default function PrincipalPage() {
         window.location.reload();
       }
       else {
-        console.log(message)
+        console.error(message)
         setResponse("Error al intentar guardar el comentario en el servidor")
         setSuccessful(false);
         setLoading(false);
       }
     }).catch((e) => {
-      console.log(e.message)
+      console.error(e.message)
       setResponse("Error al intentar guardar el comentario en el servidor")
       setSuccessful(false);
       setLoading(false);

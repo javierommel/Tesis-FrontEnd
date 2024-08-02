@@ -180,7 +180,7 @@ export default function AdminPage() {
 
     })
       .catch((error) => {
-        console.log("error" + error.message)
+        console.error("Error: " + error.message)
         setLoading(false);
       });
   }
@@ -199,7 +199,7 @@ export default function AdminPage() {
 
     })
       .catch((error) => {
-        console.log("error" + error.message)
+        console.error("Error: " + error.message)
         setLoading(false);
       });
   }
@@ -218,7 +218,7 @@ export default function AdminPage() {
 
     })
       .catch((error) => {
-        console.log("error" + error.message)
+        console.error("Error: " + error.message)
         setLoading(false);
       })
   }
@@ -244,20 +244,20 @@ export default function AdminPage() {
             window.location.reload();
           }
           else {
-            console.log(message)
+            console.error(message)
             setResponse("Error al intentar guardar la información en el servidor")
             setSuccessful(false);
             setLoading(false);
           }
         }).catch((e) => {
-          console.log(e.message)
+          console.error(e.message)
           setResponse("Error al intentar guardar la información en el servidor")
           setSuccessful(false);
           setLoading(false);
         });
       }
       catch (e) {
-        console.log(e.message)
+        console.error(e.message)
         setResponse("Error al intentar guardar la información")
         setSuccessful(false);
         setLoading(false);
@@ -304,7 +304,7 @@ export default function AdminPage() {
           cancelarComentario()
         }
         else {
-          console.log(message)
+          console.error(message)
           setResponse("Error al intentar actualizar el registro en el servidor")
           setSuccessful(false);
           setLoading(false);
@@ -325,7 +325,7 @@ export default function AdminPage() {
           cancelarUsuario()
         }
         else {
-          console.log(message)
+          console.error(message)
           setResponse("Error al intentar borrar el registro en el servidor")
           setSuccessful(false);
           setLoading(false);
@@ -346,7 +346,7 @@ export default function AdminPage() {
           cancelarComentario()
         }
         else {
-          console.log(message)
+          console.error(message)
           setResponse("Error al intentar borrar el registro en el servidor")
           setSuccessful(false);
           setLoading(false);
@@ -355,7 +355,6 @@ export default function AdminPage() {
     }, 2000);
   }
   const favoritoComment = (id, destacado) => {
-    console.log("sadf " +id+" "+destacado)
     setLoading(true);
     setTimeout(() => {
       favouriteComment(id, currentUser.id, destacado).then(({ message, retcode }) => {
@@ -367,7 +366,7 @@ export default function AdminPage() {
           cancelarComentario()
         }
         else {
-          console.log(message)
+          console.error(message)
           setResponse("Error al intentar borrar el registro en el servidor")
           setSuccessful(false);
           setLoading(false);
@@ -396,7 +395,7 @@ export default function AdminPage() {
           cancelarObjeto()
         }
         else {
-          console.log(message)
+          console.error(message)
           setResponse("Error al intentar borrar el registro en el servidor")
           setSuccessful(false);
           setLoading(false);
@@ -421,7 +420,7 @@ export default function AdminPage() {
             cancelarObjeto()
           }
           else {
-            console.log(message)
+            console.error(message)
             setResponse("Error al intentar guardar los registros en el servidor")
             setSuccessful(false);
             setLoading(false);
@@ -452,13 +451,13 @@ export default function AdminPage() {
             cancelarUsuario()
           }
           else {
-            console.log(message)
+            console.error(message)
             setResponse("Error al intentar actualizar el registro en el servidor")
             setSuccessful(false);
             setLoading(false);
           }
         }).catch((e) => {
-          console.log(e.message)
+          console.error(e.message)
           setResponse("Error al intentar actualizar la información en el servidor")
           setSuccessful(false);
           setLoading(false);
@@ -494,7 +493,7 @@ export default function AdminPage() {
             cancelarObjeto()
           }
           else {
-            console.log(message)
+            console.error(message)
             setResponse("Error al intentar actualizar el registro en el servidor")
             setSuccessful(false);
             setLoading(false);
@@ -522,13 +521,13 @@ export default function AdminPage() {
             setLoading(false);
           }
           else {
-            console.log(message)
+            console.error(message)
             setResponse("Error al intentar actualizar el registro en el servidor")
             setSuccessful(false);
             setLoading(false);
           }
         }).catch((e) => {
-          console.log(e.message)
+          console.error(e.message)
           setResponse("Error al intentar actualizar la información en el servidor")
           setSuccessful(false);
           setLoading(false);
@@ -539,7 +538,6 @@ export default function AdminPage() {
   }
 
   const nuevoUsuario = () => {
-    //console.log("asdf");
     setDatos((prevDatos) => ({
       ...prevDatos,         // Manteniendo las propiedades existentes
       ruta: 'formulario',

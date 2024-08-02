@@ -19,7 +19,6 @@ import { Button, UncontrolledTooltip,Pagination, PaginationLink, PaginationItem}
 export default function ListComment(props) {
 
     const handleDestacado = (id, favorito) => e => {
-        console.log("asdfasd "+id+"ssdfdfdf "+favorito)
 
         props.handleDestacado(id, favorito)
     }
@@ -67,7 +66,6 @@ export default function ListComment(props) {
                     />}
     </>
     const { data } = props
-    //console.log(JSON.stringify(data))
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,

@@ -36,11 +36,11 @@ export default function ExamplesNavbar({ activado }) {
   const clientId = process.env.REACT_APP_CLIENTE_ID
   const onLogoutSuccess = () => {
     localStorage.removeItem('isGoogleLogin');
-    console.log("salio")
+    console.log("Log out correctamente")
   }
   const onFailure = () => {
     localStorage.removeItem('isGoogleLogin');
-    console.log("Error al salir salio")
+    console.error("Error al realizar login con Google")
   }
   const { signOut } = useGoogleLogout({
     clientId,

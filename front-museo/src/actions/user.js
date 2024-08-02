@@ -3,9 +3,7 @@ import AuthService from "../services/user.service";
 export const getUser = async ({ page, pageSize }) => {
     return AuthService.getUser(page, pageSize).then(
         (response) => {
-            //console.log("datos "+JSON.stringify(response.data))
             return response.data
-            //return Promise.resolve();
         },
         (error) => {
             const message =
@@ -16,7 +14,6 @@ export const getUser = async ({ page, pageSize }) => {
                 error.toString();
 
             return message;
-            //return Promise.reject();
         }
     );
 };
@@ -93,11 +90,9 @@ export const getUserId = async ( usuario ) => {
 export const addUserGoogle = async (name, username, email, imagen) => {
     return AuthService.addUserGoogle(name, username, email, imagen).then(
         (response) => {
-            //console.log("correcto")
             return { message: response.data.message, retcode: 0 };
         },
         (error) => {
-            //console.log("incorrecto")
             const message =
                 (error.response &&
                     error.response.data &&

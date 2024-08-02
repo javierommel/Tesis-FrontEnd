@@ -44,11 +44,9 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [response, setResponse] = useState("")
   const clienID = process.env.REACT_APP_CLIENTE_ID
-  //const { token } = useParams();
-  //const { search } = useLocation();
+  
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get('token');
-    //console.log("token: " + token)
     if (token) {
       verifyTokenConfirmation(token).then(({ message, retcode }) => {
         if (retcode === 0) {
@@ -57,13 +55,13 @@ export default function RegisterPage() {
           setLoading(false);
         }
         else {
-          console.log(message)
+          console.error(message)
           setResponse("Error al intentar actualizar el registro en el servidor")
           setSuccessful(false);
           setLoading(false);
         }
       }).catch((e) => {
-        console.log(e.message)
+        console.error(e.message)
         setResponse("Error al intentar actualizar la información en el servidor")
         setSuccessful(false);
         setLoading(false);
@@ -150,22 +148,20 @@ export default function RegisterPage() {
   };
 
   const onSuccess = (response) => {
-    //console.log(response)
+    console.log("Login con Google correcmtamente")
     verifyUserGoogle(response.profileObj)
 
   }
   const onFailure = () => {
-    console.log("Algo salió mal")
+    console.error("Error en login con Google")
   }
   const verifyUserGoogle = (usuario) => {
     try {
       setLoading(true);
       setSuccessful(false);
       const usuariogoogle = usuario.email
-      //console.log("email: " + usuariogoogle)
       addUserGoogle(usuario.name, usuario.email, usuario.email, usuario.imageUrl)
         .then(({ message, retcode }) => {
-          console.log(message)
           if (retcode === 0) {
             dispatch(login(usuariogoogle, "", true))
               .then(() => {
@@ -184,20 +180,20 @@ export default function RegisterPage() {
             setLoading(false);
           }
           else {
-            console.log(message)
+            console.error(message)
             setResponse(message)
             setSuccessful(false);
             setLoading(false);
           }
         }).catch((e) => {
-          console.log(e.message)
+          console.error(e.message)
           setResponse("Error al intentar guardar la información en el servidor")
           setSuccessful(false);
           setLoading(false);
         });
     }
     catch (e) {
-      console.log(e.message)
+      console.error(e.message)
       setResponse("Error al intentar guardar la información")
       setSuccessful(false);
       setLoading(false);

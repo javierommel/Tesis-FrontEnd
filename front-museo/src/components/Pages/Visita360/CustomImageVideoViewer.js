@@ -20,10 +20,8 @@ const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull
     const handle2 = useFullScreenHandle();
     const inputRef = useRef();
     useEffect(() => {
-        //console.log("textos:" +JSON.stringify(textos))
         setNumeroPaginas(textos.length)
         handle2.enter()
-        //console.log("useeffect: "+isFullscreen2)
         setInImage(true)
     }, []);
     const toggleDescription = () => {
@@ -44,7 +42,6 @@ const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull
     const currentItem = currentItemIndex < images.length ? images[currentItemIndex] : videos[currentItemIndex - images.length];
 
     const handleFullscreenChange = (isFullscreen2) => {
-        //console.log("pieza: ", isFullscreen2);
         if (inImage && !isFullscreen2) toggle();
         setIsFullscreen2(isFullscreen2);
     };

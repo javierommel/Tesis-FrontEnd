@@ -17,7 +17,6 @@ import {
 import logoSVG from 'assets/img/Logo museo.svg';
 
 export default function IndexNavbar({ activado = 1 }) {
-  //console.log("activado: "+activado);
   const [pills, setPills] = React.useState(activado);
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");

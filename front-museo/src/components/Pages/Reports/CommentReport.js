@@ -34,7 +34,7 @@ export default function CommentReport() {
               }
             setCarga(true)
           }).catch((error) => {
-            console.log("error" + error.message)
+            console.error("Error: " + error.message)
           });
       }, []);
 
@@ -42,7 +42,6 @@ export default function CommentReport() {
         setSelectedValue(parseInt(event.target.value));
     };
     const handleClick = () => {
-        console.log('res ' + selectedValue)
         if (selectedValue === 0) {
             exportComponentAsPDF(componentRef,
                 {

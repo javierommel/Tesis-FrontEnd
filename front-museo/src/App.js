@@ -27,11 +27,11 @@ const App = () => {
 
     const onLogoutSuccess = () => {
         localStorage.removeItem('isGoogleLogin');
-        console.log("salio")
+        console.log("Log out correctamente")
     }
     const onFailure = () => {
         localStorage.removeItem('isGoogleLogin');
-        console.log("Error al salir salio")
+        console.error("Error al salir salio")
     }
     const { signOut } = useGoogleLogout({
         clientId,

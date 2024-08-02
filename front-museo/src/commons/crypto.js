@@ -1,8 +1,6 @@
 import CryptoJS from 'crypto-js';
 
-const secretKey = CryptoJS.enc.Utf8.parse(process.env.REACT_APP_URL_SECRET_KEY);
-//const secretKey = CryptoJS.enc.Utf8.parse('12345678901234567890123456789012'); // 32 bytes para AES-256
-
+const secretKey = CryptoJS.enc.Utf8.parse((process.env.REACT_APP_SECRET_KEY).toString());
 export const encrypt = (data) => {
   const iv = CryptoJS.lib.WordArray.random(16); // Genera un IV de 16 bytes
   const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey, {

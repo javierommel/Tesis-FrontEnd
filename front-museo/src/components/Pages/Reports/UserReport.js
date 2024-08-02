@@ -46,7 +46,6 @@ export default function UserReport() {
     useEffect(() => {
         const tipo = 1
         getReport(tipo).then((dat) => {
-            //console.log("asdf: "+JSON.stringify(dat.data))
             const counts = dat.data.map(item => parseInt(item.nacional));
             const counts1 = dat.data.map(item => parseInt(item.internacional));
             if (userChart.data.datasets && userChart.data.datasets.length > 0) {
@@ -57,7 +56,7 @@ export default function UserReport() {
             }
             setCarga(true)
         }).catch((error) => {
-            console.log("error" + error.message)
+            console.error("Error: " + error.message)
         });
     }, []);
 
@@ -65,7 +64,6 @@ export default function UserReport() {
         setSelectedValue(parseInt(event.target.value));
     };
     const handleClick = () => {
-        //console.log('res ' + selectedValue)
         if (selectedValue === 0) {
             exportComponentAsPDF(componentRef,
                 {
@@ -153,7 +151,7 @@ export default function UserReport() {
             })
 
         } catch (error) {
-            console.error('Error al exportar el archivo Excel:', error);
+            console.error('Error al exportar el archivo Excel: ', error);
         }
     };
     const handleExportT = async () => {

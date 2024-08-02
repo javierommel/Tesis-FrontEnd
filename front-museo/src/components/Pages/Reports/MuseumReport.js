@@ -40,7 +40,6 @@ export default function MuseumReport() {
     useEffect(() => {
         const tipo = 5
         getReport(tipo).then((dat) => {
-            //console.log("asdf: "+JSON.stringify(dat.data))
             const counts = dat.data.map(item => parseInt(item.visitas));
             const counts1 = dat.data.map(item => parseInt(item.recomendaciones));
             const counts2 = dat.data.map(item => item.nombre);
@@ -53,7 +52,7 @@ export default function MuseumReport() {
             }
             setCarga(true)
         }).catch((error) => {
-            console.log("error" + error.message)
+            console.error("Error: " + error.message)
         });
     }, []);
 
@@ -61,7 +60,6 @@ export default function MuseumReport() {
         setSelectedValue(parseInt(event.target.value));
     };
     const handleClick = () => {
-        //console.log('res ' + selectedValue)
         if (selectedValue === 0) {
             exportComponentAsPDF(componentRef,
                 {

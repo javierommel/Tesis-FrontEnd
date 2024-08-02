@@ -46,7 +46,7 @@ export default function UserForm(props) {
       setCountry(dat.data);
     })
       .catch((error) => {
-        console.log("error" + error.message)
+        console.error("Error: " + error.message)
       });
   }, []);
 
@@ -94,13 +94,10 @@ export default function UserForm(props) {
   };
 
   const validateEdad = (value) => {
-    console.log("123: " + value)
     return value !== "0" || 'El año de nacimiento es obligatorio.';
   };
 
   const validateRoles = (value) => {
-    console.log(value+" : "+getValues('roles'))
-    //const hasTrueValue = getValues('roles').some(role => role.isChecked);
     const hasTrueValue = getValues('roles').includes(true);
     if (!hasTrueValue) {
       setError('roles', {

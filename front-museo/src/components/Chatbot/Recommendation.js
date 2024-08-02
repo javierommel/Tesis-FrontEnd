@@ -32,7 +32,6 @@ export default function Recommendation({ data }) {
     handle.enter();
   }
   const handleExit = () => {
-    console.log("ffffff")
     handle.exit();
   }
   return (

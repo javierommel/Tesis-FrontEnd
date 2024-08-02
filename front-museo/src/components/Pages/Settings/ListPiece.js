@@ -17,7 +17,6 @@ import { Button, UncontrolledTooltip, Pagination, PaginationLink, PaginationItem
 export default function ListPiece(props) {
     const editar = require('assets/img/editar.png')
     const handleClick = id => e => {
-        //console.log("id: " + id)
         props.handleClick(id)
     }
 
@@ -50,7 +49,6 @@ export default function ListPiece(props) {
         </UncontrolledTooltip>
     </>
     const { data } = props
-    //console.log("list: " + JSON.stringify(data))
     const datosConNuevaColumna = dat => {
         return dat.map(objeto => ({
             ...objeto,
@@ -59,7 +57,6 @@ export default function ListPiece(props) {
     };
 
     //const columns = useMemo(() => PieceData, []);
-    //console.log("dt: " + data)
     const datosConNuevaColumnaMemo = useMemo(() => datosConNuevaColumna(data), [data]);
 
     const columns = [

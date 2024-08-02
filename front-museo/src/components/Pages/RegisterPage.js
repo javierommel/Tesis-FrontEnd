@@ -55,10 +55,9 @@ export default function RegisterPage() {
     dispatch({ type: CLEAR_MESSAGE })
     getCountry().then((dat) => {
       setCountry(dat.data);
-      //console.log("dat " + dat)
     })
       .catch((error) => {
-        console.log("error" + error.message)
+        console.error("Error: " + error.message)
         //setLoading(false);
       });
     /*document.body.classList.toggle("register-page");
@@ -124,7 +123,7 @@ export default function RegisterPage() {
         setLoading(false);
       })
       .catch(() => {
-        console.log(message)
+        console.error(message)
         setSuccessful(false);
         setLoading(false);
       });

@@ -38,7 +38,7 @@ export default function Index() {
     getComment({ page: 1, pageSize: 5, usuario: null }).then((dat) => {
       setCommentl(cambiarImagenes(dat.data));
     }).catch((error) => {
-      console.error("error" + error.message)
+      console.error("Error: " + error.message)
     });
     getContent().then((dat) => {
       setContenido(dat.data.general[0]);
@@ -49,12 +49,9 @@ export default function Index() {
       setImagen2(toBlob(dat.data.general[0].imagen2.data));
       setImagen3(toBlob(dat.data.general[0].imagen3.data));
       setImagen4(toBlob(dat.data.general[0].imagen4.data));
-      //setImagen2(toBlob(dat.data.imagen2));
-      //setImagen3(toBlob(dat.data.imagen3));
-      //setImagen4(toBlob(dat.data.imagen4));
     })
       .catch((error) => {
-        console.log("error" + error.message)
+        console.error("Error:" + error.message)
       });
     document.body.classList.toggle("index-page");
     // Specify how to clean up after this effect:

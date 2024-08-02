@@ -51,7 +51,6 @@ export default function Vista360() {
   }, []);
 
   const toggle = (isfull1, yaw1) => {
-    //console.log("fullscreen1: " + isFullscreen + " vuelvefull1: " + isfull1)
     setModal(!modal);
     if (isfull1) {
       setIsFull(false)
@@ -132,7 +131,6 @@ export default function Vista360() {
     setIsFull(false);
   }
   const handleFullscreenChange = (isFullscreen) => {
-    //console.log("vista360: " + isFullscreen)
     setIsFullscreen(isFullscreen);
   };
   if (!currentUser) {
@@ -166,7 +164,7 @@ export default function Vista360() {
             autoRotate={-0.5}
             title={sala}
             onLoad={() => {
-              console.log("panorama loaded");
+              console.log("visita cargada");
             }}
           >
             {piecesArray[currentScene].hotSpots.map((hotSpot, index) => {
