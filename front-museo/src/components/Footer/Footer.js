@@ -8,7 +8,7 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 import faceSVG from 'assets/img/Logo Facebook.svg';
-import xSVG from 'assets/img/Logo X.svg';
+import xSVG from 'assets/img/X.png';
 import tkSVG from 'assets/img/tiktok.png';
 import insSVG from 'assets/img/Logo Instagram.svg';
 
@@ -39,11 +39,11 @@ export default function Footer() {
               <Button
                 className="btn-icon btn-round btn-footer"
                 color="default"
-                href="https://www.tiktok.com/@museodelasconceptas_1986"
+                href="https://x.com/MuseoConceptas"
                 id="idtwitter"
                 target="_blank"
               >
-                <img alt="..." src={xSVG} style={{paddingTop:"7px", paddingLeft:"0.5px", width:"30px"}} />
+                <img alt="..." src={xSVG} style={{paddingTop:"5px", paddingLeft:"0.5px", width:"30px"}} />
               </Button>
               <UncontrolledTooltip delay={0} target="idtwitter">
                 Síguenos

@@ -1,9 +1,10 @@
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useGoogleLogout } from 'react-google-login'
+import { gapi } from 'gapi-script'
 import { logout } from "./actions/auth";
 import AuthVerify from "./commons/auth-verify";
 
@@ -23,6 +24,16 @@ import Reportes from "components/Pages/ReportPage";
 import Administracion from "components/Pages/AdminPage";
 
 const App = () => {
+    useEffect(() => {
+        const initClient = () => {
+            gapi.client.init({
+                clientId: process.env.REACT_APP_CLIENTE_ID,
+                scope: ''
+            });
+        };
+        gapi.load('client:auth2', initClient);
+    }, []);
+
     const clientId = process.env.REACT_APP_CLIENTE_ID
 
     const onLogoutSuccess = () => {
@@ -43,14 +54,29 @@ const App = () => {
     const dispatch = useDispatch();
 
     const logOut = useCallback(() => {
-        const isgoogleogin = localStorage.getItem("isGoogleLogin")
-        if (isgoogleogin) {
-            const user = localStorage.getItem("user")
-            if(user) signOut();
-            else localStorage.removeItem('isGoogleLogin');
+        const isGoogleLogin = localStorage.getItem("isGoogleLogin");
+
+        if (isGoogleLogin) {
+            //const user = localStorage.getItem("user");
+
+            // Verificar si el token de Google sigue siendo válido
+           if (gapi.auth2) {
+            const authInstance = gapi.auth2.getAuthInstance();
+            if (authInstance && authInstance.isSignedIn.get()) {
+                signOut();
+                localStorage.removeItem('isGoogleLogin');
+            } else {
+                localStorage.removeItem('isGoogleLogin');
+            }
+        } else {
+            console.error("gapi.auth2 is not loaded");
         }
+        }
+
+        // Cerrar sesión en tu sistema
         dispatch(logout(currentUser.id, currentUser.accessToken));
-    }, [dispatch]);
+        localStorage.removeItem('user'); // Limpiar el token de tu sistema
+    }, [dispatch, signOut]);
 
     return (
         <div>
@@ -67,7 +93,7 @@ const App = () => {
                     <Route path="*" element={<Navigate to="/inicio" replace />} />
                 </Routes>
             </div>
-            {/*<AuthVerify logOutA={logOut} />*/}
+            {<AuthVerify logOutA={logOut} />}
         </div>
     );
 };

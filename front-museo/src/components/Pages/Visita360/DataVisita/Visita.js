@@ -203,6 +203,18 @@ const piecesArray = [
                 sala : 2,
             },
             {
+                pitch: 10,
+                yaw: 163,
+                orden: 4,
+                sala : 2,
+            },
+            {
+                pitch: -10,
+                yaw: 67,
+                orden: 5,
+                sala : 2,
+            },
+            {
                 pitch: -10,
                 yaw: -237,
                 escena: 6,
@@ -388,62 +400,106 @@ const information = [
     [
         {
             hotSpot: 1,
+            nombres:["Nombre1",
+                "Nombre2",
+                "Nombre3",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena1/hotSpot1/1.jpg'),
                 require('assets/img/visita360/escena1/hotSpot1/2.jpg'),
                 require('assets/img/visita360/escena1/hotSpot1/3.jpg'),
             ],
-            videos: [require('assets/img/visita360/escena1/hotSpot1/1.mp4'),],
-            titulo:"Manualidad Monja Tejiendo",
-            texto: [`Elaborada manualmente con papel y madera; y cubierta con una túnica blanca, capa azul y un velo negro,S`,
-                `En la colonia las labores manuales de las mujeres de los monasterios eran ampliamente consideradas como las más complejas y delicadas y recibían, por tanto, gran aprecio.
-            Estos elementos pueden encontrase en el Museo de las Conceptas de Cuenca, que conserva colecciones de bordados, objetos de madera y plata, miniaturas de tagua y otros, que fueron elaborados por las monjas de claustro`,
-            "El bordado siempre ha sido una expresión que ha unido a las mujeres y les ha permitido estar en comunidad. " +
-            "Se analizará esta técnica que siempre fue infravalorada frente a otras manifestaciones artísticas.",
+            videos: [],
+            titulo:"Bordando Fé",
+            texto: [`Esta sala reúne una valiosa colección de bordados que demuestran la importante labor que realizaban las madres Conceptas dentro del monasterio.
+
+            Al observar estas muestras nos invita a descubrir como el arte, la fé, los valores religiosos y humanos son expresados mediante diferentes colores, formas e imágenes.
+            Los cuencanos con el pasar del tiempo se han caracterizado por su fiel devoción a las advocaciones marianas, las religiosas del monasterio de las Conceptas han sido un pilar fundamental para que esta fé prevalezca, elaborando día a día bordados que tradicionalmente son conocidos como: 
+            Detentes que llevan el corazcón de Jesús.
+
+            Además, hasta la actualidad las religiosas continúan elaborando con mucha paciencia y delicadeza estandartes, manteles, corporales iglesias, vestidos para imágenes religiosas y ornamentos litúrgicos para sacerdores; que son encargados por quienes conocen de su valioso trabado.`,
+            `Planchas: 
+            Son planchas elaboradas con Hierro forjado`,
             ]
         },
         {
             hotSpot: 2,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena1/hotSpot2/1.jpg'),
                 require('assets/img/visita360/escena1/hotSpot2/2.jpg')
             ],
             videos: [],
             titulo:"Estandarte  “El Obrerismo”",
-            texto: ["Los estandartes religiosos bordados son elementos de gran importancia en la tradición cristiana católica. Estos símbolos representan la entrega de una bandera por parte de Dios, simbolizando su presencia, protección y ayuda extendida a su pueblo. Los estandartes portan imágenes de santidades que son idolatradas por las feligresías y han sido utilizados durante años en procesiones y concentraciones para venerar a santos y vírgenes",
-                    `Origen y Significado:
-                    El estandarte religioso representa el establecimiento o entrega de una bandera por parte de Dios, simbolizando su presencia, protección y ayuda extendida a su pueblo.
-                    Estos estandartes portan imágenes de santidades que son idolatradas por las feligresías.
-                Su significado religioso se basa en las primeras formas de arte religioso, representando ideas o conceptos abstractos.`,
+            texto: [`Los estandartes religiosos bordados son elementos de gran importancia en la tradición cristiana católica. 
+            Estos símbolos representan la entrega de una bandera por parte de Dios, simbolizando su presencia, protección y ayuda extendida a su pueblo. 
+            Los estandartes portan imágenes de santidades que son idolatradas por las feligresías y han sido utilizados durante años en procesiones y concentraciones para venerar a santos y vírgenes`,
+                    `Descripción de la Obra:
+                    El 3 de marzo de 2012 donan el Estandarte que consta de dos piezas (estandarte y porta estandarte) las Familias Loyola, Arce y Córdova Ochoa.
+                    - El estandarte, tela bordada, con la representación del escudo del Ecuador, en el centro el Caliz.
+                    - El porta estandarte es de madera.`,
                 
             ]
         },
         {
             hotSpot: 3,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena1/hotSpot3/1.jpg'),
                 require('assets/img/visita360/escena1/hotSpot3/2.jpg')
             ],
             videos: [],
-            texto: ["",
-                "",
-                "",
+            titulo:"El Detente",
+            texto: [`El “Detente” es un refugio y un escudo para librarnos de las tentaciones del maligno.
+            Jesús tuvo una incesante lucha contra el mal espíritu y venció gracias a la confianza en su Padre Celestial. 
+            Nosotros también luchamos para no caer en la tentación. 
+            La condición del cristiano es la de un luchador constante y, como soldados de Cristo, debemos instaurar su Reino en este mundo.
+            El “Detente” lejos de ser un talismán mágico es un signo de nuestra confianza en el poder del Señor Jesús. 
+            Miramos su Divino Rostro y nos sentimos apoyados por tan dulce mirada. 
+            Abrimos nuestro corazón delante de esos brazos que siempre están abiertos para recibirnos y perdonarnos.`,
+            `Santa Margarita María de Alacoque escribía a la Madre de Saumaise, Superiora de la Visitación de Dijón: 
+            “Nuestro divino Maestro me ha dicho que desea y quiere que se hagan imágenes pequeñas de su Divino Corazón, 
+             para que aquellos que quieran honrarlo las puedan llevar sobre sí”.
+                El “Detente” corresponde a una de las 12 promesas que hizo Jesús a Santa Margarita María cuando le reveló su Sagrado Corazón: 
+                “Seré un refugio seguro durante la vida, y sobre todo en la hora de la muerte”. 
+                ¡Qué mejor refugio que el Corazón de Jesús! En ese Corazón se encuentran los divinos tesoros de la misericordia 
+                y el perdón de Dios Padre que en Jesús reconcilia a toda la humanidad. El Corazón de Jesús es fuente incesante 
+                de donde mana el Espíritu Santo para dar vida a la Iglesia.`,
+                `En 1870, una dama romana, deseando saber la opinión del Sumo Pontífice Pío IX acerca del Detente del Sagrado Corazón de Jesús, 
+                le presentó uno. 
+                Conmovido a la vista de esta señal de salvación, 
+                el Papa concedió aprobación definitiva a tal devoción y dijo: 
+                “Esto, señora, es una inspiración del Cielo. Sí, del Cielo”. 
+                Y, después de un breve silencio añadió:
+                “Voy a bendecir este Corazón, y quiero que todos aquellos que fueren hechos según este modelo reciban esta misma bendición, 
+                sin que sea necesario que algún otro sacerdote la renueve. 
+                Además, quiero que Satanás de modo alguno pueda causar daño a aquellos que lleven consigo el Escudo, símbolo del Corazón adorable de Jesús”.`,
             ]
         },
         {
             hotSpot: 4,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena1/hotSpot4/1.jpg'),
                 require('assets/img/visita360/escena1/hotSpot4/2.jpg')
             ],
             videos: [],
             texto: ["",
-                "",
+                "Descipción: Es una donación de las madres conceptas. Máquina de coser con la mano, y contiene decorados de color dorado a los lados de la máquina.",
                 "",
             ]
         },
         {
             hotSpot: 5,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena1/hotSpot5/1.jpg'),
                 require('assets/img/visita360/escena1/hotSpot5/2.jpg')
@@ -458,9 +514,14 @@ const information = [
     [
         {
             hotSpot: 1,
+            nombres:["Nombre1",
+                "Nombre2",
+                "Nombre3",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena2/hotSpot1/1.jpg'),
                 require('assets/img/visita360/escena2/hotSpot1/2.jpg'),
+                require('assets/img/visita360/escena2/hotSpot1/3.jpg'),
             ],
             videos: [],
             titulo: "Ornamentos Litúrgicos",
@@ -468,12 +529,26 @@ const information = [
             "la confección de Ornamentos litúrgicos de estilo barroco bordados en un "+
             "alto relieve con hilos de oro, plata y piedras preciosas, podemos ver lasplanchas de la época, se calentaban con carbón, debían tener mucho "+
             "cautela para no ensuciar la ropa.",
+            `Casullas:
+            Prenda exterior con la que se reviste el sacerdote para decir la misa encima del alba. Es un atributo genérico del sacerdocio y del orden episcopal.
+
+            Estola: 
+            Ornamento sacerdotal de dos metros o más de largo, que pasa, a manera de banda o bufanda, por detrás del cuello en cuya mitad lleva una cruz, cayendo en sus dos puntas sobre el pecho, a veces, rematada en forma de corazón dorado
+            y otras veces con algún distintivo religioso (peces, panes, etc.).
+            `,
+            `Escapularios y Detentes:
+            Se componen de dos piezas rectangulares o acorazonadas, unidas por cordones y cintas que caen sobre el pecho y la espalda.
+            Su finalidad era proteger de los males.`,
             ]
         },
         {
             hotSpot: 2,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena2/hotSpot2/1.jpg'),
+                require('assets/img/visita360/escena2/hotSpot2/2.jpg'),
             ],
             videos: [],
             texto: ["",
@@ -483,9 +558,42 @@ const information = [
         },
         {
             hotSpot: 3,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],       
             imagenes: [
                 require('assets/img/visita360/escena2/hotSpot3/1.jpg'),
                 require('assets/img/visita360/escena2/hotSpot3/2.jpg')
+            ],
+            videos: [],
+            texto: ["",
+                "",
+                "",
+            ]
+        },
+        {
+            hotSpot: 4,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
+            imagenes: [
+                require('assets/img/visita360/escena2/hotSpot4/1.jpg'),
+                require('assets/img/visita360/escena2/hotSpot4/2.jpg')
+            ],
+            videos: [],
+            texto: ["",
+                "",
+                "",
+            ]
+        },
+        {
+            hotSpot: 5,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
+            imagenes: [
+                require('assets/img/visita360/escena2/hotSpot5/1.jpg'),
+                require('assets/img/visita360/escena2/hotSpot5/2.jpg')
             ],
             videos: [],
             texto: ["",
@@ -497,6 +605,10 @@ const information = [
     [
         {
             hotSpot: 1,
+            nombres:["Nombre1",
+                "Nombre2",
+                "Nombre3",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena3/hotSpot1/1.jpg'),
                 require('assets/img/visita360/escena3/hotSpot1/2.jpg'),
@@ -528,6 +640,9 @@ const information = [
         },
         {
             hotSpot: 2,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena3/hotSpot2/1.jpg'),
                 require('assets/img/visita360/escena3/hotSpot2/2.jpg')
@@ -540,6 +655,9 @@ const information = [
         },
         {
             hotSpot: 3,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena3/hotSpot3/1.jpg'),
                 require('assets/img/visita360/escena3/hotSpot3/2.jpg')
@@ -552,6 +670,9 @@ const information = [
         },
         {
             hotSpot: 4,
+            nombres:["Nombre1",
+                "Nombre2",
+            ],
             imagenes: [
                 require('assets/img/visita360/escena3/hotSpot4/1.jpg'),
                 require('assets/img/visita360/escena3/hotSpot4/2.jpg')

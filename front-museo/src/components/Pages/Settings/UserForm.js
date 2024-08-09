@@ -131,7 +131,7 @@ export default function UserForm(props) {
                         name={`roles.${option.id}]`}
                         control={control}
                         defaultValue={rolesSeleccionados && rolesSeleccionados.includes(option.id)}
-                        rules={{validate: validateRoles}}
+                        rules={{ validate: validateRoles }}
                         render={({ field }) => <FormGroup check>
                           <Label check>
                             <Input key={option.id} id={option.id}
@@ -143,7 +143,7 @@ export default function UserForm(props) {
                           </Label>
                         </FormGroup>}
                       />
-                      
+
                     ))}
                     {errors.roles && <div className="typography-line"><p className="text-danger">{errors.roles.message}</p></div>}
                   </CardBody>
@@ -155,7 +155,7 @@ export default function UserForm(props) {
                 <Controller
                   name="estado"
                   control={control}
-                  defaultValue={valoresIniciales&&valoresIniciales.estado===1?true:false}
+                  defaultValue={valoresIniciales && valoresIniciales.estado === 1 ? true : false}
                   render={({ field }) => (
                     <>
                       <CustomInput
@@ -330,7 +330,9 @@ export default function UserForm(props) {
                               cursor: 'pointer',
                             }}
                           >
-                            <img src={eye} alt="..." style={{ width: '16px' }} />
+                            <i class="fa fa-eye"
+                              style={{ color: "darkgray", fontSize: "16px" }}
+                            />
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -385,8 +387,9 @@ export default function UserForm(props) {
                               cursor: 'pointer',
                             }}
                           >
-
-                            <img src={eye} alt="..." style={{ width: '16px' }} />
+                            <i class="fa fa-eye"
+                              style={{ color: "darkgray", fontSize: "16px" }}
+                            />
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>

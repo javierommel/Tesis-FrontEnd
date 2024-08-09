@@ -47,28 +47,69 @@ div.sso-divider span {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgba(0, 0, 0, 0, 5);
   z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 2px;
-  border-color: white;
-  border-radius: none;
+}
+
+.movable-container {
+
+  padding-bottom: 10px;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: transform 0.5s ease;
+}
+
+.moved-container {
+  transform: translateX(-30%);
+}
+
+.container-subtitulo-imagen {
+  text-align: center;
+}
+
+.subtitulo-imagen {
+  font-family: "Sirin Stencil", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.linea-subtitulo-imagen {
+  width: 80%;
 }
 
 .imagen-visita-zoom {
   width: auto;
   height: 99vh;
-  object-fit: cover;
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 8px 24px, rgba(255, 255, 222, 0.1) 0px 16px 56px, rgba(255, 255, 255, 0.1) 0px 24px 80px;
+  /*object-fit: cover;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 8px 24px, rgba(255, 255, 222, 0.1) 0px 16px 56px, rgba(255, 255, 255, 0.1) 0px 24px 80px;*/
 }
 
 .imagen-visita {
+  max-width: 50vw;
   width: auto;
-  height: 99vh;
-  object-fit: cover;
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 8px 24px, rgba(255, 255, 222, 0.1) 0px 16px 56px, rgba(255, 255, 255, 0.1) 0px 24px 80px;
+  max-height: 50vh;
+  /*object-fit: cover;*/
+  box-shadow: 0px 0px 10px 11px rgb(224, 224, 224, 0.7);
+  border: solid;
+  border-color: white;
+}
+
+/* Estilos para modo horizontal en móviles */
+@media only screen and (max-width: 768px) and (orientation: landscape) {
+  .imagen-visita {
+    max-width: 95vw;
+    width: auto;
+    max-height: 95vh;
+    /*object-fit: cover;*/
+    box-shadow: 0px 0px 10px 11px rgb(224, 224, 224, 0.7);
+    border: solid;
+    border-color: white;
+  }
 }
 
 .toggle-description {
@@ -249,21 +290,25 @@ div.sso-divider span {
 }
 
 .nav-museo>.nav-item>.nav-link {
-  padding: 4px 10px;
-  border-radius: 30px;
-}
-
-.title-visita {
+  transform: translateX(50%);
   text-align: center;
   letter-spacing: 2px;
   text-shadow: 0px 0px 0px #696562,
     1px 1px 0px #696562,
     2px 2px 0px #00000055;
 }
-
+.title-visita {
+  font-size: large;
+  text-align: center;
+  letter-spacing: 2px;
+  text-shadow: 0px 0px 0px #696562,
+    1px 1px 0px #696562,
+    2px 2px 0px #00000055;
+}
 @media (max-width: 768px) {
   .title-visita {
-    font-size: medium;
+    margin: 10px;
+    font-size: small;
     text-align: center;
     letter-spacing: 2px;
     text-shadow: 0px 0px 0px #696562,
@@ -271,17 +316,21 @@ div.sso-divider span {
       2px 2px 0px #00000055;
   }
 }
+
+
+
+
 .close-button {
   position: absolute;
-  top: 30px;
+  top: 10px;
   /* Distancia desde la parte superior */
-  right: 30px;
+  right: 10px;
   /* Distancia desde la derecha */
   background-color: transparent;
   border: none;
   cursor: pointer;
   height: 30px;
-  border-radius: 20px;
+  border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px;
 }
@@ -293,17 +342,17 @@ div.sso-divider span {
 
 .close-button-description {
   position: absolute;
-  top: 30px;
+  top: 0px;
   /* Distancia desde la parte superior */
-  right: 20px;
+  right: 0px;
   /* Distancia desde la derecha */
   background-color: transparent;
   border: none;
   cursor: pointer;
   height: 30px;
-  border-radius: 20px;
+  border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 9px;
+  padding: 7px;
 }
 
 
@@ -348,22 +397,30 @@ div.sso-divider span {
 
 .description-piece {
   position: absolute;
-  width: 20%;
+  width: 25%;
   height: 100%;
-  right: 0px;
-  font-family: 'Poppins', sans-serif;
+  padding: 10px;
+  font-family: "Inconsolata", monospace;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
   text-align: justify;
   font-size: large;
   white-space: pre-line;
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: rgba(187, 185, 185, 0.56) 0px 22px 70px 4px;
-  animation-duration: 1s;
-  animation-name: slidein;
+  /*animation-duration: 0.5s;
+  animation-name: slidein;*/
+  right: -25%;
+  /* Posición inicial fuera de la pantalla */
+  transition: right 0.5s ease;
 }
 
 @keyframes slidein {
   from {
-    margin-right: -20%;
+    margin-right: -0%;
 
   }
 
@@ -373,30 +430,99 @@ div.sso-divider span {
   }
 }
 
+.description-piece.visible {
+  right: 0%;
+  /* Se mueve dentro de la pantalla */
+}
+
+.description-piece.hidden {
+  right: -25%;
+  /* Se mueve fuera de la pantalla */
+}
 
 .description-piece .card {
   height: 100%;
   background-color: rgba(0, 23, 23, 0.5);
 }
+
 @media (max-width: 768px) {
   .description-piece {
-    position: absolute;
-    width: 40%;
+    transform: translateX(50%);
+    width: 45%;
     height: 100%;
     right: 0px;
-    font-family: 'Poppins', sans-serif;
+    padding: 0px;
+    font-family: "Inconsolata", monospace;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
     text-align: justify;
     font-size: x-small;
     white-space: pre-line;
     background-color: rgba(0, 0, 0, 0.5);
     box-shadow: rgba(187, 185, 185, 0.56) 0px 22px 70px 4px;
-    animation-duration: 1s;
-    animation-name: slideinm;
+    /*animation-duration: 1s;
+    animation-name: slideinm;*/
+    right: -45%;
+    /* Posición inicial fuera de la pantalla */
+    transition: right 0.5s ease;
+  }
+
+  .description-piece.visible {
+    right: 23%;
+    /* Se mueve dentro de la pantalla */
+  }
+
+  .description-piece.hidden {
+    right: -45%;
+    /* Se mueve fuera de la pantalla */
+  }
+
+  .movable-container {
+    padding-bottom: 10px;
+    padding-top: 40px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: transform 0.5s ease, width 0.5s ease;
+  }
+
+  .moved-container {
+    transform: translateX(-30%) scale(0.7);
+  }
+
+  .container-subtitulo-imagen {
+    text-align: center;
+  }
+
+  .subtitulo-imagen {
+    font-size: medium;
+    font-family: "Sirin Stencil", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .close-button-description {
+    position: absolute;
+    top: 10px;
+    /* Distancia desde la parte superior */
+    right: 10px;
+    /* Distancia desde la derecha */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 7px;
   }
 }
+
 @keyframes slideinm {
   from {
-    margin-right: -40%;
+    margin-right: -45%;
 
   }
 
@@ -405,6 +531,22 @@ div.sso-divider span {
 
   }
 }
+
+
+
+@keyframes slideinm1 {
+  from {
+    transform: translateX(50%);
+    margin-right: -50%;
+
+  }
+
+  to {
+    margin-right: 0%;
+
+  }
+}
+
 .imgfullscreen {
   width: 28px;
   cursor: pointer;
@@ -413,7 +555,7 @@ div.sso-divider span {
   position: relative;
   z-index: 999;
   margin-left: 9px;
-  top: 36.5px;
+  top: .5px;
   opacity: 1;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
@@ -429,14 +571,15 @@ div.sso-divider span {
 }
 
 .imgfullscreen1 {
-  width: 28px;
+  padding: 3px;
+  width: 27.5px;
+  height: 27.5px;
   cursor: pointer;
   background: #ffffff;
-  padding: 5px;
   position: absolute;
   z-index: 999;
   margin-left: 9px;
-  top: 10.5px;
+  top: 62.5px;
   opacity: 1;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
@@ -450,6 +593,7 @@ div.sso-divider span {
 .imgfullscreen1:hover {
   opacity: 0.9;
 }
+
 .imgsala {
   width: 50px;
   height: 12px;
@@ -471,6 +615,9 @@ div.sso-divider span {
   box-shadow: 10px, 10px, 10px, #ffffff;
 }
 
+.nav-description {
+  padding: 0px;
+}
 
 .backdrop {
   position: fixed;
@@ -841,55 +988,103 @@ div.sso-divider span {
 .wrapper-museo {
   height: 900px;
 }
+
 @media (max-width: 768px) {
   .wrapper-museo {
     height: 768px;
   }
 }
-.destacado
-{
+
+.destacado {
   width: 30px;
   height: 30px;
   cursor: pointer;
   margin-left: 20px;
 }
 
-.destacado-on
-{
+.destacado-on {
   width: 25px;
   height: 25px;
   cursor: pointer;
   margin-left: 22px;
 }
 
-.comentario-destacado
-{
+.comentario-destacado {
   background: linear-gradient(45deg, black, transparent);
   border-radius: 5px;
   padding-top: 10px;
   margin-bottom: 10px;
   box-shadow: rgba(0, 0, 0, 0.4) 4px 2px 8px, rgba(0, 0, 0, 0.3) 0px 7px 13px -4px, rgba(0, 0, 0, 0.2) 0px -4px 0px inset;
 }
-.comentario-normal
-{
+
+.comentario-normal {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
   padding-top: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
 }
-.img-chat{
+
+.img-chat {
   background: #339EFF;
   font-size: 12px;
   color: #FFFFFF;
 }
 
-.header-chat{
+.header-chat {
   text-align: center;
 }
 
-.text-chat{
-    text-align: justify;
-    white-space: pre-wrap; 
-    font-weight: normal;
-    margin-top: 0px !important;
+.text-chat {
+  text-align: justify;
+  white-space: pre-wrap;
+  font-weight: normal;
+  margin-top: 0px !important;
+}
+
+.museo-principal {
+  width: 100%;
+  height: 100%;
+  /* Asegura que la imagen mantenga su proporción */
+  display: block;
+}
+
+.container-museo-principal {
+  position: relative;
+  width: 70vw;
+  height: 35vw;
+  top: 6vh;
+  left: 15vw;
+  box-shadow:
+    0 0 0 10px hsl(0, 0%, 80%),
+    0 0 0 15px hsl(0, 0%, 90%);
+}
+
+.button-visit {
+  position: absolute;
+  top: 70%;
+  /* Centra el botón verticalmente */
+  left: 50%;
+  /* Centra el botón horizontalmente */
+  transform: translateX(-50%);
+  /* Ajuste para centrar el botón exactamente */
+  z-index: 10;
+  /* Asegura que el botón esté sobre la imagen */
+}
+
+.linea-descripcion {
+  width: 100%;
+  margin-top: 30px;
+  border-color: gray;
+}
+
+.lb-canvas .lb-img {
+  box-shadow: 0px 0px 10px 11px rgb(224, 224, 224, 0.7);
+  width: 50vw;
+}
+
+@media (max-width: 768px) {
+  .lb-canvas .lb-img {
+    box-shadow: 0px 0px 10px 11px rgb(224, 224, 224, 0.7);
+    width: 60vw;
+  }
 }

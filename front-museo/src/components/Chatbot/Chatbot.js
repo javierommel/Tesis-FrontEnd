@@ -20,7 +20,7 @@ const theme = {
   buttonOptionColor: '#48C9B0',
 }
 
-export default function Chatbot() {
+export default function Chatbot({imageViewer}) {
   const botAvatar = process.env.REACT_APP_BOT_AVATAR;
   const userAvatar = process.env.REACT_APP_USER_AVATAR;
   const API_URL2 = process.env.REACT_APP_URL_PROCESS + "ia/auth/";
@@ -40,7 +40,10 @@ export default function Chatbot() {
     })
   }, []);
   const fullImageViewerChat = (image) => {
-    setImageChat(image)
+    const images = [
+      `data:image/jpeg;base64,${image}`,
+    ];
+    imageViewer(images)
   }
   const outImage = () => {
     setImageChat(null)
@@ -79,26 +82,26 @@ export default function Chatbot() {
                 {
                   id: '3',
                   component: (
-                    <Recommendation data={recommendation[0]} />
+                    <Recommendation data={recommendation[0]} imageViewer={imageViewer} />
                   ),
                   trigger: '6',
                 },
                 {
                   id: '4',
                   component: (
-                    <Recommendation data={recommendation[1]} />
+                    <Recommendation data={recommendation[1]} imageViewer={imageViewer}/>
                   ),
                   trigger: '6',
                 },
                 {
                   id: '5',
                   component: (
-                    <Recommendation data={recommendation[2]} />
+                    <Recommendation data={recommendation[2]} imageViewer={imageViewer}/>
                   ),
                   trigger: '6',
                 },
                 {
-                  id: '6',
+                  id: '6', 
                   message: 'Estoy listo para tus preguntas!!',
                   messageia: false,
                   trigger: '7',

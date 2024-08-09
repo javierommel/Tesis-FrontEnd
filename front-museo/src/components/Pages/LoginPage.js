@@ -7,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { login, verifyTokenConfirmation } from 'actions/auth';
 import { addUserGoogle } from "../../actions/user"
 import { gapi } from 'gapi-script'
-import {GoogleLogin} from 'react-google-login'
+import { GoogleLogin } from 'react-google-login'
 import { CLEAR_MESSAGE } from "actions/types"
 
 // reactstrap components
@@ -35,7 +35,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Loader from "components/Utils/Loader.js"
 import eye from 'assets/img/eye.ico';
-let ps=null;
+let ps = null;
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = useState("");
   const [squares7and8, setSquares7and8] = useState("");
@@ -44,7 +44,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [response, setResponse] = useState("")
   const clienID = process.env.REACT_APP_CLIENTE_ID
-  
+
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get('token');
     if (token) {
@@ -327,15 +327,14 @@ export default function RegisterPage() {
                                       cursor: 'pointer',
                                     }}
                                   >
-                                    <img 
-                                    src={eye} 
-                                    style={{ width: '16px' }} 
-                                    onMouseDown={handleMouseDown}
-                                    onMouseUp={handleMouseUp}
-                                    onMouseLeave={handleMouseUp}
-                                    onTouchStart={handleMouseDown}
-                                    onTouchEnd={handleMouseUp}
-                                    />
+                                    <i class="fa fa-eye"
+                                      style={{ color: "darkgray", fontSize: "15px" }}
+                                      onMouseDown={handleMouseDown}
+                                      onMouseUp={handleMouseUp}
+                                      onMouseLeave={handleMouseUp}
+                                      onTouchStart={handleMouseDown}
+                                      onTouchEnd={handleMouseUp}
+                                    ></i>
                                   </InputGroupText>
                                 </InputGroupAddon>
                               </InputGroup>

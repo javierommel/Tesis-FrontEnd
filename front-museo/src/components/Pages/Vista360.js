@@ -9,8 +9,13 @@ import Footer from "components/Footer/Footer.js";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import 'components/Utils/Button.css';
 import 'assets/css/museo.css';
+import 'assets/css/buttons.css';
 import { piecesArray, information } from "./Visita360/DataVisita/Visita";
 import CustomImageViewer from "./Visita360/CustomImageVideoViewer"
+import FullWindowComponent from "../Utils/FullWindowComponent"
+import Loader from "components/Utils/Loader.js"
+import { UncontrolledTooltip } from "reactstrap"
+import ImageViewerChat from 'components/Chatbot/ImageViewerChat';
 
 export default function Vista360() {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -21,16 +26,18 @@ export default function Vista360() {
   const [videos, setVideos] = useState([]);
   const [textos, setTextos] = useState([]);
   const [titulo, setTitulo] = useState("");
+  const [nombres, setNombres] = useState([]);
   const [sala, setSala] = useState("Sala de Bordado 1");
   const [hfov, setHfov] = useState(120);
   const [yaw, setYaw] = useState(0);
   const completa = require('assets/img/visita360/fullscreen.png')
-  const normal = require('assets/img/visita360/reducir.png')
+  const normal = require('assets/img/visita360/salir1.png')
   const salasup = require('assets/img/visita360/rowup.png')
   const salasdown = require('assets/img/visita360/rowdown.png')
   const sala1 = require('assets/img/visita360/sala1.jpg')
   const sala2 = require('assets/img/visita360/sala2.jpg')
   const sala3 = require('assets/img/visita360/sala3.jpg')
+  const museo = require('assets/img/museo4.jpg')
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -49,7 +56,13 @@ export default function Vista360() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  const [image, setImage] = useState(null);
+  const [showImageViewer, setShowImageViewer] = useState(false);
 
+  const imageViewer = (image) => {
+    setImage(image);
+    setShowImageViewer(true);
+  };
   const toggle = (isfull1, yaw1) => {
     setModal(!modal);
     if (isfull1) {
@@ -65,6 +78,7 @@ export default function Vista360() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isFull, setIsFull] = useState(false);
   const handle = useFullScreenHandle();
+  const [loading, setLoading] = useState(false);
 
   const hotspotIcon = (hotSpotDiv, hotSpot) => {
     const image = document.createElement("div");
@@ -96,6 +110,7 @@ export default function Vista360() {
         setVideos(datos.videos);
         setTextos(datos.texto)
         setTitulo(datos.titulo)
+        setNombres(datos.nombres)
       }
       return true;
     })
@@ -120,43 +135,65 @@ export default function Vista360() {
     setSala(nombre_sala)
     setYaw(0)
     setHfov(120)
-    //toggleSala();
+    toggleSala();
   }
-  const handleEnter = () => {
-    handle.enter();
-    setIsFull(true);
+  const onOut = () => {
+    setShowImageViewer(false);
   }
   const handleExit = () => {
-    handle.exit();
-    setIsFull(false);
+    //handle.exit();
+    setIsFullscreen(false);
   }
   const handleFullscreenChange = (isFullscreen) => {
-    setIsFullscreen(isFullscreen);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsFullscreen(isFullscreen);
+    }, 2000);
+
   };
   if (!currentUser) {
     return <Navigate to="/login-page" />;
   }
   return (<>
-    <ExamplesNavbar activado={2} />
+    <Loader loading={loading} />
+    {!isFullscreen && <ExamplesNavbar activado={2} />}
     <div className="wrapper-museo">
       <div style={{ height: "70px" }}></div>
-      <section className="section section-lg section-safe" style={{ height: isMobile?"620px":"800px" }}>
-        <FullScreen handle={handle} onChange={handleFullscreenChange} >
+      <section className="section section-lg section-safe" style={{ height: isMobile ? "620px" : "800px" }}>
+        {/*<FullScreen handle={handle} onChange={handleFullscreenChange} >*/}
+        {!isFullscreen && (
+          <div className='container-museo-principal'>
+            <img className="museo-principal" src={museo}></img>
+            <button className="button-visit" onClick={handleFullscreenChange}>Comenzar Recorrido</button>
+          </div>
+        )}
+        {isFullscreen && (<FullWindowComponent>
+
           {modal &&
             (
-              <CustomImageViewer images={imagenes} videos={videos} textos={textos} titulo={titulo} toggle={toggle} isfull1={isFull} yaw1={yaw} />
+              <CustomImageViewer nombres={nombres} images={imagenes} videos={videos} textos={textos} titulo={titulo} toggle={toggle} isfull1={isFull} yaw1={yaw} />
             )}
-          <Chatbot />
-          <img className={isFullscreen?"imgfullscreen1":"imgfullscreen"} src={isFullscreen ? normal : completa} alt="..." onClick={isFullscreen ? handleExit : handleEnter} />
+          <Chatbot imageViewer={imageViewer} />
+          {showImageViewer && <ImageViewerChat data={image} onOut={onOut} />}
+          <img id="btn-out" className={"imgfullscreen1"} src={normal} alt="..." onClick={handleExit} />
+          <UncontrolledTooltip
+          style={{zIndex: "999"}}
+            delay={0}
+            placement="top"
+            target="btn-out"
+          >
+            Salir
+          </UncontrolledTooltip>
           <Pannellum
             className="panellum"
             id="1"
             sceneId="firstScene"
             width="100%"
-            height={isFullscreen ? "100%" : (isMobile?"600px":"730px")}
+            height="100%"
             image={piecesArray[currentScene].scenePanoImg}
             showFullscreenCtrl={false}
-            showZoomCtrl={false}
+            showZoomCtrl={true}
             pitch={-10}
             yaw={yaw}
             hfov={hfov}
@@ -213,8 +250,8 @@ export default function Vista360() {
             </div>
           </div>}
           <img className="imgsala" src={showSala ? salasdown : salasup} alt="..." onClick={toggleSala} />
-
-        </FullScreen>
+        </FullWindowComponent>)}
+        {/*</FullScreen>*/}
       </section>
     </div >
 

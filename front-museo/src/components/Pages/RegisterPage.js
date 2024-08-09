@@ -333,14 +333,13 @@ export default function RegisterPage() {
                                         cursor: 'pointer',
                                       }}
                                     >
-                                      <img 
-                                      src={eye} 
-                                      style={{ width: '16px' }} 
-                                      onMouseDown={handleMouseDown}
-                                      onMouseUp={handleMouseUp}
-                                      onMouseLeave={handleMouseUp}
-                                      onTouchStart={handleMouseDown}
-                                      onTouchEnd={handleMouseUp}
+                                      <i class="fa fa-eye"
+                                        style={{ color: "darkgray", fontSize: "15px" }}
+                                        onMouseDown={handleMouseDown}
+                                        onMouseUp={handleMouseUp}
+                                        onMouseLeave={handleMouseUp}
+                                        onTouchStart={handleMouseDown}
+                                        onTouchEnd={handleMouseUp}
                                       />
                                     </InputGroupText>
                                   </InputGroupAddon>
@@ -394,14 +393,13 @@ export default function RegisterPage() {
                                         cursor: 'pointer',
                                       }}
                                     >
-                                      <img 
-                                      src={eye} 
-                                      style={{ width: '16px' }} 
-                                      onMouseDown={handleMouseDown2}
-                                      onMouseUp={handleMouseUp2}
-                                      onMouseLeave={handleMouseUp2}
-                                      onTouchStart={handleMouseDown2}
-                                      onTouchEnd={handleMouseUp2}
+                                      <i class="fa fa-eye"
+                                        style={{ color: "darkgray", fontSize: "15px" }}
+                                        onMouseDown={handleMouseDown2}
+                                        onMouseUp={handleMouseUp2}
+                                        onMouseLeave={handleMouseUp2}
+                                        onTouchStart={handleMouseDown2}
+                                        onTouchEnd={handleMouseUp2}
                                       />
                                     </InputGroupText>
                                   </InputGroupAddon>

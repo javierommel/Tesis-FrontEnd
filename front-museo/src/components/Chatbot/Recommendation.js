@@ -4,10 +4,12 @@ import {
   CardBody,
   CardHeader,
 } from "reactstrap";
-import ImageViewer from 'react-simple-image-viewer';
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
-export default function Recommendation({ data }) {
+import Lightbox from "react-awesome-lightbox";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import FullWindowComponent from "components/Utils/FullWindowComponent"
+
+export default function Recommendation({ data, imageViewer }) {
   const inf = require('assets/img/visita360/escena3/hotSpot2/3.jpg')
   const imgSrc = `data:image/jpeg;base64,${data[5]}`
   const images = [
@@ -19,8 +21,12 @@ export default function Recommendation({ data }) {
   const handle = useFullScreenHandle();
   const openImageViewer = useCallback((index) => {
     setCurrentImage(0);
-    setIsViewerOpen(true);
-    handleEnter();
+    if (typeof imageViewer === 'function') {
+      imageViewer(images);  // Llama a la función y pasa los datos necesarios
+    } else {
+      console.error('imageViewer is not a function');
+    }
+    //handleEnter();
   }, []);
 
   const closeImageViewer = () => {
@@ -46,17 +52,17 @@ export default function Recommendation({ data }) {
             borderColor: 'darkgrey'
           }} />
         }
-        <FullScreen handle={handle}>
-          {isViewerOpen && (
-            <ImageViewer
-              src={images}
-              currentIndex={currentImage}
-              disableScroll={false}
-              closeOnClickOutside={true}
+
+        {isViewerOpen && (
+          <FullWindowComponent>
+            <Lightbox
+              className="imagen-visita"
+              image={images}
               onClose={closeImageViewer}
             />
-          )}
-        </FullScreen>
+          </FullWindowComponent>
+        )}
+
       </CardHeader>
       <CardBody>
         <p className="text-chat text-white mt-4" >

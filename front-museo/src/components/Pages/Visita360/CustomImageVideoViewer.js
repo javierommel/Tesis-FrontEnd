@@ -3,9 +3,12 @@ import ImageZoom from 'react-image-zoom';
 import classnames from "classnames";
 import { Card, CardHeader, CardBody, TabContent, TabPane, NavLink, NavItem, Nav } from 'reactstrap'
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import FullScreenComponent from 'components/Utils/FullWindowComponent';
+import Lightbox from "react-awesome-lightbox";
+import "react-awesome-lightbox/build/style.css";
 
 
-const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull1, yaw1 }) => {
+const CustomImageVideoViewer = ({ nombres, images, videos, textos, titulo, toggle, isfull1, yaw1 }) => {
     const [showDescription, setShowDescription] = useState(false);
     const [showZoom, setShowZoom] = useState(false);
     const [inImage, setInImage] = useState(false);
@@ -46,125 +49,140 @@ const CustomImageVideoViewer = ({ images, videos, textos, titulo, toggle, isfull
         setIsFullscreen2(isFullscreen2);
     };
 
-    const handleExit=()=>{
-        handle2.exit();
+    const handleExit = () => {
+        //handle2.exit();
         toggle(isfull1, yaw1);
     }
 
     return (
-        <FullScreen handle={handle2} onChange={handleFullscreenChange} >
-            <div className="image-viewer-container" >
-                {/* Renderizar imagen o video actual */}
-                {currentItemIndex < images.length ? (
-                    showZoom ?
-                        (<ImageZoom
-                            className="imagen-visita-zoom"
-                            img={currentItem}
-                            zoomPosition="original"
-                            offset={{ vertical: 0, horizontal: 1 }}
-                        />) :
-                        (
-                            <img
-                                className="imagen-visita"
+        <div>
+            <FullScreenComponent>
+                <div className="image-viewer-container" >
+                    <div className={`movable-container ${showDescription ? 'moved-container' : ''}`}>
+                        {currentItemIndex < images.length ? (
+                            showZoom ?
+                                (<Lightbox
+                                    className="imagen-visita"
+                                    image={currentItem}
+                                    onClose={toggleZoom}
+                                />) :
+                                (
+                                    <img
+                                        className="imagen-visita"
+                                        src={currentItem}
+                                        alt="..."
+                                    />
+
+                                )
+                        ) : (
+                            <video
                                 src={currentItem}
-                                alt="..."
-                            />
-                        )
-                ) : (
-                    <video
-                        src={currentItem}
-                        width="100%"
-                        height="100%"
-                        autoPlay
-                        loop
-                        controls />
-                )}
-                {!showDescription && <img className="close-button" src={cerrar} ref={inputRef} onClick={handleExit} alt="Imagen" />}
-                {showDescription && <div className="description-piece">
-                    <Card>
-                        <CardHeader>
-                            <Nav className="nav-tabs-info nav-museo" role="tablist" tabs>
-                                <NavItem>
-                                    <NavLink
-                                        className={classnames({
-                                            active: iconTabs === 1,
-                                        })}
-                                        onClick={(e) => setIconsTabs(1)}
-                                        href="#pablo"
-                                    >
-                                        1
-                                    </NavLink>
-                                </NavItem>
-                                {numeropaginas >= 2 &&
+                                width="100%"
+                                height="100%"
+                                autoPlay
+                                loop
+                                controls />
+                        )}
+                        
+                        {nombres[currentItemIndex] && (
+                            <div className='container-subtitulo-imagen'>
+                                <hr className="line-success linea-descripcion" />
+                                <h3 className="subtitulo-imagen">{nombres[currentItemIndex]}</h3>
+                            </div>
+                        )}
+                    </div>
+                    {!showDescription && <img className="close-button" src={cerrar} ref={inputRef} onClick={handleExit} alt="Imagen" />}
+                    <div className={`description-piece ${showDescription ? 'visible' : 'hidden'}`}>
+                        <Card>
+                            <CardHeader style={{padding:"5px 15px 0"}}>
+                                <Nav className="nav-tabs-info nav-museo" role="tablist" tabs>
                                     <NavItem>
                                         <NavLink
-                                            className={classnames({
-                                                active: iconTabs === 2,
+                                            className= {classnames({
+                                                'nav-description': true,
+                                                active: iconTabs === 1,                                               
                                             })}
-                                            onClick={(e) => setIconsTabs(2)}
+                                            onClick={(e) => setIconsTabs(1)}
                                             href="#pablo"
+                                            style={{padding:"5px 9px", borderRadius:"20px", fontSize:"x-small"}}
                                         >
-                                            2
+                                            1
                                         </NavLink>
-                                    </NavItem>}
-                                {numeropaginas >= 3 &&
-                                    <NavItem>
-                                        <NavLink
-                                            className={classnames({
-                                                active: iconTabs === 3,
-                                            })}
-                                            onClick={(e) => setIconsTabs(3)}
-                                            href="#pablo"
-                                        >
-                                            3
-                                        </NavLink>
-                                    </NavItem>}
-                            </Nav>
-                            <img className="close-button-description" src={cerrar} onClick={toggleDescription} alt="Imagen" />
-                        </CardHeader>
-                        <CardBody>
-                            <TabContent className="tab-space" activeTab={"link" + iconTabs}>
-                                <TabPane tabId="link1">
-                                    <h3 className='title-visita'>{titulo}</h3>
-                                    <p>{textos[0]}</p>
-                                </TabPane>
-                                {numeropaginas >= 2 &&
-                                    <TabPane tabId="link2">
-                                        <p>{textos[1]}</p>
-                                    </TabPane>}
-                                {numeropaginas >= 3 &&
-                                    <TabPane tabId="link3">
-                                        <p>{textos[2]}</p>
-                                    </TabPane>}
-                            </TabContent>
-                        </CardBody>
-                    </Card>
-                </div>}
+                                    </NavItem>
+                                    {numeropaginas >= 2 &&
+                                        <NavItem>
+                                            <NavLink
+                                                className={classnames({
+                                                    'nav-description': true,
+                                                    active: iconTabs === 2,
+                                                })}
+                                                onClick={(e) => setIconsTabs(2)}
+                                                href="#pablo"
+                                                style={{padding:"5px 9px", borderRadius:"20px", fontSize:"x-small"}}
+                                            >
+                                                2
+                                            </NavLink>
+                                        </NavItem>}
+                                    {numeropaginas >= 3 &&
+                                        <NavItem>
+                                            <NavLink
+                                                className={classnames({
+                                                    'nav-description': true,
+                                                    active: iconTabs === 3,
+                                                })}
+                                                onClick={(e) => setIconsTabs(3)}
+                                                href="#pablo"
+                                                style={{padding:"5px 9px", borderRadius:"20px", fontSize:"x-small"}}
+                                            >
+                                                3
+                                            </NavLink>
+                                        </NavItem>}
+                                </Nav>
+                                <img className="close-button-description" src={cerrar} onClick={toggleDescription} alt="Imagen" />
+                            </CardHeader>
+                            <CardBody style={{padding:"0px 10px"}}>
+                                <TabContent className="tab-space" activeTab={"link" + iconTabs} style={{padding:"0px 0 50px 0px"}}>
+                                    <TabPane tabId="link1">
+                                        <h3 className='title-visita'>{titulo}</h3>
+                                        <p>{textos[0]}</p>
+                                    </TabPane>
+                                    {numeropaginas >= 2 &&
+                                        <TabPane tabId="link2">
+                                            <p>{textos[1]}</p>
+                                        </TabPane>}
+                                    {numeropaginas >= 3 &&
+                                        <TabPane tabId="link3">
+                                            <p>{textos[2]}</p>
+                                        </TabPane>}
+                                </TabContent>
+                            </CardBody>
+                        </Card>
+                    </div>
 
-                {/* Botón para mostrar/ocultar descripción */}
-                <button className={showDescription ? "toggle-description-active" : "toggle-description"} onClick={toggleDescription}>
-                    <img className="image-description" src={information} alt="..." />
-                    <div className="tooltip-description"><p>Mostrar Historia</p></div>
-                </button>
-                {currentItemIndex < images.length &&
-                    <button className={showZoom ? "toggle-zoom-active" : "toggle-zoom"} onClick={toggleZoom}>
-                        <img className="image-zoom" src={zoom} alt="..." />
-                        <div className="tooltip-zoom"><p>Hacer Zoom</p></div>
+                    <button className={showDescription ? "toggle-description-active" : "toggle-description"} onClick={toggleDescription}>
+                        <img className="image-description" src={information} alt="..." />
+                        <div className="tooltip-description"><p>Mostrar Historia</p></div>
                     </button>
-                }
-                {!showDescription &&
-                    <button className="prev-image" onClick={goBackItem}>
-                        <img src={next} alt="..." />
-                    </button>
-                }
-                {!showDescription &&
-                    <button className="next-image" onClick={goToNextItem}><span aria-hidden={true}>
-                        <img src={next} alt="..." />
-                    </span></button>
-                }
+                    {currentItemIndex < images.length &&
+                        <button className={showZoom ? "toggle-zoom-active" : "toggle-zoom"} onClick={toggleZoom} disabled={showDescription}>
+                            <img className="image-zoom" src={zoom} alt="..." />
+                            <div className="tooltip-zoom"><p>Hacer Zoom</p></div>
+                        </button>
+                    }
+                    {!showDescription &&
+                        <button className="prev-image" onClick={goBackItem}>
+                            <img src={next} alt="..." />
+                        </button>
+                    }
+                    {!showDescription &&
+                        <button className="next-image" onClick={goToNextItem}><span aria-hidden={true}>
+                            <img src={next} alt="..." />
+                        </span></button>
+                    }
 
-            </div>
-        </FullScreen>
+                </div>
+            </FullScreenComponent>
+        </div>
     );
 };
 

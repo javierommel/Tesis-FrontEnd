@@ -166,7 +166,7 @@ export default function ProfilePage() {
   const onSubmit = (data) => {
     const dataaux = {
       ...data,
-      estado:true,
+      estado: true,
     };
     setLoading(true)
     updateUser(currentUser.id, dataaux, currentUser.id, null, cargafoto ? image : null).then(({ message, retcode }) => {
@@ -207,282 +207,280 @@ export default function ProfilePage() {
             src={require("assets/img/path4.png")}
           />
           <div className="content content-museo">
-          <Container className="align-items-center">
-            <Row>
-              <Col className="ml-auto mr-auto" lg="4" md="6">
-                <Card className="card-plain">
-                  <CardHeader>
-                    <img
-                      alt="..."
-                      className="img-center img-fluid rounded-circle"
-                      src={image}
-                      style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-                    />
-                  </CardHeader>
-                  <CardBody>
-                    <Button
-                      onClick={() => {
-                        inputRef.current.click();
-                      }}
-                      className="btn btn-lg w-100"
-                    >
-                      Subir foto
-                    </Button>
-                    <input ref={inputRef} type="file" onChange={handleImageChange} hidden />
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col md="6">
-                <Card className="card-plain">
-                  <CardBody>
-                    <Form className="form" onSubmit={handleSubmit(onSubmit)}>
-                      <Row>
-                        <Col md="6">
-                          <Controller
-                            name="username"
-                            control={control}
-                            defaultValue={currentUser.id}
-                            rules={{ required: 'El usuario es obligatorio.' }}
-                            render={({ field }) => (
-                              <FormGroup>
-                                <label>Usuario</label>
-                                <Input {...field} type="text" disabled />
-                                {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
-                              </FormGroup>
-                            )}
-                          />
-                        </Col>
-                        <Col md="6">
-                          <Controller
-                            name="email"
-                            control={control}
-                            defaultValue={""}
-                            rules={{ required: 'El email es obligatorio.' }}
-                            render={({ field }) => (
-                              <FormGroup>
-                                <label>Email</label>
-                                <Input {...field} type="email" disabled />
-                                {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
-                              </FormGroup>
-                            )}
-                          />
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="12">
-                          <Controller
-                            name="name"
-                            control={control}
-                            defaultValue={""}
-                            rules={{ required: 'El nombre es obligatorio.' }}
-                            render={({ field }) => (
-                              <FormGroup>
-                                <label>Nombre Completo</label>
-                                <Input {...field} type="text" />
-                                {errors.name && <div className="typography-line"><p className="text-danger">{errors.name.message}</p></div>}
-                              </FormGroup>
-                            )}
-                          />
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="6">
-                          <Controller
-                            name="year"
-                            control={control}
-                            defaultValue={""}
-                            rules={{
-                              required: 'El año de nacimiento es obligatorio.',
-                              validate: validateEdad
-                            }}
-                            render={({ field }) => (
-                              <FormGroup>
-                                <label>Año Nacimiento</label>
-                                <Input {...field}
-                                  type="select"
-                                >
-                                  <option style={{ color: '#434444' }} key={0} disabled value="0">
-                                    Año Nacimiento
-                                  </option>
-                                  {anios.map((step) => (
-                                    <option
-                                      style={{ color: '#2b3553' }}
-                                      key={step}
-                                      value={step}
-                                    >
-                                      {step}
+            <Container className="align-items-center">
+              <Row>
+                <Col className="ml-auto mr-auto" lg="4" md="6">
+                  <Card className="card-plain">
+                    <CardHeader>
+                      <img
+                        alt="..."
+                        className="img-center img-fluid rounded-circle"
+                        src={image}
+                        style={{ width: '100px', height: '100px', borderRadius: '50%' }}
+                      />
+                    </CardHeader>
+                    <CardBody>
+                      <Button
+                        onClick={() => {
+                          inputRef.current.click();
+                        }}
+                        className="btn btn-lg w-100"
+                      >
+                        Subir foto
+                      </Button>
+                      <input ref={inputRef} type="file" onChange={handleImageChange} hidden />
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col md="6">
+                  <Card className="card-plain">
+                    <CardBody>
+                      <Form className="form" onSubmit={handleSubmit(onSubmit)}>
+                        <Row>
+                          <Col md="6">
+                            <Controller
+                              name="username"
+                              control={control}
+                              defaultValue={currentUser.id}
+                              rules={{ required: 'El usuario es obligatorio.' }}
+                              render={({ field }) => (
+                                <FormGroup>
+                                  <label>Usuario</label>
+                                  <Input {...field} type="text" disabled />
+                                  {errors.username && <div className="typography-line"><p className="text-danger">{errors.username.message}</p></div>}
+                                </FormGroup>
+                              )}
+                            />
+                          </Col>
+                          <Col md="6">
+                            <Controller
+                              name="email"
+                              control={control}
+                              defaultValue={""}
+                              rules={{ required: 'El email es obligatorio.' }}
+                              render={({ field }) => (
+                                <FormGroup>
+                                  <label>Email</label>
+                                  <Input {...field} type="email" disabled />
+                                  {errors.email && <div className="typography-line"><p className="text-danger">{errors.email.message}</p></div>}
+                                </FormGroup>
+                              )}
+                            />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col md="12">
+                            <Controller
+                              name="name"
+                              control={control}
+                              defaultValue={""}
+                              rules={{ required: 'El nombre es obligatorio.' }}
+                              render={({ field }) => (
+                                <FormGroup>
+                                  <label>Nombre Completo</label>
+                                  <Input {...field} type="text" />
+                                  {errors.name && <div className="typography-line"><p className="text-danger">{errors.name.message}</p></div>}
+                                </FormGroup>
+                              )}
+                            />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col md="6">
+                            <Controller
+                              name="year"
+                              control={control}
+                              defaultValue={""}
+                              rules={{
+                                required: 'El año de nacimiento es obligatorio.',
+                                validate: validateEdad
+                              }}
+                              render={({ field }) => (
+                                <FormGroup>
+                                  <label>Año Nacimiento</label>
+                                  <Input {...field}
+                                    type="select"
+                                  >
+                                    <option style={{ color: '#434444' }} key={0} disabled value="0">
+                                      Año Nacimiento
                                     </option>
-                                  ))}
-                                </Input>
-                                {errors.year && <div className="typography-line"><p className="text-danger">{errors.year.message}</p></div>}
-                              </FormGroup>
-                            )}
-                          />
-                        </Col>
-                        <Col md="6">
-                          <Controller
-                            name="country"
-                            control={control}
-                            defaultValue={""}
-                            rules={{
-                              required: 'El pais de nacimiento es obligatorio.',
-                              validate: validateNacionalidad
-                            }}
-                            render={({ field }) => (
-                              <FormGroup>
-                                <label>Nacionalidad</label>
-                                <Input {...field} type="select">
-                                  <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
-                                    Nacionalidad
-                                  </option>
-                                  {country.map((step) => (
-                                    <option style={{ color: '#2b3553' }} key={step.id} value={step.id}>{step.nombre}</option>
-                                  ))}
-                                </Input>
-                              </FormGroup>
-                            )}
-                          />
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg="6" md="6">
-                          <FormGroup check>
-                            <Label check>
-                              <Input
-                                type="checkbox"
-                                onChange={(e) => TogglePassword()}
-                              />
-                              <span className="form-check-sign" />
-                              Cambiar Password
-                            </Label>
-                          </FormGroup>
-                          <br />
-                        </Col>
-                      </Row>
+                                    {anios.map((step) => (
+                                      <option
+                                        style={{ color: '#2b3553' }}
+                                        key={step}
+                                        value={step}
+                                      >
+                                        {step}
+                                      </option>
+                                    ))}
+                                  </Input>
+                                  {errors.year && <div className="typography-line"><p className="text-danger">{errors.year.message}</p></div>}
+                                </FormGroup>
+                              )}
+                            />
+                          </Col>
+                          <Col md="6">
+                            <Controller
+                              name="country"
+                              control={control}
+                              defaultValue={""}
+                              rules={{
+                                required: 'El pais de nacimiento es obligatorio.',
+                                validate: validateNacionalidad
+                              }}
+                              render={({ field }) => (
+                                <FormGroup>
+                                  <label>Nacionalidad</label>
+                                  <Input {...field} type="select">
+                                    <option style={{ color: '#434444' }} key={"0"} disabled value="0" >
+                                      Nacionalidad
+                                    </option>
+                                    {country.map((step) => (
+                                      <option style={{ color: '#2b3553' }} key={step.id} value={step.id}>{step.nombre}</option>
+                                    ))}
+                                  </Input>
+                                </FormGroup>
+                              )}
+                            />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg="6" md="6">
+                            <FormGroup check>
+                              <Label check>
+                                <Input
+                                  type="checkbox"
+                                  onChange={(e) => TogglePassword()}
+                                />
+                                <span className="form-check-sign" />
+                                Cambiar Password
+                              </Label>
+                            </FormGroup>
+                            <br />
+                          </Col>
+                        </Row>
 
-                      <Row>
-                        <Col md="6">
-                          <Controller
-                            name="password"
-                            control={control}
-                            defaultValue={""}
-                            rules={{ required: passwordUpdate ? false : 'El password es obligatorio.' }}
-                            render={({ field }) => (
-                              <FormGroup>
+                        <Row>
+                          <Col md="6">
+                            <Controller
+                              name="password"
+                              control={control}
+                              defaultValue={""}
+                              rules={{ required: passwordUpdate ? false : 'El password es obligatorio.' }}
+                              render={({ field }) => (
+                                <FormGroup>
 
-                                <label>Password</label>
-                                <InputGroup disabled={passwordUpdate}>
-                                  <Input {...field} disabled={passwordUpdate} type={showPassword ? 'text' : 'password'} />
-                                  <InputGroupAddon addonType="append"
-                                    style={{ borderLeft: 'none', }}
-                                  >
-                                    <InputGroupText
-                                      onMouseDown={handleMouseDown}
-                                      onMouseUp={handleMouseUp}
-                                      onMouseLeave={handleMouseUp}
-                                      onTouchStart={handleMouseDown}
-                                      onTouchEnd={handleMouseUp}
-                                      style={{
-                                        cursor: 'pointer',
-                                      }}
+                                  <label>Password</label>
+                                  <InputGroup disabled={passwordUpdate}>
+                                    <Input {...field} disabled={passwordUpdate} type={showPassword ? 'text' : 'password'} />
+                                    <InputGroupAddon addonType="append"
+                                      style={{ borderLeft: 'none', }}
                                     >
-                                      <img alt="..." 
-                                      src={eye} 
-                                      style={{ width: '16px' }} 
-                                      onMouseDown={handleMouseDown}
-                                      onMouseUp={handleMouseUp}
-                                      onMouseLeave={handleMouseUp}
-                                      onTouchStart={handleMouseDown}
-                                      onTouchEnd={handleMouseUp}
-                                      />
-                                    </InputGroupText>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                                {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
-                              </FormGroup>
-                            )}
-                          />
-                        </Col>
-                        <Col md="6">
-                          <Controller
-                            name="password2"
-                            control={control}
-                            defaultValue={""}
-                            rules={{
-                              validate: passwordUpdate ? false : validatePassword,
-                              required: passwordUpdate ? false : 'El password es obligatorio.'
-                            }}
-                            render={({ field }) => (
-                              <FormGroup>
-                                <label>Repetir-Password</label>
-                                <InputGroup disabled={passwordUpdate}>
-                                  <Input {...field} disabled={passwordUpdate} type={showPassword2 ? 'text' : 'password'} />
-                                  <InputGroupAddon addonType="append"
-                                    style={{ borderLeft: 'none', }}
-                                  >
-                                    <InputGroupText
-                                      onMouseDown={handleMouseDown2}
-                                      onMouseUp={handleMouseUp2}
-                                      onMouseLeave={handleMouseUp2}
-                                      onTouchStart={handleMouseDown2}
-                                      onTouchEnd={handleMouseUp2}
-                                      style={{
-                                        cursor: 'pointer',
-                                      }}
+                                      <InputGroupText
+                                        onMouseDown={handleMouseDown}
+                                        onMouseUp={handleMouseUp}
+                                        onMouseLeave={handleMouseUp}
+                                        onTouchStart={handleMouseDown}
+                                        onTouchEnd={handleMouseUp}
+                                        style={{
+                                          cursor: 'pointer',
+                                        }}
+                                      >
+                                        <i class="fa fa-eye"
+                                          style={{ color: "darkgray", fontSize: "15px" }}
+                                          onMouseDown={handleMouseDown}
+                                          onMouseUp={handleMouseUp}
+                                          onMouseLeave={handleMouseUp}
+                                          onTouchStart={handleMouseDown}
+                                          onTouchEnd={handleMouseUp}
+                                        />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                  </InputGroup>
+                                  {errors.password && <div className="typography-line"><p className="text-danger">{errors.password.message}</p></div>}
+                                </FormGroup>
+                              )}
+                            />
+                          </Col>
+                          <Col md="6">
+                            <Controller
+                              name="password2"
+                              control={control}
+                              defaultValue={""}
+                              rules={{
+                                validate: passwordUpdate ? false : validatePassword,
+                                required: passwordUpdate ? false : 'El password es obligatorio.'
+                              }}
+                              render={({ field }) => (
+                                <FormGroup>
+                                  <label>Repetir-Password</label>
+                                  <InputGroup disabled={passwordUpdate}>
+                                    <Input {...field} disabled={passwordUpdate} type={showPassword2 ? 'text' : 'password'} />
+                                    <InputGroupAddon addonType="append"
+                                      style={{ borderLeft: 'none', }}
                                     >
-                                      <img alt="..." 
-                                      src={eye} 
-                                      style={{ width: '16px' }} 
-                                      onMouseDown={handleMouseDown2}
-                                      onMouseUp={handleMouseUp2}
-                                      onMouseLeave={handleMouseUp2}
-                                      onTouchStart={handleMouseDown2}
-                                      onTouchEnd={handleMouseUp2}
-                                      />
-                                    </InputGroupText>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                                {errors.password2 && <div className="typography-line"><p className="text-danger">{errors.password2.message}</p></div>}
-                              </FormGroup>
-                            )}
-                          />
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Button
-                            className="btn btn-lg w-100 float-right"
-                            color="info"
-                            data-placement="right"
-                            type="submit"
-                          >
-                            Guardar
-                          </Button>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="6">
-                          <br />
-                          <br />
-                        </Col>
-                      </Row>
-                    </Form>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-            {response !== null && (
-              <Alert isOpen color={successful ? 'success' : 'danger'} toggle={onDismiss} style={{
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 9999,
-              }}>
-                {response}
-              </Alert>
-            )}
-          </Container>
+                                      <InputGroupText
+                                        onMouseDown={handleMouseDown2}
+                                        onMouseUp={handleMouseUp2}
+                                        onMouseLeave={handleMouseUp2}
+                                        onTouchStart={handleMouseDown2}
+                                        onTouchEnd={handleMouseUp2}
+                                        style={{
+                                          cursor: 'pointer',
+                                        }}
+                                      >
+                                        <i class="fa fa-eye"
+                                          style={{ color: "darkgray", fontSize: "15px" }}
+                                          onMouseDown={handleMouseDown2}
+                                          onMouseUp={handleMouseUp2}
+                                          onMouseLeave={handleMouseUp2}
+                                          onTouchStart={handleMouseDown2}
+                                          onTouchEnd={handleMouseUp2}
+                                        />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                  </InputGroup>
+                                  {errors.password2 && <div className="typography-line"><p className="text-danger">{errors.password2.message}</p></div>}
+                                </FormGroup>
+                              )}
+                            />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <Button
+                              className="btn btn-lg w-100 float-right"
+                              color="info"
+                              data-placement="right"
+                              type="submit"
+                            >
+                              Guardar
+                            </Button>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col md="6">
+                            <br />
+                            <br />
+                          </Col>
+                        </Row>
+                      </Form>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+              {response !== null && (
+                <Alert isOpen color={successful ? 'success' : 'danger'} toggle={onDismiss} style={{
+                  position: 'fixed',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: 9999,
+                }}>
+                  {response}
+                </Alert>
+              )}
+            </Container>
           </div>
         </div>
         <Footer />

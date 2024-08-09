@@ -1,0 +1,10 @@
+.full-screen-content {
+  position: fixed; /* Posición fija para ocupar toda la ventana del navegador */
+  top: 0; /* Alineación en la parte superior */
+  left: 0; /* Alineación a la izquierda */
+  width: 100vw; /* Ancho completo de la ventana */
+  height: 100vh; /* Altura completa de la ventana */
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad (opcional) */
+  overflow: auto; /* Permite desplazamiento si el contenido excede la pantalla */
+  z-index: 10001; /* Asegúrate de que esté por encima de otros elementos */
+}
