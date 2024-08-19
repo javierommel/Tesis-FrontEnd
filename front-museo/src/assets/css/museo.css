@@ -289,6 +289,54 @@ div.sso-divider span {
   width: 13px;
 }
 
+@media (max-width: 768px) {
+  .prev-image {
+    background: none;
+    border: none;
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    top: 50%;
+    opacity: 0.9;
+    padding: 0px;
+    transform: rotate(180deg);
+    /* Centra verticalmente la imagen */
+    left: 20px;
+  }
+  
+  .next-image {
+    background: none;
+    border: none;
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    opacity: 0.9;
+    top: 50%;
+    /* Centra verticalmente la imagen */
+    right: 20px;
+    /* La posiciona a la derecha del contenedor */
+    padding: 0px;
+  }
+  
+  .next-image:hover {
+    filter: drop-shadow(5px 5px 10px white);
+    width: 17px;
+  }
+  
+  .prev-image:hover {
+    filter: drop-shadow(5px 5px 10px white);
+    width: 17px;
+  }
+  
+  .next-image:active {
+    width: 13px;
+  }
+  
+  .prev-image:active {
+    width: 13px;
+  }
+}
+
 .nav-museo>.nav-item>.nav-link {
   transform: translateX(50%);
   text-align: center;
@@ -571,7 +619,7 @@ div.sso-divider span {
 }
 
 .imgfullscreen1 {
-  padding: 3px;
+  padding: 5px;
   width: 27.5px;
   height: 27.5px;
   cursor: pointer;

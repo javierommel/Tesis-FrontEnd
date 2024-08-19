@@ -176,12 +176,10 @@ export default function Vista360() {
             )}
           <Chatbot imageViewer={imageViewer} />
           {showImageViewer && <ImageViewerChat data={image} onOut={onOut} />}
-          <img id="btn-out" className={"imgfullscreen1"} src={normal} alt="..." onClick={handleExit} />
+          <img id="btnout" className="imgfullscreen1" src={normal} alt="..." onClick={handleExit} />
           <UncontrolledTooltip
-          style={{zIndex: "999"}}
-            delay={0}
-            placement="top"
-            target="btn-out"
+            placement="right"
+            target="btnout"
           >
             Salir
           </UncontrolledTooltip>

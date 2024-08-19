@@ -86,7 +86,7 @@ const CustomImageVideoViewer = ({ nombres, images, videos, textos, titulo, toggl
                         
                         {nombres[currentItemIndex] && (
                             <div className='container-subtitulo-imagen'>
-                                <hr className="line-success linea-descripcion" />
+                                <hr className="line-success linea-descripcion" style={{backgroundColor: "sandybrown"}}/>
                                 <h3 className="subtitulo-imagen">{nombres[currentItemIndex]}</h3>
                             </div>
                         )}
@@ -94,7 +94,7 @@ const CustomImageVideoViewer = ({ nombres, images, videos, textos, titulo, toggl
                     {!showDescription && <img className="close-button" src={cerrar} ref={inputRef} onClick={handleExit} alt="Imagen" />}
                     <div className={`description-piece ${showDescription ? 'visible' : 'hidden'}`}>
                         <Card>
-                            <CardHeader style={{padding:"5px 15px 0"}}>
+                            <CardHeader style={{padding:"5px 5px 0"}}>
                                 <Nav className="nav-tabs-info nav-museo" role="tablist" tabs>
                                     <NavItem>
                                         <NavLink
